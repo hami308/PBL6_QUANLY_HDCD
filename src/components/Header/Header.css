@@ -1,0 +1,34 @@
+.header {
+  width: 100vw;
+  height: 120px;
+  background: url("../public/background_header.png");
+  background-size: cover;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  margin-top: 0; /* Không đẩy header xuống */
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  margin: 0px 30px;;
+}
+
+.logo img {
+  height: 80px;
+  margin-right: 15px;
+}
+
+.system-name h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  color: #002366; 
+}
+
+.system-name p {
+  font-size: 14px;
+  margin: 0;
+  color: #111;
+}
