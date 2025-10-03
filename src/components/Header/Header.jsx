@@ -1,4 +1,4 @@
-import logo from '../../assets/logo_dut.jpg';
+import logo from '../../assets/images/logo_dut.jpg';
 import './Header.css';
 function Header() {
   return (
