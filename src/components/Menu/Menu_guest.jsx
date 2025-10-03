@@ -1,10 +1,10 @@
 // Menu_guest.jsx
 import "./top_bar.css";
-import { useContext } from "react";
-import { LoginContext } from "../Login/LoginContext.jsx";
+// import { useContext } from "react";
+// import { LoginContext } from "../Login/LoginContext.jsx";
 
 function Menu_guest() {
-  const { openLogin } = useContext(LoginContext);
+  // const { openLogin } = useContext(LoginContext);
 
   return (
     <div className="top-bar">
@@ -14,7 +14,7 @@ function Menu_guest() {
           href="/login"
           onClick={(e) => {
             e.preventDefault();
-            openLogin();
+            // openLogin();
           }}
         >
           Đăng nhập
