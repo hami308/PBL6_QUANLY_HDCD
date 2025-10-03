@@ -1,0 +1,29 @@
+footer {
+  background-color: #2C1966;
+  padding: 15px 30px;
+  color: white;
+  font-size: 14px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 cột 1 hàng */
+  gap: 20px;
+}
+
+.footer-column {
+  line-height: 1.5;
+}
+
+.footer-column strong {
+  font-weight: bold;
+}
+
+.footer-column a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-column a:hover {
+  text-decoration: underline;
+}
