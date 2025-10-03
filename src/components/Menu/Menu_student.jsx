@@ -34,9 +34,9 @@ function Menu_student() {
           )}
         </div>
 
-        <a href="/notifications" className="icon-link"><span class="material-symbols-outlined">
+        <a href="/notifications" className="icon-link"><span className="material-symbols-outlined">
           notifications
-          </span></a>
+        </span></a>
         <button onClick={handleLogout} className="logout-btn">Thoát</button>
       </nav>
     </div>
