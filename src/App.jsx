@@ -1,35 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import CreateAccount from "./components/CreateAccountBox/CreateAccountBox.jsx";
+// import { Delete_Account } from "./components/DeleteAccountBox/DeleteAccountBox.jsx";
+// import FileUploadBox from "./components/FileUpload/FileUpload.jsx";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <CreateAccount />
+      {/* <Delete_Account />
+      <FileUploadBox
+        guideLines={[
+          "File Exel phải có cột: Mã số sinh viên hoặc mã số cán bộ",
+          "Dòng đầu tiên là tiêu đề cột",
+          "Đảm bảo mã số sinh viên hợp lệ",
+          "File không được vượt quá 5MB",
+        ]}
+        buttonText="Xóa tất cả tài khoản"
+        onSubmit={() => alert("Upload để xóa tài khoản")}
+      /> */}
+    </div>
+  );
 }
-
-export default App
+export default App;

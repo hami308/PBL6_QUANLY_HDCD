@@ -1,0 +1,77 @@
+.delete-account-form {
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 500px;
+  height: auto;
+  max-width: 100%;
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  min-width: 120px;
+  margin-bottom: 0;
+  font-weight: 500;
+  margin-right: 10px;
+}
+
+.form-group input {
+  flex: 1;
+  width: auto;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+  height: 38px;
+}
+
+.form-group input:focus {
+  border-color: #e63946;
+  box-shadow: 0 0 4px rgba(230, 57, 70, 0.4);
+}
+
+.submit-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 15px 0;
+}
+
+.submit-btn button {
+  background: #0f101a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+  height: 38px;
+  width: auto;
+  padding: 0 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.submit-btn button:hover {
+  background: #a31116;
+}
+
+.note {
+  font-size: 13px;
+  color: red;
+  margin-top: 5px;
+}
