@@ -1,0 +1,90 @@
+.filter-bar {
+  background: #2C1966;
+  padding: 2vh 2vw;         /* padding co dãn theo viewport */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vw;                 /* khoảng cách co dãn */
+  align-items: flex-start;
+  max-width: 90vw;           /* giới hạn tổng thể theo viewport */
+  margin: 0 auto;            /* căn giữa */
+}
+
+.filter-item {
+  flex: 1 1 0;
+  min-width: 10vw;           /* min-width co dãn */
+  max-width: 22vw;           /* max-width co dãn */
+  margin-bottom: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 1vw;
+  width: 100%;
+  margin-top: 2.5vh;
+  justify-content: center;
+  order: 2; /* luôn xuống hàng dưới */
+}
+
+/* Đảm bảo các filter-item luôn trên cùng một hàng */
+.filter-bar > .filter-item {
+  order: 1;
+}
+
+.filter-bar select,
+.filter-bar input {
+  padding: 0.6vh 0.8vw;     /* padding co dãn */
+  border: 0.1vw solid #ccc;
+  border-radius: 0.3vw;
+  font-size: 2vh;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 0.3vw;
+  padding: 0 0.5vw;
+  width: 100%;           /* đảm bảo chiếm hết chiều rộng của filter-item */
+  box-sizing: border-box;
+}
+
+.search-box .icon {
+  margin-right: 0.5vw;
+  font-size: 2vh;
+  flex-shrink: 0;        /* icon không bị co lại */
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  padding: 0.8vh 0.5vw;
+  font-size: 2vh;
+  flex: 1;               /* input co dãn theo không gian còn lại */
+  min-width: 0;          /* tránh overflow trong flex container */
+}
+
+button {
+  border: none;
+  border-radius: 0.4vw;
+  padding: 0.8vh 1.5vw;
+  font-size: 2vh;
+  cursor: pointer;
+}
+
+button.apply {
+  background: #2979ff;
+  color: #fff;
+}
+
+button.apply:hover {
+  background: #1565c0;
+}
+
+button.reset {
+  background: #43a047;
+  color: #fff;
+}
+
+button.reset:hover {
+  background: #2e7d32;
+}
