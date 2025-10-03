@@ -1,4 +1,4 @@
-import { activity_list } from '../../../data/activity_list.js';
+import { activity_list } from '../../data/activity_list.js';
 import Activity from './Activity.jsx';
 import './Activity_list.css';
 import React, { useState } from 'react';

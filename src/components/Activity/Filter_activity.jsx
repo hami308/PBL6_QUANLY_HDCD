@@ -1,8 +1,8 @@
 import React from "react";
 import "./Filter_activity.css";
-import { org } from "../../../data/org.js"; 
-import { field } from "../../../data/field.js";
-import { status_activity } from "../../../data/status_activity.js";
+import { org } from "../../data/org.js"; 
+import { field } from "../../data/field.js";
+import { status_activity } from "../../data/status_activity.js";
 
 function FilterBar() {
   return (

@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: #111;
+}
+
+/* Main container */
+.home-main {
+  width: 100%;
+  min-height: calc(100vh - 180px); /* trừ header + footer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #222;
+  padding: 5px;
+}
+
+/* Hình lớn phía trên */
+.home-image-container {
+  width: 100%;
+  position: relative;
+}
+.home-image {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Container cho filter + activity-list */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: -50px; /* để filter nổi lên trên ảnh */
+  z-index: 10;
+  position: relative;
+}
+
+
+
