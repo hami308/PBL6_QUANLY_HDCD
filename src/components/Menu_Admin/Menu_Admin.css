@@ -1,0 +1,47 @@
+.menu-container {
+  background-color: #2e2c72; /* màu nền thanh menu */
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item {
+  position: relative;
+  padding: 15px 20px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #403c99;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f8f8f8;
+  color: #333;
+  list-style: none;
+  padding: 10px 0;
+  min-width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dropdown-menu li:hover {
+  background-color: #ddd;
+}

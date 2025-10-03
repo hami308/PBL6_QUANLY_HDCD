@@ -1,7 +1,7 @@
 .header {
   width: 100vw;
   height: 120px;
-  background: url("../public/background_header.png");
+  background: url("../../assets/images/background_header.jpg");
   background-size: cover;
   font-family: Arial, sans-serif;
   display: flex;
@@ -12,7 +12,7 @@
 .header-container {
   display: flex;
   align-items: center;
-  margin: 0px 30px;;
+  margin: 0px 30px;
 }
 
 .logo img {
@@ -24,7 +24,7 @@
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-  color: #002366; 
+  color: #002366;
 }
 
 .system-name p {
