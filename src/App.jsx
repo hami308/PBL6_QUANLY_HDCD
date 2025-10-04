@@ -1,7 +1,17 @@
-import CreateAccount_Page from "./pages/CreateAccount_Page/CreateAccount_Page";
-import CreateAccount from "./components/CreateAccountBox/CreateAccountBox";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./Pages/HomePage/HomePage";
+import { LoginProvider } from "./components/Login/LoginContext";
+
 function App() {
-  return <CreateAccount_Page />;
+  return (
+    <LoginProvider>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        
+        <Route path="/home_student" element={<HomePage />} />
+      </Routes>
+    </LoginProvider>
+  );  
 }
 
 export default App;
