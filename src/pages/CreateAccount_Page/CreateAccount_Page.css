@@ -1,0 +1,48 @@
+.form2_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* hoặc chiều cao bạn muốn */
+  background: #f5f5f5;
+}
+.form1_container {
+  background-image: url("../../assets/images/anhnen.jpg"); /* Đổi đường dẫn ảnh */
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 650px;
+  position: relative;
+}
+.thanhngang {
+  width: 100vw;
+  background: #2e2c72;
+  color: #fff;
+  text-align: center;
+  padding: 1px 0;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+.role-select {
+  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: #f5f5f5;
+}
+
+.role-select label {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.role-select select {
+  margin-top: 10px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
