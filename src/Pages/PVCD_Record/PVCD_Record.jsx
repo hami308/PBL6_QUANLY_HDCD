@@ -4,8 +4,22 @@ import dut_pic from "../../assets/images/dut_home_pic.jpg";
 import Footer from "../../components/Footer/Footer.jsx";
 import Total_Record from "../../components/PVCD_Record/Total_Record.jsx";
 import List_Year_Record from "../../components/PVCD_Record/List_Year_Record.jsx";
+import CustomTable from "../../components/Custom/CustomTable.jsx";
 import "./PVCD_Record.css";
 function PVCD_Record() {
+    const activities = [
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+      { studentId: "102200001", name_activity: "Hiến máu nhân đạo", join_date: "20/9/2025", score: 15 },
+    ];
   const goal_record = 15;
   return (
     <>
@@ -18,8 +32,22 @@ function PVCD_Record() {
         <Total_Record/>
         <p className="goal-record"> Mỗi năm tối thiểu {goal_record} điểm</p>
         <List_Year_Record/>
+        <h3 className="activity-joined-title">Các hoạt động đã tham gia</h3>
+        <CustomTable
+          columns={["Tên hoạt động", "Ngày tham gia", "Điểm"]}
+          data={activities.map((item) => ({
+            tên_hoạt_động: item.name_activity,
+            ngày_tham_gia: item.join_date,
+            điểm: item.score,
+          }))}
+            renderActions={() => (
+              <>
+                <button className="px-2 py-1 border rounded">Phản hồi</button>
+              
+              </>
+          )}
+        />
         <Footer />
-        
     </>
   );
 }
