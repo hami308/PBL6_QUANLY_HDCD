@@ -3,6 +3,7 @@ import Menu_student from "../../components/Menu/Menu_student.jsx";
 import dut_pic from "../../assets/images/dut_home_pic.jpg";
 import Footer from "../../components/Footer/Footer.jsx";
 import Total_Record from "../../components/PVCD_Record/Total_Record.jsx";
+import Year_Record from "../../components/PVCD_Record/Year_Record.jsx";
 import "./PVCD_Record.css";
 function PVCD_Record() {
   return (
@@ -14,6 +15,7 @@ function PVCD_Record() {
             <p>Điểm phục vụ cộng đồng</p>
         </div>
         <Total_Record/>
+        <Year_Record/>
         <Footer />
         
     </>
