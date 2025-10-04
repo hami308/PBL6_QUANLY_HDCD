@@ -8,6 +8,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0,0,0,0.4); /* nền mờ */
+  z-index: 9999; /* đảm bảo nổi trên tất cả */
 }
 
 .modal {
@@ -17,6 +19,7 @@
   width: 500px;
   position: relative;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+  z-index: 10000; 
 }
 
 .close-btn {
