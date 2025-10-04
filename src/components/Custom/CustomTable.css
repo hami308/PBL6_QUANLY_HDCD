@@ -1,0 +1,56 @@
+.custom-table-wrapper {
+  overflow-x: auto;
+  background: white; /* nền sáng */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  width: 90%;
+  margin: 20px auto;    /* căn giữa ngang */
+  border: 1px solid black; /* viền xám nhạt */
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.custom-table__header {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  background-color: #e5e7eb; /* xám nhạt */
+}
+
+.custom-table__row {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.custom-table__row:hover {
+  background-color: #E7E9F5; /* hover sáng */
+}
+
+.custom-table__cell {
+  padding: 12px;
+  color: #374151;
+}
+
+.custom-table__actions {
+   display: flex;
+  flex-direction: column;  /* sắp xếp theo cột */
+  gap: 6px;                /* khoảng cách giữa các nút */
+}
+
+/* Style cho button trong cột thao tác */
+.custom-table__actions button {
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 15px;
+  background-color: #C4C8E3;
+    color: black;
+}
+
+.custom-table__actions button:hover {
+  background: #2C1966;
+  color: white;
+}
