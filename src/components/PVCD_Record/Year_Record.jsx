@@ -1,7 +1,7 @@
 import "./Year_Record.css";
-function Year_Record({record=10,year=1}) {
+function Year_Record({record=10,year=1, goal_record=15}) {
     let status;
-    if(record>=15) status="Đạt";
+    if(record>=goal_record) status="Đạt";
     else status="Chưa đạt";
     return (
         <div className="year-card">
