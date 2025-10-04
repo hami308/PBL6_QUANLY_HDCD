@@ -21,9 +21,9 @@ function Login({ onClose }) {
 
       // Chuyển hướng theo role
       if (result.user.role === "student") {
-        navigate("/home_student", { replace: true });
+        navigate("/home-student", { replace: true });
       } else if (result.user.role === "admin") {
-        navigate("/home_admin", { replace: true });
+        navigate("/home-admin", { replace: true });
       } else {
         navigate("/", { replace: true });
       }

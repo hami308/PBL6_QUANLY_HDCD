@@ -1,0 +1,20 @@
+.score-box {
+  background: #dcdcf2;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  width:50%;
+  margin: 20px auto ; 
+  margin-top:10px;
+}
+@media (max-width: 500px) {
+    .score-box {
+        font-size: 8px;
+    }
+}
+@media (max-width: 100px) {
+    .score-box {
+        font-size: 5px;
+    }
+}
