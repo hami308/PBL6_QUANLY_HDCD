@@ -1,10 +1,12 @@
 .custom-table-wrapper {
+  overflow-y: auto;  /* cuộn dọc */
   overflow-x: auto;
   background: white; /* nền sáng */
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
   width: 90%;
   margin: 20px auto;    /* căn giữa ngang */
   border: 1px solid black; /* viền xám nhạt */
+   max-height: 600px; 
 }
 
 .custom-table {
@@ -63,4 +65,7 @@
 .custom-table__actions button:hover {
   background: #2C1966;
   color: white;
+}
+@media (max-width: 600px) {
+
 }
