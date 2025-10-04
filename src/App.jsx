@@ -7,11 +7,11 @@ function App() {
     <LoginProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        
+
         <Route path="/home_student" element={<HomePage />} />
       </Routes>
     </LoginProvider>
-  );  
+  );
 }
 
 export default App;
