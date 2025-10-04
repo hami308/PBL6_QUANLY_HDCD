@@ -3,7 +3,7 @@ import CreateAccount from "../../components/CreateAccountBox/CreateAccountBox";
 import FileUpload from "../../components/FileUpload/FileUpload";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
+import Menu_Admin from "../../components/Menu_Admin/Menu_Admin";
 import "./CreateAccount_Page.css";
 function CreateAccount_Page() {
   const [role, setRole] = React.useState("student");

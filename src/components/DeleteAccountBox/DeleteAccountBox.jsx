@@ -8,9 +8,7 @@ export function Delete_Account() {
       alert("Vui lòng nhập tên đăng nhập !");
       return;
     }
-    // Gọi API xóa ở đây
-    alert(`Đã xóa tài khoản: ${username}`);
-    document.getElementById("username").value = "";
+    //chuyển hướng qua chi tiết tài khoản
   };
   return (
     <div className="delete-account-form">
@@ -39,3 +37,4 @@ export function Delete_Account() {
     </div>
   );
 }
+export default Delete_Account;

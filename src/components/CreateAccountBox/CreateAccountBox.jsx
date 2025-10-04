@@ -16,17 +16,13 @@ const CreateAccount = () => {
     // Nếu password dài hơn 12 ký tự thì chỉ lấy 12 ký tự đầu
     if (validPw.length > 12) {
       validPw = validPw.slice(0, 12);
+      setPassword(validPw);
     }
 
     // Kiểm tra password phải từ 6 đến 12 ký tự
     if (validPw.length < 6) {
       alert("Mật khẩu phải từ 6 đến 12 ký tự!");
       return;
-    }
-
-    // Nếu hợp lệ, cập nhật lại password (nếu đã cắt)
-    if (validPw !== password) {
-      setPassword(validPw);
     }
   };
 

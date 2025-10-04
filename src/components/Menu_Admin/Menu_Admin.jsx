@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Menu_Admin.css";
+import { Link } from "react-router-dom";
 const Menu_Admin = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
@@ -9,9 +10,22 @@ const Menu_Admin = () => {
   return (
     <nav className="menu-container">
       <ul className="menu">
-        <li className="menu-item">Trang chủ</li>
-        <li className="menu-item">Tạo tài khoản</li>
-        <li className="menu-item">Xóa tài khoản</li>
+        <li className="menu-item">
+          <Link to="/home-admin" className="menu-link">
+            Trang chủ
+          </Link>
+        </li>
+        <li className="menu-item">
+          <Link to="/create-account" className="menu-link">
+            Tạo tài khoản
+          </Link>
+        </li>
+
+        <li className="menu-item">
+          <Link to="/delete-account" className="menu-link">
+            Xóa tài khoản
+          </Link>
+        </li>
 
         <li
           className="menu-item dropdown"

@@ -22,8 +22,23 @@
   transition: background 0.3s;
 }
 
+/* Giữ hover cho toàn bộ li */
 .menu-item:hover {
   background-color: #403c99;
+}
+
+/* FIX CSS cho Link */
+.menu-link {
+  text-decoration: none; /* bỏ gạch chân */
+  color: inherit; /* dùng màu chữ của .menu-item */
+  display: block; /* chiếm toàn bộ vùng li */
+  width: 100%;
+  height: 100%;
+}
+
+/* Hover riêng cho link nếu muốn đổi màu chữ */
+.menu-link:hover {
+  color: #ffd700; /* ví dụ vàng khi hover */
 }
 
 .dropdown-menu {
