@@ -19,7 +19,11 @@
   font-weight: 600;
   background-color: #e5e7eb; /* xám nhạt */
 }
-
+.custom-table th,
+.custom-table td {
+  text-align: center;
+  vertical-align: middle;
+}
 .custom-table__row {
   border-bottom: 1px solid #e5e7eb;
   transition: background-color 0.2s ease;
@@ -32,22 +36,28 @@
 .custom-table__cell {
   padding: 12px;
   color: #374151;
+  
 }
 
 .custom-table__actions {
-   display: flex;
+  display: flex;
   flex-direction: column;  /* sắp xếp theo cột */
-  gap: 6px;                /* khoảng cách giữa các nút */
+  gap: 6px;      
+  align-items: center;  
+  justify-content: center;          /* khoảng cách giữa các nút */
 }
 
 /* Style cho button trong cột thao tác */
 .custom-table__actions button {
-  padding: 4px 8px;
+  flex: 1;
+  padding: 6px 12px;
   cursor: pointer;
   transition: 0.2s;
   font-size: 15px;
   background-color: #C4C8E3;
-    color: black;
+  color: black;
+  min-width: 120px;      /* cố định chiều rộng tối thiểu */
+  max-width: 160px;      /* giới hạn nếu text dài quá */
 }
 
 .custom-table__actions button:hover {
