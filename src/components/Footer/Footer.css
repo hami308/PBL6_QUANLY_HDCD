@@ -1,5 +1,5 @@
 footer {
-  background-color: #2C1966;
+  background-color: #2c1966;
   padding: 15px 30px;
   color: white;
   font-size: 14px;
@@ -8,7 +8,7 @@ footer {
 .footer-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cột 1 hàng */
-  gap: 20px;
+  gap: 10px;
 }
 
 .footer-column {

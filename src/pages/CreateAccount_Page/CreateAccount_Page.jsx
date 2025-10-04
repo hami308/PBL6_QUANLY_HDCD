@@ -1,3 +1,4 @@
+import React from "react";
 import CreateAccount from "../../components/CreateAccountBox/CreateAccountBox";
 import FileUpload from "../../components/FileUpload/FileUpload";
 import Header from "../../components/Header/Header";
@@ -5,8 +6,9 @@ import Footer from "../../components/Footer/Footer";
 import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
 import "./CreateAccount_Page.css";
 function CreateAccount_Page() {
+  const [role, setRole] = React.useState("student");
   return (
-    <>
+    <div className="createAccountPage">
       <Header />
       <Menu_Admin />
 
@@ -15,6 +17,17 @@ function CreateAccount_Page() {
       </div>
       <div className="thanhngang">
         <p>Tạo nhiều tài khoản sinh viên</p>
+      </div>
+      <div className="role-select">
+        <label htmlFor="role">Chọn vai trò:</label>
+        <select
+          id="role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="student">Sinh viên</option>
+          <option value="teacher">Giảng viên, cán bộ</option>
+        </select>
       </div>
       <div className="form2_container">
         <FileUpload
@@ -31,7 +44,7 @@ function CreateAccount_Page() {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

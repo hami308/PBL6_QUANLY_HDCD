@@ -2,13 +2,16 @@
   background-color: #2e2c72; /* màu nền thanh menu */
   padding: 0 20px;
   font-family: Arial, sans-serif;
+  font-size: 15px;
 }
 
 .menu {
   list-style: none;
   display: flex;
   margin: 0;
-  padding: 0;
+  padding: 0 100px;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .menu-item {
