@@ -90,12 +90,119 @@
   text-align: center;
 }
 /* Responsive */
-@media (max-width: 768px) {
-  .submit-infor {
-    grid-template-columns: 1fr;
+@media (max-width: 1000px) {
+  .submit-evidence-container {
+    padding: 30px 40px;
+    max-width: 700px;
+  }
+
+  .submit-infor label {
+    font-size: 16px;
+  }
+
+  .submit-infor input {
+    height: 42px;
+    font-size: 15px;
+    padding: 0 12px;
+  }
+
+  .submit-evidence-title {
+    font-size: 22px;
   }
 
   .submit-evidence-button {
-    align-self: center;
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+@media (max-width: 700px) {
+  .submit-evidence-container {
+    padding: 20px 30px;
+    max-width: 95%;
+  }
+
+  .submit-infor {
+    grid-template-columns: 150px 1fr; /* Giữ label bên trái nhưng hẹp lại */
+    gap: 10px;
+  }
+
+  .submit-infor label {
+    font-size: 15px;
+  }
+
+  .submit-infor input {
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .submit-evidence-button {
+    font-size: 14px;
+    padding: 8px 18px;
+  }
+}
+@media (max-width: 500px) {
+  .submit-evidence-container {
+    padding: 16px 20px;
+  }
+
+  .submit-infor {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .submit-infor label {
+    font-size: 14px;
+  }
+
+  .submit-infor input {
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .submit-evidence-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .submit-evidence-button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}
+@media (max-width: 200px) {
+  .submit-evidence-container {
+    padding: 8px 10px;
+    max-width: 100%;
+    box-shadow: none;
+  }
+
+  .submit-evidence-title {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .submit-infor {
+    grid-template-columns: 60px 1fr; /* Giữ label bên trái nhưng rất hẹp */
+    gap: 4px;
+  }
+
+  .submit-infor label {
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .submit-infor input {
+    height: 24px;
+    font-size: 10px;
+    padding: 0 6px;
+  }
+
+  .submit-evidence-button {
+    font-size: 10px;
+    padding: 4px 8px;
+    margin-top: 10px;
+  }
+
+  .error-message {
+    font-size: 10px;
   }
 }
