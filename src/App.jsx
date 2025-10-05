@@ -4,7 +4,7 @@ import { LoginProvider } from "./components/Login/LoginContext";
 import PVCD_Record from "./Pages/PVCD_Record/PVCD_Record";
 import StudentInfor_Page from "./Pages/StudentInfor_Page/StudentInfor_Page";
 import ChangePassword_Page from "./Pages/ChangePassword_Page/ChangePassword_Page";
-
+import SubmitEvidence_Page from "./Pages/SubmitEvidence_Page/SubmitEvidence_Page"; 
 function App() {
   return (
     <LoginProvider>
@@ -17,6 +17,7 @@ function App() {
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor" element={<StudentInfor_Page />} />
         <Route path="/change-password" element={<ChangePassword_Page />} />
+        <Route path="/submit-evidence" element={<SubmitEvidence_Page />} />
       </Routes>
     </LoginProvider>
   );
