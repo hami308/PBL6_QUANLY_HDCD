@@ -1,6 +1,9 @@
 import React from "react";
 import "./DeleteAccountBox.css";
+import { checkUsername } from "../../services/AcccountService/DeleteAccountService";
+import { useNavigate } from "react-router-dom";
 export function Delete_Account() {
+  const navigate = useNavigate();
   const handleDelete = (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value.trim();
@@ -8,7 +11,14 @@ export function Delete_Account() {
       alert("Vui lòng nhập tên đăng nhập !");
       return;
     }
-    //chuyển hướng qua chi tiết tài khoản
+    const status = checkUsername(username);
+    if (!status) {
+      alert("Tên đăng nhập không tồn tại !");
+      return;
+    } else {
+      //Chưa truyền username để xóa
+      navigate(`/student-infor`);
+    }
   };
   return (
     <div className="delete-account-form">
