@@ -8,7 +8,7 @@ import dut_home_pic from "../../assets/images/dut_home_pic.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 
 function HomePage() {
-  const user = JSON.parse(sessionStorage.getItem("user")); 
+  const user = JSON.parse(sessionStorage.getItem("user"));
   return (
     <>
       <Header />

@@ -8,13 +8,16 @@ function App() {
   return (
     <LoginProvider>
       <Routes>
-        <Route path="/" element={<HomePage />} />      
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="/home_student" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/home-student" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor" element={<StudentInfor_Page />} />
       </Routes>
     </LoginProvider>
-  );  
+  );
 }
 
 export default App;
