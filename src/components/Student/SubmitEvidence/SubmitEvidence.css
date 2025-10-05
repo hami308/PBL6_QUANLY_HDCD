@@ -1,0 +1,101 @@
+/* Nền */
+.submit-evidence-background {
+  background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 40px 0;
+  width: 100vw;
+  min-height: 500px;
+}
+
+/* Khung trắng giữa */
+.submit-evidence-container {
+  width: 100%;
+  max-width: 900px;
+  background-color: #ffffff;
+  padding: 40px 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  border-radius: 6px;
+}
+
+/* Tiêu đề */
+.submit-evidence-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #000;
+}
+
+/* Form */
+.submit-evidence-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Mỗi dòng: label bên trái, input bên phải */
+.submit-infor {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.submit-infor label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+}
+
+.submit-infor input {
+  height: 48px;
+  border: none;
+  background-color: #dcdcdc;
+  padding: 0 16px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  width: 100%;
+  border-radius: 0;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Nút gửi minh chứng */
+.submit-evidence-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #2c1966;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  margin: 0 auto ; /* căn giữa theo chiều ngang */
+  border-radius: 0;
+  width: fit-content;
+}
+
+.submit-evidence-button:hover {
+  opacity: 0.9;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .submit-infor {
+    grid-template-columns: 1fr;
+  }
+
+  .submit-evidence-button {
+    align-self: center;
+  }
+}
