@@ -1,0 +1,120 @@
+.event-card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 900px;
+  margin: 10px auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.event-image {
+  width: 130px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 15px;
+}
+
+.event-info {
+  flex: 1;
+}
+
+.event-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+}
+
+.event-detail {
+  font-size: 16px;
+  margin: 2px 0;
+}
+
+/* --- Nút trạng thái --- */
+.event-status-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  text-align: right;
+}
+
+.event-status {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  color: black;
+}
+
+/* Màu cho từng trạng thái */
+.event-status.registered {
+  background-color: #FF7E80; /* đỏ nhạt */
+}
+
+.event-status.joined {
+  background-color: #42E694; /* xanh lá nhạt */
+}
+
+.event-status.approved {
+  background-color: #E9C3E4; /* tím nhạt */
+}
+/* Điểm */
+.event-point {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  margin-top:10px;
+  margin-right:10px;
+}
+
+/* --- Hành động --- */
+.event-actions {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.event-link {
+  color: #000;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.event-link:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 700px) {
+  .event-card {
+    flex-direction: column;
+    padding-bottom: 60px;
+  }
+
+  .event-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .event-status-wrapper {
+    top: 8px;
+    right: 10px;
+  }
+
+  .event-actions {
+    bottom: 8px;
+    right: 12px;
+  }
+}
