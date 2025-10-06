@@ -1,92 +1,105 @@
+/* Container form */
 .create-account-form {
   background: white;
-  padding: 10px 15px;
+  padding: clamp(8px, 2vw, 20px);
   border-radius: 10px;
   border: 1px solid black;
-  width: 500px;
+  width: 95%; /* co giãn theo màn hình */
+  max-width: 500px; /* không vượt quá 500px */
+  margin: 0 auto;
   height: auto;
-  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.form-title {
+/* Tiêu đề form */
+.create-account-form .form-title {
   text-align: center;
-  margin-bottom: 10px;
-  font-size: 20px;
+  margin-bottom: clamp(6px, 1vw, 12px);
+  font-size: clamp(14px, 3vw, 20px);
   font-weight: bold;
 }
 
-.form-group {
+/* Nhóm input */
+.create-account-form .form-group {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: clamp(6px, 1.2vw, 12px);
 }
 
-.form-group label {
-  display: block;
-  min-width: 120px;
+/* Label */
+.create-account-form .form-group label {
+  min-width: clamp(90px, 25%, 120px);
   margin-bottom: 0;
   font-weight: 500;
-  margin-right: 10px;
+  margin-right: clamp(5px, 1vw, 10px);
+  font-size: clamp(12px, 2.5vw, 14px);
+  white-space: nowrap;
 }
 
-.form-group input,
-.form-group select {
+/* Input / Select */
+.create-account-form .form-group input,
+.create-account-form .form-group select {
   flex: 1;
-  width: auto;
-  padding: 8px 10px;
+  padding: clamp(6px, 1.5vw, 10px);
   border: 1px solid #ccc;
   border-radius: 6px;
   outline: none;
-  font-size: 14px;
+  font-size: clamp(12px, 2.5vw, 14px);
   box-sizing: border-box;
-  height: 38px;
+  height: clamp(32px, 5vw, 40px);
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.create-account-form .form-group input:focus,
+.create-account-form .form-group select:focus {
   border-color: #4a90e2;
   box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
 }
 
-.submit-btn {
+/* Submit button container */
+.create-account-form .submit-btn {
   display: flex;
   justify-content: flex-end;
-  margin: 15px 0;
+  margin: clamp(10px, 2vw, 15px) 0;
 }
 
-.submit-btn button {
-  background: #2e9b32;
-  color: white;
+/* Nút submit riêng cho CreateAccount */
+.create-account-form .submit-btn button {
+  background: #197d1c; /* xanh */
+  color: white; /* chữ/icon trắng */
   border: none;
-  border-radius: 10%;
+  border-radius: 6px; /* ô vuông bo góc */
   cursor: pointer;
   transition: 0.3s;
-  height: 45px;
-  width: 45px;
+  height: clamp(35px, 6vw, 45px);
+  width: clamp(80px, 20vw, 150px); /* hình chữ nhật, co dãn theo màn hình */
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: clamp(14px, 2.5vw, 18px);
 }
 
-.submit-btn button:hover {
+.create-account-form .submit-btn button:hover {
   background: #45a049;
 }
 
-.note {
-  font-size: 13px;
+/* Ghi chú, lỗi */
+.create-account-form .note {
+  font-size: clamp(11px, 2vw, 13px);
   color: red;
 }
 
-.note ul {
-  margin: 5px 0 0 10px;
+.create-account-form .note ul {
+  margin: clamp(3px, 0.5vw, 5px) 0 0 clamp(8px, 1vw, 12px);
   color: #333;
 }
 
-.material-symbols-outlined {
+.create-account-form .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40;
+  font-size: clamp(16px, 3vw, 24px);
 }
-.error {
+
+.create-account-form .error {
   color: red;
-  font-size: 13px;
-  margin-top: 5px;
+  font-size: clamp(11px, 2vw, 13px);
+  margin-top: clamp(3px, 0.5vw, 5px);
 }

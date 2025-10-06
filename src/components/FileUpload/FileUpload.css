@@ -1,48 +1,43 @@
-/* FileUpload.css */
+/* Container ngang */
 .file-upload-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: Arial, sans-serif;
-  gap: 10px;
-}
-
-/* Hàng ngang: khung upload + hướng dẫn */
-.file-upload-container > div {
-  display: flex;
   justify-content: center;
-  gap: 0px;
-  width: 100%;
+  font-family: Arial, sans-serif;
+  gap: 1vw; /* co giãn khoảng cách theo màn hình */
+  flex-wrap: nowrap; /* không cho xuống dòng */
 }
 
 /* Khung upload */
 .upload-box {
   border: 1px dashed #888;
-  border-radius: 6px;
-  width: 350px;
-  height: 150px;
+  border-radius: 0.5vw;
+  width: clamp(180px, 25vw, 350px); /* co giãn theo màn hình */
+  height: clamp(100px, 15vw, 150px);
   text-align: center;
-  padding: 15px;
+  padding: clamp(8px, 1vw, 15px);
   color: #333;
-  font-size: 14px;
+  font-size: clamp(10px, 1.2vw, 14px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: clamp(5px, 1vw, 10px);
 }
 
 .choose-file-btn {
   border: none;
   background-color: #f0f0ff;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 0.4vw;
+  padding: clamp(5px, 1vw, 8px) clamp(8px, 1.2vw, 12px);
   cursor: pointer;
   color: #0056d6;
   font-weight: bold;
+  font-size: clamp(10px, 1.2vw, 14px);
 }
 
 .note {
-  font-size: 12px;
+  font-size: clamp(9px, 1vw, 12px);
   color: #d9534f;
 }
 
@@ -51,48 +46,55 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 15px 20px;
-  width: 350px;
-  height: 150px;
+  border-radius: 0.5vw;
+  padding: clamp(8px, 1vw, 15px) clamp(10px, 1.2vw, 20px);
+  width: clamp(180px, 25vw, 350px);
+  height: clamp(100px, 15vw, 150px);
   background-color: #fff;
-  font-size: 14px;
+  font-size: clamp(10px, 1.2vw, 14px);
 }
 
 .guide-title {
   color: red;
   font-weight: bold;
-  margin-bottom: 6px;
+  margin-bottom: clamp(4px, 0.8vw, 6px);
+  font-size: clamp(11px, 1.3vw, 15px);
 }
 
 .guide-box ul {
-  padding-left: 20px;
+  padding-left: 1.2em;
   margin: 0;
+  font-size: clamp(9px, 1.1vw, 13px);
+  list-style-position: inside; /* dấu chấm luôn nằm trong khung */
 }
 
 /* Nút hành động */
 .action-btn {
-  margin-top: 10px;
+  margin-top: clamp(5px, 1vw, 10px);
 }
 
 .action-btn button {
   background-color: #0d35ad;
   color: #fff;
-  padding: 10px 40px;
+  padding: clamp(6px, 1vw, 10px) clamp(20px, 2vw, 40px);
   border: none;
-  border-radius: 4px;
+  border-radius: 0.4vw;
   cursor: pointer;
   width: 100%;
+  font-size: clamp(11px, 1.2vw, 14px);
 }
 
 .action-btn button:hover {
   background-color: #0044cc;
 }
+
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: clamp(14px, 2vw, 24px);
 }
+
 .upload-icon {
   color: #0d6efd;
-  font-size: 32px;
-  margin-top: 30px; /* Đẩy icon xuống dưới */
+  font-size: clamp(18px, 3vw, 32px);
+  margin-top: clamp(5px, 1vw, 15px);
 }

@@ -26,7 +26,7 @@ function Menu_student() {
           <button className="profile-btn">Cá nhân</button>
           {openProfile && (
             <div className="dropdown-menu">
-              <a href="/profile">Thông tin cá nhân</a>
+              <a href="/student-infor">Thông tin cá nhân</a>
               <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
               <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
               <a href="/change-password">Đổi mật khẩu</a>
