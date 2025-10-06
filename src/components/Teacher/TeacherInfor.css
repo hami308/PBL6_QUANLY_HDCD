@@ -1,20 +1,34 @@
-.student-info-background {
-  background: url("../../../assets/images/infor_pic.jpg") no-repeat center
-    center fixed;
-  padding: 40px 0;
-  height: auto;
-  width: 100vw;
+/* TeacherInfo.css */
+
+/* Background toàn trang */
+.teacher-info-background {
+  background-image: url("../../assets/images/infor_pic.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   background-size: cover;
+  padding: 40px 0;
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
-.student-info-container {
+
+/* Container chính */
+.teacher-info-container {
   background-color: #fff;
   padding: 20px;
   max-width: 800px;
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.title {
+/* Tiêu đề */
+.teacher-info-container .title {
   text-align: center;
   color: #2c1966;
   font-size: 28px;
@@ -22,39 +36,60 @@
   margin-bottom: 30px;
 }
 
-.student-info-content {
+/* Khối highlight chức vụ + đơn vị */
+.teacher-highlight {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.teacher-highlight .teacher-position {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c1966;
+}
+
+.teacher-highlight .teacher-unit {
+  font-size: 16px;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Nội dung chính */
+.teacher-info-content {
   display: flex;
   gap: 30px;
   align-items: flex-start;
 }
 
-.student-photo {
+/* Cột ảnh */
+.teacher-photo {
   flex: 1;
   display: flex;
   justify-content: center;
 }
 
-.photo-box {
+.teacher-photo .photo-box {
   width: 180px;
   height: 230px;
-  color: #000;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #2c1966;
+  margin-top: 20px;
 }
 
-.student-details {
+/* Cột thông tin */
+.teacher-details {
   flex: 2;
 }
 
-.student-name {
+.teacher-name {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 20px;
+  color: #2c1966;
 }
 
+/* Row info */
 .info-row {
   display: flex;
   align-items: center;
@@ -68,20 +103,17 @@
   font-size: 15px;
 }
 
-.info-row input {
+.info-row input,
+.infor-select,
+.infor-date-picker {
   flex: 1;
   padding: 6px 10px;
   border: 1px solid #ccc;
   background-color: #f2f2f2;
-}
-
-.infor-select {
-  flex: 1;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  background-color: #f2f2f2;
+  border-radius: 5px;
   box-sizing: border-box;
 }
+
 .info-row .react-datepicker-wrapper {
   flex: 1;
   width: 100%;
@@ -91,13 +123,27 @@
   width: 100%;
 }
 
-.infor-date-picker {
-  width: 100%;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  background-color: #f2f2f2;
-  box-sizing: border-box;
+/* Input readonly */
+input[readonly],
+.infor-date-picker[readonly] {
+  cursor: pointer;
+  background-color: #e9e9e9;
 }
+
+/* Cột input + error */
+.input-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Button lưu */
 .save-btn {
   margin-top: 20px;
   background-color: #2c1966;
@@ -106,6 +152,7 @@
   padding: 10px 25px;
   font-size: 15px;
   cursor: pointer;
+  border-radius: 5px;
   transition: 0.2s;
 }
 
@@ -113,46 +160,21 @@
   background-color: #4a33a1;
 }
 
-input[readonly],
-.infor-date-picker[readonly] {
-  cursor: pointer;
-  background-color: #e9e9e9; /* tùy chọn: làm mờ nhẹ để phân biệt */
-}
-
-/* Cột chứa input + error bên dưới */
-.input-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Input hiển thị lỗi */
-.error-text {
-  color: red;
-  font-size: 13px;
-  margin-top: 4px;
-}
-
 /* Responsive */
-
 @media (max-width: 1200px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 800px;
   }
-
   .title {
     font-size: 26px;
   }
-
   .photo-box {
     width: 160px;
     height: 210px;
   }
-
-  .student-name {
+  .teacher-name {
     font-size: 18px;
   }
-
   .info-row label {
     width: 140px;
     font-size: 14px;
@@ -160,167 +182,142 @@ input[readonly],
 }
 
 @media (max-width: 992px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 700px;
     padding: 15px 20px;
   }
-
   .title {
     font-size: 24px;
   }
-
   .photo-box {
     width: 140px;
     height: 190px;
   }
-
   .info-row label {
     width: 130px;
   }
-
   .info-row input,
   .infor-select,
   .infor-date-picker {
     font-size: 13px;
+    padding: 5px 8px;
   }
 }
 
 @media (max-width: 768px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 600px;
   }
-
-  .title {
-    font-size: 22px;
+  .teacher-info-content {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
   }
-
   .photo-box {
     width: 130px;
     height: 170px;
+    margin-top: 0;
   }
-
-  .student-name {
+  .teacher-name {
     font-size: 17px;
   }
-
   .info-row label {
     width: 120px;
     font-size: 13px;
   }
 }
+
 @media (max-width: 600px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 480px;
     padding: 10px 15px;
   }
-
   .title {
     font-size: 20px;
   }
-
   .photo-box {
     width: 110px;
     height: 150px;
   }
-
   .info-row label {
     width: 110px;
     font-size: 12px;
   }
-
   .info-row input,
   .infor-select,
   .infor-date-picker {
     font-size: 12px;
-    padding: 5px 8px;
+    padding: 4px 6px;
   }
-
   .save-btn {
     font-size: 13px;
     padding: 8px 20px;
+    margin-top: 12px;
   }
 }
+
 @media (max-width: 480px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 420px;
     padding: 4px 8px;
   }
-
   .title {
-    font-size: 14px;
-    margin-bottom: 15px;
+    font-size: 16px;
+    margin-bottom: 12px;
   }
-
-  .student-info-content {
-    gap: 10px;
-  }
-
   .photo-box {
     width: 95px;
     height: 130px;
   }
-
-  .student-name {
-    font-size: 12px;
+  .teacher-name {
+    font-size: 14px;
   }
-
   .info-row label {
-    width: 80px;
-    font-size: 10px;
+    width: 90px;
+    font-size: 11px;
   }
-
   .info-row input,
   .infor-select,
   .infor-date-picker {
-    font-size: 10px;
-    padding: 2px 5px;
+    font-size: 11px;
+    padding: 3px 5px;
   }
-
   .save-btn {
     font-size: 12px;
-    padding: 4px 10px;
+    padding: 6px 15px;
     margin-top: 10px;
   }
 }
+
 @media (max-width: 360px) {
-  .student-info-container {
+  .teacher-info-container {
     max-width: 300px;
-    padding: 1px 2px;
+    padding: 2px 5px;
   }
-
   .title {
-    font-size: 9px;
-    margin-bottom: 5px;
+    font-size: 12px;
+    margin-bottom: 8px;
   }
-
-  .student-info-content {
-    gap: 3px;
-  }
-
   .photo-box {
-    width: 60px;
-    height: 100px;
+    width: 70px;
+    height: 110px;
   }
-
-  .student-name {
-    font-size: 6px;
+  .teacher-name {
+    font-size: 10px;
   }
-
   .info-row label {
-    width: 50px;
-    font-size: 6px;
+    width: 60px;
+    font-size: 8px;
   }
-
   .info-row input,
   .infor-select,
   .infor-date-picker {
-    font-size: 6px;
-    padding: 1px 3px;
-  }
-
-  .save-btn {
     font-size: 8px;
-    padding: 2px 5px;
-    margin-top: 5px;
+    padding: 2px 3px;
+  }
+  .save-btn {
+    font-size: 10px;
+    padding: 4px 8px;
+    margin-top: 6px;
   }
 }

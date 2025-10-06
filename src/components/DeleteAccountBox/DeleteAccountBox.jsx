@@ -4,20 +4,27 @@ import { checkUsername } from "../../services/AcccountService/DeleteAccountServi
 import { useNavigate } from "react-router-dom";
 export function Delete_Account() {
   const navigate = useNavigate();
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     let username = document.getElementById("username").value.trim();
     if (!username) {
       alert("Vui lòng nhập tên đăng nhập !");
       return;
     }
-    const status = checkUsername(username);
+    const { status, role } = await checkUsername(username);
+    alert(`role: ${role}, status: ${status}`);
+    console.log("role:", role, "status:", status);
+
     if (!status) {
       alert("Tên đăng nhập không tồn tại !");
       return;
-    } else {
+    }
+    if (role === "student") {
       //Chưa truyền username để xóa
       navigate(`/student-infor`);
+    }
+    if (role === "teacher") {
+      navigate(`/teacher-infor`);
     }
   };
   return (

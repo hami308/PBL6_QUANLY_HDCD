@@ -6,7 +6,7 @@ import CreateAccount_Page from "./pages/CreateAccount_Page/CreateAccount_Page";
 import DeleteAccount_Page from "./pages/DeleteAccount_Page/DeleteAccount_Page";
 import StudentInfor_Page from "./pages/StudentInfor_Page/StudentInfor_Page";
 import ChangePassword_Page from "./Pages/ChangePassword_Page/ChangePassword_Page";
-
+import TeacherInfor_Page from "./pages/TeacherInfor_Page/TeacherInfor_Page";
 function App() {
   return (
     <LoginProvider>
@@ -18,6 +18,7 @@ function App() {
         <Route path="/home-admin" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor" element={<StudentInfor_Page />} />
+        <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
         <Route path="/change-password" element={<ChangePassword_Page />} />
       </Routes>
     </LoginProvider>

@@ -1,14 +1,25 @@
 export const checkUsername = async (username) => {
   // try {
   //   const response = await fetch(`/api/accounts/${username}`);
-  //   if (!response.ok) return false;
+  //   if (!response.ok)
+  //     return {
+  //       status: false,
+  //       role: null,
+  //     };
 
-  //   const { status } = await response.json();
-  //   return status;
+  //   const { status, role } = await response.json();
+  //   return { status, role };
   // } catch (error) {
   //   console.error("Lỗi kiểm tra username:", error);
-  //   return false;
+  //   return {
+  //       status: false,
+  //       role: null,
+  //     };
   // }
-  if (!username) return false;
-  return true; // Giả sử username luôn tồn tại
+  // Giả lập dữ liệu
+  if (username === "student") return { status: true, role: "student" };
+  if (username === "teacher") return { status: true, role: "teacher" };
+
+  // Nếu username không khớp
+  return { status: false, role: null };
 };
