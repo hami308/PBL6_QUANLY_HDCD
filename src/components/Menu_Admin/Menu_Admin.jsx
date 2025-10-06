@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Menu_Admin.css";
 import { Link } from "react-router-dom";
-
 const Menu_Admin = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
@@ -51,7 +50,11 @@ const Menu_Admin = () => {
           {dropdownOpen === "quanly" && (
             <ul className="dropdown-menu">
               <li>Quản lý thông tin</li>
-              <li>Cấp lại mật khẩu</li>
+              <li>
+                <Link to="/update-password " className="dropdown-link">
+                  Cấp lại mật khẩu
+                </Link>
+              </li>
             </ul>
           )}
         </li>

@@ -62,7 +62,18 @@
   cursor: pointer;
   white-space: nowrap;
 }
+.dropdown-menu .dropdown-link {
+  display: block; /* giúp chiếm hết chiều rộng li */
+  width: 100%;
+  padding: clamp(6px, 0.6vw, 10px) clamp(10px, 1vw, 14px); /* padding co giãn */
+  font-size: clamp(5px, 1.2vw, 16px);
+  color: black;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  box-sizing: border-box;
+}
 
-.dropdown-menu li:hover {
-  background-color: #ddd;
+.dropdown-menu .dropdown-link:hover {
+  background-color: #f0f0f0;
+  color: black;
 }
