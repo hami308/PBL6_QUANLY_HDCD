@@ -58,8 +58,7 @@ function SubmitEvidence_Page() {
                 }))}
                 renderActions={() => (
                     <>
-                        <button className="px-2 py-1 border rounded" href="/evidence-details">Chi tiết</button>
-                    
+                        <button className="px-2 py-1 border rounded" ><a href="/evidence-details">Chi tiết</a></button>    
                     </>
                 )}
             />
