@@ -20,7 +20,7 @@ function SubmitEvidence_Page() {
         link: "https://example.com/minhchung2",
         score: "10",
         date: "15/08/2025",
-        status: "Chờ duyệt",
+        status: "Đang Chờ duyệt",
     },
     {
         id: 3,
@@ -28,7 +28,7 @@ function SubmitEvidence_Page() {
         link: "https://example.com/minhchung3",
         score: "8",
         date: "20/09/2025",
-        status: "Từ chối",
+        status: "Đã duyệt",
     },
     ];
     return(
@@ -37,6 +37,18 @@ function SubmitEvidence_Page() {
             <Menu_student />
             <SubmitEvidence />
             <h3 className="cross-bar">Danh sách các minh chứng đã nộp</h3>
+           <div className="filter-sort-container">
+            <select name="status" className="status-filter">
+                <option value="" disabled>-- Chọn tình trạng --</option>
+                <option value="Đang chờ duyệt">Đang chờ duyệt</option>
+                <option value="Đã duyệt">Đã duyệt</option>
+            </select>
+
+            <button className="sort-button">
+                <span>Sắp xếp theo thời gian</span>
+                <span className="material-symbols-outlined">sort</span>
+            </button>
+            </div>
             <CustomTable
                 columns={["Tên hoạt động","Ngày nộp","Tình trạng"]}
                 data={evidenceData.map((item) => ({
