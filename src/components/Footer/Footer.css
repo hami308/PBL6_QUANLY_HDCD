@@ -1,5 +1,5 @@
 footer {
-  background-color: #2C1966;
+  background-color: #2c1966;
   padding: 15px 10px;
   color: white;
   font-size: 12px;
@@ -74,4 +74,3 @@ footer {
     grid-template-columns: 1fr;
   }
 }
-

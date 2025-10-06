@@ -1,44 +1,47 @@
 .menu-container {
-  background-color: #2e2c72; /* màu nền thanh menu */
+  background-color: #2e2c72;
   padding: 0 20px;
   font-family: Arial, sans-serif;
-  font-size: 15px;
+  font-size: clamp(4px, 1.2vw, 16px); /* font co giãn */
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap; /* Không xuống dòng */
 }
 
 .menu {
   list-style: none;
   display: flex;
+  flex-wrap: nowrap; /* Bắt buộc trên 1 hàng */
   margin: 0;
-  padding: 0 100px;
-  justify-content: flex-start;
-  gap: 10px;
+  padding: 0 3vw; /* padding co giãn theo màn hình */
+  justify-content: flex-start; /* căn trái */
+  gap: clamp(5px, 1.5vw, 20px); /* khoảng cách co giãn */
 }
 
 .menu-item {
   position: relative;
-  padding: 15px 20px;
+  padding: clamp(8px, 1vw, 15px) clamp(10px, 1.5vw, 20px);
   color: white;
   cursor: pointer;
   transition: background 0.3s;
+  flex-shrink: 0; /* Không cho item co lại quá nhỏ */
 }
 
-/* Giữ hover cho toàn bộ li */
 .menu-item:hover {
   background-color: #403c99;
 }
 
-/* FIX CSS cho Link */
 .menu-link {
-  text-decoration: none; /* bỏ gạch chân */
-  color: inherit; /* dùng màu chữ của .menu-item */
-  display: block; /* chiếm toàn bộ vùng li */
+  text-decoration: none;
+  color: inherit;
+  display: block;
   width: 100%;
   height: 100%;
 }
 
-/* Hover riêng cho link nếu muốn đổi màu chữ */
 .menu-link:hover {
-  color: #ffd700; /* ví dụ vàng khi hover */
+  color: #ffd700;
 }
 
 .dropdown-menu {
@@ -49,7 +52,7 @@
   color: #333;
   list-style: none;
   padding: 10px 0;
-  min-width: 200px;
+  min-width: 50px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
