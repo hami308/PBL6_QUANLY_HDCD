@@ -2,6 +2,7 @@
 import "./List_ManageActivity_Student.css";
 import activityImg from "../../../assets/images/activity.jpg";
 import ManageActivity_Student from "./ManageActivity_Student.jsx";
+import { Evaluate_Activity_Provider } from "../Evaluate_Activity/Evaluate_Activity_Context";
 
 function List_ManageActivity_Student() {
   const activities = [
@@ -45,8 +46,9 @@ function List_ManageActivity_Student() {
   ];
 
   return (
-    <div className="list-activity-student-container">
-      {activities.map((activity) => (
+    <Evaluate_Activity_Provider>
+      <div className="list-activity-student-container">
+        {activities.map((activity) => (
         <ManageActivity_Student
           key={activity.id}
           name_activity={activity.name}
@@ -57,7 +59,9 @@ function List_ManageActivity_Student() {
           img={activity.img}         
         />
       ))}
-    </div>
+      </div>
+    </Evaluate_Activity_Provider>
+
   );
 }
 

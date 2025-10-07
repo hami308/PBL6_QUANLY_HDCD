@@ -95,6 +95,8 @@
   font-weight: 500;
   font-size: 15px;
   transition: color 0.2s ease;
+  background:none;
+  padding: 0;
 
 }
 

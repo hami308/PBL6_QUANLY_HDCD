@@ -1,7 +1,9 @@
-
 import "./ManageActivity_Student.css";
+import { useContext } from "react";
+import { Evaluate_Activity_Context } from "../Evaluate_Activity/Evaluate_Activity_Context";
 
 function ManageActivity_Student({ name_activity, org, date, location, status, img }) {
+  const { openEvaluate } = useContext(Evaluate_Activity_Context);
   return (
     <div className="event-card">
       <img src={img} alt="Event" className="event-image" />
@@ -34,9 +36,14 @@ function ManageActivity_Student({ name_activity, org, date, location, status, im
 
       <div className="event-actions">
         {status === "Đã tham gia" && (
-          <a href="/event-rate" className="event-link">
+          <button className="event-link" onClick={(e) => {
+              e.preventDefault(); // ngăn reload trang
+              e.stopPropagation(); //ngăn sự kiện lan sang thẻ <a>
+              openEvaluate();     // mở popup đánh giá
+            }}
+          >
             Đánh giá
-          </a>
+          </button>
         )}
         <a href="/activity-details" className="event-link">
           Chi tiết
