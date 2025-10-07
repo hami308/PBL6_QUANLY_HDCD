@@ -1,7 +1,6 @@
 .activity {
   font-family: 'Arial', sans-serif;
   width: 100%;
-  max-width: 28vw;      /* thay max-width cố định */
   min-height: 30vh;     /* thay min-height cố định */
   padding: 1.2vh 1vw;   /* padding theo viewport */
   border: 0.1vh solid #e0e0e0;
