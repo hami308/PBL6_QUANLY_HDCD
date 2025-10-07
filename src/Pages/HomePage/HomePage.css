@@ -34,6 +34,7 @@ body, html, #root {
   max-height: 450px;
   object-fit: cover;
   display: block;
+  min-height:300px
 }
 
 /* Container cho filter + activity-list */
