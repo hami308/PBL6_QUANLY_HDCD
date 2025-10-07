@@ -24,6 +24,10 @@ function App() {
           <Route path="/manage-activities-student" element={<ManageActivity_Student_Page />}/>
           <Route path="/approved-evidence" element={<Approved_Evidence_Page/>}/>
         </Routes>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 68516b3 (Update top-bar.css)
     </LoginProvider>
   );
 }
