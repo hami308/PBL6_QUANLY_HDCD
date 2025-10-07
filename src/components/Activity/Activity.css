@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  border: 1px solid black;
 }
 
 .activity:hover {
@@ -101,3 +102,4 @@
   transform: translateY(0);
   box-shadow: 0 0.1vh 0.2vh rgba(0,0,0,0.2);
 }
+
