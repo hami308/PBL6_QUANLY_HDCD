@@ -9,6 +9,7 @@
   margin: 10px auto;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   position: relative;
+  height: auto;
 }
 
 .event-image {
@@ -33,12 +34,18 @@
   font-size: 16px;
   margin: 2px 0;
 }
-
+.event-club{
+  background-color: #0F9D58;
+  width: fit-content;
+  border-radius: 5px;
+  padding:1px 10px;
+  font-size: 16px;
+}
 /* --- Nút trạng thái --- */
 .event-status-wrapper {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 2px;
+  right: 2px;
   text-align: right;
 }
 
@@ -88,6 +95,7 @@
   font-weight: 500;
   font-size: 15px;
   transition: color 0.2s ease;
+
 }
 
 .event-link:hover {
@@ -96,25 +104,148 @@
 }
 
 /* --- Responsive --- */
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .event-card {
-    flex-direction: column;
-    padding-bottom: 60px;
+    padding: 15px;
+    width:500px;
+  }
+
+  .event-title {
+    font-size: 18px;
+  }
+
+  .event-detail {
+    font-size: 15px;
+  }
+  .event-club{
+    font-size: 15px;
+  }
+  .event-image {
+    width: 110px;
+    height: 85px;
+  }
+  .event-point{
+    font-size: 14px;
+  }
+  .event-status{
+    font-size: 13px;
+  }
+  .event-link{
+    font-size:14px;
+  }
+}
+@media (max-width: 748px) {
+  .event-card {
+    padding: 0px;
+    width:400px;
+  }
+  .event-point{
+    padding:2px;
+    font-size: 11px;
+  }
+
+  .event-title {
+    font-size: 14px;
+  }
+
+  .event-detail {
+    font-size: 12px;
+  }
+  
+  .event-club{
+    font-size: 12px;
+    padding: 0;
   }
 
   .event-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
+    width: 70px;
+    height: 85px;
+  }
+  .event-link{
+    font-size: 11px;
+  }
+  .event-status{
+    font-size: 10px;
+  }
+}
+@media (max-width: 500px) {
+  .event-card {
+    padding: 5px;
+    width:250px;
+  }
+  .event-point{
+    padding:2px;
+    font-size: 7px;
   }
 
-  .event-status-wrapper {
-    top: 8px;
-    right: 10px;
+  .event-title {
+    font-size: 10px;
   }
 
-  .event-actions {
-    bottom: 8px;
-    right: 12px;
+  .event-detail {
+    font-size: 8px;
+  }
+  
+  .event-club{
+    font-size: 8px;
+    padding: 0;
+  }
+  .event-image {
+    width: 40px;
+    height: 50px;
+  }
+  .event-link{
+    font-size: 7px;
+  }
+  .event-status{
+    font-size: 6px;
+    padding:2px 10px;
+    border-radius: 2px;
+  }
+  .event-status-wrapper{
+    top:0;
+    right:1px;
+  }
+}
+@media (max-width: 300px) {
+  .event-card {
+    padding: 2px;
+    width:150px;
+  }
+  .event-point{
+    padding:0px;
+    font-size: 4px;
+  }
+
+  .event-title {
+    font-size: 6px;
+  }
+
+  .event-detail {
+    font-size: 8px;
+  }
+  
+  .event-club{
+    font-size: 5px;
+    padding: 0;
+  }
+  .event-image {
+    width: 30px;
+    height: 50px;
+  }
+  .event-link{
+    font-size: 4px;
+  }
+  .event-status{
+    font-size: 3px;
+    padding:1px 5px;
+    border-radius: 1px;
+  }
+  .event-status-wrapper{
+    top:-10px;
+    right:1px;
+  }
+  .event-info{
+    margin: 0px -10px;
   }
 }
