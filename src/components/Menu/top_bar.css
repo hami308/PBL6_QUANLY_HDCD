@@ -22,7 +22,7 @@
 .top-bar a, .top-bar button, .profile-btn {
   color: #fff;
   text-decoration: none;
-  font-size: clamp(13px, 1.2vw, 16px);
+  font-size: clamp(18px, 1.2vw, 16px);
   font-weight: 500;
   background: none;
   border: none;
@@ -59,9 +59,9 @@
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  position: fixed;
+  top: 130px;
+  right: 10px;
   background: #fff;
   min-width: 220px;
   box-shadow: 0 4px 16px rgba(44,25,102,0.15);
@@ -140,17 +140,26 @@
 }
 
 @media (max-width: 768px) {
-  .top-bar {
-    padding: 0 2px;
-  }
+  
   .header-right {
     gap: 8px;
   }
   .top-bar a, .top-bar button, .profile-btn {
-    font-size: 10px;
+    font-size: 18px;
     padding: 2px 4px;
     height: 32px;
   }
+}
+@media (max-width: 600px){
+  .top-bar{
+    justify-content: flex-start; 
+    overflow-x: auto; /* Cho phép cuộn ngang */
+  white-space: nowrap; /* Không xuống dòng */
+  scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
+  }
+  .top-bar::-webkit-scrollbar {
+  height: 6px;
+}
 }
 @media (max-width: 400px) {
   .top-bar {
@@ -160,7 +169,20 @@
     gap: 1px;
   }
   .top-bar a, .top-bar button, .profile-btn {
-    font-size: 6px;
+    font-size: 15px;
+    padding: 1px 2px;
+    height: 32px;
+  }
+}
+@media (max-width: 200px) {
+  .top-bar {
+    padding: 0 1px;
+  }
+  .header-right {
+    gap: 1px;
+  }
+  .top-bar a, .top-bar button, .profile-btn {
+    font-size: 15px;
     padding: 1px 2px;
     height: 32px;
   }

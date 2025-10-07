@@ -1,0 +1,180 @@
+
+.filter-evidence-container {
+  background: #251d64; /* tím đậm */
+  padding: 30px;
+  color: white;
+  text-align: center;
+  width: 90%;
+  margin: 20px auto;
+  max-width: 800px;
+  position: relative;
+}
+
+/* Ô tổng minh chứng */
+.total-box {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: white;
+  color: black;
+  padding: 6px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 14px;
+}
+.total-box strong {
+  display: block;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Tiêu đề */
+.filter-evidence-container h2 {
+  margin: 10px 0 5px;
+}
+.class-info {
+  margin: 0 0 20px;
+  font-size: 16px;
+}
+
+/* Thanh lọc */
+.filter-evidence-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.filter-evidence-select {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+}
+.search-evidence-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  color: black;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.search-evidence-box input {
+  border: none;
+  padding: 8px;
+  outline: none;
+}
+.search-icon {
+  padding: 0 6px;
+}
+
+/* Buttons */
+.filter-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+.apply-btn {
+  background: #3a7bd5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.reset-btn {
+  background: #3cb371;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.apply-btn:hover { background: #2e5fa8; }
+.reset-btn:hover { background: #2d8659; }
+
+@media (max-width: 900px) {
+  .filter-evidence-container {
+    padding: 20px;
+    width: 80%;
+  }
+
+  .filter-evidence-container h2 {
+    font-size: 20px;
+    padding: 35px 0 5px;
+  }
+
+  .filter-evidence-select,
+  .apply-btn,
+  .reset-btn {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+
+  .search-evidence-box {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-evidence-container {
+    padding: 10px;
+    width: 80%;
+  }
+
+  .filter-evidence-container h2 {
+    font-size: 18px;
+    padding: 35px 0 5px;
+  }
+
+  .filter-evidence-select,
+  .apply-btn,
+  .reset-btn {
+    font-size: 11px;
+    padding: 7px 12px;
+  }
+
+  .search-evidence-box {
+    max-width: 150px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .filter-evidence-container {
+    padding: 15px;
+    width: 80%;
+  }
+
+  .filter-evidence-container h2 {
+    font-size: 15px;
+  }
+
+  .class-info {
+    font-size: 11px;
+    margin-bottom: 10px;
+  }
+
+  .total-box {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+
+  .filter-evidence-bar {
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .filter-evidence-select,
+  .search-evidence-box
+ {
+    width: 30%;
+    font-size: 13px;
+  }
+ .apply-btn,
+  .reset-btn {
+    font-size: 8px;
+    width:40%;
+  }
+  .filter-actions {
+    gap: 10px;
+  }
+}

@@ -2,7 +2,7 @@ import "./top_bar.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Menu_student() {
+function Menu_student(ismoniter_class=true) {
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -30,6 +30,7 @@ function Menu_student() {
               <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
               <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
               <a href="/change-password">Đổi mật khẩu</a>
+              {ismoniter_class && <a href="/approved-evidence">Duyệt minh chứng</a>}
             </div>
           )}
         </div>
