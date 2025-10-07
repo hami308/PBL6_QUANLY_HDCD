@@ -4,7 +4,9 @@
   box-sizing: border-box;
 }
 
-body, html, #root {
+body,
+html,
+#root {
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
@@ -20,7 +22,7 @@ body, html, #root {
   flex-direction: column;
   align-items: center;
   background-color: #222;
-  padding: 5px;
+  padding: 0;
 }
 
 /* Hình lớn phía trên */
@@ -46,6 +48,3 @@ body, html, #root {
   z-index: 10;
   position: relative;
 }
-
-
-

@@ -14,7 +14,7 @@ function Menu_student() {
   return (
     <div className="top-bar">
       <nav className="header-right">
-        <a href="/home_student">Trang chủ</a>
+        <a href="/home-student">Trang chủ</a>
         <a href="/attendance">Điểm danh</a>
         <a href="/activities">Quản lý hoạt động</a>
 
@@ -27,7 +27,7 @@ function Menu_student() {
           {openProfile && (
             <div className="dropdown-menu">
               <a href="/profile">Thông tin cá nhân</a>
-              <a href="/community-results">Kết quả phục vụ cộng đồng</a>
+              <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
               <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
               <a href="/change-password">Đổi mật khẩu</a>
             </div>
