@@ -1,3 +1,4 @@
+
 // Menu_Admin.jsx
 import React, { useState, useRef, useEffect } from "react";
 import "./top_bar.css";
@@ -30,7 +31,7 @@ const Menu_Admin = () => {
       if (btnRef.current && activeMenu) {
         const rect = btnRef.current.getBoundingClientRect();
         setMenuPosition({
-          top: rect.bottom + window.scrollY + 8, // cách nút 8px
+          top: rect.bottom + 2, // cách nút 2px
           left: rect.left + rect.width / 2, // canh giữa nút
         });
       }

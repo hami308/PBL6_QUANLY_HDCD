@@ -69,6 +69,7 @@
   z-index: 100;
   padding: 8px 0;
   animation: fadeIn 0.2s;
+  width:fit-content;
 }
 
 .dropdown-menu a {
@@ -81,7 +82,17 @@
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
 }
-
+.fixed-dropdown {
+  position: fixed !important;
+  transform: translateX(-50%);
+  z-index: 99999;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(44,25,102,0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  background: #fff;
+  animation: fadeIn 0.2s;
+}
 .dropdown-menu a:hover {
   background-color: #f3eaff;
   color: #2C1966;

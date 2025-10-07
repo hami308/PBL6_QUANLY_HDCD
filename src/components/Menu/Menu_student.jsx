@@ -2,7 +2,7 @@ import "./top_bar.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Menu_student(ismoniter_class=true) {
+function Menu_student({ ismoniter_class = true }) {
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -10,6 +10,10 @@ function Menu_student(ismoniter_class=true) {
     sessionStorage.removeItem("user");
     navigate("/");
   };
+
+  // Kiểm tra thiết bị cảm ứng
+  const isTouchDevice = () =>
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
   return (
     <div className="top-bar">
@@ -20,25 +24,49 @@ function Menu_student(ismoniter_class=true) {
 
         <div
           className="profile-dropdown"
-          onMouseEnter={() => setOpenProfile(true)}
-          onMouseLeave={() => setOpenProfile(false)}
+          onMouseEnter={() => {
+            if (!isTouchDevice()) setOpenProfile(true);
+          }}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) setOpenProfile(false);
+          }}
         >
-          <button className="profile-btn">Cá nhân</button>
-      {openProfile && (
-            <div className="dropdown-menu">
-          <a href="/student-infor">Thông tin cá nhân</a>
-          <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
-          <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
-          <a href="/change-password">Đổi mật khẩu</a>
-          {ismoniter_class && <a href="/approved-evidence">Duyệt minh chứng</a>}
-        </div>
-      )}
-    </div>
+          <button
+            className="profile-btn"
+            onClick={() => {
+              if (isTouchDevice()) setOpenProfile((prev) => !prev);
+            }}
+          >
+            Cá nhân
+          </button>
 
-        <a href="/notifications" className="icon-link"><span className="material-symbols-outlined">
-          notifications
-        </span></a>
-        <button onClick={handleLogout} className="logout-btn">Thoát</button>
+          {openProfile && (
+            <div
+              className="dropdown-menu"
+              style={{
+                position: "absolute",
+                top: "calc(100% + 4px)",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <a href="/student-infor">Thông tin cá nhân</a>
+              <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
+              <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
+              <a href="/change-password">Đổi mật khẩu</a>
+              {ismoniter_class && (
+                <a href="/approved-evidence">Duyệt minh chứng</a>
+              )}
+            </div>
+          )}
+        </div>
+
+        <a href="/notifications" className="icon-link">
+          <span className="material-symbols-outlined">notifications</span>
+        </a>
+        <button onClick={handleLogout} className="logout-btn">
+          Thoát
+        </button>
       </nav>
     </div>
   );
