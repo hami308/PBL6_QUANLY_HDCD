@@ -1,8 +1,8 @@
 .year-card {
     position: relative;
-    background: #C4C8E3; /* tím nhạt */
+    background: white;
     padding: 15px 30px;
-    border-radius: 10px;
+    border-radius: 5px;
     text-align: center;
     width: 220px;
     height:auto;
@@ -15,7 +15,7 @@
     left: 0px;
     color: #000;
     padding: 4px 12px;
-    border-radius: 8px;
+    border-radius: 5px;
     font-size: 14px;
     font-weight: bold;
 }
