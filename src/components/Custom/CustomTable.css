@@ -71,7 +71,9 @@
 }
 .custom-table__actions button:hover {
   background: #2C1966;
-  color: white;
+  a{
+    color: white;
+  }
 }
 @media (max-width: 600px) {
 
