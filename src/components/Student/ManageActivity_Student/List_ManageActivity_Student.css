@@ -1,8 +1,6 @@
-.list-activity-student-container {
-  background-color: #C4C8E3; /* nền tím nhạt giống ảnh */
+.list-activity-student-container {/* nền tím nhạt giống ảnh */
   padding: 20px;
-  border: 1px solid black;
-  width: 1000px;
+  width: 80%;
   margin: 20px auto;
 }
 @media (max-width: 900px) {
