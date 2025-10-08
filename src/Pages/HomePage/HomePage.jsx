@@ -6,12 +6,8 @@ import Header from "../../components/Header/Header.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import dut_home_pic from "../../assets/images/dut_home_pic.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
-<<<<<<< HEAD
 import Menu_Admin from "../../components/Menu/Menu_Admin.jsx";
 
-//import { use } from "react";
-=======
->>>>>>> 1a9f5e5dd65c963271dbf2f3fde75c923805ebfc
 
 function HomePage() {
   const user = JSON.parse(sessionStorage.getItem("user"));

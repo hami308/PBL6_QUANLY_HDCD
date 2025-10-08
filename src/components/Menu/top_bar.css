@@ -181,7 +181,7 @@
   }
   .top-bar a, .top-bar button, .profile-btn {
     font-size: 15px;
-    padding: 1px 2px;
+    padding: 1px 15px;
     height: 32px;
   }
 }
