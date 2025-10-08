@@ -6,7 +6,8 @@ import Header from "../../components/Header/Header.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import dut_home_pic from "../../assets/images/anhnen.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
-import Menu_Admin from "../../components/Menu_Admin/Menu_Admin.jsx";
+import Menu_Admin from "../../components/Menu/Menu_Admin.jsx";
+
 //import { use } from "react";
 
 function HomePage() {
