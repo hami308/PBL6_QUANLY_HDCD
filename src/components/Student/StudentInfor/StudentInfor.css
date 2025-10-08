@@ -1,5 +1,5 @@
 .student-info-background {
-  background: url("../../../assets/images/dut_home_pic.jpg") no-repeat center center fixed;
+  background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed;
   padding: 40px 0;
   height: auto;
   width: 100vw;
@@ -290,7 +290,6 @@ input[readonly],
 
   .title {
     font-size: 9px;
-    margin-bottom:5px;
   }
 
   .student-info-content {
@@ -303,18 +302,19 @@ input[readonly],
   }
 
   .student-name {
-    font-size: 6px;
+    font-size: 8px;
   }
 
   .info-row label {
     width: 50px;
-    font-size: 6px;
+    font-size: 7px;
+    margin-bottom: 0;
   }
 
   .info-row input,
   .infor-select,
   .infor-date-picker {
-    font-size: 6px;
+    font-size: 7px;
     padding: 1px 3px;
   }
 
