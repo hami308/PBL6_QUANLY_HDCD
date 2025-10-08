@@ -4,7 +4,10 @@ import Menu_student from "../../components/Menu/Menu_student";
 import SubmitEvidence from "../../components/Student/SubmitEvidence/SubmitEvidence";
 import Footer from "../../components/Footer/Footer";
 import CustomTable from "../../components/Custom/CustomTable.jsx";
+import React, { useState } from "react";
 function SubmitEvidence_Page() {
+    const [sortOrder, setSortOrder] = useState("desc"); // "desc" = mới nhất, "asc" = cũ nhất
+
    const evidenceData = [
     {
         id: 1,
@@ -31,6 +34,15 @@ function SubmitEvidence_Page() {
         status: "Đã duyệt",
     },
     ];
+    // const sortedData = [...evidenceData].sort((a, b) => {
+    //     const dateA = a.date.split("/").reverse().join("-");
+    //     const dateB = b.date.split("/").reverse().join("-");
+    //     if (sortOrder === "desc") {
+    //         return dateB.localeCompare(dateA);
+    //     } else {
+    //         return dateA.localeCompare(dateB);
+    //     }
+    // });
     return(
         <>
             <Header />
@@ -44,10 +56,16 @@ function SubmitEvidence_Page() {
                 <option value="Đã duyệt">Đã duyệt</option>
             </select>
 
-            <button className="sort-button">
-                <span>Sắp xếp theo thời gian</span>
-                <span className="material-symbols-outlined">sort</span>
-            </button>
+             <select
+                    className="sort-select"
+                    value={sortOrder}
+                    onChange={e => setSortOrder(e.target.value)}
+                    style={{ marginLeft: 12 }}
+                >
+                     <option value="" disabled>--Sắp xếp --</option>
+                    <option value="desc">Mới nhất</option>
+                    <option value="asc">Cũ nhất</option>
+                </select>
             </div>
             <CustomTable
                 columns={["Tên hoạt động","Ngày nộp","Tình trạng"]}

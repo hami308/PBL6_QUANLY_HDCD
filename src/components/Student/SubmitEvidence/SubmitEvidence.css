@@ -10,9 +10,9 @@
 /* Khung trắng giữa */
 .submit-evidence-container {
   width: 100%;
-  max-width: 900px;
+  max-width: 700px;
   background-color: #ffffff;
-  padding: 40px 50px;
+  padding: 30px 40px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
   border-radius: 6px;
@@ -21,9 +21,9 @@
 /* Tiêu đề */
 .submit-evidence-title {
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   color: #000;
 }
 
@@ -31,7 +31,7 @@
 .submit-evidence-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* Mỗi dòng: label bên trái, input bên phải */
@@ -39,7 +39,7 @@
   display: grid;
   grid-template-columns: 200px 1fr;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .submit-infor label {
@@ -65,7 +65,7 @@
 .submit-evidence-button {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 8px;
   background-color: #2c1966;
   color: white;
@@ -75,9 +75,9 @@
   padding: 12px 24px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
-  margin: 0 auto ; /* căn giữa theo chiều ngang */
   border-radius: 0;
   width: fit-content;
+  margin-left: auto;
 }
 
 .submit-evidence-button:hover {
