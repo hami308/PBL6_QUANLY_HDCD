@@ -8,6 +8,7 @@ import StudentInfor_Page from "./pages/StudentInfor_Page/StudentInfor_Page";
 import ChangePassword_Page from "./Pages/ChangePassword_Page/ChangePassword_Page";
 import TeacherInfor_Page from "./pages/TeacherInfor_Page/TeacherInfor_Page";
 import UpdatePassword_Page from "./pages/UpdatePassword_Page/UpdatePassword_Page";
+import UserAccount_Management from "./pages/UserAccount_Management/UserAccount_Management";
 function App() {
   return (
     <LoginProvider>
@@ -22,6 +23,10 @@ function App() {
         <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
         <Route path="/change-password" element={<ChangePassword_Page />} />
         <Route path="/update-password" element={<UpdatePassword_Page />} />
+        <Route
+          path="/useraccount-management"
+          element={<UserAccount_Management />}
+        />
       </Routes>
     </LoginProvider>
   );

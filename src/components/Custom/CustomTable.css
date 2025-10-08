@@ -1,12 +1,12 @@
 .custom-table-wrapper {
-  overflow-y: auto;  /* cuộn dọc */
+  overflow-y: auto; /* cuộn dọc */
   overflow-x: auto;
   background: white; /* nền sáng */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   width: 90%;
-  margin: 20px auto;    /* căn giữa ngang */
+  margin: 20px auto; /* căn giữa ngang */
   border: 1px solid black; /* viền xám nhạt */
-   max-height: 600px; 
+  max-height: 600px;
 }
 
 .custom-table {
@@ -32,21 +32,20 @@
 }
 
 .custom-table__row:hover {
-  background-color: #E7E9F5; /* hover sáng */
+  background-color: #e7e9f5; /* hover sáng */
 }
 
 .custom-table__cell {
   padding: 12px;
   color: #374151;
-  
 }
 
 .custom-table__actions {
   display: flex;
-  flex-direction: column;  /* sắp xếp theo cột */
-  gap: 6px;      
-  align-items: center;  
-  justify-content: center;          /* khoảng cách giữa các nút */
+  flex-direction: column; /* sắp xếp theo cột */
+  gap: 6px;
+  align-items: center;
+  justify-content: center; /* khoảng cách giữa các nút */
 }
 
 /* Style cho button trong cột thao tác */
@@ -56,16 +55,15 @@
   cursor: pointer;
   transition: 0.2s;
   font-size: 15px;
-  background-color: #C4C8E3;
+  background-color: #c9cce0;
   color: black;
-  min-width: 120px;      /* cố định chiều rộng tối thiểu */
-  max-width: 160px;      /* giới hạn nếu text dài quá */
+  min-width: 120px; /* cố định chiều rộng tối thiểu */
+  max-width: 160px; /* giới hạn nếu text dài quá */
 }
 
 .custom-table__actions button:hover {
-  background: #2C1966;
+  background: #2c1966;
   color: white;
 }
 @media (max-width: 600px) {
-
 }
