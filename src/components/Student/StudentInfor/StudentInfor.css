@@ -1,9 +1,11 @@
 .student-info-background {
-  background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed;
+  /* background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed; */
+  background-color: white;
   padding: 40px 0;
   height: auto;
   width: 100vw;
   background-size: cover;
+
 }
 .student-info-container {
   background-color: #fff;
@@ -11,6 +13,7 @@
   max-width: 800px;
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* border: 2px solid black; */
 }
 
 .title {
