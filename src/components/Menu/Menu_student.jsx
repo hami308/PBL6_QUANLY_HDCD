@@ -7,6 +7,7 @@ function Menu_student({ ismoniter_class = true }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const btnRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
@@ -24,7 +25,7 @@ function Menu_student({ ismoniter_class = true }) {
     }
   };
 
-  // Khi mở menu thì tính vị trí
+  // Khi mở menu thì tính vị trí và cập nhật khi resize/scroll
   useEffect(() => {
     if (openProfile) updateDropdownPos();
     const handleResizeScroll = () => {
@@ -41,7 +42,11 @@ function Menu_student({ ismoniter_class = true }) {
   // Tự đóng khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (btnRef.current && !btnRef.current.contains(e.target)) {
+      if (
+        btnRef.current &&
+        !btnRef.current.contains(e.target) &&
+        !document.querySelector(".dropdown-menu")?.contains(e.target)
+      ) {
         setOpenProfile(false);
       }
     };
@@ -53,6 +58,20 @@ function Menu_student({ ismoniter_class = true }) {
   const isTouchDevice = () =>
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
+  const handleMouseEnter = () => {
+    if (!isTouchDevice()) {
+      clearTimeout(closeTimeoutRef.current);
+      setOpenProfile(true);
+      updateDropdownPos();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isTouchDevice()) {
+      closeTimeoutRef.current = setTimeout(() => setOpenProfile(false), 250);
+    }
+  };
+
   return (
     <div className="top-bar">
       <nav className="header-right">
@@ -62,21 +81,13 @@ function Menu_student({ ismoniter_class = true }) {
 
         <div
           className="profile-dropdown"
-          onMouseEnter={() => {
-            if (!isTouchDevice()) {
-              setOpenProfile(true);
-              updateDropdownPos();
-            }
-          }}
-          onMouseLeave={() => {
-            if (!isTouchDevice()) setOpenProfile(false);
-          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <button
             ref={btnRef}
             className="profile-btn"
             onClick={() => {
-              // Nếu là màn hình cảm ứng -> dùng click toggle
               if (isTouchDevice()) {
                 setOpenProfile((prev) => !prev);
                 updateDropdownPos();
@@ -98,6 +109,13 @@ function Menu_student({ ismoniter_class = true }) {
       {openProfile && (
         <div
           className="dropdown-menu"
+          onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+          onMouseLeave={() =>
+            (closeTimeoutRef.current = setTimeout(
+              () => setOpenProfile(false),
+              250
+            ))
+          }
           style={{
             position: "fixed",
             top: `${dropdownPos.top}px`,

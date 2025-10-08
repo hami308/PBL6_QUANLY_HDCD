@@ -1,4 +1,3 @@
-
 // Menu_Admin.jsx
 import React, { useState, useRef, useEffect } from "react";
 import "./top_bar.css";
@@ -8,6 +7,7 @@ const Menu_Admin = () => {
   const [activeMenu, setActiveMenu] = useState(null); // "xtk" | "qltk" | null
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const btnRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -15,28 +15,42 @@ const Menu_Admin = () => {
     navigate("/");
   };
 
-  // Mở menu: lưu tên menu và tham chiếu tới nút (DOM element)
+  const isTouchDevice = () =>
+    "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  // Mở menu (hover hoặc click)
   const handleOpenMenu = (menuName, buttonEl) => {
+    clearTimeout(closeTimeoutRef.current);
     btnRef.current = buttonEl;
     setActiveMenu(menuName);
   };
 
   const handleCloseMenu = () => {
-    setActiveMenu(null);
+    closeTimeoutRef.current = setTimeout(() => setActiveMenu(null), 200);
   };
 
-  // Cập nhật vị trí dropdown khi activeMenu thay đổi, khi scroll hoặc resize
+  // Toggle khi click (chỉ trên mobile)
+  const handleToggleMenu = (menuName, e) => {
+    e.stopPropagation(); // chặn lan click ra ngoài
+    const buttonEl = e.currentTarget;
+    if (activeMenu === menuName) {
+      setActiveMenu(null);
+    } else {
+      handleOpenMenu(menuName, buttonEl);
+    }
+  };
+
+  // Tính vị trí dropdown
   useEffect(() => {
     function updatePos() {
       if (btnRef.current && activeMenu) {
         const rect = btnRef.current.getBoundingClientRect();
         setMenuPosition({
-          top: rect.bottom + 2, // cách nút 2px
-          left: rect.left + rect.width / 2, // canh giữa nút
+          top: rect.bottom + 2,
+          left: rect.left + rect.width / 2,
         });
       }
     }
-
     updatePos();
     window.addEventListener("scroll", updatePos);
     window.addEventListener("resize", updatePos);
@@ -46,33 +60,68 @@ const Menu_Admin = () => {
     };
   }, [activeMenu]);
 
+  // Click ra ngoài sẽ đóng menu (chỉ khi đang mở)
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        btnRef.current &&
+        !btnRef.current.contains(e.target) &&
+        !document.querySelector(".dropdown-menu")?.contains(e.target)
+      ) {
+        setActiveMenu(null);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
     <div className="top-bar">
       <nav className="header-right">
         <a href="/home-admin">Trang chủ</a>
-        <a href="/">Tạo tài khoản</a>
-        <a href="/">Xóa tài khoản</a>
+        <a href="/create-account">Tạo tài khoản</a>
+        <a href="/delete-account">Xóa tài khoản</a>
 
         {/* Xem thống kê */}
         <div
           className="profile-dropdown"
-          onMouseEnter={(e) =>
-            handleOpenMenu("xtk", e.currentTarget.querySelector(".profile-btn"))
-          }
-          onMouseLeave={handleCloseMenu}
+          onMouseEnter={(e) => {
+            if (!isTouchDevice())
+              handleOpenMenu("xtk", e.currentTarget.querySelector(".profile-btn"));
+          }}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
         >
-          <button className="profile-btn">Xem thống kê</button>
+          <button
+            className="profile-btn"
+            onClick={(e) => {
+              if (isTouchDevice()) handleToggleMenu("xtk", e);
+            }}
+          >
+            Xem thống kê
+          </button>
         </div>
 
         {/* Quản lý tài khoản */}
         <div
           className="profile-dropdown"
-          onMouseEnter={(e) =>
-            handleOpenMenu("qltk", e.currentTarget.querySelector(".profile-btn"))
-          }
-          onMouseLeave={handleCloseMenu}
+          onMouseEnter={(e) => {
+            if (!isTouchDevice())
+              handleOpenMenu("qltk", e.currentTarget.querySelector(".profile-btn"));
+          }}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
         >
-          <button className="profile-btn">Quản lý tài khoản</button>
+          <button
+            className="profile-btn"
+            onClick={(e) => {
+              if (isTouchDevice()) handleToggleMenu("qltk", e);
+            }}
+          >
+            Quản lý tài khoản
+          </button>
         </div>
 
         <button onClick={handleLogout} className="logout-btn">
@@ -80,19 +129,24 @@ const Menu_Admin = () => {
         </button>
       </nav>
 
-      {/* Dropdown render ở vị trí fixed (viewport) -> không bị cắt bởi overflow của top-bar */}
+      {/* Dropdown render ở vị trí fixed */}
       {activeMenu === "xtk" && (
         <div
           className="dropdown-menu fixed-dropdown"
           style={{
+            position: "fixed",
             top: `${menuPosition.top}px`,
             left: `${menuPosition.left}px`,
+            transform: "translateX(-50%)",
+            zIndex: 9999,
           }}
-          onMouseEnter={() => setActiveMenu("xtk")}
-          onMouseLeave={handleCloseMenu}
+          onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
         >
-          <a href="/student-infor">Xem thống kê điểm PVCD</a>
-          <a href="/pvcd-record">Xem thống kê các hoạt động</a>
+          <a href="/statistic-student">Xem thống kê điểm PVCD</a>
+          <a href="/statistic-activity">Xem thống kê các hoạt động</a>
         </div>
       )}
 
@@ -100,14 +154,19 @@ const Menu_Admin = () => {
         <div
           className="dropdown-menu fixed-dropdown"
           style={{
+            position: "fixed",
             top: `${menuPosition.top}px`,
             left: `${menuPosition.left}px`,
+            transform: "translateX(-50%)",
+            zIndex: 9999,
           }}
-          onMouseEnter={() => setActiveMenu("qltk")}
-          onMouseLeave={handleCloseMenu}
+          onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
         >
-          <a href="/student-infor">Quản lý thông tin tài khoản</a>
-          <a href="/pvcd-record">Cấp lại mật khẩu</a>
+          <a href="/manage-accounts">Quản lý thông tin tài khoản</a>
+          <a href="/reset-password">Cấp lại mật khẩu</a>
         </div>
       )}
     </div>
