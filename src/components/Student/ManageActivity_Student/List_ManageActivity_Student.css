@@ -1,7 +1,5 @@
-.list-activity-student-container {
-  background-color: #E7E9F5; /* nền tím nhạt giống ảnh */
+.list-activity-student-container {/* nền tím nhạt giống ảnh */
   padding: 20px;
-  border: 1px solid black;
   width: 80%;
   margin: 20px auto;
 }
