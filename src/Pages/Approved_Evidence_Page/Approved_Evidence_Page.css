@@ -1,0 +1,8 @@
+.approved-evidence-background{
+ background: url("../../assets/images/anhnen.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 40px 0;
+  width: 100vw;
+  min-height: 500px;
+  margin-bottom: -150px;
+}

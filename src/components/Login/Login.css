@@ -92,3 +92,34 @@
   margin-bottom: 10px;
   font-weight: 500;
 }
+@media(max-width:600px){
+  .modal{
+    width: 80%;
+  }
+  .login-icon{
+    width:80px;
+    margin-top: 20px;
+  }
+  .login-btn{
+    margin: 0 0px;
+  }
+}
+@media(max-width:400px){
+  .modal{
+    width: 80%;
+  }
+  .login-icon{
+    width:50px;
+    margin-top: 40px;
+  }
+  .login-btn{
+    margin: 0 0px;
+    font-size: 12px;
+  }
+  .modal-title{
+    font-size: 17px;
+  }
+  .form-group label{
+    font-size: 12px;
+  }
+}
