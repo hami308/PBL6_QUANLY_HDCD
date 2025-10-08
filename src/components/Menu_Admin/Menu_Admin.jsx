@@ -37,8 +37,16 @@ const Menu_Admin = () => {
           <span className="menu-link">Xem thống kê</span>
           {dropdownOpen === "thongke" && (
             <ul className="dropdown-menu">
-              <li>Xem thống kê điểm PVCD</li>
-              <li>Xem thống kê các hoạt động</li>
+              <li>
+                <Link to="/statistical/Score" className="dropdown-link">
+                  Xem thống kê điểm PVCD
+                </Link>
+              </li>
+              <li>
+                <Link to="/statistical/Activity" className="dropdown-link">
+                  Xem thống kê các hoạt động
+                </Link>
+              </li>
             </ul>
           )}
         </li>
