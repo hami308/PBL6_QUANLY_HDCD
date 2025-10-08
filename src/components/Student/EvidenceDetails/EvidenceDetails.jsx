@@ -1,6 +1,6 @@
 import "./EvidenceDetails.css";
 
-function EvidenceDetail() {
+function EvidenceDetail({is_moniter_class=true}) {
     const evidenceInfor = {
         id: 1,
         name: "Tham gia hội thảo khoa học quốc gia",
@@ -16,7 +16,6 @@ function EvidenceDetail() {
         <div className="evidence-details-container">
           <div className="evidence-details-tiltle">
             <h3>Chi tiết minh chứng</h3>
-            <span className="evidence-detail-close-btn">✕</span>
           </div>
           <hr />
 
@@ -56,26 +55,28 @@ function EvidenceDetail() {
                 readOnly
               />
             </div>
-
-            <div className="evidence-details-input-section">
-              <p className="evidence-details-label">Minh chứng</p>
-              <input
-                className="evidence-details-input-disabled"
-                value={evidenceInfor.link}
-                readOnly
-              />
-              {/* <div className="evidence-details-input-section">
-              <p className="evidence-details-label">Minh chứng</p>
-              <a
-                className="evidence-details-link"
-                href={evidenceInfor.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {evidenceInfor.link}
-              </a>
-            </div> */}
-            </div>
+            {is_moniter_class && (
+               <div className="evidence-details-input-section">
+                <p className="evidence-details-label">Minh chứng</p>
+                <a
+                  className="evidence-details-link"
+                  href={evidenceInfor.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {evidenceInfor.link}
+                </a>
+              </div> 
+            )}
+            {!is_moniter_class && (
+              <div className="evidence-details-input-section">
+                <p className="evidence-details-label">Minh chứng</p>
+                <input
+                  className="evidence-details-input-disabled"
+                  value={evidenceInfor.link}
+                />
+              </div>
+            )}
 
             <div className="evidence-details-input-section">
               <p className="evidence-details-label">Điểm sinh viên đánh giá</p>
@@ -83,24 +84,35 @@ function EvidenceDetail() {
                 className="evidence-details-input-disabled"
                 placeholder="(Chưa có điểm)"
                 value={evidenceInfor.score}
-                readOnly
+                readOnly={is_moniter_class}
               />
             </div>
-
-            <div className="evidence-details-input-section">
-              <p className="evidence-details-label">Điểm lớp trưởng đánh giá</p>
-              <input
-                className="evidence-details-input-disabled"
-                placeholder="(Chưa có điểm)"
-              />
-            </div>
+            {is_moniter_class && (
+              <div className="evidence-details-input-section">
+                <p className="evidence-details-label">Điểm lớp trưởng đánh giá</p>
+                <input
+                  className="evidence-details-input-disabled"
+                  placeholder="(Chưa có điểm)"
+                />
+              </div>
+            )}         
           </div>
 
-          <div className="evidence-details-footer">
-            <button className="evidence-details-approve-btn">
-              ✓ Duyệt minh chứng
-            </button>
-          </div>
+            {is_moniter_class && (
+              <div className="evidence-details-footer">
+                <button className="evidence-details-approve-btn">
+                  ✓ Duyệt minh chứng
+                </button>
+              </div>
+            )}
+
+            {!is_moniter_class && (
+               <div className="evidence-details-footer">
+                <button className="evidence-details-update-btn">
+                  ✓ Cập nhật minh chứng
+                </button>
+              </div>
+            )}         
         </div>
       </div>
     </>
@@ -108,3 +120,4 @@ function EvidenceDetail() {
 }
 
 export default EvidenceDetail;
+ 

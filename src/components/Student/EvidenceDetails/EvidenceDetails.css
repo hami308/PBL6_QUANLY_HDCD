@@ -1,5 +1,5 @@
 .evidence-details-background {
- background: url("../../../assets/images/dut_home_pic.jpg") no-repeat center center fixed;
+  background-color: #f7f8fa;
   background-size: cover;
   width: 100vw;
   display: flex;
@@ -29,19 +29,6 @@
   font-weight: 600;
 }
 
-.evidence-detail-close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: bold;
-  color: #666;
-  transition: 0.2s;
-}
-.evidence-detail-close-btn:hover{
-    color:red;
-}
 
 .evidence-details-content {
   margin-top: 10px;
@@ -117,18 +104,32 @@
   margin-top: 20px;
 }
 
+
 .evidence-details-approve-btn {
-  background: #E5F5E9;
-  color: #000;
+  background: #2C1966;
+  color: white;
   font-weight: 600;
   border: 1px solid black;
   padding: 8px 14px;
   cursor: pointer;
   border-radius: 0;
+  font-size: 15px;
 }
-
+.evidence-details-update-btn{
+  background: #2C1966;
+  color: white;
+  font-weight: 600;
+  border: 1px solid black;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 0;
+  font-size: 15px;
+}
+.evidence-details-update-btn:hover{
+  background-color: #555;
+}
 .evidence-details-approve-btn:hover {
-  background: #d8f0da;
+  background: #555;
 }
 .evidence-details-link {
   display: block;
