@@ -6,3 +6,13 @@
   min-height: 500px;
   margin-bottom: -150px;
 }
+.approved-evidence-customtable{
+   display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+@media (max-width:490px){
+  .approved-evidence-background{
+    min-height: 400px;
+  }
+}
