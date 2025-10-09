@@ -87,5 +87,7 @@
     .activity-joined-title{
         font-size: 15px;
     }
-
+    .custom-table-wrapper{
+        width: 95%;
+    }
 }
