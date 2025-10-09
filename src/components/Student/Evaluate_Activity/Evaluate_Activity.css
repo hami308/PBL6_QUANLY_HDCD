@@ -1,0 +1,186 @@
+.review-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 99999;
+}
+.review-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  max-width: 700px;
+  width: 100%;
+  padding: 30px;
+
+}
+
+.review-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.review-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.review-subtitle .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40
+}
+
+.rating-section {
+  margin-bottom: 20px;
+}
+
+.rating-label {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 8px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.star {
+  color: #ccc;
+  transition: color 0.2s ease;
+}
+
+.star .material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40;
+  font-size: 36px;
+  color: #ccc;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star.active .material-symbols-outlined,
+.star:hover .material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 1, /* tô đầy */
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40;
+  color: #f6b900; /* vàng */
+  transform: scale(1.1);
+}
+
+.comment-section {
+  margin-top: 20px;
+}
+
+.comment-label {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.comment-input {
+  width: 100%;
+  height: 100px;
+  resize: none;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: #5a67d8;
+  box-shadow: 0 0 0 2px rgba(90, 103, 216, 0.2);
+}
+
+.review-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+
+.cancel-btn,
+.submit-btn {
+    display: inline-flex;              /* căn icon + text cùng hàng */
+  align-items: center;               /* căn giữa theo chiều dọc */
+  justify-content: center;           /* căn giữa theo chiều ngang */
+  gap: 8px;                          /* khoảng cách giữa icon và chữ */
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;               /*  không cho text xuống dòng */
+}
+.cancel-btn{
+    border: 1px solid #4960E6;
+    color: #4960E6;
+    background: white;
+}
+.cancel-btn:hover {
+  background: #F69898;
+  color:black;
+}
+
+.submit-btn {
+  background: #4f46e5;
+  color: white;
+}
+
+.submit-btn.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40
+}
+.submit-btn .material-symbols-outlined {
+  font-size: 20px; /* đảm bảo icon cân đối với chữ */
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.submit-btn:hover {
+  background: #2C1966;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .review-card {
+    padding: 20px;
+  }
+
+  .review-title {
+    font-size: 22px;
+  }
+
+  .stars {
+    font-size: 24px;
+  }
+}

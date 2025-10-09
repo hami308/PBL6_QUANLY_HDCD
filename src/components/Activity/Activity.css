@@ -1,7 +1,6 @@
 .activity {
   font-family: 'Arial', sans-serif;
   width: 100%;
-  max-width: 28vw;      /* thay max-width cố định */
   min-height: 30vh;     /* thay min-height cố định */
   padding: 1.2vh 1vw;   /* padding theo viewport */
   border: 0.1vh solid #e0e0e0;
@@ -11,6 +10,7 @@
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
+  border: 1px solid black;
 }
 
 .activity:hover {
@@ -102,3 +102,4 @@
   transform: translateY(0);
   box-shadow: 0 0.1vh 0.2vh rgba(0,0,0,0.2);
 }
+

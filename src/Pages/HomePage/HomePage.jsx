@@ -6,9 +6,11 @@ import Header from "../../components/Header/Header.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import dut_home_pic from "../../assets/images/dut_home_pic.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
+import Menu_Admin from "../../components/Menu/Menu_Admin.jsx";
+
 
 function HomePage() {
-  const user = JSON.parse(sessionStorage.getItem("user")); 
+  const user = JSON.parse(sessionStorage.getItem("user"));
   return (
     <>
       <Header />

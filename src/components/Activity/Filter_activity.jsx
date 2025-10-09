@@ -36,7 +36,7 @@ function FilterBar() {
 
       {/* Ô tìm kiếm */}
       <div className="search-box filter-item">
-        <span className="icon">🔍</span>
+        <span className="icon"><span className="material-symbols-outlined">search</span></span>
         <input type="text" placeholder="Tìm kiếm" />
       </div>
 
