@@ -67,19 +67,21 @@ function SubmitEvidence_Page() {
                     <option value="asc">Cũ nhất</option>
                 </select>
             </div>
-            <CustomTable
-                columns={["Tên hoạt động","Ngày nộp","Tình trạng"]}
-                data={evidenceData.map((item) => ({
-                    tên_hoạt_động: item.name,
-                    ngày_nộp:item.date,
-                    tình_trạng:item.status,
-                }))}
-                renderActions={() => (
-                    <>
-                        <button className="px-2 py-1 border rounded" ><a href="/evidence-details">Chi tiết</a></button>    
-                    </>
-                )}
-            />
+            <div className="submit-evidence-customtable">
+                <CustomTable
+                    columns={["Tên hoạt động","Ngày nộp","Tình trạng"]}
+                    data={evidenceData.map((item) => ({
+                        tên_hoạt_động: item.name,
+                        ngày_nộp:item.date,
+                        tình_trạng:item.status,
+                    }))}
+                    renderActions={() => (
+                        <>
+                            <button className="px-2 py-1 border rounded" ><a href="/evidence-details">Chi tiết</a></button>    
+                        </>
+                    )}
+                />
+            </div>
             <Footer />
             
         </>

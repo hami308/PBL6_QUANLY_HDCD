@@ -67,6 +67,7 @@
   color: black;
   min-width: 120px;      /* cố định chiều rộng tối thiểu */
   max-width: 160px;      /* giới hạn nếu text dài quá */
+  white-space: nowrap;
 }
 .custom-table__actions button a {
   color :black;
@@ -84,7 +85,16 @@
   }
 }
 @media (max-width: 600px) {
-
+    .custom-table{
+        font-size:12px
+    }
+    .custom-table__head{
+        font-size: 12px;
+    }
+  .custom-table__actions button{
+    font-size: 12px;
+    min-width: 60px;
+  }
 }
 @media (max-width: 400px) {
     .custom-table{
