@@ -151,13 +151,17 @@
 }
 
 @media (max-width: 768px) {
-  
+  .top-bar{
+    justify-content: flex-start; 
+    overflow-x: auto; /* Cho phép cuộn ngang */
+  white-space: nowrap; /* Không xuống dòng */
+  scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
+  }
   .header-right {
     gap: 8px;
   }
   .top-bar a, .top-bar button, .profile-btn {
     font-size: 18px;
-    padding: 2px 4px;
     height: 32px;
   }
 }

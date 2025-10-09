@@ -1,7 +1,7 @@
 /* ===== Header chính ===== */
 .header {
   width: 100%;
-  height: 12vh; /* Chiều cao theo viewport */
+  height: 100px;
   background: url("../../assets/images/background_header.png") no-repeat center center;
   background-size: cover;
   display: flex;
@@ -20,20 +20,20 @@
 
 /* Logo */
 .logo img {
-  height: 7vh;        /* Co dãn theo viewport */
+  height: 50px;        /* Co dãn theo viewport */
   max-height: 80px;   /* Giới hạn tối đa */
 }
 
 /* Tên hệ thống */
 .system-name h1 {
-  font-size: 1.5vw;      /* Co dãn theo chiều rộng màn hình */
+  font-size: 20px;   
   font-weight: bold;
   margin: 0;
   color: #002366;
 }
 
 .system-name p {
-  font-size: 1.2vw;    /* Co dãn theo chiều rộng màn hình */
+  font-size: 18px;    
   margin: 0;
   color: #111;
 }
@@ -41,14 +41,29 @@
 /* ===== Media Query cho màn hình nhỏ ===== */
 @media (max-width: 768px) {
   .system-name h1 {
-    font-size: 4vw;
+    font-size: 15px;
   }
   
   .system-name p {
-    font-size: 3vw;
+    font-size: 13px;
   }
 
   .logo img {
     height: 6vh;
+  }
+}
+@media (max-width: 400px) {
+  .header{
+    height:70px;
+  }
+  .logo img{
+    height:40px
+  }
+  .system-name h1 {
+    font-size: 11px;
+  }
+  
+  .system-name p {
+    font-size: 10px;
   }
 }
