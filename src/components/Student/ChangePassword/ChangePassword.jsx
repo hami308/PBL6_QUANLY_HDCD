@@ -13,35 +13,28 @@ function ChangePassword() {
     setMessage("");
     setIsSuccess(false);
 
-    // Kiểm tra các trường
     if (!oldPass || !newPass || !reNewPass) {
       setMessage("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    // Giả lập kiểm tra mật khẩu cũ
     if (oldPass !== "123456") {
       setMessage("Mật khẩu cũ không đúng!");
       return;
     }
 
-    // Kiểm tra độ dài
     if (newPass.length < 6 || newPass.length > 12) {
       setMessage("Mật khẩu mới phải dài từ 6 đến 12 ký tự!");
       return;
     }
 
-    // Kiểm tra trùng khớp
     if (newPass !== reNewPass) {
       setMessage("Mật khẩu nhập lại không khớp!");
       return;
     }
 
-    // Thành công
-    setMessage(" Mật khẩu đã được thay đổi thành công (demo).");
+    setMessage("Mật khẩu đã được thay đổi thành công (demo).");
     setIsSuccess(true);
-
-    // Reset form
     setOldPass("");
     setNewPass("");
     setReNewPass("");
@@ -50,7 +43,7 @@ function ChangePassword() {
   return (
     <div className="change-password-background">
       <div className="change-password-container">
-        <h2 className="change-password-note-title">Đổi mật khẩu</h2>
+        <h2 className="change-password-title">Đổi mật khẩu</h2>
         <p className="change-password-note">
           Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.
         </p>
@@ -76,21 +69,16 @@ function ChangePassword() {
             value={reNewPass}
             onChange={(e) => setReNewPass(e.target.value)}
           />
-
-          {/* Hiển thị thông báo */}
           {message && (
-            <div
-              className={`bottom-message ${isSuccess ? "success" : "error"}`}
-            >
+            <div className={`bottom-message ${isSuccess ? "success" : "error"}`}>
               {message}
             </div>
           )}
+          <button type="submit" className="change-password-button">
+            Lưu mật khẩu
+          </button>
 
-          <div className="change-password-button-container">
-            <button type="submit" className="change-password-button">
-              Lưu mật khẩu
-            </button>
-          </div>
+          
         </form>
       </div>
     </div>
