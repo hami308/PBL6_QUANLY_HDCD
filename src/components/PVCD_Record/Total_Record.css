@@ -11,8 +11,9 @@
 }
 @media (max-width: 500px) {
     .score-box {
-        font-size: 8px;
+        font-size: 10px;
     }
+    
 }
 @media (max-width: 100px) {
     .score-box {

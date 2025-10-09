@@ -36,26 +36,56 @@
     color: #F11313;
     margin-right: 15%;
 }
+.activity-joined-container{
+    margin-left: 150px;
+}
 .activity-joined-title {
-    margin-left:75px;
     margin-bottom: 15px;
     margin-top: 50px;
     font-size: 25px;
     color: black;
 }
-@media (max-width: 700px) {
+.custom-table-wrapper{
+    margin: 0;
+}
+@media (max-width: 1200px) {
     .goal-record {
         font-size: 12px;
         margin-right: 10%;
+    }
+    .activity-joined-container{
+        margin-left: 80px;
+        margin-top: -20px;
+    }
+    .activity-joined-title{
+        font-size: 20px;
+    }
+}
+@media (max-width: 748px) {
+    .goal-record {
+        font-size: 14px;
+        margin-right: 10%;
+    }
+    .activity-joined-container{
+        margin-left: 60px;
+        margin-top: -20px;
     }
 }
 @media (max-width: 400px) {
     .cross-bar {
         height: 50px;
-        font-size: 10px;
+        font-size: 12px;
     }
     .goal-record {
-        font-size: 8px;
-        margin-right: 15%;
+        font-size: 10px;
+        margin-right: 10%;
     }
+      .activity-joined-container{
+        margin-left: 15px;
+        margin-top: -20px;
+    }
+    .activity-joined-title{
+        font-size: 15px;
+    }
+
 }

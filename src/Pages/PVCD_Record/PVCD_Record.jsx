@@ -34,6 +34,7 @@ function PVCD_Record() {
         </div>
         <p className="goal-record"> Mỗi năm tối thiểu {goal_record} điểm</p>
         <List_Year_Record/>
+        <div className="activity-joined-container">
         <h3 className="activity-joined-title">Danh sách hoạt động đã tham gia</h3>
         <CustomTable
           columns={["Tên hoạt động", "Ngày tham gia", "Điểm"]}
@@ -49,6 +50,7 @@ function PVCD_Record() {
               </>
           )}
         />
+        </div>
         <Footer />
     </>
   );
