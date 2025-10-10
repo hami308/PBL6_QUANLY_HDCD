@@ -1,0 +1,199 @@
+/* Activity_details.css */
+
+.activity-card-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.activity--details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.activity-title-details {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a365d;
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.activity-title-details:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+}
+
+.join-btn {
+  background: #C3C1DF;
+  color: black;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-radius: 8px;
+}
+
+.join-btn:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.activity-team-details {
+  font-size: 1.2rem;
+  color: #718096;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.activity-image-details {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.activity-content-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-content-details .field {
+  display: flex;
+  align-items: flex-start; /* cho textarea nhiều dòng thẳng top */
+  gap: 1rem;
+}
+
+.activity-content-details p {
+  width: 200px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .activity--details {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .activity-title-details {
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  .join-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .activity-image-details {
+    height: 300px;
+  }
+
+  .activity-content-details .field {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .activity-content-details p {
+    width: 100%;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-card-details {
+    padding: 1rem;
+  }
+
+  .activity-title-details {
+    font-size: 1.4rem;
+  }
+
+  .activity-image-details {
+    height: 200px;
+  }
+}
+/* Activity_details.css */
+.activity-tag-select{
+  width: 80%;
+}
+.activity-tag-select__control {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-height: 45px;
+  font-size: 1rem;
+  padding-left: 4px;
+  box-shadow: none;
+}
+
+.activity-tag-select__control--is-focused {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.activity-tag-select__multi-value {
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.activity-tag-select__multi-value__label {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.activity-tag-select__multi-value__remove {
+  color: #e53e3e;
+}
+
+.activity-tag-select__multi-value__remove:hover {
+  background-color: #feb2b2;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.activity-tag-select__placeholder {
+  color: #718096;
+  font-style: italic;
+}
+
+.activity-tag-select__dropdown-indicator {
+  color: #4a5568;
+}
+
+.activity-tag-select__dropdown-indicator:hover {
+  color: #2b6cb0;
+}
+.activity-span-details {
+    white-space: pre-wrap;  /* giữ xuống dòng */
+    display: inline-block;
+    width: 700px;
+    padding: 4px;
+    min-height: 24px;
+    text-align: justify;
+}
+.other-activities {
+  width: 100%;
+  min-height: calc(100vh - 180px);
+  padding: 0 0; /* Chỉ padding trái phải nhỏ lại */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #222;
+  margin-top: 0;
+}
