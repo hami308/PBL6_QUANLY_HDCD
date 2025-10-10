@@ -157,11 +157,7 @@ function UserAccount_Management() {
               lớp: item.class,
               khoa: item.faculty,
               chọn: <input type="checkbox" key={item.studentId} />,
-              thao_tác: (
-                <button className="px-2 py-1 border rounded">
-                  Xem chi tiết
-                </button>
-              ),
+              thao_tác: <button className="xct">Xem chi tiết</button>,
             }))}
           />
         )}
@@ -182,11 +178,7 @@ function UserAccount_Management() {
               đơn_vị: item.unit,
               chức_vụ: item.position,
               chọn: <input type="checkbox" key={item.teacherId} />,
-              thao_tác: (
-                <button className="px-2 py-1 border rounded">
-                  Xem chi tiết
-                </button>
-              ),
+              thao_tác: <button className="xct">Xem chi tiết</button>,
             }))}
           />
         )}

@@ -19,12 +19,14 @@
 }
 
 .export-btn {
-  background-color: #007bff;
+  background-color: #186f37;
+  font-size: 18px;
   color: white;
   border: none;
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+  margin-right: 50px;
 }
 
 .export-dropdown {
@@ -66,5 +68,11 @@
   font-size: 18px;
   font-weight: 600;
   margin: 15px 0;
-  text-align: left;
+  text-align: center;
+}
+@media (max-width: 768px) {
+  .export-btn {
+    margin-right: 35px;
+    font-size: 15px;
+  }
 }

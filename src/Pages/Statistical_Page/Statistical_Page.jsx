@@ -7,7 +7,6 @@ import InfoCard from "../../components/InfoCard/InfoCard";
 import CustomTable from "../../components/Custom/CustomTable";
 import Footer from "../../components/Footer/Footer";
 import "./Statistical_Page.css";
-
 function Statistical_Page({ activeTab }) {
   const [showExportOptions, setShowExportOptions] = useState(false);
 
@@ -57,6 +56,12 @@ function Statistical_Page({ activeTab }) {
       <Filter_Admin activeTab={activeTab} />
 
       <div className="tabs-content">
+        {/* Thẻ thống kê chung */}
+        <div className="info-cards-container">
+          <InfoCard icon="👥" title="Tổng số sinh viên" value="1912" />
+          <InfoCard icon="📊" title="Điểm trung bình" value="50" />
+          <InfoCard icon="🏆" title="Điểm cao nhất" value="30" />
+        </div>
         {/* Nút xuất file */}
         <div className="export-section">
           <button
@@ -71,18 +76,11 @@ function Statistical_Page({ activeTab }) {
             <div className="export-option">PDF</div>
           </div>
         </div>
-
-        {/* Thẻ thống kê chung */}
-        <div className="info-cards-container">
-          <InfoCard icon="👥" title="Tổng số sinh viên" value="1912" />
-          <InfoCard icon="📊" title="Điểm trung bình" value="50" />
-          <InfoCard icon="🏆" title="Điểm cao nhất" value="30" />
-        </div>
-
         {/* Bảng hiển thị */}
         {activeTab === "Score" && (
           <>
             <div className="tab-title">Bảng điểm chi tiết</div>
+
             <CustomTable
               columns={[
                 "Mã sinh viên",

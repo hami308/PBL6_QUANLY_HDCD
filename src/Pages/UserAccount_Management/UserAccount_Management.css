@@ -2,19 +2,19 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f7f8fa;
+  background: white;
   font-family: "Segoe UI", sans-serif;
 }
 
 /* 🔹 Tabs chính */
 .user-account-management .management-tabs {
-  margin-top: 1rem;
+  margin-top: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  background: #ffffff;
-  padding: 1rem;
+  background: white;
+  padding: 3rem;
   border-bottom: 2px solid #e3e3e3;
   flex-wrap: wrap;
 }
@@ -50,10 +50,7 @@
   margin: 2rem auto;
   width: 90%;
   max-width: 1200px;
-  background: #fff;
   padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
 .user-account-management .tab-title {
@@ -73,21 +70,20 @@
 }
 
 .user-account-management .delete-btn {
-  background-color: #d9534f;
+  background-color: #c3150f;
   color: white;
-  border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: 0.3s ease;
+  font-size: 15px;
 }
 
 .user-account-management .delete-btn:hover {
-  background-color: #c9302c;
+  background-color: #c75f5b;
 }
 
 .user-account-management .delete-dropdown {
@@ -116,8 +112,14 @@
 .user-account-management .delete-option:hover {
   background-color: #f5f5f5;
 }
-
-/* 🔹 Responsive */
+.xct {
+  font-size: 15px;
+}
+.xct:hover {
+  background-color: #2e2c72;
+  color: white;
+}
+/* Responsive */
 @media (max-width: 992px) {
   .user-account-management .management-tabs {
     gap: 0.8rem;
