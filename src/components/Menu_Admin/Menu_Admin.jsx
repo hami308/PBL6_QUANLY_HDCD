@@ -1,6 +1,6 @@
 // Menu_Admin.jsx
 import React, { useState, useRef, useEffect } from "react";
-import "./top_bar.css";
+import "./Menu_Admin.css";
 import { useNavigate } from "react-router-dom";
 
 const Menu_Admin = () => {
@@ -172,7 +172,7 @@ const Menu_Admin = () => {
           }}
         >
           <a href="/manage-accounts">Quản lý thông tin tài khoản</a>
-          <a href="/reset-password">Cấp lại mật khẩu</a>
+          <a href="/update-password">Cấp lại mật khẩu</a>
         </div>
       )}
     </div>
