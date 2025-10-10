@@ -54,4 +54,3 @@ export function Delete_Account() {
     </div>
   );
 }
-export default Delete_Account;

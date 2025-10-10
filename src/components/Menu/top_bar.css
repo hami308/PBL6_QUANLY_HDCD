@@ -22,7 +22,7 @@
 .top-bar a, .top-bar button, .profile-btn {
   color: #fff;
   text-decoration: none;
-  font-size: clamp(13px, 1.2vw, 16px);
+  font-size: clamp(18px, 1.2vw, 16px);
   font-weight: 500;
   background: none;
   border: none;
@@ -59,9 +59,9 @@
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
+  position: fixed;
+  top: 130px;
+  right: 10px;
   background: #fff;
   min-width: 220px;
   box-shadow: 0 4px 16px rgba(44,25,102,0.15);
@@ -69,6 +69,7 @@
   z-index: 100;
   padding: 8px 0;
   animation: fadeIn 0.2s;
+  width:fit-content;
 }
 
 .dropdown-menu a {
@@ -81,7 +82,17 @@
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
 }
-
+.fixed-dropdown {
+  position: fixed !important;
+  transform: translateX(-50%);
+  z-index: 99999;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(44,25,102,0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  background: #fff;
+  animation: fadeIn 0.2s;
+}
 .dropdown-menu a:hover {
   background-color: #f3eaff;
   color: #2C1966;
@@ -140,17 +151,30 @@
 }
 
 @media (max-width: 768px) {
-  .top-bar {
-    padding: 0 2px;
+  .top-bar{
+    justify-content: flex-start; 
+    overflow-x: auto; /* Cho phép cuộn ngang */
+  white-space: nowrap; /* Không xuống dòng */
+  scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
   }
   .header-right {
     gap: 8px;
   }
   .top-bar a, .top-bar button, .profile-btn {
-    font-size: 10px;
-    padding: 2px 4px;
+    font-size: 18px;
     height: 32px;
   }
+}
+@media (max-width: 600px){
+  .top-bar{
+    justify-content: flex-start; 
+    overflow-x: auto; /* Cho phép cuộn ngang */
+  white-space: nowrap; /* Không xuống dòng */
+  scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
+  }
+  .top-bar::-webkit-scrollbar {
+  height: 6px;
+}
 }
 @media (max-width: 400px) {
   .top-bar {
@@ -160,7 +184,20 @@
     gap: 1px;
   }
   .top-bar a, .top-bar button, .profile-btn {
-    font-size: 6px;
+    font-size: 15px;
+    padding: 1px 15px;
+    height: 32px;
+  }
+}
+@media (max-width: 200px) {
+  .top-bar {
+    padding: 0 1px;
+  }
+  .header-right {
+    gap: 1px;
+  }
+  .top-bar a, .top-bar button, .profile-btn {
+    font-size: 15px;
     padding: 1px 2px;
     height: 32px;
   }

@@ -26,6 +26,13 @@
   text-align: center;
   vertical-align: middle;
 }
+.custom-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #e5e7eb; /* cùng màu nền với header */
+  z-index: 2; /* đảm bảo nằm trên các ô dữ liệu */
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05); /* tạo cảm giác nổi */
+}
 .custom-table__row {
   border-bottom: 1px solid #e5e7eb;
   transition: background-color 0.2s ease;
@@ -59,11 +66,44 @@
   color: black;
   min-width: 120px; /* cố định chiều rộng tối thiểu */
   max-width: 160px; /* giới hạn nếu text dài quá */
+  white-space: nowrap;
 }
-
+.custom-table__actions button a {
+  color: black;
+  text-decoration: none;
+}
+.custom-table__actions button a:hover {
+  color: white;
+  text-decoration: none;
+}
 .custom-table__actions button:hover {
   background: #2c1966;
   color: white;
+  a {
+    color: white;
+  }
 }
 @media (max-width: 600px) {
+  .custom-table {
+    font-size: 12px;
+  }
+  .custom-table__head {
+    font-size: 12px;
+  }
+  .custom-table__actions button {
+    font-size: 12px;
+    min-width: 60px;
+  }
+}
+@media (max-width: 400px) {
+  .custom-table {
+    font-size: 10px;
+  }
+  .custom-table__head {
+    font-size: 10px;
+  }
+  .custom-table__actions button {
+    font-size: 10px;
+    min-width: 60px;
+  }
 }

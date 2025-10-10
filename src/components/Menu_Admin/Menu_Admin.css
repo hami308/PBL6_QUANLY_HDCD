@@ -1,79 +1,213 @@
-.menu-container {
-  background-color: #2e2c72;
-  padding: 0 20px;
-  font-family: Arial, sans-serif;
-  font-size: clamp(4px, 1.2vw, 16px); /* font co giãn */
-  max-width: 100%;
+.top-bar {
   width: 100%;
-  box-sizing: border-box;
-  white-space: nowrap; /* Không xuống dòng */
-}
-
-.menu {
-  list-style: none;
+  background: #2c1966;
+  color: #fff;
   display: flex;
-  flex-wrap: nowrap; /* Bắt buộc trên 1 hàng */
-  margin: 0;
-  padding: 0 3vw; /* padding co giãn theo màn hình */
-  justify-content: flex-start; /* căn trái */
-  gap: clamp(5px, 1.5vw, 20px); /* khoảng cách co giãn */
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(44, 25, 102, 0.08);
+  flex-wrap: nowrap; /* Không cho phép xuống dòng */
+  flex-direction: row; /* Luôn 1 dòng */
 }
 
-.menu-item {
+.header-right {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: nowrap; /* Không cho phép xuống dòng */
+}
+
+.top-bar a,
+.top-bar button,
+.profile-btn {
+  color: #fff;
+  text-decoration: none;
+  font-size: clamp(18px, 1.2vw, 16px);
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s, font-size 0.2s, padding 0.2s;
+}
+
+.top-bar a:hover,
+.top-bar button:hover {
+  color: #ffd700;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.profile-dropdown {
   position: relative;
-  padding: clamp(8px, 1vw, 15px) clamp(10px, 1.5vw, 20px);
+}
+
+.profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(14px, 1.2vw, 16px);
+  background: none;
+  border: none;
   color: white;
   cursor: pointer;
-  transition: background 0.3s;
-  flex-shrink: 0; /* Không cho item co lại quá nhỏ */
-}
-
-.menu-item:hover {
-  background-color: #403c99;
-}
-
-.menu-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.menu-link:hover {
-  color: #ffd700;
+  padding: 0 8px;
+  height: 40px;
+  border-radius: 4px;
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #f8f8f8;
-  color: #333;
-  list-style: none;
-  padding: 10px 0;
-  min-width: 50px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  position: fixed;
+  top: 130px;
+  right: 10px;
+  background: #fff;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(44, 25, 102, 0.15);
+  border-radius: 8px;
+  z-index: 100;
+  padding: 8px 0;
+  animation: fadeIn 0.2s;
+  width: fit-content;
 }
 
-.dropdown-menu li {
+.dropdown-menu a {
+  display: block;
+  color: #2c1966;
+  text-decoration: none;
   padding: 10px 20px;
-  cursor: pointer;
+  font-size: 15px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
   white-space: nowrap;
 }
-.dropdown-menu .dropdown-link {
-  display: block; /* giúp chiếm hết chiều rộng li */
-  width: 100%;
-  padding: clamp(6px, 0.6vw, 10px) clamp(10px, 1vw, 14px); /* padding co giãn */
-  font-size: clamp(5px, 1.2vw, 16px);
-  color: black;
-  text-decoration: none;
-  transition: background 0.3s ease;
-  box-sizing: border-box;
+.fixed-dropdown {
+  position: fixed !important;
+  transform: translateX(-50%);
+  z-index: 99999;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(44, 25, 102, 0.15);
+  border-radius: 8px;
+  padding: 8px 0;
+  background: #fff;
+  animation: fadeIn 0.2s;
+}
+.dropdown-menu a:hover {
+  background-color: #f3eaff;
+  color: #2c1966;
 }
 
-.dropdown-menu .dropdown-link:hover {
-  background-color: #f0f0f0;
-  color: black;
+.logout-btn {
+  background: #fff;
+  color: #2c1966;
+  border: none;
+  font-weight: bold;
+  padding: 0 18px;
+  height: 40px;
+  border-radius: 20px;
+  margin-left: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout-btn:hover {
+  background: #ffd700;
+  color: #2c1966;
+}
+
+.icon-link {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .top-bar {
+    padding: 0 15px;
+  }
+
+  .header-right {
+    gap: 16px;
+  }
+
+  .dropdown-menu {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .top-bar {
+    justify-content: flex-start;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    white-space: nowrap; /* Không xuống dòng */
+    scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
+  }
+  .header-right {
+    gap: 8px;
+  }
+  .top-bar a,
+  .top-bar button,
+  .profile-btn {
+    font-size: 18px;
+    height: 32px;
+  }
+}
+@media (max-width: 600px) {
+  .top-bar {
+    justify-content: flex-start;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    white-space: nowrap; /* Không xuống dòng */
+    scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
+  }
+  .top-bar::-webkit-scrollbar {
+    height: 6px;
+  }
+}
+@media (max-width: 400px) {
+  .top-bar {
+    padding: 0 1px;
+  }
+  .header-right {
+    gap: 1px;
+  }
+  .top-bar a,
+  .top-bar button,
+  .profile-btn {
+    font-size: 15px;
+    padding: 1px 15px;
+    height: 32px;
+  }
+}
+@media (max-width: 200px) {
+  .top-bar {
+    padding: 0 1px;
+  }
+  .header-right {
+    gap: 1px;
+  }
+  .top-bar a,
+  .top-bar button,
+  .profile-btn {
+    font-size: 15px;
+    padding: 1px 2px;
+    height: 32px;
+  }
 }

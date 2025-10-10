@@ -1,6 +1,6 @@
 .student-info-background {
-  background: url("../../../assets/images/anhnen.jpg") no-repeat center center
-    fixed;
+  /* background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed; */
+  background-color: white;
   padding: 40px 0;
   height: auto;
   width: 100vw;
@@ -12,6 +12,7 @@
   max-width: 800px;
   margin: 0 auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* border: 2px solid black; */
 }
 
 .title {
@@ -290,7 +291,6 @@ input[readonly],
 
   .title {
     font-size: 9px;
-    margin-bottom: 5px;
   }
 
   .student-info-content {
@@ -303,18 +303,19 @@ input[readonly],
   }
 
   .student-name {
-    font-size: 6px;
+    font-size: 8px;
   }
 
   .info-row label {
     width: 50px;
-    font-size: 6px;
+    font-size: 7px;
+    margin-bottom: 0;
   }
 
   .info-row input,
   .infor-select,
   .infor-date-picker {
-    font-size: 6px;
+    font-size: 7px;
     padding: 1px 3px;
   }
 

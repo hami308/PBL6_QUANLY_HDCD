@@ -1,0 +1,208 @@
+/* Nền */
+.submit-evidence-background {
+  background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 40px 0;
+  width: 100vw;
+  min-height: 500px;
+}
+
+/* Khung trắng giữa */
+.submit-evidence-container {
+  width: 100%;
+  max-width: 700px;
+  background-color: #ffffff;
+  padding: 30px 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  border-radius: 6px;
+}
+
+/* Tiêu đề */
+.submit-evidence-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #000;
+}
+
+/* Form */
+.submit-evidence-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Mỗi dòng: label bên trái, input bên phải */
+.submit-infor {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.submit-infor label {
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+}
+
+.submit-infor input {
+  height: 48px;
+  border: none;
+  background-color: #dcdcdc;
+  padding: 0 16px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  width: 100%;
+  border-radius: 0;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Nút gửi minh chứng */
+.submit-evidence-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  background-color: #2c1966;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  border-radius: 0;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.submit-evidence-button:hover {
+  opacity: 0.9;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+}
+/* Responsive */
+@media (max-width: 1000px) {
+  .submit-evidence-container {
+    padding: 30px 40px;
+    max-width: 700px;
+  }
+
+  .submit-infor label {
+    font-size: 16px;
+  }
+
+  .submit-infor input {
+    height: 42px;
+    font-size: 15px;
+    padding: 0 12px;
+  }
+
+  .submit-evidence-title {
+    font-size: 22px;
+  }
+
+  .submit-evidence-button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+@media (max-width: 700px) {
+  .submit-evidence-container {
+    padding: 20px 30px;
+    max-width: 95%;
+  }
+
+  .submit-infor {
+    grid-template-columns: 150px 1fr; /* Giữ label bên trái nhưng hẹp lại */
+    gap: 10px;
+  }
+
+  .submit-infor label {
+    font-size: 15px;
+  }
+
+  .submit-infor input {
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .submit-evidence-button {
+    font-size: 14px;
+    padding: 8px 18px;
+  }
+}
+@media (max-width: 500px) {
+  .submit-evidence-container {
+    padding: 16px 20px;
+  }
+
+  .submit-infor {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .submit-infor label {
+    font-size: 14px;
+  }
+
+  .submit-infor input {
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .submit-evidence-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .submit-evidence-button {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}
+@media (max-width: 200px) {
+  .submit-evidence-container {
+    padding: 8px 10px;
+    max-width: 100%;
+    box-shadow: none;
+  }
+
+  .submit-evidence-title {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .submit-infor {
+    grid-template-columns: 60px 1fr; /* Giữ label bên trái nhưng rất hẹp */
+    gap: 4px;
+  }
+
+  .submit-infor label {
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .submit-infor input {
+    height: 24px;
+    font-size: 10px;
+    padding: 0 6px;
+  }
+
+  .submit-evidence-button {
+    font-size: 10px;
+    padding: 4px 8px;
+    margin-top: 10px;
+  }
+
+  .error-message {
+    font-size: 10px;
+  }
+}

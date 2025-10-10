@@ -87,10 +87,7 @@ const Menu_Admin = () => {
           className="profile-dropdown"
           onMouseEnter={(e) => {
             if (!isTouchDevice())
-              handleOpenMenu(
-                "xtk",
-                e.currentTarget.querySelector(".profile-btn")
-              );
+              handleOpenMenu("xtk", e.currentTarget.querySelector(".profile-btn"));
           }}
           onMouseLeave={() => {
             if (!isTouchDevice()) handleCloseMenu();
@@ -111,10 +108,7 @@ const Menu_Admin = () => {
           className="profile-dropdown"
           onMouseEnter={(e) => {
             if (!isTouchDevice())
-              handleOpenMenu(
-                "qltk",
-                e.currentTarget.querySelector(".profile-btn")
-              );
+              handleOpenMenu("qltk", e.currentTarget.querySelector(".profile-btn"));
           }}
           onMouseLeave={() => {
             if (!isTouchDevice()) handleCloseMenu();
