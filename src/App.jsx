@@ -7,6 +7,9 @@ import DeleteAccount_Page from "./pages/DeleteAccount_Page/DeleteAccount_Page";
 import StudentInfor_Page from "./pages/StudentInfor_Page/StudentInfor_Page";
 import ChangePassword_Page from "./Pages/ChangePassword_Page/ChangePassword_Page";
 import TeacherInfor_Page from "./pages/TeacherInfor_Page/TeacherInfor_Page";
+import UpdatePassword_Page from "./pages/UpdatePassword_Page/UpdatePassword_Page";
+import UserAccount_Management from "./pages/UserAccount_Management/UserAccount_Management";
+import Statistical from "./pages/Statistical_Page/Statistical_Page";
 function App() {
   return (
     <LoginProvider>
@@ -20,6 +23,19 @@ function App() {
         <Route path="/student-infor" element={<StudentInfor_Page />} />
         <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
         <Route path="/change-password" element={<ChangePassword_Page />} />
+        <Route path="/update-password" element={<UpdatePassword_Page />} />
+        <Route
+          path="/useraccount-management"
+          element={<UserAccount_Management />}
+        />
+        <Route
+          path="/statistical/Score"
+          element={<Statistical activeTab="Score" />}
+        />
+        <Route
+          path="/statistical/Activity"
+          element={<Statistical activeTab="Activity" />}
+        />
       </Routes>
     </LoginProvider>
   );

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "./Menu_Admin.css";
 import { Link } from "react-router-dom";
+import "./Menu_Admin.css";
 
 const Menu_Admin = () => {
   const [dropdownOpen, setDropdownOpen] = useState(null);
 
-  const handleMouseEnter = (menu1) => setDropdownOpen(menu1);
+  const handleMouseEnter = (menu) => setDropdownOpen(menu);
   const handleMouseLeave = () => setDropdownOpen(null);
 
   return (
@@ -16,6 +16,7 @@ const Menu_Admin = () => {
             Trang chủ
           </Link>
         </li>
+
         <li className="menu-item">
           <Link to="/create-account" className="menu-link">
             Tạo tài khoản
@@ -33,11 +34,19 @@ const Menu_Admin = () => {
           onMouseEnter={() => handleMouseEnter("thongke")}
           onMouseLeave={handleMouseLeave}
         >
-          Xem thống kê
+          <span className="menu-link">Xem thống kê</span>
           {dropdownOpen === "thongke" && (
             <ul className="dropdown-menu">
-              <li>Xem thống kê điểm PVCD</li>
-              <li>Xem thống kê các hoạt động</li>
+              <li>
+                <Link to="/statistical/Score" className="dropdown-link">
+                  Xem thống kê điểm PVCD
+                </Link>
+              </li>
+              <li>
+                <Link to="/statistical/Activity" className="dropdown-link">
+                  Xem thống kê các hoạt động
+                </Link>
+              </li>
             </ul>
           )}
         </li>
@@ -47,16 +56,26 @@ const Menu_Admin = () => {
           onMouseEnter={() => handleMouseEnter("quanly")}
           onMouseLeave={handleMouseLeave}
         >
-          Quản lý tài khoản
+          <span className="menu-link">Quản lý tài khoản</span>
           {dropdownOpen === "quanly" && (
             <ul className="dropdown-menu">
-              <li>Quản lý thông tin</li>
-              <li>Cấp lại mật khẩu</li>
+              <li>
+                <Link to="/useraccount-management" className="dropdown-link">
+                  Quản lý thông tin
+                </Link>
+              </li>
+              <li>
+                <Link to="/update-password" className="dropdown-link">
+                  Cấp lại mật khẩu
+                </Link>
+              </li>
             </ul>
           )}
         </li>
 
-        <li className="menu-item">Thoát</li>
+        <li className="menu-item menu-exit">
+          <span className="menu-link">Thoát</span>
+        </li>
       </ul>
     </nav>
   );
