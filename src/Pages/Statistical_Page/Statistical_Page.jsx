@@ -1,7 +1,7 @@
 // src/pages/Statistical_Page/Statistical_Page.jsx
 import React, { useState } from "react";
 import Header from "../../components/Header/Header";
-import Menu_Admin from "../../components/Menu_Admin/Menu_Admin";
+import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
 import Filter_Admin from "../../components/Filter_Admin/Filter_Admin";
 import InfoCard from "../../components/InfoCard/InfoCard";
 import CustomTable from "../../components/Custom/CustomTable";
@@ -10,7 +10,7 @@ import "./Statistical_Page.css";
 function Statistical_Page({ activeTab }) {
   const [showExportOptions, setShowExportOptions] = useState(false);
 
-  // 📊 Dữ liệu mẫu cho điểm sinh viên
+  //  Dữ liệu mẫu cho điểm sinh viên
   const students = [
     {
       studentId: "SV001",
@@ -30,7 +30,7 @@ function Statistical_Page({ activeTab }) {
     },
   ];
 
-  // 📊 Dữ liệu mẫu cho hoạt động
+  // Dữ liệu mẫu cho hoạt động
   const activities = [
     {
       id: "HD001",
@@ -38,6 +38,34 @@ function Statistical_Page({ activeTab }) {
       date: "20/03/2024",
       org: "Khoa CNTT",
       status: "Đã duyệt",
+    },
+    {
+      id: "HD002",
+      name: "Ngày hội việc làm",
+      date: "05/06/2024",
+      org: "Phòng CTSV",
+      status: "Chờ duyệt",
+    },
+    {
+      id: "HD002",
+      name: "Ngày hội việc làm",
+      date: "05/06/2024",
+      org: "Phòng CTSV",
+      status: "Chờ duyệt",
+    },
+    {
+      id: "HD002",
+      name: "Ngày hội việc làm",
+      date: "05/06/2024",
+      org: "Phòng CTSV",
+      status: "Chờ duyệt",
+    },
+    {
+      id: "HD002",
+      name: "Ngày hội việc làm",
+      date: "05/06/2024",
+      org: "Phòng CTSV",
+      status: "Chờ duyệt",
     },
     {
       id: "HD002",
@@ -80,7 +108,6 @@ function Statistical_Page({ activeTab }) {
         {activeTab === "Score" && (
           <>
             <div className="tab-title">Bảng điểm chi tiết</div>
-
             <CustomTable
               columns={[
                 "Mã sinh viên",

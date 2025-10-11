@@ -151,8 +151,8 @@ const Menu_Admin = () => {
             if (!isTouchDevice()) handleCloseMenu();
           }}
         >
-          <a href="/statistic-student">Xem thống kê điểm PVCD</a>
-          <a href="/statistic-activity">Xem thống kê các hoạt động</a>
+          <a href="/statistical/Score">Xem thống kê điểm PVCD</a>
+          <a href="/statistical/Activity">Xem thống kê các hoạt động</a>
         </div>
       )}
 
@@ -171,7 +171,7 @@ const Menu_Admin = () => {
             if (!isTouchDevice()) handleCloseMenu();
           }}
         >
-          <a href="/manage-accounts">Quản lý thông tin tài khoản</a>
+          <a href="/useraccount-management">Quản lý thông tin tài khoản</a>
           <a href="/update-password">Cấp lại mật khẩu</a>
         </div>
       )}

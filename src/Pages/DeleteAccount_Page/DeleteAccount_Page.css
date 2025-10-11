@@ -27,3 +27,8 @@
   font-weight: bold;
   margin: 0;
 }
+@media (max-width: 480px) {
+  .DeleteAccountPage .thanhngang {
+    padding: 10px 0;
+  }
+}

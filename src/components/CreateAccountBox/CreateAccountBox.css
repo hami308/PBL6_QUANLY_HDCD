@@ -70,8 +70,8 @@
   border-radius: 6px; /* ô vuông bo góc */
   cursor: pointer;
   transition: 0.3s;
-  height: clamp(35px, 6vw, 45px);
-  width: clamp(80px, 20vw, 150px); /* hình chữ nhật, co dãn theo màn hình */
+  height: clamp(35px, 4vw, 45px);
+  width: clamp(80px, 1vw, 150px); /* hình chữ nhật, co dãn theo màn hình */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,4 +102,6 @@
   color: red;
   font-size: clamp(11px, 2vw, 13px);
   margin-top: clamp(3px, 0.5vw, 5px);
+}
+@media (max-width: 780px) {
 }
