@@ -2,14 +2,13 @@
 
 /* Background toàn trang */
 .teacher-info-background {
-  background-image: url("../../assets/images/infor_pic.jpg");
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
   background-size: cover;
   padding: 40px 0;
   width: 100vw;
-  min-height: 100vh;
+  min-height: auto;
   box-sizing: border-box;
   display: flex;
   justify-content: center;

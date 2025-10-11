@@ -5,10 +5,11 @@ import Footer from "../../components/Footer/Footer";
 import CustomTable from "../../components/Custom/CustomTable";
 import React from "react";
 import "./UserAccount_Management.css";
+import { useNavigate } from "react-router-dom";
 function UserAccount_Management() {
   const [activeTab, setActiveTab] = React.useState("student");
   const [showDeleteOptions, setShowDeleteOptions] = React.useState(false);
-
+  const navigate = useNavigate();
   const students = [
     {
       studentId: "102200001",
@@ -157,7 +158,14 @@ function UserAccount_Management() {
               lớp: item.class,
               khoa: item.faculty,
               chọn: <input type="checkbox" key={item.studentId} />,
-              thao_tác: <button className="xct">Xem chi tiết</button>,
+              thao_tác: (
+                <button
+                  className="xct"
+                  onClick={() => navigate("/student-infor")}
+                >
+                  Xem chi tiết
+                </button>
+              ),
             }))}
           />
         )}
@@ -178,7 +186,14 @@ function UserAccount_Management() {
               đơn_vị: item.unit,
               chức_vụ: item.position,
               chọn: <input type="checkbox" key={item.teacherId} />,
-              thao_tác: <button className="xct">Xem chi tiết</button>,
+              thao_tác: (
+                <button
+                  className="xct"
+                  onClick={() => navigate("/teacher-infor")}
+                >
+                  Xem chi tiết
+                </button>
+              ),
             }))}
           />
         )}
