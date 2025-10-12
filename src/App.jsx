@@ -11,6 +11,8 @@ import UpdatePassword_Page from "./pages/UpdatePassword_Page/UpdatePassword_Page
 import UserAccount_Management from "./pages/UserAccount_Management/UserAccount_Management";
 import Statistical from "./pages/Statistical_Page/Statistical_Page";
 import ManageActivity_Student_Page from "../src/Pages/ManageActivity_Student_Page/ManageActivity_Student_Page";
+import SubmitEvidence_Page from "../src/Pages/SubmitEvidence_Page/SubmitEvidence_Page";
+import Approved_Evidence_Page from "../src/Pages/Approved_Evidence_Page/Approved_Evidence_Page";
 function App() {
   return (
     <LoginProvider>
@@ -38,6 +40,8 @@ function App() {
           element={<Statistical activeTab="Activity" />}
         />
         <Route path="/manage-activities-student" element={<ManageActivity_Student_Page/>}/>
+        <Route path="/submit-evidence" element={<SubmitEvidence_Page/>}/>
+        <Route path="/approved-evidence" element={<Approved_Evidence_Page/>}/>
       </Routes>
       
     </LoginProvider>
