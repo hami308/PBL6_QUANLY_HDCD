@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 
 function CustomSelect({ options, value, onChange, className, readOnly = false }) {
   return (
-    <div className="tag-select" style={{ width: "100%" }}>
+    <div className="tag-select" style={{ width: "100%" ,flex:"1"}}>
       <Select
         isMulti
         options={options}
