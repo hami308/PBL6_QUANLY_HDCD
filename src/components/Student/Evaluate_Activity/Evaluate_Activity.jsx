@@ -15,10 +15,10 @@ function Evaluate_Activity({ onClose }) {
   };
 
   return (
-    <div className="review-container">
-      <div className="review-card">
-        <h2 className="review-title">Đánh giá hoạt động</h2>
-        <div className="review-subtitle">
+    <div className="evaluate-container">
+      <div className="evaluate-card">
+        <h2 className="evaluate-title">Đánh giá hoạt động</h2>
+        <div className="evaluate-subtitle">
             <span className="material-symbols-outlined">edit_square</span>
             <h3>Viết Đánh Giá</h3>
         </div>
@@ -55,9 +55,9 @@ function Evaluate_Activity({ onClose }) {
           />
         </div>
 
-        <div className="review-buttons">
-          <button className="cancel-btn" onClick={onClose}>✕ Hủy bỏ</button>
-          <button className="submit-btn" onClick={handleSubmit}>
+        <div className="evaluate-buttons">
+          <button className="cancel-evaluate-btn" onClick={onClose}>✕ Hủy bỏ</button>
+          <button className="submit-evaluate-btn" onClick={handleSubmit}>
             <span className="material-symbols-outlined">send</span>
              Gửi đánh giá
           </button>
