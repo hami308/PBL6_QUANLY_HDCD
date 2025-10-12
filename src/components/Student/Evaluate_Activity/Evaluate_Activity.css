@@ -126,7 +126,6 @@
   align-items: center;               /* căn giữa theo chiều dọc */
   justify-content: center;           /* căn giữa theo chiều ngang */
   gap: 8px;                          /* khoảng cách giữa icon và chữ */
-  background: #4f46e5;
   color: white;
   border: none;
   border-radius: 8px;
