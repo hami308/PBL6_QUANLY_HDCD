@@ -1,4 +1,4 @@
-
+import "./CustomSpan.css";
  function CustomSpan({ value, ismodify = true, className}) {
     return (
       <span

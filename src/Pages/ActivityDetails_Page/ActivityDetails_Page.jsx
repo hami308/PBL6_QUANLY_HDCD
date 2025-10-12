@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import { activity_list } from "../../data/activity_list.js"
 // import { useParams } from "react-router-dom";
-import Select from "react-select";
+// import Select from "react-select";
 import {Faculty} from "../../data/Faculty.js";
 // import { course } from "../../data/course.js";
 // import React, { useState } from "react";
@@ -16,7 +16,7 @@ import Activity_Details from "../../components/Activity/Activity_Details.jsx"
 function Activity_details() {
   // get role
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const ismodify = (user?.role === "org");  // nếu user = org thì cho phép sửa
+  // const ismodify = (user?.role === "org");  // nếu user = org thì cho phép sửa
 
 //   const { id } = useParams();
   const activity = activity_list.find(act => act.id === "1");
@@ -62,7 +62,7 @@ function Activity_details() {
       <Header />
       {!user && <Menu_guest />}
       {user?.role === "student" && <Menu_student />}
-      <Activity_Details activity_details={activity} ismodify={ismodify}/>
+      <Activity_Details activity_details={activity} />
       {/* nếu chưa đăng nhập mới hiển thị */}
       {!user && (
         <>

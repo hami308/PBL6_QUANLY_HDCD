@@ -1,0 +1,15 @@
+.activity-Span-details {
+  display: inline;          /* Giúp nội dung liền dòng với label */
+  white-space: pre-wrap;    /* Giữ xuống dòng đúng trong nội dung */
+  word-break: break-word;   /* Ngắt từ nếu quá dài */
+  line-height: 1.6;
+  padding: 0;               /* Không cần padding vì inline không hỗ trợ đẹp */
+}
+
+.activity-Span-details[contenteditable="true"] {
+  display: inline-block;    /* Khi chỉnh sửa thì cần block để thấy khung */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 4px 6px;
+}
