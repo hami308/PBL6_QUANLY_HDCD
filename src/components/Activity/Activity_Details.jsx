@@ -75,12 +75,29 @@ function Activity_Details({ activity_details,ismodify=false}) {
       <div className="activity-content-details">
         <div className={`activity-description-wrapper ${showFullDescription ? 'expanded' : ''}`}>
           <strong>Mô tả:</strong>
-          <p className={`activity-description ${showFullDescription ? 'expanded' : ''}`}>
-            {showFullDescription
-              ? activity_details.description
-              : `${activity_details.description.slice(0, 300)}... `}
-            {!showFullDescription && (
-              <span className="see-more-inline" onClick={() => setShowFullDescription(true)}>Xem thêm</span>
+         <p className={`activity-description ${showFullDescription ? 'expanded' : ''}`}>
+            {activity_details.description.length <= 300 ? (
+              activity_details.description
+            ) : showFullDescription ? (
+              <>
+                {activity_details.description}
+                <button
+                  className="collapse-btn"
+                  onClick={() => setShowFullDescription(false)}
+                >
+                  Thu gọn
+                </button>
+              </>
+            ) : (
+              <>
+                {activity_details.description.slice(0, 300)}...{" "}
+                <span
+                  className="see-more-inline"
+                  onClick={() => setShowFullDescription(true)}
+                >
+                  Xem thêm
+                </span>
+              </>
             )}
           </p>
           {showFullDescription && (

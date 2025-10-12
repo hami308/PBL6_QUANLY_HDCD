@@ -31,8 +31,8 @@ export const activity_list = [
     time_org_end: "07:30 2035-10-12",
     location: "Bãi biển C, TP. Đà Nẵng",
     field: "Môi trường",
-    requirement_by_course: "Sinh viên năm 1-4",
-    requirement_by_faculty: "Khoa Môi trường",
+    requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -48,8 +48,8 @@ export const activity_list = [
     time_org_end: "18:00 2035-9-15",
     location: "Nhà thiếu nhi, Quận 1, TP.HCM",
     field: "Văn hóa",
-    requirement_by_course: "Tất cả sinh viên",
-    requirement_by_faculty: "Tất cả khoa",
+     requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -65,8 +65,8 @@ export const activity_list = [
     time_org_end: "08:00 2035-11-1",
     location: "Khu rừng phía Bắc thành phố",
     field: "Môi trường",
-    requirement_by_course: "Sinh viên các năm",
-    requirement_by_faculty: "Khoa CNTT",
+    requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -82,8 +82,8 @@ export const activity_list = [
     time_org_end: "09:30 2035-12-5",
     location: "Xã vùng cao, tỉnh Lâm Đồng",
     field: "Xã hội",
-    requirement_by_course: "Sinh viên năm 1-3",
-    requirement_by_faculty: "Tất cả khoa",
+      requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -99,8 +99,8 @@ export const activity_list = [
     time_org_end: "10:00 2036-1-10",
     location: "Thư viện trường",
     field: "Văn hóa, Giáo dục",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+     requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -116,8 +116,8 @@ export const activity_list = [
     time_org_end: "08:30 2036-2-20",
     location: "Trung tâm Y tế quận 3",
     field: "Y tế",
-    requirement_by_course: "Sinh viên y khoa",
-    requirement_by_faculty: "Khoa Y",
+      requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -133,8 +133,8 @@ export const activity_list = [
     time_org_end: "07:00 2036-3-10",
     location: "Sân vận động trường",
     field: "Thể thao",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+    requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -150,8 +150,8 @@ export const activity_list = [
     time_org_end: "16:00 2036-4-25",
     location: "Hội trường lớn",
     field: "Xã hội",
-    requirement_by_course: "Sinh viên năm 1-4",
-    requirement_by_faculty: "Tất cả khoa",
+      requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -167,8 +167,8 @@ export const activity_list = [
     time_org_end: "14:00 2036-11-20",
     location: "Hội trường trường",
     field: "Văn hóa",
-    requirement_by_course: "Tất cả sinh viên",
-    requirement_by_faculty: "Tất cả khoa",
+    requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -184,8 +184,8 @@ export const activity_list = [
     time_org_end: "09:00 2036-5-5",
     location: "Hội trường A",
     field: "Việc làm",
-    requirement_by_course: "Sinh viên năm cuối",
-    requirement_by_faculty: "Tất cả khoa",
+     requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -201,8 +201,8 @@ export const activity_list = [
     time_org_end: "08:30 2036-6-12",
     location: "Phòng họp Khoa Kinh tế",
     field: "Khởi nghiệp",
-    requirement_by_course: "Sinh viên kinh tế",
-    requirement_by_faculty: "Khoa Kinh tế",
+     requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -218,8 +218,8 @@ export const activity_list = [
     time_org_end: "09:00 2036-7-18",
     location: "Phòng thí nghiệm trung tâm",
     field: "Giáo dục",
-    requirement_by_course: "Sinh viên các năm",
-    requirement_by_faculty: "Tất cả khoa",
+     requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -235,8 +235,8 @@ export const activity_list = [
     time_org_end: "06:30 2036-8-1",
     location: "Xã vùng cao, tỉnh Lào Cai",
     field: "Xã hội",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+    requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -252,8 +252,8 @@ export const activity_list = [
     time_org_end: "17:00 2036-9-22",
     location: "Sân trường Đại học X",
     field: "Văn hóa",
-    requirement_by_course: "Tất cả sinh viên",
-    requirement_by_faculty: "Tất cả khoa",
+  requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -269,8 +269,8 @@ export const activity_list = [
     time_org_end: "07:00 2036-7-10",
     location: "Xã miền núi, tỉnh Quảng Nam",
     field: "Xã hội",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+   requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -286,8 +286,8 @@ export const activity_list = [
     time_org_end: "09:00 2036-1-28",
     location: "Phường An Lạc, TP.HCM",
     field: "Xã hội",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+  requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -303,8 +303,8 @@ export const activity_list = [
     time_org_end: "08:30 2036-3-12",
     location: "Hội trường Khoa Kinh tế",
     field: "Giáo dục",
-    requirement_by_course: "Sinh viên kinh tế, kỹ thuật",
-    requirement_by_faculty: "Tất cả khoa",
+  requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -320,8 +320,8 @@ export const activity_list = [
     time_org_end: "14:00 2036-4-15",
     location: "Phòng hội thảo trung tâm",
     field: "Giáo dục",
-    requirement_by_course: "Sinh viên tất cả năm học",
-    requirement_by_faculty: "Tất cả khoa",
+  requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   },
   {
@@ -337,8 +337,8 @@ export const activity_list = [
     time_org_end: "09:00 2036-4-21",
     location: "Thư viện trung tâm",
     field: "Văn hóa",
-    requirement_by_course: "Tất cả sinh viên",
-    requirement_by_faculty: "Tất cả khoa",
+  requirement_by_course: "1,2,3,4",
+    requirement_by_faculty: "2",
     image: pic_1
   }
 ];

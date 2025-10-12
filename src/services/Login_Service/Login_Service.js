@@ -4,7 +4,8 @@
 const users = [
   { username: "102220115", password: "tramy090804", name: "Trà My", role: "student" },
   { username: "102220116", password: "password123", name: "Nguyễn An", role: "student" },
-  { username: "102220117", password: "abc123", name: "Lê Bình", role: "student" }
+  { username: "102220117", password: "abc123", name: "Lê Bình", role: "student" },
+  { username: "102220114",password:"123456",name:"ABC", role:"org"},
 ];
 
 export function login(username, password) {

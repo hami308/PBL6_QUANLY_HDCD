@@ -1,0 +1,49 @@
+.cross-bar{
+    margin-top: 0;
+    height:50px;
+}
+.cross-bar p{
+    margin-top: 0;
+}
+.other-activities {
+  width: 100%;
+  min-height: calc(100vh - 180px);
+  padding: 0 0; /* Chỉ padding trái phải nhỏ lại */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0;
+}
+.manage-infot-activity{
+  width:80%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  padding-right: 100px;
+}
+.button-update-infor-activity,
+.button-cancel-activity {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s;
+}
+
+.button-update-infor-activity {
+  background-color: #4CAF50; /* màu xanh lá */
+}
+
+.button-update-infor-activity:hover {
+  background-color: #45a049;
+}
+
+.button-cancel-activity {
+  background-color: #f08080; /* màu hồng đỏ */
+}
+
+.button-cancel-activity:hover {
+  background-color: #e57373;
+}

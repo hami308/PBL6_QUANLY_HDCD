@@ -24,7 +24,7 @@ function App() {
           <Route path="/evidence-details" element={<EvidenceDetail_Page />} />
           <Route path="/manage-activities-student" element={<ManageActivity_Student_Page />}/>
           <Route path="/approved-evidence" element={<Approved_Evidence_Page/>}/>
-          <Route path="/activity-details" element={<ActivityDetails_Page/>}/>
+          <Route path="/activity-details/:id" element={<ActivityDetails_Page/>}/>
         </Routes>
     </LoginProvider>
   );
