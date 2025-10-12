@@ -38,7 +38,7 @@ function Evaluate_Activity({ onClose }) {
                   onMouseEnter={() => setHover(ratingValue)}
                   onMouseLeave={() => setHover(rating)}
                 >
-                  <span class="material-symbols-outlined">star</span>
+                  <span className="material-symbols-outlined">star</span>
                 </span>
               );
             })}
@@ -58,7 +58,7 @@ function Evaluate_Activity({ onClose }) {
         <div className="review-buttons">
           <button className="cancel-btn" onClick={onClose}>✕ Hủy bỏ</button>
           <button className="submit-btn" onClick={handleSubmit}>
-            <span class="material-symbols-outlined">send</span>
+            <span className="material-symbols-outlined">send</span>
              Gửi đánh giá
           </button>
         </div>

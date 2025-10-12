@@ -10,6 +10,7 @@ import TeacherInfor_Page from "./pages/TeacherInfor_Page/TeacherInfor_Page";
 import UpdatePassword_Page from "./pages/UpdatePassword_Page/UpdatePassword_Page";
 import UserAccount_Management from "./pages/UserAccount_Management/UserAccount_Management";
 import Statistical from "./pages/Statistical_Page/Statistical_Page";
+import ManageActivity_Student_Page from "../src/Pages/ManageActivity_Student_Page/ManageActivity_Student_Page";
 function App() {
   return (
     <LoginProvider>
@@ -36,7 +37,9 @@ function App() {
           path="/statistical/Activity"
           element={<Statistical activeTab="Activity" />}
         />
+        <Route path="/manage-activities-student" element={<ManageActivity_Student_Page/>}/>
       </Routes>
+      
     </LoginProvider>
   );
 }
