@@ -1,0 +1,88 @@
+.see-evaluate-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 10px;
+}
+
+.see-evaluate-card {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 20px 25px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid black;
+}
+
+.see-evaluate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  margin-top:-10px;
+}
+
+.see-evaluate-tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-name {
+  background-color: #198754;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.activity-date {
+  background-color: #f8d7da;
+  color: #b02a37;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.see-evaluate-stars span {
+  color: #ffc107;
+  font-size: 20px;
+}
+.star {
+  font-size: 20px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star.active {
+  color: #ffc107; /* Sao vàng */
+}
+
+.star.inactive {
+  color: #e4e5e9; /* Sao xám nhạt */
+}
+
+/* Hiệu ứng hover nhẹ nếu muốn */
+.see-evaluate-stars:hover .star {
+  transform: scale(1.1);
+}
+.see-evaluate-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 10px 0;
+}
+
+.see-evaluate-comment {
+  color: #555;
+  line-height: 1.6;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+.see-evaluate-date {
+  color: #777;
+  font-size: 13px;
+}
