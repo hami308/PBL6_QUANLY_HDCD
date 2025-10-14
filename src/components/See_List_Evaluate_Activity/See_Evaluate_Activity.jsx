@@ -1,7 +1,10 @@
 import React from "react";
 import "./See_Evaluate_Activity.css";
-
+import {useState} from "react";
 export default function See_Evaluate_Activity(evaluate_activity_details) {
+
+   const [expanded, setExpanded] = useState(false);
+  const toggleExpanded = () => setExpanded(!expanded);
   return (
     <div className="see-evaluate-container">
       <div className="see-evaluate-card">
@@ -35,9 +38,19 @@ export default function See_Evaluate_Activity(evaluate_activity_details) {
           {evaluate_activity_details.name_student}
         </h3>
 
-        <p className="see-evaluate-comment">
+        <p
+          className={`see-evaluate-comment ${
+            expanded ? "expanded" : "collapsed"
+          }`}
+        >
           {evaluate_activity_details.content}
         </p>
+
+        {evaluate_activity_details.content.length > 150 && (
+          <span className="toggle-btn" onClick={toggleExpanded}>
+            {expanded ? "Thu gọn" : "Xem thêm"}
+          </span>
+        )}
 
         <div className="see-evaluate-date">
           Đăng ngày: {evaluate_activity_details.date}

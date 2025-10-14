@@ -47,3 +47,17 @@
 .button-cancel-activity:hover {
   background-color: #e57373;
 }
+.other-activity-content{
+  display: flex;
+  justify-items: center;
+  border-bottom: 1px solid black;
+  width:50%;
+  margin:10px auto;
+}
+.other-activity-content p{
+  display: flex;
+  justify-items: center;
+  margin: 10px auto;
+  font-size: 20px;
+  font-weight: bold;
+}

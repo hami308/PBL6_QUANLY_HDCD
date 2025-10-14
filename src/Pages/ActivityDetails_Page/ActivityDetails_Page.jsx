@@ -8,7 +8,7 @@ import {Faculty} from "../../data/Faculty.js";
 import ActivityList from "../../components/Activity/Activity_list.jsx";
 import Activity_Details from "../../components/Activity/Activity_Details.jsx"
 import { useParams } from "react-router-dom";
-
+import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activity/See_List_Evaluate_Activity.jsx";
 function Activity_details() {
   // get role
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -22,10 +22,21 @@ function Activity_details() {
       {!user && <Menu_guest />}
       {user?.role === "student" && <Menu_student />}
       <Activity_Details activity_details={activity} ismodify={ismodify} />
-      {/* nếu chưa đăng nhập mới hiển thị */}
+     
+      {/* nếu chưa đăng nhập mới hiển thị */}  
+      
+      {user?.role === "org" && (
+        <div className="manage-infot-activity">
+          <button className="button-update-infor-activity">Cập nhật</button>
+          <button className="button-cancel-activity">Hủy hoạt động</button>
+        </div>
+      )}
+       {activity.status==="Đã tổ chức" &&(
+        <See_List_Evaluate_Activity/>
+      )}
       {!user && (
         <>
-          <div className="cross-bar">
+          <div className="other-activity-content">
             <p>Các hoạt động khác</p>
           </div>
           <div className="other-activities">
@@ -33,13 +44,6 @@ function Activity_details() {
           </div>
         </>
       )}
-      {user?.role === "org" && (
-        <div className="manage-infot-activity">
-          <button className="button-update-infor-activity">Cập nhật</button>
-          <button className="button-cancel-activity">Hủy hoạt động</button>
-        </div>
-      )}
-
       
       <Footer />
     </>

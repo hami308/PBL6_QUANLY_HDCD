@@ -16,7 +16,8 @@ export const activity_list = [
     field: "Y tế",
     requirement_by_course: "1,2",
     requirement_by_faculty: "1",
-    image: pic_1
+    image: pic_1,
+    status: "Đã tổ chức",
   },
   {
     id: "2",
@@ -320,7 +321,7 @@ export const activity_list = [
     time_org_end: "14:00 2036-4-15",
     location: "Phòng hội thảo trung tâm",
     field: "Giáo dục",
-  requirement_by_course: "1,2,3,4",
+    requirement_by_course: "1,2,3,4",
     requirement_by_faculty: "2",
     image: pic_1
   },
@@ -337,7 +338,7 @@ export const activity_list = [
     time_org_end: "09:00 2036-4-21",
     location: "Thư viện trung tâm",
     field: "Văn hóa",
-  requirement_by_course: "1,2,3,4",
+    requirement_by_course: "1,2,3,4",
     requirement_by_faculty: "2",
     image: pic_1
   }

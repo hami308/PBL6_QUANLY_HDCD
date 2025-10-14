@@ -2,12 +2,12 @@ import React from "react";
 import See_Evaluate_Activity from "./See_Evaluate_Activity"; 
 import "./See_List_Evaluate_Activity.css";
 
-export default function See_List_Evaluate_Activity() {
-  const reviews = [
+export default function See_List_Evaluate_Activity(reviews) {
+   reviews = [
     {
       name_student: "Nguyễn Văn A",
       content:
-        "Hoạt động rất ý nghĩa, được các anh chị tình nguyện viên hướng dẫn rất tận tình. Hi vọng sẽ có nhiều chương trình như thế này hơn nữa.",
+        "Hoạt động rất ý nghĩa, được các anh chị tình nguyện viên hướng dẫn rất tận tình. Hi vọng sẽ có nhiều chương trình như thế này hơn nữa.Hoạt động rất ý nghĩa, được các anh chị tình nguyện viên hướng dẫn rất tận tình. Hi vọng sẽ có nhiều chương trình như thế này hơn nữa.Hoạt động rất ý nghĩa, được các anh chị tình nguyện viên hướng dẫn rất tận tình. Hi vọng sẽ có nhiều chương trình như thế này hơn nữa.Hoạt động rất ý nghĩa, được các anh chị tình nguyện viên hướng dẫn rất tận tình. Hi vọng sẽ có nhiều chương trình như thế này hơn nữa.",
       date: "20/5/2023",
       name_activity: "Hiến máu nhân đạo",
       time_org_start: "8:00 19/5/2023",
@@ -28,14 +28,16 @@ export default function See_List_Evaluate_Activity() {
 
   return (
     <div className="review-section">
-      <h3 className="review-section-title">Nhận xét, đánh giá từ sinh viên</h3>
-
-      {reviews.map((item, index) => (
-        <See_Evaluate_Activity
-          key={index}
-          {...item}
-        />
-      ))}
+      <div className="review-section-title"> 
+        <h3 >Nhận xét, đánh giá từ sinh viên</h3>
+      </div>
+      {reviews.length === 0 ? (
+        <p className="no-reviews">Chưa có sinh viên nào đánh giá hoạt động</p>
+      ) : (
+        reviews.map((item, index) => (
+          <See_Evaluate_Activity key={index} {...item} />
+        ))
+      )}
     </div>
   );
 }
