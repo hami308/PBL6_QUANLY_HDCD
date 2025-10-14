@@ -158,6 +158,10 @@ input[readonly],
 .save-btn:hover {
   background-color: #4a33a1;
 }
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+  font-size: 35px;
+}
 
 /* Responsive */
 @media (max-width: 1200px) {

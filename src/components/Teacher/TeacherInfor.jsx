@@ -59,6 +59,9 @@ function TeacherInfo() {
   return (
     <div className="teacher-info-background">
       <div className="teacher-info-container">
+        <a>
+          <span class="material-symbols-outlined">reply</span>
+        </a>
         <h2 className="title">Thông tin cán bộ / giảng viên</h2>
 
         {/* Hiển thị chức vụ và đơn vị nổi bật */}

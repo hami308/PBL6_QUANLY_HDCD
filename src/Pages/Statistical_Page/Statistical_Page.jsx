@@ -108,46 +108,50 @@ function Statistical_Page({ activeTab }) {
         {activeTab === "Score" && (
           <>
             <div className="tab-title">Bảng điểm chi tiết</div>
-            <CustomTable
-              columns={[
-                "Mã sinh viên",
-                "Họ tên",
-                "Lớp",
-                "Khoa",
-                "Điểm số",
-                "Đạt/Không đạt",
-              ]}
-              data={students.map((s) => ({
-                mã_sinh_viên: s.studentId,
-                họ_tên: s.name,
-                lớp: s.class,
-                khoa: s.faculty,
-                điểm_số: s.score,
-                đạt_không_đạt: s.status,
-              }))}
-            />
+            <div className="table_1">
+              <CustomTable
+                columns={[
+                  "Mã sinh viên",
+                  "Họ tên",
+                  "Lớp",
+                  "Khoa",
+                  "Điểm số",
+                  "Đạt/Không đạt",
+                ]}
+                data={students.map((s) => ({
+                  mã_sinh_viên: s.studentId,
+                  họ_tên: s.name,
+                  lớp: s.class,
+                  khoa: s.faculty,
+                  điểm_số: s.score,
+                  đạt_không_đạt: s.status,
+                }))}
+              />
+            </div>
           </>
         )}
 
         {activeTab === "Activity" && (
           <>
             <div className="tab-title">Bảng thông tin hoạt động</div>
-            <CustomTable
-              columns={[
-                "ID hoạt động",
-                "Tên hoạt động",
-                "Ngày tổ chức",
-                "Đơn vị tổ chức",
-                "Trạng thái",
-              ]}
-              data={activities.map((a) => ({
-                id_hoạt_động: a.id,
-                tên_hoạt_động: a.name,
-                ngày_tổ_chức: a.date,
-                đơn_vị_tổ_chức: a.org,
-                trạng_thái: a.status,
-              }))}
-            />
+            <div className="table_1">
+              <CustomTable
+                columns={[
+                  "ID hoạt động",
+                  "Tên hoạt động",
+                  "Ngày tổ chức",
+                  "Đơn vị tổ chức",
+                  "Trạng thái",
+                ]}
+                data={activities.map((a) => ({
+                  id_hoạt_động: a.id,
+                  tên_hoạt_động: a.name,
+                  ngày_tổ_chức: a.date,
+                  đơn_vị_tổ_chức: a.org,
+                  trạng_thái: a.status,
+                }))}
+              />
+            </div>
           </>
         )}
       </div>
