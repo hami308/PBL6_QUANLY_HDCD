@@ -26,7 +26,7 @@ function PVCD_Record() {
         <Header />
         <Menu_student />
         <img className="dut-pic" src={dut_pic} alt="DUT" />
-         <div className="cross-bar" style={{height:"100px"}}>
+         <div className="cross-bar-PVCD-record" style={{height:"100px"}}>
             <p>Điểm phục vụ cộng đồng</p>
         </div>
         <div className="total-record" >
