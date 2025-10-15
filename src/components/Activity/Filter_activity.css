@@ -50,7 +50,7 @@
 
 .search-box .icon {
   margin-right: 0.5vw;
-  font-size: 2vh;
+  font-size: 0vh;
   flex-shrink: 0;        /* icon không bị co lại */
 }
 
@@ -89,6 +89,7 @@ button.reset:hover {
   background: #2e7d32;
 }
 .material-symbols-outlined {
+  font-size: 25px;
   font-variation-settings:
   'FILL' 0,
   'wght' 400,
