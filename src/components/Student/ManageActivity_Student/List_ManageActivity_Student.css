@@ -1,0 +1,28 @@
+.list-activity-student-container {/* nền tím nhạt giống ảnh */
+  padding: 20px;
+  width: 80%;
+  margin: 20px auto;
+}
+@media (max-width: 900px) {
+  .list-activity-student-container{
+    width:600px;
+  }
+}
+@media (max-width: 748px) {
+  .list-activity-student-container{
+    width:450px;
+    padding: 10px;
+  }
+}
+@media (max-width: 500px) {
+  .list-activity-student-container{
+    width:270px;
+    padding: 10px;
+  }
+}
+@media (max-width: 300px) {
+  .list-activity-student-container{
+    width:170px;
+    padding: 5px;
+  }
+}

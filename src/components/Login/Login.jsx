@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import login_pic from "../../assets/images/login_pic.png";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/Login_Service/Login_Service.js";
+import { login } from "../../services/Login_Service/Login_Service.js";  
 
 function Login({ onClose }) {
   const [username, setUsername] = useState("");
@@ -35,9 +35,7 @@ function Login({ onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-btn" onClick={onClose}>
-          ✕
-        </button>
+        <button className="close-btn" onClick={onClose}>✕</button>
         <h2 className="modal-title">Đăng nhập</h2>
 
         <div className="modal-content">

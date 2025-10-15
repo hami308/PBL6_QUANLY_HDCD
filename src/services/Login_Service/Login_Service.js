@@ -14,12 +14,6 @@ const users = [
     name: "Nguyễn An",
     role: "student",
   },
-  {
-    username: "102220117",
-    password: "abc123",
-    name: "Lê Bình",
-    role: "student",
-  },
   { username: "102220073", password: "abc123", name: "Lê Bình", role: "admin" },
 ];
 
