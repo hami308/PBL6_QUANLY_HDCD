@@ -148,3 +148,27 @@
   color: #004999;
   text-decoration: underline;
 }
+.evidence-details-back {
+  margin-bottom: 10px;
+  margin-top: -20px;
+}
+
+.evidence-back-btn {
+  background-color: transparent;
+  border: none;
+  color: #2c1966;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-left: -30px;
+}
+
+.evidence-back-btn:hover {
+  color: #5b3fd3;
+  text-decoration: underline;
+}
+.evidence-back-btn 
+.material-symbols-outlined {
+  font-size: 20px;
+}
