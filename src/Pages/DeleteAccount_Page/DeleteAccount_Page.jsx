@@ -1,9 +1,9 @@
 import React from "react";
-import DeleteAccount from "../../components/DeleteAccountBox/DeleteAccountBox";
-import FileUpload from "../../components/FileUpload/FileUpload";
+import DeleteAccount from "../../components/Admin/DeleteAccountBox/DeleteAccountBox";
+import FileUpload from "../../components/Admin/FileUpload/FileUpload";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import "./DeleteAccount_Page.css";
 function DeleteAccount_Page() {
   return (

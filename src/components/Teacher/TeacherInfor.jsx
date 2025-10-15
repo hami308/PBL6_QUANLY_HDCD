@@ -60,7 +60,7 @@ function TeacherInfo() {
     <div className="teacher-info-background">
       <div className="teacher-info-container">
         <a>
-          <span class="material-symbols-outlined">reply</span>
+          <span class="material-symbols-outlined">arrow_back</span>
         </a>
         <h2 className="title">Thông tin cán bộ / giảng viên</h2>
 

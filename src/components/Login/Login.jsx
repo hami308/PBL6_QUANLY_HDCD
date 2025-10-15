@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Login.css";
 import login_pic from "../../assets/images/login_pic.png";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/Login_Service/Login_Service.js";  
+import { login } from "../../services/Login_Service/Login_Service.js";
 
 function Login({ onClose }) {
   const [username, setUsername] = useState("");
@@ -10,32 +10,40 @@ function Login({ onClose }) {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const result = login(username, password);
+    setError(""); // Xóa lỗi cũ trước khi đăng nhập
 
-    if (result.success) {
-      onClose();
-      setError("");
-      alert(`Đăng nhập thành công! Chào mừng ${result.user.name}`);
+    try {
+      const result = await login(username, password); // ✅ CHỜ API PHẢN HỒI
 
-      // Chuyển hướng theo role
-      if (result.user.role === "student") {
-        navigate("/home-student", { replace: true });
-      } else if (result.user.role === "admin") {
-        navigate("/home-admin", { replace: true });
+      if (result.success) {
+        onClose();
+        alert(`Đăng nhập thành công! Chào mừng ${result.user.name}`);
+
+        // Chuyển hướng theo role
+        if (result.user.role === "student") {
+          navigate("/home-student", { replace: true });
+        } else if (result.user.role === "admin") {
+          navigate("/home-admin", { replace: true });
+        } else {
+          navigate("/", { replace: true });
+        }
       } else {
-        navigate("/", { replace: true });
+        setError(result.message);
       }
-    } else {
-      setError(result.message);
+    } catch (err) {
+      console.error("Lỗi đăng nhập:", err);
+      setError("Có lỗi xảy ra khi kết nối tới server.");
     }
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-btn" onClick={onClose}>✕</button>
+        <button className="close-btn" onClick={onClose}>
+          ✕
+        </button>
         <h2 className="modal-title">Đăng nhập</h2>
 
         <div className="modal-content">

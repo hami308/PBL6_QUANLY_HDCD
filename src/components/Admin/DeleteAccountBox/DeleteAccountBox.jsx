@@ -1,6 +1,6 @@
 import React from "react";
 import "./DeleteAccountBox.css";
-import { checkUsername } from "../../services/AcccountService/DeleteAccountService";
+import { checkUsername } from "../../../services/AcccountService/DeleteAccountService";
 import { useNavigate } from "react-router-dom";
 export function Delete_Account() {
   const navigate = useNavigate();

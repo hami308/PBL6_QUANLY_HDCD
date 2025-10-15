@@ -1,9 +1,9 @@
 // src/pages/Statistical_Page/Statistical_Page.jsx
 import React, { useState } from "react";
 import Header from "../../components/Header/Header";
-import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
-import Filter_Admin from "../../components/Filter_Admin/Filter_Admin";
-import InfoCard from "../../components/InfoCard/InfoCard";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
+import Filter_Admin from "../../components/Admin/Filter_Admin/Filter_Admin";
+import InfoCard from "../../components/Admin/InfoCard/InfoCard";
 import CustomTable from "../../components/Custom/CustomTable";
 import Footer from "../../components/Footer/Footer";
 import "./Statistical_Page.css";
