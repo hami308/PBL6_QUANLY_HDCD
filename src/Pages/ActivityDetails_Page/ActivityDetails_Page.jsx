@@ -7,7 +7,8 @@ import { activity_list } from "../../data/activity_list.js"
 import {Faculty} from "../../data/Faculty.js";
 import ActivityList from "../../components/Activity/Activity_list.jsx";
 import Activity_Details from "../../components/Activity/Activity_Details.jsx"
-import { useParams } from "react-router-dom";
+import { useParams  } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activity/See_List_Evaluate_Activity.jsx";
 function Activity_details() {
   // get role
@@ -15,22 +16,26 @@ function Activity_details() {
   const ismodify = (user?.role === "org");  // nếu user = org thì cho phép sửa
   const { id } = useParams();
   const activity = activity_list.find(act => act.id === id);
+  // const navigate = useNavigate();
 
   return (
     <>
       <Header />
       {!user && <Menu_guest />}
       {user?.role === "student" && <Menu_student />}
+      {/* Nút trở về */}
+      {/* <div className="back-button-container">
+        <button className="back-button" onClick={() => navigate(-1)}>
+          <span className="material-symbols-outlined">
+            arrow_back
+          </span> 
+        </button>
+      </div> */}
       <Activity_Details activity_details={activity} ismodify={ismodify} />
      
       {/* nếu chưa đăng nhập mới hiển thị */}  
       
-      {user?.role === "org" && (
-        <div className="manage-infot-activity">
-          <button className="button-update-infor-activity">Cập nhật</button>
-          <button className="button-cancel-activity">Hủy hoạt động</button>
-        </div>
-      )}
+   
        {activity.status==="Đã tổ chức" &&(
         <See_List_Evaluate_Activity/>
       )}

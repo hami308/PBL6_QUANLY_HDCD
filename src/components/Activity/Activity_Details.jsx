@@ -157,10 +157,12 @@ function Activity_Details({ activity_details,ismodify=false}) {
 
         <div className="field">
           <strong>Số lượng tình nguyện viên cần:</strong>
-          <span className="editable" contentEditable={ismodify} suppressContentEditableWarning onBlur={(e) => setVolunteers(e.target.innerText)}>
-            {volunteers}
-          </span>
-          <span aria-readonly> sinh viên</span>
+          <div>
+            <span className="editable" contentEditable={ismodify} suppressContentEditableWarning onBlur={(e) => setVolunteers(e.target.innerText)}>
+              {volunteers}
+            </span>
+            <span aria-readonly> sinh viên</span>
+          </div>
         </div>
 
         <div className="field">
@@ -201,6 +203,12 @@ function Activity_Details({ activity_details,ismodify=false}) {
             />
         </div>
         </div>
+        {ismodify && (
+            <div className="manage-infot-activity">
+              <button className="button-update-infor-activity">Cập nhật</button>
+              <button className="button-cancel-activity">Hủy hoạt động</button>
+            </div>
+          )}
       </div>
     </>
   );

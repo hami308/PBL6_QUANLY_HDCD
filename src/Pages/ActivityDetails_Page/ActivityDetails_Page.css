@@ -14,39 +14,7 @@
   align-items: center;
   margin-top: 0;
 }
-.manage-infot-activity{
-  width:80%;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-  padding-right: 100px;
-}
-.button-update-infor-activity,
-.button-cancel-activity {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background 0.3s;
-}
 
-.button-update-infor-activity {
-  background-color: #4CAF50; /* màu xanh lá */
-}
-
-.button-update-infor-activity:hover {
-  background-color: #45a049;
-}
-
-.button-cancel-activity {
-  background-color: #f08080; /* màu hồng đỏ */
-}
-
-.button-cancel-activity:hover {
-  background-color: #e57373;
-}
 .other-activity-content{
   display: flex;
   justify-items: center;
@@ -61,3 +29,32 @@
   font-size: 20px;
   font-weight: bold;
 }
+
+/* .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40
+}
+.back-button-container {
+  max-width: 800px;
+  display: flex;
+  margin: 20px auto 0 auto;
+  padding-left: 20px;
+}
+
+.back-button {
+  color: black;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #2C1966;
+  color: white;
+} */
