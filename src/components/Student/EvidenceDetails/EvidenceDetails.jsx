@@ -1,20 +1,35 @@
 import "./EvidenceDetails.css";
 
-function EvidenceDetail({is_moniter_class=true}) {
-    const evidenceInfor = {
-        id: 1,
-        name: "Tham gia hội thảo khoa học quốc gia",
-        name_student: "Nguyễn Thị B",
-        link: "https://example.com/minhchung1",
-        score: "5",
-        date: "01/10/2025",
-        status: "Đã duyệt",
-        };
+function EvidenceDetail({ is_moniter_class = true }) {
+  const evidenceInfor = {
+    id: 1,
+    name: "Tham gia hội thảo khoa học quốc gia",
+    name_student: "Nguyễn Thị B",
+    link: "https://example.com/minhchung1",
+    score: "5",
+    date: "01/10/2025",
+    status: "Đã duyệt",
+  };
+
+  const handleBack = () => {
+    window.history.back();
+  };
+
   return (
     <>
       <div className="evidence-details-background">
         <div className="evidence-details-container">
-          <div className="evidence-details-tiltle">
+
+          {/* --- Nút trở về --- */}
+          <div className="evidence-details-back">
+            <button onClick={handleBack} className="evidence-back-btn">
+             <span className="material-symbols-outlined">
+              arrow_back
+              </span>
+            </button>
+          </div>
+
+          <div className="evidence-details-title">
             <h3>Chi tiết minh chứng</h3>
           </div>
           <hr />
@@ -55,8 +70,9 @@ function EvidenceDetail({is_moniter_class=true}) {
                 readOnly
               />
             </div>
+
             {is_moniter_class && (
-               <div className="evidence-details-input-section">
+              <div className="evidence-details-input-section">
                 <p className="evidence-details-label">Minh chứng</p>
                 <a
                   className="evidence-details-link"
@@ -66,14 +82,16 @@ function EvidenceDetail({is_moniter_class=true}) {
                 >
                   {evidenceInfor.link}
                 </a>
-              </div> 
+              </div>
             )}
+
             {!is_moniter_class && (
               <div className="evidence-details-input-section">
                 <p className="evidence-details-label">Minh chứng</p>
                 <input
                   className="evidence-details-input-disabled"
                   value={evidenceInfor.link}
+                  readOnly
                 />
               </div>
             )}
@@ -87,6 +105,7 @@ function EvidenceDetail({is_moniter_class=true}) {
                 readOnly={is_moniter_class}
               />
             </div>
+
             {is_moniter_class && (
               <div className="evidence-details-input-section">
                 <p className="evidence-details-label">Điểm lớp trưởng đánh giá</p>
@@ -95,24 +114,24 @@ function EvidenceDetail({is_moniter_class=true}) {
                   placeholder="(Chưa có điểm)"
                 />
               </div>
-            )}         
+            )}
           </div>
 
-            {is_moniter_class && (
-              <div className="evidence-details-footer">
-                <button className="evidence-details-approve-btn">
-                  ✓ Duyệt minh chứng
-                </button>
-              </div>
-            )}
+          {is_moniter_class && (
+            <div className="evidence-details-footer">
+              <button className="evidence-details-approve-btn">
+                ✓ Duyệt minh chứng
+              </button>
+            </div>
+          )}
 
-            {!is_moniter_class && (
-               <div className="evidence-details-footer">
-                <button className="evidence-details-update-btn">
-                  ✓ Cập nhật minh chứng
-                </button>
-              </div>
-            )}         
+          {!is_moniter_class && (
+            <div className="evidence-details-footer">
+              <button className="evidence-details-update-btn">
+                ✓ Cập nhật minh chứng
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -120,4 +139,3 @@ function EvidenceDetail({is_moniter_class=true}) {
 }
 
 export default EvidenceDetail;
- 
