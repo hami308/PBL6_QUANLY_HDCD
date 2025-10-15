@@ -1,11 +1,12 @@
 import Header from "../../components/Header/Header";
 import Filter_Admin from "../../components/Filter_Admin/Filter_Admin";
-import MenuAdmin from "../../components/Menu_Admin/Menu_admin";
+import MenuAdmin from "../../components/Menu_Admin/Menu_Admin";
 import Footer from "../../components/Footer/Footer";
 import CustomTable from "../../components/Custom/CustomTable";
 import React from "react";
 import "./UserAccount_Management.css";
 import { useNavigate } from "react-router-dom";
+
 function UserAccount_Management() {
   const [activeTab, setActiveTab] = React.useState("student");
   const [showDeleteOptions, setShowDeleteOptions] = React.useState(false);
@@ -142,61 +143,63 @@ function UserAccount_Management() {
         {activeTab === "teacher" && (
           <div className="tab-title">Danh sách cán bộ, giảng viên</div>
         )}
-        {activeTab === "student" && (
-          <CustomTable
-            columns={[
-              "Mã sinh viên",
-              "Họ tên",
-              "Lớp",
-              "Khoa",
-              "Chọn",
-              "Thao tác",
-            ]}
-            data={students.map((item) => ({
-              mã_sinh_viên: item.studentId,
-              họ_tên: item.name,
-              lớp: item.class,
-              khoa: item.faculty,
-              chọn: <input type="checkbox" key={item.studentId} />,
-              thao_tác: (
-                <button
-                  className="xct"
-                  onClick={() => navigate("/student-infor")}
-                >
-                  Xem chi tiết
-                </button>
-              ),
-            }))}
-          />
-        )}
+        <div className="table_1">
+          {activeTab === "student" && (
+            <CustomTable
+              columns={[
+                "Mã sinh viên",
+                "Họ tên",
+                "Lớp",
+                "Khoa",
+                "Chọn",
+                "Thao tác",
+              ]}
+              data={students.map((item) => ({
+                mã_sinh_viên: item.studentId,
+                họ_tên: item.name,
+                lớp: item.class,
+                khoa: item.faculty,
+                chọn: <input type="checkbox" key={item.studentId} />,
+                thao_tác: (
+                  <button
+                    className="xct"
+                    onClick={() => navigate("/student-infor")}
+                  >
+                    Xem chi tiết
+                  </button>
+                ),
+              }))}
+            />
+          )}
 
-        {activeTab === "teacher" && (
-          <CustomTable
-            columns={[
-              "Mã giảng viên",
-              "Họ tên",
-              "Đơn vị",
-              "Chức vụ",
-              "Chọn",
-              "Thao tác",
-            ]}
-            data={teachers.map((item) => ({
-              mã_giảng_viên: item.teacherId,
-              họ_tên: item.name,
-              đơn_vị: item.unit,
-              chức_vụ: item.position,
-              chọn: <input type="checkbox" key={item.teacherId} />,
-              thao_tác: (
-                <button
-                  className="xct"
-                  onClick={() => navigate("/teacher-infor")}
-                >
-                  Xem chi tiết
-                </button>
-              ),
-            }))}
-          />
-        )}
+          {activeTab === "teacher" && (
+            <CustomTable
+              columns={[
+                "Mã giảng viên",
+                "Họ tên",
+                "Đơn vị",
+                "Chức vụ",
+                "Chọn",
+                "Thao tác",
+              ]}
+              data={teachers.map((item) => ({
+                mã_giảng_viên: item.teacherId,
+                họ_tên: item.name,
+                đơn_vị: item.unit,
+                chức_vụ: item.position,
+                chọn: <input type="checkbox" key={item.teacherId} />,
+                thao_tác: (
+                  <button
+                    className="xct"
+                    onClick={() => navigate("/teacher-infor")}
+                  >
+                    Xem chi tiết
+                  </button>
+                ),
+              }))}
+            />
+          )}
+        </div>
       </div>
 
       <Footer />

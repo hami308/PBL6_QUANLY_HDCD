@@ -6,7 +6,7 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-/* 🔹 Tabs chính */
+/*Tabs chính */
 .user-account-management .management-tabs {
   margin-top: none;
   display: flex;
@@ -61,7 +61,7 @@
   text-align: center;
 }
 
-/* 🔹 Nút Xóa & Dropdown */
+/* Nút Xóa & Dropdown */
 .user-account-management .delete-section {
   display: flex;
   justify-content: flex-end;
@@ -120,7 +120,10 @@
   background-color: #2e2c72;
   color: white;
 }
-
+.table_1 {
+  display: flex;
+  justify-content: center;
+}
 /* Responsive */
 @media (max-width: 992px) {
   .user-account-management .management-tabs {
