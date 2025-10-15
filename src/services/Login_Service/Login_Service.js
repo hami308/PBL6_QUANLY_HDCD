@@ -3,7 +3,7 @@
 // Dữ liệu giả lập (sau này có thể thay bằng gọi API)
 const users = [
   {
-    username: "102220115",
+    username: "102220113",
     password: "tramy090804",
     name: "Trà My",
     role: "student",
@@ -12,7 +12,7 @@ const users = [
     username: "102220116",
     password: "password123",
     name: "Nguyễn An",
-    role: "student",
+    role: "org",
   },
   { username: "102220073", password: "abc123", name: "Lê Bình", role: "admin" },
 ];
