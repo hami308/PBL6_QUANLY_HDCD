@@ -1,0 +1,45 @@
+
+.review-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid black;
+  width: 50%;
+  display: flex;
+  justify-items: center;
+  margin: 20px auto;
+  padding-bottom: 10px;
+}
+.review-section-title h3{
+  display: flex;
+  justify-items: center;
+  margin: 10px auto;
+}
+.no-reviews {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin-top: 20px;
+}
+@media (max-width: 748px){
+  .review-section-title h3{
+    font-size: 17px;
+  }
+  .no-reviews {
+    font-size: 13px;
+}
+}
+@media (max-width: 500px){
+  .review-section-title{
+    width: 70%; 
+    margin :10px auto;
+   }
+  .review-section-title h3{
+    font-size: 15px;
+    
+  }
+  .no-reviews {
+    font-size: 13px;
+}
+
+}

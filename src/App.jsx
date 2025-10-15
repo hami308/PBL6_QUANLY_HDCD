@@ -14,6 +14,8 @@ import ManageActivity_Student_Page from "../src/Pages/ManageActivity_Student_Pag
 import SubmitEvidence_Page from "../src/Pages/SubmitEvidence_Page/SubmitEvidence_Page";
 import Approved_Evidence_Page from "../src/Pages/Approved_Evidence_Page/Approved_Evidence_Page";
 import EvidenceDetail_Page from "../src/Pages/EvidenceDetail_Page/EvidenceDetail_Page";
+import ActivityDetails_Page from "./Pages/ActivityDetails_Page/ActivityDetails_Page.jsx";
+
 function App() {
   return (
     <LoginProvider>
@@ -44,6 +46,7 @@ function App() {
         <Route path="/submit-evidence" element={<SubmitEvidence_Page/>}/>
         <Route path="/approved-evidence" element={<Approved_Evidence_Page/>}/>
         <Route path="/evidence-details" element={<EvidenceDetail_Page/>}/>
+         <Route path="/activity-details/:id" element={<ActivityDetails_Page/>}/>
       </Routes>
       
     </LoginProvider>
