@@ -37,7 +37,6 @@ export default function See_Evaluate_Activity(evaluate_activity_details) {
         <h3 className="see-evaluate-name">
           {evaluate_activity_details.name_student}
         </h3>
-
         <p
           className={`see-evaluate-comment ${
             expanded ? "expanded" : "collapsed"
