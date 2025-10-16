@@ -1,0 +1,366 @@
+.activity-card-details {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.activity--details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.activity-title-details {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a365d;
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.activity-title-details:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+}
+
+.join-btn {
+  background: #C3C1DF;
+  color: black;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.join-btn:hover {
+  background-color: #555;
+  color: #fff;
+}
+
+.activity-team-details {
+  font-size: 1.2rem;
+  color: #718096;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.activity-image-details {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+.activity-content-details {
+  flex-direction: column;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.container {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 30px auto;
+  line-height: 1.6;
+}
+ .activity-description {
+  text-align: justify;
+  margin-bottom: 6px;
+}
+
+.see-more-inline {
+  color: gray;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.collapse-btn {
+  background: none;
+  border: none;
+  color: gray;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-size: 15px;
+}
+.field {
+  margin: 12px 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center; /* canh giữa theo chiều dọc */
+  gap: 10px; /* khoảng cách giữa label và select */
+  flex-wrap: wrap; /* nếu màn nhỏ thì tự xuống dòng */
+}
+
+strong {
+  color: #251d64;
+  margin-right: 8px;
+}
+
+.register-time, .event-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.custom-date-picker {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  height: 32px;
+  line-height: 1.2;
+  box-sizing: border-box;
+  width: fit-content;
+}
+
+/* Khi disabled */
+.custom-date-picker:disabled {
+  background-color: #f9f9f9;
+  color: #888;
+  cursor: not-allowed;
+}
+select.field-select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+select.field-select {
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+select.field-select:hover {
+  border-color: #251d64;
+  box-shadow: 0 0 4px rgba(37,29,100,0.3);
+}
+
+select.field-select:focus {
+  outline: none;
+  border-color: #251d64;
+  box-shadow: 0 0 0 3px rgba(37,29,100,0.2);
+}
+.editable {
+  display: inline-block;
+  width: fit-content;
+  cursor: text;
+  padding: 2px 4px;
+}
+
+.editable:focus {
+  outline: none;
+  border-bottom: 1px solid #251d64;
+  background: #f2f2ff;
+}
+
+.dash {
+  font-weight: bold;
+  margin: 0 6px;
+}
+.activity-tag-select{
+  width: 80%;
+}
+.activity-tag-select__control {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  min-height: 45px;
+  font-size: 1rem;
+  padding-left: 4px;
+  box-shadow: none;
+}
+
+.activity-tag-select__control--is-focused {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
+}
+
+.activity-tag-select__multi-value {
+  background-color: #e2e8f0;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+.activity-tag-select__multi-value__label {
+  color: #2d3748;
+  font-weight: 500;
+}
+
+.activity-tag-select__multi-value__remove {
+  color: #e53e3e;
+}
+
+.activity-tag-select__multi-value__remove:hover {
+  background-color: #feb2b2;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.activity-tag-select__placeholder {
+  color: #718096;
+  font-style: italic;
+}
+
+.activity-tag-select__dropdown-indicator {
+  color: #4a5568;
+}
+
+.activity-tag-select__dropdown-indicator:hover {
+  color: #2b6cb0;
+}
+.manage-infot-activity{
+  width:100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  margin-top:20px;
+}
+.button-update-infor-activity,
+.button-cancel-activity {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s;
+}
+
+.button-update-infor-activity {
+  background-color: #4CAF50; /* màu xanh lá */
+}
+
+.button-update-infor-activity:hover {
+  background-color: #45a049;
+}
+
+.button-cancel-activity {
+  background-color: #f08080; /* màu hồng đỏ */
+}
+
+.button-cancel-activity:hover {
+  background-color: #e57373;
+}
+@media (max-width: 1024px) {
+  .activity-card-details,
+  .container {
+    padding: 15px 20px;
+    max-width: 90%;
+  }
+
+  .activity-title-details {
+    font-size: 20px;
+  }
+
+  .join-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    padding: 10px 15px;
+
+  }
+
+  .activity-title-details {
+    font-size: 18px;
+  }
+
+  .join-btn {
+    align-self: flex-start;
+    font-size: 16px;
+    padding: 5px 10px;
+  }
+  .activity-team-details{
+    font-size: 16px;
+  }
+  .field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .activity-image-details {
+    max-height: 300px;
+  }
+
+  .activity-tag-select {
+    width: 100%;
+  }
+  .custom-date-picker{
+    width: 200px;
+  }
+  .button-update-infor-activity,
+  .button-cancel-activity {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .manage-infot-activity {
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+    .container {
+    padding: 5px 7px;
+  }
+
+  .activity-title-details {
+    font-size: 14px;
+  }
+
+  .join-btn {
+    align-self: flex-start;
+    font-size: 14px;
+    padding: 5px 7px;
+    border-radius: 2px;
+  }
+  .activity-team-details{
+    font-size: 10px;
+  }
+  .field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .activity-image-details {
+    max-height: 300px;
+  }
+
+  .activity-tag-select {
+    width: 100%;
+  }
+  .custom-date-picker{
+    width: 120px;
+  }
+   .button-update-infor-activity,
+  .button-cancel-activity {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .manage-infot-activity {
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+}
