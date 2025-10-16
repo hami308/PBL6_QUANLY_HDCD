@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
+import HomePage from "./Pages/HomePage/HomePage";
 import { LoginProvider } from "./components/Login/LoginContext";
 import PVCD_Record from "./Pages/PVCD_Record/PVCD_Record";
 import StudentInfor_Page from "./Pages/StudentInfor_Page/StudentInfor_Page";
