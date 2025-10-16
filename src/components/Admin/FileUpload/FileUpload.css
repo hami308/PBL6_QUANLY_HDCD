@@ -39,6 +39,7 @@
 .file-upload-container .note {
   font-size: clamp(11px, 1vw, 12px);
   color: #dd0e07;
+  margin-bottom: clamp(3px, 1vw, 6px);
 }
 
 /* Khung hướng dẫn */
