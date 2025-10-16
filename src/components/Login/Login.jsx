@@ -39,18 +39,18 @@ function Login({ onClose }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+    <div className="modal-login-overlay">
+      <div className="modal-login">
         <button className="close-btn" onClick={onClose}>
           ✕
         </button>
-        <h2 className="modal-title">Đăng nhập</h2>
+        <h2 className="modal-login-title">Đăng nhập</h2>
 
-        <div className="modal-content">
+        <div className="modal-login-content">
           <img src={login_pic} alt="login" className="login-icon" />
 
           <form className="login-form" onSubmit={handleLogin}>
-            <div className="form-group">
+            <div className="form-login-group">
               <label>Tên đăng nhập:</label>
               <input
                 type="text"
@@ -59,7 +59,7 @@ function Login({ onClose }) {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-login-group">
               <label>Mật khẩu:</label>
               <input
                 type="password"

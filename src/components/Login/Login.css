@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-login-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   z-index: 9999; /* đảm bảo nổi trên tất cả */
 }
 
-.modal {
+.modal-login {
   background: #fff;
   padding: 20px 30px;
   border-radius: 8px;
@@ -33,13 +33,13 @@
   color: #900;
 }
 
-.modal-title {
+.modal-login-title {
     color: black;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.modal-content {
+.modal-login-content {
   display: flex;
   align-items: flex-start;
   gap: 20px;
@@ -54,17 +54,17 @@
   flex: 1;
 }
 
-.form-group {
+.form-login-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-login-group label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
 }
 
-.form-group input {
+.form-login-group input {
   width: 100%;
   padding: 6px;
   border: 1px solid #ccc;
@@ -93,20 +93,22 @@
   font-weight: 500;
 }
 @media(max-width:600px){
-  .modal{
+
+  .modal-login{
     width: 80%;
   }
   .login-icon{
-    width:80px;
+    width:100px;
     margin-top: 20px;
   }
   .login-btn{
     margin: 0 0px;
   }
 }
-@media(max-width:400px){
-  .modal{
-    width: 80%;
+@media(max-width:480px){
+  .modal-login{
+    width: 70%;
+    margin-left: -20px;
   }
   .login-icon{
     width:50px;
@@ -116,10 +118,10 @@
     margin: 0 0px;
     font-size: 12px;
   }
-  .modal-title{
+  .modal-login-title{
     font-size: 17px;
   }
-  .form-group label{
+  .form-login-group label{
     font-size: 12px;
   }
 }
