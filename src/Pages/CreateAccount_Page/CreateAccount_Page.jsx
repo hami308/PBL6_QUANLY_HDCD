@@ -1,9 +1,9 @@
 import React from "react";
-import CreateAccount from "../../components/CreateAccountBox/CreateAccountBox";
-import FileUpload from "../../components/FileUpload/FileUpload";
+import CreateAccount from "../../components/Admin/CreateAccountBox/CreateAccountBox";
+import FileUpload from "../../components/Admin/FileUpload/FileUpload";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Menu_Admin from "../../components/Menu_Admin/Menu_admin";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_admin";
 import "./CreateAccount_Page.css";
 function CreateAccount_Page() {
   const [role, setRole] = React.useState("student");
