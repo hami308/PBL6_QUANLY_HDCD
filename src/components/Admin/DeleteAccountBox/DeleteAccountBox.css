@@ -74,7 +74,7 @@
   background: #a31116;
 }
 
-.note {
+.delete-account-form.note {
   font-size: clamp(11px, 2vw, 13px);
   color: red;
   margin-top: clamp(3px, 1vw, 6px);
