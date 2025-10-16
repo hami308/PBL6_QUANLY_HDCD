@@ -1,43 +1,156 @@
-import React from "react";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./Propose_Activity.css";
 
 export default function Propose_Activity() {
-  const handleSubmit = () => {
-    alert("Hoạt động đã được tạo!");
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+    startTime: null, 
+    endTime: null,
+    location: "",
+    organizer: "",
+    faculty: "",
+    course: "",
+    volunteers: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleStartTimeChange = (date) => {
+    setForm({ ...form, startTime: date });
+  };
+
+  const handleEndTimeChange = (date) => {
+    setForm({ ...form, endTime: date });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form data:", form);
   };
 
   return (
-    <div className="create-activity-container">
-      <div className="create-activity-card">
-        <h2>Tạo hoạt động</h2>
+    <div className="propose-activity-container">
+      <form onSubmit={handleSubmit} className="propose-activity-form">
+        <h2 className="form-title">Đề xuất hoạt động</h2>
 
-        {[
-          ["Tên hoạt động:", "text"],
-          ["Mô tả:", "textarea"],
-          ["Thời gian bắt đầu hoạt động:", "text", "9:00 20/10/2025"],
-          ["Thời gian kết thúc hoạt động:", "text", "11:00 20/10/2025"],
-          ["Địa điểm:", "text", "Hội trường F"],
-          ["Đơn vị tổ chức:", "text", "Phòng CTSV"],
-          ["Áp dụng với khoa:", "text", "CNTT"],
-          ["Áp dụng với khóa:", "text", "K22"],
-          ["Số lượng tình nguyện viên:", "number", "20"],
-        ].map(([label, type, value], index) => (
-          <div className="form-group" key={index}>
-            <label>{label}</label>
-            {type === "textarea" ? (
-              <textarea rows="3" />
-            ) : (
-              <input type={type} defaultValue={value || ""} />
-            )}
-          </div>
-        ))}
+        <div className="form-propose-activity">
+          <label>Tên hoạt động:</label>
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            type="text"
+            placeholder="Nhập tên hoạt động"
+          />
+        </div>
 
-        <div style={{ textAlign: "right" }}>
-          <button className="submit-btn" onClick={handleSubmit}>
-            ✔
+        <div className="form-propose-activity">
+          <label>Mô tả:</label>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            rows="3"
+            placeholder="Nhập mô tả hoạt động"
+          />
+        </div>
+
+        {/*  Thời gian bắt đầu hoạt động */}
+        <div className="form-propose-activity">
+          <label>Thời gian bắt đầu hoạt động:</label>
+          <DatePicker
+            selected={form.startTime}
+            onChange={handleStartTimeChange}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="HH:mm dd/MM/yyyy"
+            placeholderText="Chọn thời gian bắt đầu"
+            className="custom-date-picker-propose-activity"
+          />
+        </div>
+
+        {/*  Thời gian kết thúc hoạt động */}
+        <div className="form-propose-activity">
+          <label>Thời gian kết thúc hoạt động:</label>
+          <DatePicker
+            selected={form.endTime}
+            onChange={handleEndTimeChange}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="HH:mm dd/MM/yyyy"
+            placeholderText="Chọn thời gian kết thúc"
+            className="custom-date-picker-propose-activity"
+          />
+        </div>
+
+        <div className="form-propose-activity">
+          <label>Địa điểm:</label>
+          <input
+            name="location"
+            value={form.location}
+            onChange={handleChange}
+            type="text"
+            placeholder="Hội trường F"
+          />
+        </div>
+
+        <div className="form-propose-activity">
+          <label>Đơn vị tổ chức:</label>
+          <input
+            name="organizer"
+            value={form.organizer}
+            onChange={handleChange}
+            type="text"
+            placeholder="Phòng CTSV"
+          />
+        </div>
+
+        <div className="form-propose-activity">
+          <label>Áp dụng với khoa:</label>
+          <input
+            name="faculty"
+            value={form.faculty}
+            onChange={handleChange}
+            type="text"
+            placeholder="CNTT"
+          />
+        </div>
+
+        <div className="form-propose-activity">
+          <label>Áp dụng với khóa:</label>
+          <input
+            name="course"
+            value={form.course}
+            onChange={handleChange}
+            type="text"
+            placeholder="K22"
+          />
+        </div>
+
+        <div className="form-propose-activity">
+          <label>Số lượng tình nguyện viên:</label>
+          <input
+            name="volunteers"
+            value={form.volunteers}
+            onChange={handleChange}
+            type="number"
+            placeholder="1"
+          />
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" className="submit-btn">
+            <span className="material-symbols-outlined">check</span>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
