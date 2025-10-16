@@ -11,6 +11,7 @@ import {Faculty} from "../../data/Faculty";
 import CustomSelect from "../Custom/CustomSelect.jsx";
 registerLocale("vi", vi);
 
+
 function Activity_Details({ activity_details,ismodify=false}) {
 
   const start_time_org = dayjs(activity_details.time_org_start || "", "HH:mm YYYY-MM-DD");

@@ -39,6 +39,7 @@ function Activity_details() {
        {activity.status==="Đã tổ chức" &&(
         <See_List_Evaluate_Activity/>
       )}
+      
       {!user && (
         <>
           <div className="other-activity-content">
