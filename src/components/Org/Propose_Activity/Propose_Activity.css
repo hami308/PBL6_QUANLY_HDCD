@@ -83,21 +83,21 @@
   justify-content: flex-end; 
 }
 
-.submit-btn {
+.submit-propose-activity-btn {
   background-color: #2C1966;
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px 15px;
+  padding: 7px 10px;
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
-.submit-btn .material-symbols-outlined{
+.submit-propose-activity-btn .material-symbols-outlined{
   font-size: 25px;
 }
 
-.submit-btn:hover {
+.submit-propose-activity-btn:hover {
   background-color: #555;
 }
 .form-propose-activity .react-datepicker-wrapper {
@@ -124,4 +124,52 @@
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+.propose-activity-tag-select{
+  width: 100%;
+  font-size: 15px;
+}
+@media (max-width: 768px) {
+  .propose-activity-form {
+    width:90%;
+    padding: 25px 20px;
+  }
+
+  .form-propose-activity {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-propose-activity label {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .form-actions {
+    justify-content: center;
+  }
+
+  .submit-propose-activity-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+  }
+}
+
+/* 🔹 Responsive cho màn hình nhỏ hơn 480px */
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.4rem;
+  }
+
+  .propose-activity-form {
+    padding: 20px 15px;
+  }
+
+  .form-propose-activity input,
+  .form-propose-activity textarea,
+  .custom-date-picker-propose-activity {
+    font-size: 14px;
+  }
 }

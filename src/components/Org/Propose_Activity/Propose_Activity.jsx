@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Propose_Activity.css";
+import CustomSelect from "../../Custom/CustomSelect";
+import {course} from "../../../data/course";
+import {Faculty} from "../../../data/Faculty";
 
 export default function Propose_Activity() {
   const [form, setForm] = useState({
@@ -16,6 +19,8 @@ export default function Propose_Activity() {
     volunteers: "",
   });
 
+  const facultyOptions = Faculty.map(f => ({ value: f.id, label: f.name }));
+  const courseOptions = course.map(c => ({ value: c.id, label: c.name }));
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -97,40 +102,23 @@ export default function Propose_Activity() {
             value={form.location}
             onChange={handleChange}
             type="text"
-            placeholder="Hội trường F"
+            placeholder="Nhập địa điểm tổ chức"
           />
         </div>
 
         <div className="form-propose-activity">
-          <label>Đơn vị tổ chức:</label>
-          <input
-            name="organizer"
-            value={form.organizer}
-            onChange={handleChange}
-            type="text"
-            placeholder="Phòng CTSV"
-          />
-        </div>
-
-        <div className="form-propose-activity">
-          <label>Áp dụng với khoa:</label>
-          <input
-            name="faculty"
-            value={form.faculty}
-            onChange={handleChange}
-            type="text"
-            placeholder="CNTT"
+          <label>Áp dụng với các khoa:</label>
+          <CustomSelect 
+              options={facultyOptions} 
+              className="propose-activity-tag-select"
           />
         </div>
 
         <div className="form-propose-activity">
           <label>Áp dụng với khóa:</label>
-          <input
-            name="course"
-            value={form.course}
-            onChange={handleChange}
-            type="text"
-            placeholder="K22"
+          <CustomSelect 
+              options={courseOptions} 
+              className="propose-activity-tag-select"
           />
         </div>
 
@@ -146,7 +134,7 @@ export default function Propose_Activity() {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="submit-btn">
+          <button type="submit-propose-activity" className="submit-propose-activity-btn">
             <span className="material-symbols-outlined">check</span>
           </button>
         </div>
