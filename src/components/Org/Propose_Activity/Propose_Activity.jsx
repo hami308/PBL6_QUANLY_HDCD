@@ -3,24 +3,26 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Propose_Activity.css";
 import CustomSelect from "../../Custom/CustomSelect";
-import {course} from "../../../data/course";
-import {Faculty} from "../../../data/Faculty";
+import { course } from "../../../data/course";
+import { Faculty } from "../../../data/Faculty";
 
 export default function Propose_Activity() {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    startTime: null, 
+    startTime: null,
     endTime: null,
     location: "",
-    organizer: "",
     faculty: "",
     course: "",
     volunteers: "",
   });
 
-  const facultyOptions = Faculty.map(f => ({ value: f.id, label: f.name }));
-  const courseOptions = course.map(c => ({ value: c.id, label: c.name }));
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const facultyOptions = Faculty.map((f) => ({ value: f.id, label: f.name }));
+  const courseOptions = course.map((c) => ({ value: c.id, label: c.name }));
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -33,9 +35,43 @@ export default function Propose_Activity() {
     setForm({ ...form, endTime: date });
   };
 
+  const validateForm = () => {
+    // Kiểm tra nhập đủ
+    if (
+      !form.name ||
+      !form.description ||
+      !form.startTime ||
+      !form.endTime ||
+      !form.location ||
+      !form.volunteers
+    ) {
+      return "Vui lòng nhập đầy đủ thông tin.";
+    }
+
+    // Kiểm tra thời gian
+    if (form.startTime && form.endTime && form.endTime <= form.startTime) {
+      return "Thời gian kết thúc phải sau thời gian bắt đầu.";
+    }
+
+    // Kiểm tra số lượng tình nguyện viên
+    if (Number(form.volunteers) <= 0) {
+      return "Số lượng tình nguyện viên phải lớn hơn 0.";
+    }
+
+    return "";
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form data:", form);
+    const error = validateForm();
+
+    if (error) {
+      setErrorMessage(error);
+    } else {
+      setErrorMessage("");
+      console.log("Form data:", form);
+      alert("Gửi thành công!");
+    }
   };
 
   return (
@@ -65,7 +101,6 @@ export default function Propose_Activity() {
           />
         </div>
 
-        {/*  Thời gian bắt đầu hoạt động */}
         <div className="form-propose-activity">
           <label>Thời gian bắt đầu hoạt động:</label>
           <DatePicker
@@ -80,7 +115,6 @@ export default function Propose_Activity() {
           />
         </div>
 
-        {/*  Thời gian kết thúc hoạt động */}
         <div className="form-propose-activity">
           <label>Thời gian kết thúc hoạt động:</label>
           <DatePicker
@@ -108,17 +142,17 @@ export default function Propose_Activity() {
 
         <div className="form-propose-activity">
           <label>Áp dụng với các khoa:</label>
-          <CustomSelect 
-              options={facultyOptions} 
-              className="propose-activity-tag-select"
+          <CustomSelect
+            options={facultyOptions}
+            className="propose-activity-tag-select"
           />
         </div>
 
         <div className="form-propose-activity">
           <label>Áp dụng với khóa:</label>
-          <CustomSelect 
-              options={courseOptions} 
-              className="propose-activity-tag-select"
+          <CustomSelect
+            options={courseOptions}
+            className="propose-activity-tag-select"
           />
         </div>
 
@@ -129,12 +163,18 @@ export default function Propose_Activity() {
             value={form.volunteers}
             onChange={handleChange}
             type="number"
-            placeholder="1"
+            placeholder="0"
+            min="0" // không cho lùi về 0 hoặc âm
           />
         </div>
 
+        {/* Thông báo lỗi */}
+        {errorMessage && (
+          <div className="error-message-propose">{errorMessage}</div>
+        )}
+
         <div className="form-actions">
-          <button type="submit-propose-activity" className="submit-propose-activity-btn">
+          <button type="submit" className="submit-propose-activity-btn">
             <span className="material-symbols-outlined">check</span>
           </button>
         </div>

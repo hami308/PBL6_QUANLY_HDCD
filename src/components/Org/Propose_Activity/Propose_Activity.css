@@ -129,6 +129,14 @@
   width: 100%;
   font-size: 15px;
 }
+.error-message-propose {
+  color: #e63946;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  transition: opacity 0.3s ease-in-out;
+}
 @media (max-width: 768px) {
   .propose-activity-form {
     width:90%;
@@ -171,5 +179,8 @@
   .form-propose-activity textarea,
   .custom-date-picker-propose-activity {
     font-size: 14px;
+  }
+  .error-message-propose{
+    font-size: 12px;
   }
 }

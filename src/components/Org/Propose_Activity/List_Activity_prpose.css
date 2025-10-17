@@ -1,0 +1,66 @@
+
+.filter-sort-propose-activity-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 24px auto 20px auto;
+  padding: 0 16px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.status-filter-activity-propose,
+.sort-select-activity-propose {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: #fafafa;
+  color: #222;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 180px;
+}
+
+.status-filter-activity-propose:hover,
+.sort-select-activity-propose:hover {
+  border-color: #2C1966;
+  background-color: #f0ecff;
+}
+
+.status-filter-activity-propose:focus,
+.sort-select-activity-propose:focus {
+  border-color: #2C1966;
+  box-shadow: 0 0 5px rgba(44, 25, 102, 0.4);
+  background-color: #fff;
+}
+@media (max-width: 768px) {
+  .status-filter-activity-propose,
+  .sort-select-activity-propose {
+    font-size: 14px;
+    padding: 7px 10px;
+    min-width: 140px;
+    max-width: 180px;
+  }
+
+  .filter-sort-propose-activity-container {
+    gap: 10px;
+  }
+}
+
+/* Responsive rất nhỏ (<=480px) */
+@media (max-width: 480px) {
+  .status-filter-activity-propose,
+  .sort-select-activity-propose {
+    font-size: 13px;
+    min-width: 100px;
+    padding: 6px 8px;
+  }
+
+  .filter-sort-propose-activity-container {
+    gap: 5px;
+  }
+}
