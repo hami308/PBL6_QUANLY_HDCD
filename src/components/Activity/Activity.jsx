@@ -1,6 +1,7 @@
 import "./Activity.css";
 
 function Activity({id, image, name, volunteers, org, time_org_start, time_org_end}) {
+  
   const time_org = `${time_org_start} - ${time_org_end}`;
   return (
    <div className="activity">

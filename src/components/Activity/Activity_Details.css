@@ -104,7 +104,9 @@
   gap: 10px; /* khoảng cách giữa label và select */
   flex-wrap: wrap; /* nếu màn nhỏ thì tự xuống dòng */
 }
-
+.field .react-datepicker-wrapper{
+  width: fit-content;
+}
 strong {
   color: #251d64;
   margin-right: 8px;

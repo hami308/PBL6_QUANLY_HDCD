@@ -19,6 +19,8 @@ export const activity_list = [
     requirement_by_faculty: "1",
     image: pic_1,
     status: "Đã tổ chức",
+    time_propose: "08:00 2035-11-01",
+    time_approve_propose: "08:00 2035-10-25",
   },
   {
     id: "2",
@@ -74,6 +76,8 @@ export const activity_list = [
     requirement_by_faculty: "Khoa CNTT",
     image: pic_1,
     status:"Chưa duyệt",
+    time_propose: "08:00 2035-11-01",
+    time_approve_propose: "08:00 2035-10-25",
   },
   {
     id: "5",
