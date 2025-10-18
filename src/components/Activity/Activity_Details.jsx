@@ -1,5 +1,5 @@
 import "./Activity_Details.css";
-import React, { useState } from 'react';
+import React, { useState,useRef ,useEffect} from 'react';
 import dayjs from "dayjs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,7 +17,6 @@ function Activity_Details({ activity_details, ismodify = false }) {
   const start_time_org = dayjs(activity_details.time_org_start || "", "HH:mm YYYY-MM-DD");
   const end_time_org = dayjs(activity_details.time_org_end || "", "HH:mm YYYY-MM-DD");
 
-  const [showFullDescription, setShowFullDescription] = useState(false);
   const [registerStart, setRegisterStart] = useState(activity_details.register_time_start
     ? dayjs(activity_details.register_time_start).format("YYYY-MM-DD")
     : "");
@@ -58,6 +57,20 @@ function Activity_Details({ activity_details, ismodify = false }) {
     : [];
   const [facultyValuesState, setFacultyValuesState] = useState(facultyValues);
 
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const descRef = useRef(null);
+
+  useEffect(() => {
+    const el = descRef.current;
+    if (el) {
+      const lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+      const maxVisibleHeight = lineHeight * 3; // Giới hạn 3 dòng
+      setIsOverflowing(el.scrollHeight > maxVisibleHeight + 5);
+    }
+  }, [activity_details.description]);
+
+
   if (!activity_details) {
     return (
       <>
@@ -83,34 +96,25 @@ function Activity_Details({ activity_details, ismodify = false }) {
         />
         <div className="activity-content-details">
 
-          <div className={`activity-description-wrapper ${showFullDescription ? 'expanded' : ''}`}>
+          <div className="activity-description-wrapper">
             <strong>Mô tả:</strong>
-            <p className={`activity-description ${showFullDescription ? 'expanded' : ''}`}>
-              {activity_details.description.length <= 300 ? (
-                activity_details.description
-              ) : showFullDescription ? (
-                <>
-                  {activity_details.description}
-                  <button
-                    className="collapse-btn"
-                    onClick={() => setShowFullDescription(false)}
-                  >
-                    Thu gọn
-                  </button>
-                </>
-              ) : (
-                <>
-                  {activity_details.description.slice(0, 300)}...{" "}
-                  <span
-                    className="see-more-inline"
-                    onClick={() => setShowFullDescription(true)}
-                  >
-                    Xem thêm
-                  </span>
-                </>
-              )}
-            </p>
+            <div
+              ref={descRef}
+              className={`activity-description ${showFullDescription ? "expanded" : "collapsed"}`}
+            >
+              {activity_details.description}
+            </div>
+
+            {isOverflowing && (
+              <button
+                className="collapse-btn"
+                onClick={() => setShowFullDescription((prev) => !prev)}
+              >
+                {showFullDescription ? "Thu gọn" : "Xem thêm"}
+              </button>
+            )}
           </div>
+
 
           <div className="field">
             <strong>Thời gian đăng ký:</strong>

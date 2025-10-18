@@ -75,27 +75,46 @@
   margin: 30px auto;
   line-height: 1.6;
 }
- .activity-description {
-  text-align: justify;
-  margin-bottom: 6px;
+ .activity-description-wrapper {
+  margin-top: 12px;
+  position: relative;
 }
 
-.see-more-inline {
-  color: gray;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 15px;
+.activity-description {
+  overflow: hidden;
+  line-height: 1.5em;
+  transition: max-height 0.3s ease;
+  white-space: pre-line;
+  position: relative;
 }
 
+/* Giới hạn 3 dòng khi thu gọn */
+.activity-description.collapsed {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 3 dòng */
+  -webkit-box-orient: vertical;
+}
+
+/* Hiển thị đầy đủ khi mở rộng */
+.activity-description.expanded {
+  display: block;
+}
+
+/* Nút xem thêm / thu gọn */
 .collapse-btn {
+  margin-top: 6px;
   background: none;
   border: none;
-  color: gray;
-  font-weight: 600;
+  color: #007bff;
   cursor: pointer;
+  font-size: 14px;
   padding: 0;
-  font-size: 15px;
 }
+
+.collapse-btn:hover {
+  text-decoration: underline;
+}
+
 .field {
   margin: 12px 0;
   font-size: 16px;
