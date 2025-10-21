@@ -16,6 +16,7 @@ import Approved_Evidence_Page from "../src/Pages/Approved_Evidence_Page/Approved
 import EvidenceDetail_Page from "../src/Pages/EvidenceDetail_Page/EvidenceDetail_Page";
 import ActivityDetails_Page from "../src/Pages/ActivityDetails_Page/ActivityDetails_Page"
 import Propose_Activity_Page from "../src/Pages/Propose_Activity_Page/Propose_Activity_Page";
+import Create_QR_Page from "./Pages/Create_QR_Page/Create_QR_Page";
 function App() {
   return (
     <LoginProvider>
@@ -48,6 +49,7 @@ function App() {
         <Route path="/evidence-details" element={<EvidenceDetail_Page/>}/>
         <Route path="/activity-details/:id" element={<ActivityDetails_Page/>}/>
         <Route path="/propose-activity" element={<Propose_Activity_Page/>}/>
+        <Route path="/create-qr-attendance" element={<Create_QR_Page/>}/>
       </Routes>
       
     </LoginProvider>

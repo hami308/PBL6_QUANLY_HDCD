@@ -1,0 +1,8 @@
+.background-create-qr{
+    background-image: url("../../assets/images/anhnen.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 500px;
+    width: 100%;
+}
