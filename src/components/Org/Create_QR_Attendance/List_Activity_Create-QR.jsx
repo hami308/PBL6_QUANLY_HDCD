@@ -2,6 +2,7 @@ import Create_QR_Attendance from "./Create_QR_Attendance";
 import Pagination from "../../Pagination/Pagination";
 import React, { useState } from "react";
 import Activity_pic from '../../../assets/images/activity.jpg';
+import "./List_Activity_Create_QR.css";
 
   const activity_list = [
     {
@@ -77,6 +78,10 @@ function List_Activity_Create_QR(){
   
     return (
         <>
+            <div className="search-activity-create-qr">
+              <input placeholder="Tìm kiếm hoạt động..." name="search-activity-name"></input>
+              <button>Tìm kiếm</button>
+            </div>
             {currentActivities.map((activity, index) => (
                 <Create_QR_Attendance
                     key={index} 
