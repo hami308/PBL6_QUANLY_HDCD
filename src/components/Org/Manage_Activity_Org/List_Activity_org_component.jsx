@@ -60,7 +60,7 @@ import Activity_pic from '../../../assets/images/activity.jpg';
     },
   ];
 
-function List_Activity_Create_QR(){
+function List_Activity_org_component(){
     const [currentPage, setCurrentPage] = useState(1);
       const itemsPerPage = 5; // số hoạt động mỗi trang
     
@@ -82,7 +82,7 @@ function List_Activity_Create_QR(){
     
   
     return (
-        <>         
+        <div className="list-activity-org-component-container">         
             {currentActivities.map((activity, index) => (
                 <Activity_org_component
                     key={index} 
@@ -94,7 +94,7 @@ function List_Activity_Create_QR(){
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
             />
-        </>
+        </div>
     );
 }
-export default List_Activity_Create_QR;
+export default  List_Activity_org_component;
