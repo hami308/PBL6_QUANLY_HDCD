@@ -1,0 +1,10 @@
+.background-image-manage-activity-org {
+    background: url("../../assets/images/anhnen.jpg") no-repeat center center;
+    background-size:cover ;
+    width: 100%;
+    min-height:500px;
+    z-index: 1;
+}
+.manage-activity-org-page .filter-bar{
+    max-width: 60%;
+}
