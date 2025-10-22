@@ -14,7 +14,8 @@ export const activity_list = [
     field: "Y tế",
     requirement_by_course: "1,2",
     requirement_by_department: "1",
-    image: pic_1
+    image: pic_1,
+    status: "Đã tổ chức",
   },
   {
     id: "2",
@@ -29,7 +30,8 @@ export const activity_list = [
     field: "Môi trường",
     requirement_by_course: "Sinh viên năm 1-4",
     requirement_by_department: "Khoa Môi trường",
-    image: pic_1
+    image: pic_1,
+    status: "Đã tổ chức",
   },
   {
     id: "3",

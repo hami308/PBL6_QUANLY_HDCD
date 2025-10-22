@@ -1,11 +1,11 @@
 import { useState } from "react";
 import "./CreateAccountBox.css"; // import css riêng
-
+import { useNavigate } from "react-router-dom";
 const CreateAccount = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     let validPw = password;
@@ -68,7 +68,12 @@ const CreateAccount = () => {
       </div>
       {/* Nút xác nhận */}
       <div className="submit-btn">
-        <button type="submit">
+        <button
+          type="submit"
+          onClick={() => {
+            navigate("/permission");
+          }}
+        >
           <span className="material-symbols-outlined">done_outline</span>
         </button>
       </div>

@@ -4,7 +4,6 @@ import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import { activity_list } from "../../data/activity_list.js"
-import {Faculty} from "../../data/Faculty.js";
 import ActivityList from "../../components/Activity/Activity_list.jsx";
 import Activity_Details from "../../components/Activity/Activity_Details.jsx"
 import { useParams  } from "react-router-dom";

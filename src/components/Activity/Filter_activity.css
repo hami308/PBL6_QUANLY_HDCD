@@ -88,7 +88,8 @@ button.reset {
 button.reset:hover {
   background: #2e7d32;
 }
-.material-symbols-outlined {
+.icon .material-symbols-outlined {
+  font-size: 25px;
   font-variation-settings:
   'FILL' 0,
   'wght' 400,

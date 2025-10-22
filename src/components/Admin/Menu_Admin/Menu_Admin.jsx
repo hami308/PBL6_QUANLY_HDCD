@@ -173,6 +173,7 @@ const Menu_Admin = () => {
         >
           <a href="/useraccount-management">Quản lý thông tin tài khoản</a>
           <a href="/update-password">Cấp lại mật khẩu</a>
+           <a href="/permission">Phân quyền</a>
         </div>
       )}
     </div>

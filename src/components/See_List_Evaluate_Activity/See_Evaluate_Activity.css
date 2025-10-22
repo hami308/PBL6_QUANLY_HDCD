@@ -1,0 +1,220 @@
+.see-evaluate-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 10px;
+}
+
+.see-evaluate-card {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 20px 25px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  border: 1px solid black;
+}
+
+.see-evaluate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  margin-top:-10px;
+}
+
+.see-evaluate-tags {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-name {
+  background-color: #198754;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.activity-date {
+  background-color: #f8d7da;
+  color: #b02a37;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.see-evaluate-stars span {
+  color: #ffc107;
+  font-size: 20px;
+}
+.star {
+  font-size: 20px;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.star.active {
+  color: #ffc107; /* Sao vàng */
+}
+.star.inactive {
+  color: #e4e5e9; /* Sao xám nhạt */
+}
+
+/* Hiệu ứng hover nhẹ nếu muốn */
+.see-evaluate-stars:hover .star {
+  transform: scale(1.1);
+}
+.see-evaluate-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  margin: 10px 0;
+}
+
+.see-evaluate-comment {
+  color: #555;
+  line-height: 1.6;
+  font-size: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Hiển thị tối đa 3 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
+
+.see-evaluate-comment.expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.toggle-btn {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.toggle-btn:hover {
+  text-decoration: underline;
+}
+
+.see-evaluate-date {
+  color: #777;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+
+@media (max-width: 900px) {
+  .see-evaluate-container {
+    max-width: 80%;
+    margin: 30px auto;
+  }
+
+  .see-evaluate-card {
+    padding: 18px;
+  }
+
+  .see-evaluate-name {
+    font-size: 17px;
+  }
+
+  .see-evaluate-comment {
+    font-size: 14px;
+  }
+}
+
+/* Mobile trung bình (≤ 748px) */
+@media (max-width: 748px) {
+  .see-evaluate-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .see-evaluate-tags {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .activity-name,
+  .activity-date {
+    font-size: 12px;
+    padding: 3px 6px;
+  }
+
+  .see-evaluate-name {
+    font-size: 16px;
+  }
+
+  .see-evaluate-comment {
+    font-size: 13px;
+  }
+
+  .see-evaluate-stars .star {
+    font-size: 18px;
+  }
+
+  .see-evaluate-date {
+    font-size: 12px;
+  }
+}
+
+/* Màn hình nhỏ (≤ 480px) */
+@media (max-width: 480px) {
+  .see-evaluate-container {
+    margin: 20px auto;
+    padding: 6px;
+    max-width: 90%;
+  }
+  .see-evaluate-header{
+    padding-top:5px;
+  }
+  .see-evaluate-card {
+    padding: 10px;
+  }
+  .see-evaluate-stars{
+    margin-left:10px;
+  }
+  .see-evaluate-name {
+    font-size: 15px;
+  }
+
+  .see-evaluate-comment {
+    font-size: 12.5px;
+  }
+
+  .star {
+    font-size: 17px;
+  }
+}
+
+/* Màn hình siêu nhỏ (≤ 360px) */
+@media (max-width: 360px) {
+  .see-evaluate-card {
+    padding: 10px;
+  }
+
+  .activity-name,
+  .activity-date {
+    font-size: 11px;
+  }
+
+  .see-evaluate-name {
+    font-size: 14px;
+  }
+
+  .see-evaluate-comment {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .see-evaluate-date {
+    font-size: 11px;
+  }
+}
