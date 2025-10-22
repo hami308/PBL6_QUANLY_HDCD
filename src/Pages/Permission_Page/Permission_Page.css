@@ -1,0 +1,78 @@
+.Position_Box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  background-image: url("../../Assets/Images/background_permission.jpg");
+  background-size: cover;
+  background-position: center;
+}
+.Role_Selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+}
+.Permission_Title {
+  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  width: fit-content;
+  color: white;
+  text-align: center;
+  margin: 50px auto;
+  background-color: #2e2c72;
+  padding: 10px;
+}
+.Action_group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 100px;
+}
+.Confirm_Button_Container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 15vw;
+  margin-bottom: 50px;
+}
+
+.Confirm_Button {
+  background-color: #2e2c72;
+  color: white;
+  font-size: 18px;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.Confirm_Button:hover {
+  background-color: #0d0c48;
+  transform: scale(1.05);
+}
+@media (max-width: 700px) {
+  .Action_group {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .Permission_Title {
+    font-size: 16px;
+    margin: 30px auto;
+  }
+  .Confirm_Button {
+    font-size: 15px;
+    padding: 8px 20px;
+  }
+}
+@media (max-width: 400px) {
+  .Confirm_Button_Container {
+    margin-right: 5vw;
+    margin-bottom: 20px;
+  }
+}
