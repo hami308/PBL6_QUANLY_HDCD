@@ -28,7 +28,8 @@ function Activity_list() {
             name={activity.name}
             volunteers={activity.volunteers}
             org={activity.org}
-            time_org={activity.time_org}
+            time_org_start={activity.time_org_start}
+            time_org_end={activity.time_org_end}
           />
         ))}
       </div>

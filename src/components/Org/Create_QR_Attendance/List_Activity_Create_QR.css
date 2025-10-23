@@ -1,0 +1,28 @@
+.search-activity-create-qr{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+    
+.search-activity-create-qr input {
+    width: 300px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-activity-create-qr button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    background-color: #2C1966;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-activity-create-qr button:hover {
+    background-color: #555;
+}

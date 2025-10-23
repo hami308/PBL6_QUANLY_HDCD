@@ -1,0 +1,138 @@
+.create-qr-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #222;
+  border-radius: 10px;
+  padding: 10px 15px;
+  width: 80%;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.create-qr-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.create-qr-image {
+  width: 130px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.create-qr-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.create-qr-club {
+  display: inline-block;
+  background-color: #d8f5e0;
+  color: #0a6847;
+  font-size: 13px;
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-style: italic;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.create-qr-info {
+  margin: 4px 0;
+  font-size: 15px;
+}
+
+.create-qr-right {
+  text-align: center;
+  cursor: pointer;
+}
+.create-qr-right .material-symbols-outlined{
+    font-size: 55px;
+}
+.create-qr-qr-text {
+  margin: 4px 0 0 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+@media (max-width: 768px) {
+  .create-qr-card{
+    width: 85%;
+  }
+  .create-qr-image {
+    width: 100px;
+  }
+  .create-qr-title {
+    font-size: 20px;
+  }
+  .create-qr-club{
+    margin-bottom: 0;
+  }
+  .create-qr-right .material-symbols-outlined{
+    font-size: 50px;
+}
+}
+
+@media (max-width: 768px) {
+  .create-qr-card{
+    padding: 10px;
+    width: 95%;
+  }
+  .create-qr-image {
+    width: 90px; 
+    height: 70px;
+  }
+  .create-qr-title {
+    font-size: 18px; 
+  }
+  .create-qr-info {
+    font-size: 14px; 
+  }
+  .create-qr-club{
+    font-size: 12px;
+    padding: 2px 8px;
+    margin-bottom: 0;
+  }
+  .create-qr-right .material-symbols-outlined{
+    font-size: 45px; 
+}
+  .create-qr-qr-text {
+    font-size: 15px;
+  }
+}
+@media (max-width: 480px) {
+  .create-qr-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+  }
+  .create-qr-left {
+    gap: 10px;
+  }
+  .create-qr-image {
+    width: 70px; 
+    height: 80px;
+  }
+  .create-qr-title {
+    font-size: 16px;
+  }
+  .create-qr-club{
+    font-size: 11px;
+    padding: 1px 1px;
+  }
+  .create-qr-info {
+    font-size: 13px;
+    margin: 2px 0;
+  }
+  .create-qr-right .material-symbols-outlined{
+    font-size: 35px;
+  }
+  .create-qr-qr-text {
+    font-size: 13px;
+  }
+}

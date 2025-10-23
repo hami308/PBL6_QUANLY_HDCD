@@ -14,9 +14,9 @@ function HomePage() {
   return (
     <>
       <Header />
-      {!user && <Menu_guest />}
-      {user?.role === "student" && <Menu_student />}
-      {user?.role === "admin" && <Menu_Admin />}
+    {!user && <Menu_guest />}
+    {user?.roles?.[0]?.role === "student" && <Menu_student />}
+    {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
       <div className="home-main">
         <div className="home-image-container">
           <img src={dut_home_pic} alt="DUT Home" className="home-image" />

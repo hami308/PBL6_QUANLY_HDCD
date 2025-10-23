@@ -1,0 +1,158 @@
+.activity-propose-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #000;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 800px;
+  margin: 10px auto;
+}
+
+.activity-propose-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 15px;
+}
+
+.activity-propose-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.activity-propose-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.activity-propose-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.activity-propose-club {
+  background: #d8f5e0;
+  color: #0a6847;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 3px;
+  display: inline-block;
+}
+.activity-propose-status {
+  padding: 5px 15px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000;
+  /* margin-top:-5px;
+  margin-right:-5px; */
+  margin-right:5px;
+}
+
+/* Màu cho từng trạng thái */
+.status-approved {
+  background-color: #42E694;
+}
+
+.status-pending {
+  background-color: #F69898;
+}
+.activity-propose-detail {
+  font-size: 0.9rem;
+  margin: 3px 0;
+}
+
+.activity-propose-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: -30px;
+}
+
+.activity-propose-link {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding:10px;
+}
+
+.activity-propose-link:hover {
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .activity-propose-card {
+    max-width: 95%;
+    padding: 5px;
+  }
+
+  .activity-propose-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .activity-propose-title {
+    font-size: 1rem;
+  }
+
+  .activity-propose-detail {
+    font-size: 0.85rem;
+  }
+
+  .activity-propose-status {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  .activity-propose-actions {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-propose-card {
+    width:100%;
+    padding: 5px;
+    border-width: 1px;
+  }
+  .activity-propose-club{
+    font-size: 12px;
+  }
+  .activity-propose-status{
+    font-size:10px;
+  }
+  .activity-propose-img {
+    width: 50px;
+    height: 70px;
+    margin-right: 8px;
+  }
+
+  .activity-propose-title {
+    font-size: 14px;
+  }
+
+  .activity-propose-detail {
+    font-size: 11px;
+  }
+
+  .activity-propose-link {
+    font-size: 10px;
+    padding: 0px;
+    margin-top:30px
+  }
+
+  .activity-propose-status {
+    padding: 3px 8px;
+  }
+}

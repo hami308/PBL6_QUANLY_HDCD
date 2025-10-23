@@ -1,0 +1,186 @@
+.propose-activity-container {
+  background-image: url("../../../assets/images/anhnen.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  min-height: 600px;
+}
+
+.propose-activity-form {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-propose-activity {
+   display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  min-height: 45px; /* giúp các dòng có cùng chiều cao */
+}
+
+.form-propose-activity label {
+ font-weight: 500;
+  min-width: 200px; /* đảm bảo label căn thẳng hàng */
+  text-align: left;
+}
+
+.form-propose-activity input,
+.form-propose-activity textarea {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+.form-propose-activity textarea {
+  font-family: "Arial", sans-serif;
+  height: 70px;       
+  resize: none;       /* không cho kéo giãn */
+}
+
+.form-propose-activity input:focus,
+.form-propose-activity textarea:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+.custom-date-picker-propose-activity {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  transition: 0.2s ease;
+}
+
+.custom-date-picker-propose-activity:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end; 
+}
+
+.submit-propose-activity-btn {
+  background-color: #2C1966;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+.submit-propose-activity-btn .material-symbols-outlined{
+  font-size: 25px;
+}
+
+.submit-propose-activity-btn:hover {
+  background-color: #555;
+}
+.form-propose-activity .react-datepicker-wrapper {
+  flex: 1; /* giúp chiếm toàn bộ chiều ngang giống input */
+}
+
+.form-propose-activity .react-datepicker__input-container {
+  width: 100%;
+}
+
+.form-propose-activity .react-datepicker__input-container input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  transition: 0.2s ease;
+}
+
+.form-propose-activity .react-datepicker__input-container input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+.propose-activity-tag-select{
+  width: 100%;
+  font-size: 15px;
+}
+.error-message-propose {
+  color: #e63946;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+  font-weight: 500;
+  transition: opacity 0.3s ease-in-out;
+}
+@media (max-width: 768px) {
+  .propose-activity-form {
+    width:90%;
+    padding: 25px 20px;
+  }
+
+  .form-propose-activity {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-propose-activity label {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .form-actions {
+    justify-content: center;
+  }
+
+  .submit-propose-activity-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+  }
+}
+
+/* 🔹 Responsive cho màn hình nhỏ hơn 480px */
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.4rem;
+  }
+
+  .propose-activity-form {
+    padding: 20px 15px;
+  }
+
+  .form-propose-activity input,
+  .form-propose-activity textarea,
+  .custom-date-picker-propose-activity {
+    font-size: 14px;
+  }
+  .error-message-propose{
+    font-size: 12px;
+  }
+}
