@@ -19,12 +19,12 @@ function Login({ onClose }) {
 
       if (result.success) {
         onClose();
-        alert(`Đăng nhập thành công! Chào mừng ${result.user.name}`);
-
+        alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
+        console.log("User info:", result.user);
         // Chuyển hướng theo role
-        if (result.user.role === "student") {
+        if (result.user.roles[0].role === "student") {
           navigate("/home-student", { replace: true });
-        } else if (result.user.role === "admin") {
+        } else if (result.user.roles[0].role === "admin") {
           navigate("/home-admin", { replace: true });
         } else {
           navigate("/", { replace: true });
