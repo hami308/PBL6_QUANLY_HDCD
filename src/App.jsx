@@ -19,6 +19,7 @@ import Propose_Activity_Page from "../src/Pages/Propose_Activity_Page/Propose_Ac
 import Create_QR_Page from "./Pages/Create_QR_Page/Create_QR_Page";
 import Manage_Activity_Org_Page from "./Pages/Manage_Activity_Org_Page/Manage_Activity_Org_Page";
 import PermissionPage from "./Pages/Permission_Page/Permission_Page";
+import Receive_Notification from "./Pages/Receive_Notification/Receive_Notification";
 function App() {
   return (
     <LoginProvider>
@@ -63,6 +64,10 @@ function App() {
           element={<Manage_Activity_Org_Page />}
         />
         <Route path="/permission" element={<PermissionPage />} />
+        <Route
+          path="/receive-notification"
+          element={<Receive_Notification />}
+        />
       </Routes>
     </LoginProvider>
   );
