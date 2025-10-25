@@ -3,10 +3,12 @@ import CreateAccount from "../../components/Admin/CreateAccountBox/CreateAccount
 import FileUpload from "../../components/Admin/FileUpload/FileUpload";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_admin";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
+
 import "./CreateAccount_Page.css";
 function CreateAccount_Page() {
   const [role, setRole] = React.useState("student");
+
   return (
     <div className="createAccountPage">
       <Header />
@@ -39,7 +41,9 @@ function CreateAccount_Page() {
             "File không được vượt quá 5MB",
           ]}
           buttonText="Tải lên và tạo tài khoản"
-          onSubmit={() => alert("Upload để tạo tài khoản")}
+          onSubmit={() => {
+            alert("Tạo tài khoản thành công!");
+          }}
         />
       </div>
 

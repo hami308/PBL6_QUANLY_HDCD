@@ -1,0 +1,32 @@
+.position-box {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.5vw;
+  margin-bottom: 10px;
+  width: fit-content;
+  background-color: white;
+}
+.position-box .title {
+  font-weight: bold;
+  margin-bottom: 1vw;
+  font-size: 20px;
+}
+.username,
+.position {
+  margin-bottom: 10px;
+}
+
+.username p,
+.position p {
+  margin: 10px 0px;
+  font-weight: bold;
+}
+
+.username input,
+.position input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}

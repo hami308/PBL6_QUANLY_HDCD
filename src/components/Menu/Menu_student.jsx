@@ -98,7 +98,7 @@ function Menu_student({ ismoniter_class = true }) {
           </button>
         </div>
 
-        <a href="/notifications" className="icon-link">
+        <a href="/receive-notification" className="icon-link">
           <span className="material-symbols-outlined">notifications</span>
         </a>
         <button onClick={handleLogout} className="logout-btn">

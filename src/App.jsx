@@ -14,10 +14,12 @@ import ManageActivity_Student_Page from "../src/Pages/ManageActivity_Student_Pag
 import SubmitEvidence_Page from "../src/Pages/SubmitEvidence_Page/SubmitEvidence_Page";
 import Approved_Evidence_Page from "../src/Pages/Approved_Evidence_Page/Approved_Evidence_Page";
 import EvidenceDetail_Page from "../src/Pages/EvidenceDetail_Page/EvidenceDetail_Page";
-import ActivityDetails_Page from "../src/Pages/ActivityDetails_Page/ActivityDetails_Page"
+import ActivityDetails_Page from "../src/Pages/ActivityDetails_Page/ActivityDetails_Page";
 import Propose_Activity_Page from "../src/Pages/Propose_Activity_Page/Propose_Activity_Page";
 import Create_QR_Page from "./Pages/Create_QR_Page/Create_QR_Page";
 import Manage_Activity_Org_Page from "./Pages/Manage_Activity_Org_Page/Manage_Activity_Org_Page";
+import PermissionPage from "./Pages/Permission_Page/Permission_Page";
+import Receive_Notification from "./Pages/Receive_Notification/Receive_Notification";
 function App() {
   return (
     <LoginProvider>
@@ -44,16 +46,29 @@ function App() {
           path="/statistical/Activity"
           element={<Statistical activeTab="Activity" />}
         />
-        <Route path="/manage-activities-student" element={<ManageActivity_Student_Page/>}/>
-        <Route path="/submit-evidence" element={<SubmitEvidence_Page/>}/>
-        <Route path="/approved-evidence" element={<Approved_Evidence_Page/>}/>
-        <Route path="/evidence-details" element={<EvidenceDetail_Page/>}/>
-        <Route path="/activity-details/:id" element={<ActivityDetails_Page/>}/>
-        <Route path="/propose-activity" element={<Propose_Activity_Page/>}/>
-        <Route path="/create-qr-attendance" element={<Create_QR_Page/>}/>
-        <Route path="/manage-activity-org" element={<Manage_Activity_Org_Page/>}/>
+        <Route
+          path="/manage-activities-student"
+          element={<ManageActivity_Student_Page />}
+        />
+        <Route path="/submit-evidence" element={<SubmitEvidence_Page />} />
+        <Route path="/approved-evidence" element={<Approved_Evidence_Page />} />
+        <Route path="/evidence-details" element={<EvidenceDetail_Page />} />
+        <Route
+          path="/activity-details/:id"
+          element={<ActivityDetails_Page />}
+        />
+        <Route path="/propose-activity" element={<Propose_Activity_Page />} />
+        <Route path="/create-qr-attendance" element={<Create_QR_Page />} />
+        <Route
+          path="/manage-activity-org"
+          element={<Manage_Activity_Org_Page />}
+        />
+        <Route path="/permission" element={<PermissionPage />} />
+        <Route
+          path="/receive-notification"
+          element={<Receive_Notification />}
+        />
       </Routes>
-      
     </LoginProvider>
   );
 }
