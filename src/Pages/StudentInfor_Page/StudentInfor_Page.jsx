@@ -8,8 +8,8 @@ function StudentInfor_Page() {
   return (
     <>
       <Header />
-      {user?.role === "student" && <Menu_Student />}
-      {user?.role === "admin" && <Menu_Admin />}
+      {user?.roles[0].role === "student" && <Menu_Student />}
+      {user?.roles[0].role === "admin" && <Menu_Admin />}
       <StudentInfor />
       <Footer />
     </>

@@ -17,8 +17,12 @@ export async function login(username, password) {
     const data = response.data;
 
     if (data.success) {
-      // Lưu thông tin user vào sessionStorage (có thể lưu token)
+      // Lưu thông tin user và token vào sessionStorage 
       sessionStorage.setItem("user", JSON.stringify(data.user));
+      if (data.token) {
+        sessionStorage.setItem("token", data.token);
+      }
+
       return { success: true, user: data.user };
     } else {
       return { success: false, message: data.message || "Đăng nhập thất bại" };
