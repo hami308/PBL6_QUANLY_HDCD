@@ -34,15 +34,12 @@ function List_Student_Page() {
   );
 
   // Cột của bảng
-  const columns = [
-    "STT",
-    "MSSV",
-    "Họ và tên",
-    "Khoa",
-    "Lớp",
-    "Trạng thái",
-    "Điểm",
-  ];
+ // Cột của bảng (ẩn cột “Điểm” nếu không phải tab student-attended)
+const columns = activeTab === "student-attended"
+  ? ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái", "Điểm"]
+  : ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái"];
+
+
   const filteredStudents = studentList.filter((student) => {
       return (
         (!faculty || student.faculty === Number(faculty)) &&
@@ -52,18 +49,26 @@ function List_Student_Page() {
           student.name.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     });
-  // Dữ liệu hiển thị cho bảng (map lại theo cột)
-  const tableData = filteredStudents.map((student, index) => ({
+  // Dữ liệu hiển thị cho bảng
+const tableData = filteredStudents.map((student, index) => {
+  const baseData = {
     stt: index + 1,
     mssv: student.mssv,
     họ_và_tên: student.name,
     khoa: Faculty.find((f) => f.id === student.faculty)?.name || "",
     lớp: student.className,
     trạng_thái: student.status,
-    điểm: (
+  };
+
+  // Nếu tab là student-attended thì thêm cột “điểm”
+  if (activeTab === "student-attended") {
+    baseData.điểm = (
       <input type="number" min="0" max="10" className="score-input" />
-    ),
-  }));
+    );
+  }
+
+  return baseData;
+});
 
   // Render cột “Thao tác”
   const renderActions = () => (
