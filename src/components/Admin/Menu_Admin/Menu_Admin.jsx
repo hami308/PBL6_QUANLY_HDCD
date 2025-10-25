@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Menu_Admin.css";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const Menu_Admin = () => {
   const [activeMenu, setActiveMenu] = useState(null); // "xtk" | "qltk" | null
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -173,7 +173,9 @@ const Menu_Admin = () => {
         >
           <a href="/useraccount-management">Quản lý thông tin tài khoản</a>
           <a href="/update-password">Cấp lại mật khẩu</a>
-           <a href="/permission">Phân quyền</a>
+          <Link to="/permission" state={{ username: "", role: "" }}>
+            Phân quyền
+          </Link>
         </div>
       )}
     </div>

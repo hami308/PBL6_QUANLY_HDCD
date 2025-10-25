@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./RoleSelector.css";
 
-const RoleSelector = () => {
+const RoleSelector = ({ role }) => {
   const roles = ["Sinh viên", "Cán bộ giảng viên", "Admin"];
-  const [selectedRole, setSelectedRole] = useState(null);
+  const [selectedRole, setSelectedRole] = useState(role || null);
 
   const handleCheck = (role) => {
     setSelectedRole(selectedRole === role ? null : role);

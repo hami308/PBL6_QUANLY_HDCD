@@ -21,7 +21,7 @@ export function Delete_Account() {
     }
     if (role === "student") {
       //Chưa truyền username để xóa
-      navigate(`/student-infor`);
+      navigate(`/student-infor/`);
     }
     if (role === "teacher") {
       navigate(`/teacher-infor`);

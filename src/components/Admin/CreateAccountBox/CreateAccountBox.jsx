@@ -28,6 +28,9 @@ const CreateAccount = () => {
     if (validPw !== password) {
       setPassword(validPw);
     }
+    navigate("/permission", {
+      state: { username, role },
+    });
   };
 
   return (
@@ -61,19 +64,14 @@ const CreateAccount = () => {
         <label>Vai trò</label>
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="">-- Chọn vai trò --</option>
-          <option value="sinhvien">Sinh viên</option>
-          <option value="canbo">Cán bộ</option>
-          <option value="admin">Admin</option>
+          <option value="Sinh viên">Sinh viên</option>
+          <option value="Cán bộ giảng viên">Cán bộ giảng viên</option>
+          <option value="Admin">Admin</option>
         </select>
       </div>
       {/* Nút xác nhận */}
       <div className="submit-btn">
-        <button
-          type="submit"
-          onClick={() => {
-            navigate("/permission");
-          }}
-        >
+        <button type="submit">
           <span className="material-symbols-outlined">done_outline</span>
         </button>
       </div>

@@ -5,7 +5,11 @@ import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import Footer from "../../components/Footer/Footer";
 import RoleSelector from "../../components/Admin/Permisson/RoleSelector";
 import "./Permission_Page.css";
+import { useLocation } from "react-router-dom";
 const PermissionPage = () => {
+  const location = useLocation();
+  const { username, role } = location.state || {};
+
   const actions = [
     "Duyệt minh chứng cho các hoạt động ngoài trường ",
     "Read",
@@ -21,10 +25,10 @@ const PermissionPage = () => {
       <Header />
       <Menu_Admin />
       <div className="Position_Box">
-        <PositionBox />
+        <PositionBox username={username} />
       </div>
       <div className="Role_Selector">
-        <RoleSelector />
+        <RoleSelector role={role} />
       </div>
       <div className="Permission_Title">
         <p>Chọn các quyền được phép sử dụng</p>
