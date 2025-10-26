@@ -91,6 +91,20 @@
 .apply-btn:hover { background: #2e5fa8; }
 .reset-btn:hover { background: #2d8659; }
 
+.class-select-container {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.class-select {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+}
+
 @media (max-width: 900px) {
   .filter-evidence-container {
     padding: 20px;

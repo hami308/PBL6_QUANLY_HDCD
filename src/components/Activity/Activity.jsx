@@ -1,8 +1,18 @@
 import "./Activity.css";
 
 function Activity({id, image, name, volunteers, org, time_org_start, time_org_end}) {
-  
-  const time_org = `${time_org_start} - ${time_org_end}`;
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const datePart = date.toLocaleDateString("vi-VN");
+    const timePart = date.toLocaleTimeString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return `${datePart} ${timePart}`;
+  };
+   const time_org = `${formatDateTime(time_org_start)} - ${formatDateTime(time_org_end)}`;
   return (
    <div className="activity">
       <div className="activity-image">

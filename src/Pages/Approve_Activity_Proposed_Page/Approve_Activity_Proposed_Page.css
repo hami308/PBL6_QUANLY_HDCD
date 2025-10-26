@@ -1,0 +1,117 @@
+.approve-activity-proposed-page .management-tabs .tab, 
+.approve-activity-proposed-page .management-tabs .tab_active{
+   width:400px;
+}
+
+.background-page{
+    background: url("../../assets/images/anhnen.jpg") no-repeat center center;
+    background-size:cover ;
+    width: 100vw;
+    height:500px;
+    z-index: 1;
+}
+.filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background-color: white;
+  padding: 15px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  background-color: white;
+  min-width: 200px;
+}
+
+.search-btn {
+  background-color: #2d2169;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-btn:hover {
+  background-color: #43389b;
+}
+
+.approve-activity-proposed-page footer {
+  margin-top: auto;
+}
+.table-list-container {
+  display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+@media (max-width: 1024px) {
+  .approve-activity-proposed-page .management-tabs .tab,
+  .approve-activity-proposed-page .management-tabs .tab_active {
+    width: 300px;
+    font-size: 15px;
+  }
+
+  .filter-select {
+    min-width: 160px;
+  }
+
+  .search-btn {
+    font-size: 14px;
+    padding: 7px 16px;
+  }
+}
+
+/* Mobile ngang (dưới 768px) */
+@media (max-width: 768px) {
+  .background-page {
+    height: 350px;
+  }
+
+   .approve-activity-proposed-page .management-tabs .tab,
+  .approve-activity-proposed-page .management-tabs .tab_active {
+    width: 200px;
+    font-size: 15px;
+  }
+
+  .filter-select {
+    min-width: 160px;
+  }
+
+  .search-btn {
+    font-size: 14px;
+    padding: 7px 16px;
+  }
+}
+
+/* Mobile nhỏ (dưới 480px) */
+@media (max-width: 480px) {
+  .background-page {
+    height: 250px;
+  }
+
+  .approve-activity-proposed-page .management-tabs .tab,
+  .approve-activity-proposed-page .management-tabs .tab_active {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .filter-select {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .search-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+}
