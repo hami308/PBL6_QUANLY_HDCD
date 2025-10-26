@@ -9,7 +9,7 @@ import { field } from "../../data/field";
 import { course } from "../../data/course";
 import { Faculty } from "../../data/Faculty";
 import CustomSelect from "../Custom/CustomSelect.jsx";
-import CancelActivityPopup from "../CancelActivityPopup/CancelActivityPopup.jsx";
+import CancelActivityPopup from "../Popup/CancelActivityPopup.jsx";
 registerLocale("vi", vi);
 
 function Activity_Details({ activity_details, ismodify = false }) {
