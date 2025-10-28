@@ -55,30 +55,7 @@ function Activity_list() {
           />
           
         ))}
-        {currentActivities.map((activity) => (
-          <Activity
-            key={activity._id} // key duy nhất
-            id={activity._id}
-            image={activity.activity_image || activity_pic} // ảnh mặc định nếu không có
-            name={activity.title} // từ API là 'title'
-            volunteers={activity.capacity || 0} // số lượng tình nguyện viên hiện tại
-            org={activity.org_unit_id?.name || "Không rõ đơn vị"}
-            time_org_start={activity.start_time}
-            time_org_end={activity.end_time}
-          />
-        ))}
-        {currentActivities.map((activity) => (
-          <Activity
-            key={activity._id} // key duy nhất
-            id={activity._id}
-            image={activity.activity_image || activity_pic} // ảnh mặc định nếu không có
-            name={activity.title} // từ API là 'title'
-            volunteers={activity.capacity || 0} // số lượng tình nguyện viên hiện tại
-            org={activity.org_unit_id?.name || "Không rõ đơn vị"}
-            time_org_start={activity.start_time}
-            time_org_end={activity.end_time}
-          />
-        ))}
+
       </div>
 
       {/* Thanh phân trang */}

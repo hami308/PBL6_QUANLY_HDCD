@@ -11,6 +11,7 @@
   transition: all 0.3s ease;
   padding: 1.5vh 1.5vw;
   box-sizing: border-box;
+  min-width: 300px;
 }
 
 .activity:hover {
