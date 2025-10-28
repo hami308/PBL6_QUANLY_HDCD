@@ -1,32 +1,15 @@
 /* Container danh sách activity */
 .activity-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* responsive tối ưu hơn */
+  display: flex;
+  flex-wrap: wrap;           /* cho phép xuống hàng */
+  justify-content: center;   /* ✅ căn giữa hàng cuối */
   gap: 20px;
-  justify-items: stretch;
-  align-items: stretch;
-  margin: 30px auto 0 auto;
-  width: 100%;
-  max-width: 1400px;
-  padding: 0 12px 40px 12px; /* padding ngang nhỏ cho mọi màn hình */
+  max-width: 1300px;         /* ✅ tổng chiều rộng tối đa của 4 cột */
+  margin: 30px auto;
+  padding: 0 12px 40px 12px;
   box-sizing: border-box;
-  grid-auto-rows: auto;
+  align-items: stretch;
 }
-
-/* Đảm bảo mỗi activity item có layout phù hợp */
-.activity-list > * {
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* item con chiếm hết chiều cao ô lưới */
-}
-
-/* Activity component */
-.activity {
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* chiếm hết chiều cao item */
-}
-
 
 /* Responsive */
 

@@ -1,16 +1,16 @@
 .activity {
-  font-family: 'Arial', sans-serif;
-  width: 100%;
-  min-height: 30vh;     /* thay min-height cố định */
-  padding: 1.2vh 1vw;   /* padding theo viewport */
-  border: 0.1vh solid #e0e0e0;
-  border-radius: 0.8vh;
-  background-color: #fff;
-  box-shadow: 0 0.2vh 0.5vh rgba(0,0,0,0.1);
+  flex: 1 1 calc(25% - 20px);
+  max-width: calc(25% - 20px);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;  /* phân bố nội dung đều dọc */
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 0.8vh;
+  box-shadow: 0 0.2vh 0.5vh rgba(0,0,0,0.1);
   transition: all 0.3s ease;
-  border: 1px solid black;
+  padding: 1.5vh 1.5vw;
+  box-sizing: border-box;
 }
 
 .activity:hover {
@@ -102,4 +102,21 @@
   transform: translateY(0);
   box-shadow: 0 0.1vh 0.2vh rgba(0,0,0,0.2);
 }
-
+@media (max-width:950px){
+  .activity {
+    flex: 1 1 calc(33% - 20px);
+    max-width: calc(33% - 20px);
+  }
+}
+@media (max-width:780px){
+  .activity {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+@media (max-width:500px){
+  .activity {
+    flex: 1 1 100%;
+    max-width: 80%;
+  }
+}
