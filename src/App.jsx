@@ -22,6 +22,7 @@ import PermissionPage from "./Pages/Permission_Page/Permission_Page";
 import Receive_Notification from "./Pages/Receive_Notification/Receive_Notification";
 import List_Student_Page from "./Pages/List_Student_Page/List_Student_Page.jsx";
 import Approve_Activity_Proposed_Page from "./Pages/Approve_Activity_Proposed_Page/Approve_Activity_Proposed_Page.jsx";
+import OrgInfor_Page from "./Pages/OrgInfor_Page/OrgInfor_Page.jsx";
 function App() {
   return (
     <LoginProvider>
@@ -70,13 +71,28 @@ function App() {
           path="/receive-notification"
           element={<Receive_Notification />}
         />
-         <Route path="/list-student-registered" element={<List_Student_Page  activeTab="student-registered" />} />
-         <Route path="/list-student-attendance" element={<List_Student_Page  activeTab="student-attendance" />} />
-        <Route path="/activity-approved" element={<Approve_Activity_Proposed_Page  activeTab="activity-approved" />} />
-        <Route path="/activity-not-yet-approved" element={<Approve_Activity_Proposed_Page  activeTab="activity-not-yet-approved" />} />
-
+        <Route
+          path="/list-student-registered"
+          element={<List_Student_Page activeTab="student-registered" />}
+        />
+        <Route
+          path="/list-student-attendance"
+          element={<List_Student_Page activeTab="student-attendance" />}
+        />
+        <Route
+          path="/activity-approved"
+          element={
+            <Approve_Activity_Proposed_Page activeTab="activity-approved" />
+          }
+        />
+        <Route
+          path="/activity-not-yet-approved"
+          element={
+            <Approve_Activity_Proposed_Page activeTab="activity-not-yet-approved" />
+          }
+        />
+        <Route path="/org-infor" element={<OrgInfor_Page />} />
       </Routes>
-     
     </LoginProvider>
   );
 }
