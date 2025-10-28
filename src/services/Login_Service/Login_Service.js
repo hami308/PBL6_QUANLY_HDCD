@@ -1,7 +1,7 @@
 // src/services/authService.js
 import axios from "axios";
 
-const API_URL = "https://pbl6-backend.vercel.app/api/auth/login"; // ⚠️ Thay bằng URL thật
+const API_URL = "https://pbl6-backend-iy5q.onrender.com/api/auth/login"; 
 
 export async function login(username, password) {
   if (!username || !password) {
