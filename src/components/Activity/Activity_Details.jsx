@@ -10,34 +10,34 @@ import { course } from "../../data/course";
 import { Faculty } from "../../data/Faculty";
 import CustomSelect from "../Custom/CustomSelect.jsx";
 import CancelActivityPopup from "../Popup/CancelActivityPopup.jsx";
+import Activity_pic from "../../assets/images/activity.jpg";
 registerLocale("vi", vi);
 
-function Activity_Details({ activity_details, ismodify = false }) {
+function Activity_Details({ activity_details, ismodify = true }) {
+  ismodify = true;
   //hiển thị popup hủy hoạt động
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const handleConfirmCancel = (reason) => {
     console.log("Lý do hủy:", reason);
   };
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
   const start_time_org = dayjs(
-    activity_details.time_org_start || "",
+    activity_details.start_time || "",
     "HH:mm YYYY-MM-DD"
   );
   const end_time_org = dayjs(
-    activity_details.time_org_end || "",
+    activity_details.end_time || "",
     "HH:mm YYYY-MM-DD"
   );
 
   const [registerStart, setRegisterStart] = useState(
-    activity_details.register_time_start
-      ? dayjs(activity_details.register_time_start).format("YYYY-MM-DD")
+    activity_details.registration_open
+      ? dayjs(activity_details.registration_open).format("HH:mm YYYY-MM-DD")
       : ""
   );
   const [registerEnd, setRegisterEnd] = useState(
-    activity_details.register_time_end
-      ? dayjs(activity_details.register_time_end).format("YYYY-MM-DD")
+    activity_details.registration_close
+      ? dayjs(activity_details.registration_close).format("HH:mm YYYY-MM-DD")
       : ""
   );
   const [eventStartDate, setEventStartDate] = useState(
@@ -58,9 +58,9 @@ function Activity_Details({ activity_details, ismodify = false }) {
       : null
   );
 
-  const [volunteers, setVolunteers] = useState(activity_details.volunteers);
+  const [volunteers, setVolunteers] = useState(activity_details.capacity);
   const [location, setLocation] = useState(activity_details.location);
-  const [field_activity, setField] = useState(activity_details.field);
+  const [field_activity, setField] = useState(activity_details.field || ""  );
 
   const courseOptions = course.map((c) => ({ value: c.id, label: c.name }));
   const courseValues = activity_details.requirement_by_course
@@ -99,26 +99,16 @@ function Activity_Details({ activity_details, ismodify = false }) {
     }
   }, [activity_details.description]);
 
-  if (!activity_details) {
-    return (
-      <>
-        <div className="container">
-          <p>Không tìm thấy hoạt động.</p>
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       <div className="activity-card-details">
         <div className="activity--details">
-          <h1 className="activity-title-details">{activity_details.name}</h1>
+          <h1 className="activity-title-details">{activity_details.title}</h1>
           <button className="join-btn">Đăng ký tham gia</button>
         </div>
         <div className="activity-team-details">{activity_details.org}</div>
         <img
-          src={activity_details.image}
+          src={activity_details.image || Activity_pic}
           alt={activity_details.name}
           className="activity-image-details"
         />
@@ -199,7 +189,7 @@ function Activity_Details({ activity_details, ismodify = false }) {
               />
             </span>
           </div>
-          {user?.role === "org" && (
+          {ismodify && (
             <>
               <div className="field">
                 <strong>Thời gian đề xuất:</strong>
@@ -299,7 +289,7 @@ function Activity_Details({ activity_details, ismodify = false }) {
           </div>
         </div>
 
-        {/* {ismodify && ( */}
+        {ismodify && (
         <div className="manage-infot-activity">
           <button className="button-update-infor-activity">Cập nhật</button>
           <button onClick={() => setShowCancelPopup(true)}>
@@ -313,7 +303,7 @@ function Activity_Details({ activity_details, ismodify = false }) {
             />
           )}
         </div>
-        {/* )} */}
+        )}
       </div>
     </>
   );

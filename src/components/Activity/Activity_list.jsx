@@ -42,9 +42,9 @@ function Activity_list() {
   return (
     <div>
       <div className="activity-list">
-        {currentActivities.map((activity, index) => (
+        {currentActivities.map((activity) => (
           <Activity
-            key={activity._id || `activity-${index}`} // key duy nhất
+            key={activity._id} // key duy nhất
             id={activity._id}
             image={activity.activity_image || activity_pic} // ảnh mặc định nếu không có
             name={activity.title} // từ API là 'title'

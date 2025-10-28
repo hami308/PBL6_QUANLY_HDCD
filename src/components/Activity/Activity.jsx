@@ -1,6 +1,7 @@
 import "./Activity.css";
 
 function Activity({id, image, name, volunteers, org, time_org_start, time_org_end}) {
+  // console.log("Activity Rendered:", id);
   const formatDateTime = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
