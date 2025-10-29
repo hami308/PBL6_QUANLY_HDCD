@@ -48,7 +48,7 @@ body, html, #root {
   position: relative;
 }
 /* Khi bật dark mode */
-body.dark-mode .home-container {
+body.dark-mode .home-main {
   background-color: #4b4b4b; /* nền đen nhẹ */
   color: white; /* chữ trắng */
 }
