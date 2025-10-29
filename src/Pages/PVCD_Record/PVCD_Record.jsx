@@ -91,11 +91,11 @@ function PVCD_Record() {
   ];
   const goal_record = 15;
   return (
-    <>
+    <div className="pvcd-rercord-container">
       <Header />
       <Menu_student />
       <img className="dut-pic" src={dut_pic} alt="DUT" />
-      <div className="cross-bar" style={{ height: "100px" }}>
+      <div className="cross-bar-pvcd-record">
         <p>Điểm phục vụ cộng đồng</p>
       </div>
       <div className="total-record">
@@ -134,7 +134,7 @@ function PVCD_Record() {
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }
 export default PVCD_Record;

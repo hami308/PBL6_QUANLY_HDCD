@@ -8,6 +8,11 @@
     height:auto;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+body.dark-mode .year-card{
+    background-color: #181a1b;
+    color: white;
+    border: 1px solid white;
+}
 
 .status {
     position: absolute;
@@ -31,6 +36,9 @@
 }
 .year-card span {
     font-size: 16px;
+}
+body.dark-mode .year-card span strong{
+    color:#9a91df
 }
 @media (max-width: 1200px) {
     .year-card {

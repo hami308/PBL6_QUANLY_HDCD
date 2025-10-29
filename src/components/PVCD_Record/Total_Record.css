@@ -9,6 +9,13 @@
   margin: 20px auto ; 
   margin-top: -5px;
 }
+body.dark-mode .score-box{
+    background-color: #52587E;
+    color: white;
+}
+body.dark-mode .score-box p strong{
+    color: #9a91df;
+}
 @media (max-width: 500px) {
     .score-box {
         font-size: 10px;

@@ -7,7 +7,7 @@
   z-index: 1;
 }
 
-.cross-bar {
+.cross-bar-pvcd-record {
   display: flex;
   width: 100%;
   height: 100px;
@@ -21,7 +21,7 @@
   position: relative; /* tạo stacking context */
   z-index: 2;
 }
-.cross-bar p {
+.cross-bar-pvcd-record p {
   margin-top: -30px;
 }
 .total-record {
@@ -48,6 +48,9 @@
 }
 .custom-table-wrapper {
   margin: 0;
+}
+body.dark-mode .pvcd-rercord-container{
+  background-color: #4b4b4b;
 }
 @media (max-width: 1200px) {
   .goal-record {
