@@ -37,7 +37,10 @@
   border-radius: 0.3vw;
   font-size: 2vh;
 }
-
+body.dark-mode .filter-bar select {
+  background: #3e4446;
+  color:white;
+}
 .search-box {
   display: flex;
   align-items: center;
@@ -46,14 +49,17 @@
   padding: 0 0.5vw;
   width: 100%;           /* đảm bảo chiếm hết chiều rộng của filter-item */
   box-sizing: border-box;
+  border: 0.1vw solid #ccc;
 }
-
+body.dark-mode .search-box {
+  background: #3e4446;
+  color:white;
+}
 .search-box .icon {
   margin-right: 0.5vw;
   font-size: 2vh;
   flex-shrink: 0;        /* icon không bị co lại */
 }
-
 .search-box input {
   border: none;
   outline: none;
@@ -61,6 +67,10 @@
   font-size: 2vh;
   flex: 1;               /* input co dãn theo không gian còn lại */
   min-width: 0;          /* tránh overflow trong flex container */
+}
+body.dark-mode .search-box input {
+  background: #3e4446;
+  color:white;
 }
 
 button {
@@ -96,4 +106,7 @@ button.reset:hover {
   'wght' 400,
   'GRAD' 0,
   'opsz' 40
+}
+body.dark-mode .icon .material-symbols-outlined {
+  color: white;
 }
