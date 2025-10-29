@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Login.css";
-import login_pic from "../../assets/images/login_pic.png";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/Login_Service/Login_Service.js";
 
@@ -47,7 +46,7 @@ function Login({ onClose }) {
         <h2 className="modal-login-title">Đăng nhập</h2>
 
         <div className="modal-login-content">
-          <img src={login_pic} alt="login" className="login-icon" />
+          <span className="material-symbols-outlined">passkey</span>
 
           <form className="login-form" onSubmit={handleLogin}>
             <div className="form-login-group">

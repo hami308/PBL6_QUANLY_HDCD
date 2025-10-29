@@ -45,9 +45,12 @@
   gap: 20px;
 }
 
-.login-icon {
+.modal-login-content .material-symbols-outlined{
+  margin-top:15px;
+  font-size: 100px;
   width: 120px;
   height: auto;
+  color: #598dda;
 }
 
 .login-form {
@@ -72,7 +75,10 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+body.dark-mode .form-login-group input{
+  background-color: #3e4446;
+  color:white;
+}
 .login-btn {
   display: flex;
   align-self: flex-end;
