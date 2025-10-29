@@ -90,6 +90,7 @@ button.reset:hover {
 }
 .icon .material-symbols-outlined {
   font-size: 25px;
+  color: black;
   font-variation-settings:
   'FILL' 0,
   'wght' 400,

@@ -11,30 +11,3 @@
   align-items: stretch;
 }
 
-/* Responsive */
-
-@media (max-width: 850px) {
-  .activity-list {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 0 4vw 40px 4vw;
-  }
-  .home-container {
-    width: 98%;
-    padding: 0 1vw;
-  }
-}
-@media (max-width: 500px) {
-  .activity-list {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .activity{
-    width:100%;
-  }
-}
-
-@media (max-width: 300px) {
-  .activity-list {
-    grid-template-columns: repeat(1, 1fr);
-    padding: 0 4vw 40px 4vw;
-  }
-}

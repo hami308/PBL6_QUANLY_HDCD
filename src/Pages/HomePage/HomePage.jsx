@@ -13,7 +13,7 @@ function HomePage() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   return (
     <>
-      <Header />
+    <Header />
     {!user && <Menu_guest />}
     {user?.roles?.[0]?.role === "student" && <Menu_student />}
     {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
