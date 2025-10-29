@@ -11,7 +11,10 @@
   position: relative;
   height: auto;
 }
-
+body.dark-mode .event-card{
+  background-color: #4b4b4b;
+  border:2px solid white;
+}
 .event-image {
   width: 130px;
   height: 100px;
@@ -29,10 +32,18 @@
   font-weight: bold;
   margin: 0 0 6px 0;
 }
-
+body.dark-mode .event-title{
+  color: white;
+}
 .event-detail {
   font-size: 16px;
   margin: 2px 0;
+}
+body.dark-mode .event-detail{
+  color: white;
+}
+body.dark-mode .event-detail strong{
+  color:#9a91df;
 }
 .event-club{
   background-color: #0F9D58;
@@ -40,6 +51,9 @@
   border-radius: 5px;
   padding:1px 10px;
   font-size: 16px;
+}
+body.dark-mode .event-club{
+  color: white;
 }
 /* --- Nút trạng thái --- */
 .event-status-wrapper {
@@ -79,7 +93,9 @@
   margin-top:10px;
   margin-right:10px;
 }
-
+body.dark-mode .event-point{
+  color: white;
+}
 /* --- Hành động --- */
 .event-actions {
   position: absolute;
@@ -101,10 +117,16 @@
 
 
 }
+body.dark-mode .event-link{
+  color: white;
+}
 
 .event-link:hover {
   color: #2563eb;
   text-decoration: none;
+}
+body.dark-mode .event-link:hover{
+  color: #388fed;
 }
 
 /* --- Responsive --- */
