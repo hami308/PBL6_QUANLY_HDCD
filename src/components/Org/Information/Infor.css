@@ -1,0 +1,117 @@
+.infor-page {
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+  background: #f9fafb;
+  line-height: 1.6;
+  padding: 30px 10%;
+}
+
+/* ----- Hero section ----- */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.org-name {
+  font-size: 2rem;
+  color: #1e40af;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.org-founded {
+  color: #555;
+  font-size: 1rem;
+}
+
+.org-description {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+/* ----- Achievements ----- */
+.section-title {
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.achieve-list {
+  list-style: none;
+  padding-left: 0;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.achieve-item {
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #2563eb;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* ----- Members ----- */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.member-card {
+  background: #fff;
+  border-radius: 12px;
+  text-align: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.member-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  border: 3px solid #3b82f6;
+}
+
+.member-info h3 {
+  font-size: 1.1rem;
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+
+.member-info p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* ----- Footer ----- */
+.infor-footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+  color: #666;
+  font-size: 0.9rem;
+}
