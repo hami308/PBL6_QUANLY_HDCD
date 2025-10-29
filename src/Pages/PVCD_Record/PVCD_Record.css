@@ -46,6 +46,9 @@
   font-size: 25px;
   color: black;
 }
+body.dark-mode .activity-joined-title{
+  color: white;
+}
 .custom-table-wrapper {
   margin: 0;
 }
