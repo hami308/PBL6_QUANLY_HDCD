@@ -15,7 +15,7 @@ function Login({ onClose }) {
     setError(""); // Xóa lỗi cũ trước khi đăng nhập
 
     try {
-      const result = await login(username, password); // ✅ CHỜ API PHẢN HỒI
+      const result = await login(username, password); // CHỜ API PHẢN HỒI
 
       if (result.success) {
         onClose();
@@ -30,7 +30,7 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError(result.message);
+        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
