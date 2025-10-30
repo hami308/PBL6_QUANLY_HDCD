@@ -7,9 +7,27 @@ import List_Year_Record from "../../components/PVCD_Record/List_Year_Record.jsx"
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 import "./PVCD_Record.css";
 import FeedbackPopup from "../../components/Popup/FeedbackPopup.jsx";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import {get_pvcd_by_idstudent} from "../../services/PVCD_Service.js";
 
 function PVCD_Record() {
+   const [pvcd_record, setpvcd_record] = useState(null);
+   const user = JSON.parse(sessionStorage.getItem("user"));
+  useEffect(() => {
+      const fetchStudentInfo = async () => {
+        try {
+          const data = await get_pvcd_by_idstudent(user.id); 
+          setpvcd_record({
+            data
+          });
+        } catch (error) {
+          console.error(error);
+          alert("Không thể tải thông tin sinh viên!");
+        }
+      };
+      fetchStudentInfo();
+    }, [user?.id]);
+    console.log(pvcd_record);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const handleFeedbackClick = (activity) => {
