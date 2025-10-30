@@ -124,7 +124,7 @@ function Menu_student({ ismoniter_class = true }) {
             zIndex: 9999,
           }}
         >
-          <a href="/student-infor">Thông tin cá nhân</a>
+          <a href="/student-infor/${user?.id}">Thông tin cá nhân</a>
           <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
           <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
           <a href="/change-password">Đổi mật khẩu</a>
