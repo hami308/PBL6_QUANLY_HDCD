@@ -1,13 +1,19 @@
 .score-box {
   background: #C4C8E3;
   padding: 15px;
-  /* border-radius: 10px; */
   margin-bottom: 20px;
   margin-top: -50px;
   text-align: center;
   width:50%;
   margin: 20px auto ; 
   margin-top: -5px;
+}
+body.dark-mode .score-box{
+    background-color: #52587E;
+    color: white;
+}
+body.dark-mode .score-box p strong{
+    color: #9a91df;
 }
 @media (max-width: 500px) {
     .score-box {

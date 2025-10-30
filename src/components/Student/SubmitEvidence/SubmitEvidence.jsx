@@ -18,7 +18,7 @@ function SubmitEvidence() {
 
     // Nếu hợp lệ
     setError("");
-    alert("✅ Nộp minh chứng thành công!");
+    alert(" Nộp minh chứng thành công!");
     // Ở đây bạn có thể thêm logic gửi dữ liệu lên server (fetch/axios)
   };
 
@@ -51,10 +51,11 @@ function SubmitEvidence() {
           </div>
 
           <div className="submit-infor">
-            <label>Số điểm</label>
+            <label>Điểm tự đánh giá</label>
             <input
-              type="text"
-              placeholder="Nhập số điểm tự đánh giá..."
+              type="number"
+              placeholder="0"
+              min="0"
               value={score}
               onChange={(e) => setScore(e.target.value)}
             />

@@ -2,7 +2,8 @@
 import React from "react";
 import "./Filter_Evidence.css";
 
-export default function Filter_Evidence() {
+export default function Filter_Evidence(isfaculty) {
+  isfaculty = true;
   return (
     <div className="filter-evidence-container">
       <div className="total-box">
@@ -11,7 +12,19 @@ export default function Filter_Evidence() {
       </div>
 
       <h2>Danh sách các minh chứng đã nộp</h2>
-      <p className="class-info">Lớp: 22T_DT2</p>
+     
+     {isfaculty ? (
+        <div className="class-select-container">
+          <label htmlFor="classSelect">Lớp</label>
+          <select id="classSelect" className="class-select">
+            <option>22T_DT2</option>
+            <option>22T_DT1</option>
+            <option>21T_DT2</option>
+          </select>
+        </div>
+      ) : (
+        <p className="class-info">Lớp: 22T_DT2</p>
+      )}
 
       <div className="filter-evidence-bar">
         <select className="filter-evidence-select">

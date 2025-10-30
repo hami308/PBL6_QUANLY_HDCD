@@ -6,7 +6,7 @@ import List_ManageActivity_Student from "../../components/Student/ManageActivity
 import Footer from "../../components/Footer/Footer.jsx";
 function ManageActivity_Student_Page(){
     return(
-        <>
+        <div className="manage-activity-student-container">
             <Header/>
             <Menu_student/>
             <div className="manage-activity-student-background">
@@ -16,7 +16,7 @@ function ManageActivity_Student_Page(){
             </div>
             <List_ManageActivity_Student />
             <Footer/>
-        </>
+        </div>
     );
 }
 export default ManageActivity_Student_Page

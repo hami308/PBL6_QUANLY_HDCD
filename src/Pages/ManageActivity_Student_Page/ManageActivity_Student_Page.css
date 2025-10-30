@@ -1,5 +1,5 @@
 .manage-activity-student-background{
-    background: url("../../assets/images/anhnen.jpg") no-repeat center center fixed;
+    background: url("../../assets/images/anhnen.jpg") no-repeat center center;
     background-size:cover ;
     width: 100vw;
     min-height:500px;
@@ -9,6 +9,9 @@
     margin: -80px auto 20px auto;
     z-index: 2;
     width: 70%;
+}
+body.dark-mode .manage-activity-student-container{
+    background-color: #4b4b4b;
 }
 @media (max-width: 900px){
     .manage-activity-student-background{

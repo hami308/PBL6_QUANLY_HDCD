@@ -34,17 +34,8 @@ function SubmitEvidence_Page() {
         status: "Đã duyệt",
     },
     ];
-    // const sortedData = [...evidenceData].sort((a, b) => {
-    //     const dateA = a.date.split("/").reverse().join("-");
-    //     const dateB = b.date.split("/").reverse().join("-");
-    //     if (sortOrder === "desc") {
-    //         return dateB.localeCompare(dateA);
-    //     } else {
-    //         return dateA.localeCompare(dateB);
-    //     }
-    // });
     return(
-        <>
+        <div className="submit-evidence">
             <Header />
             <Menu_student />
             <SubmitEvidence />
@@ -77,14 +68,13 @@ function SubmitEvidence_Page() {
                     }))}
                     renderActions={() => (
                         <>
-                            <button className="px-2 py-1 border rounded" ><a href="/evidence-details">Chi tiết</a></button>    
+                            <button className="btn-details" ><a href="/evidence-details">Chi tiết</a></button>    
                         </>
                     )}
                 />
             </div>
-            <Footer />
-            
-        </>
+            <Footer />           
+        </div>
     );
 }
 export default SubmitEvidence_Page;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Login.css";
-import login_pic from "../../assets/images/login_pic.png";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/Login_Service/Login_Service.js";
 
@@ -15,7 +14,7 @@ function Login({ onClose }) {
     setError(""); // Xóa lỗi cũ trước khi đăng nhập
 
     try {
-      const result = await login(username, password); // ✅ CHỜ API PHẢN HỒI
+      const result = await login(username, password); // CHỜ API PHẢN HỒI
 
       if (result.success) {
         onClose();
@@ -30,7 +29,7 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError(result.message);
+        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
@@ -47,7 +46,7 @@ function Login({ onClose }) {
         <h2 className="modal-login-title">Đăng nhập</h2>
 
         <div className="modal-login-content">
-          <img src={login_pic} alt="login" className="login-icon" />
+          <span className="material-symbols-outlined">passkey</span>
 
           <form className="login-form" onSubmit={handleLogin}>
             <div className="form-login-group">

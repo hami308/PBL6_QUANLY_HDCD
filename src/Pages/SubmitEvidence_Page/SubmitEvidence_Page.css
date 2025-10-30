@@ -35,7 +35,12 @@
     outline: none;
     transition: border-color 0.2s;
 }
-
+body.dark-mode .status-filter,
+body.dark-mode .sort-select{
+    background-color: #4b4b4b;
+    color:white;
+    border: 1px solid white;
+}
 .status-filter:focus,
 .sort-select:focus {
     border-color: #2C1966;
@@ -44,6 +49,9 @@
     display: flex;
     justify-content: center;
     margin: 20px auto;
+}
+body.dark-mode .submit-evidence{
+    background-color: #4b4b4b;
 }
 @media (max-width:400px){
     .filter-sort-container {

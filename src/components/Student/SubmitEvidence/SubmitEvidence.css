@@ -1,6 +1,6 @@
 /* Nền */
 .submit-evidence-background {
-  background: url("../../../assets/images/anhnen.jpg") no-repeat center center fixed;
+  background: url("../../../assets/images/anhnen.jpg") no-repeat center center;
   background-size: cover;
   padding: 40px 0;
   width: 100vw;
@@ -17,6 +17,9 @@
   margin: 20px auto;
   border-radius: 6px;
 }
+body.dark-mode .submit-evidence-container{
+  background-color: #4b4b4b;
+}
 
 /* Tiêu đề */
 .submit-evidence-title {
@@ -25,6 +28,9 @@
   font-weight: 700;
   margin-bottom: 30px;
   color: #000;
+}
+body.dark-mode .submit-evidence-title{
+  color:white
 }
 
 /* Form */
@@ -47,7 +53,9 @@
   font-weight: 500;
   color: #000;
 }
-
+body.dark-mode .submit-infor label{
+  color:white;
+}
 .submit-infor input {
   height: 48px;
   border: none;
@@ -59,6 +67,10 @@
   width: 100%;
   border-radius: 0;
   transition: box-shadow 0.2s ease-in-out;
+}
+body.dark-mode .submit-infor input{
+  background-color: #2c2f31;
+  color:white;
 }
 
 /* Nút gửi minh chứng */

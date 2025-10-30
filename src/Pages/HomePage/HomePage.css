@@ -47,6 +47,9 @@ body, html, #root {
   z-index: 10;
   position: relative;
 }
-
-
+/* Khi bật dark mode */
+body.dark-mode .home-main {
+  background-color: #4b4b4b; /* nền đen nhẹ */
+  color: white; /* chữ trắng */
+}
 

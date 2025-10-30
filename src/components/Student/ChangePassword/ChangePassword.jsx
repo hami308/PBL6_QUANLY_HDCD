@@ -14,22 +14,22 @@ function ChangePassword() {
     setIsSuccess(false);
 
     if (!oldPass || !newPass || !reNewPass) {
-      setMessage("Vui lòng nhập đầy đủ thông tin!");
+      setMessage("Vui lòng nhập đầy đủ thông tin");
       return;
     }
 
     if (oldPass !== "123456") {
-      setMessage("Mật khẩu cũ không đúng!");
+      setMessage("Mật khẩu cũ không đúng");
       return;
     }
 
     if (newPass.length < 6 || newPass.length > 12) {
-      setMessage("Mật khẩu mới phải dài từ 6 đến 12 ký tự!");
+      setMessage("Mật khẩu mới phải dài từ 6 đến 12 ký tự");
       return;
     }
 
     if (newPass !== reNewPass) {
-      setMessage("Mật khẩu nhập lại không khớp!");
+      setMessage("Mật khẩu nhập lại không khớp");
       return;
     }
 
@@ -39,13 +39,13 @@ function ChangePassword() {
     setNewPass("");
     setReNewPass("");
   };
-
+  const note_mes="Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.";
   return (
     <div className="change-password-background">
       <div className="change-password-container">
         <h2 className="change-password-title">Đổi mật khẩu</h2>
         <p className="change-password-note">
-          Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.
+          {note_mes}
         </p>
 
         <form className="change-password-form" onSubmit={handleSubmit}>
@@ -77,8 +77,6 @@ function ChangePassword() {
           <button type="submit" className="change-password-button">
             Lưu mật khẩu
           </button>
-
-          
         </form>
       </div>
     </div>

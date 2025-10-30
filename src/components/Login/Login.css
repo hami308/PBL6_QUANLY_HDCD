@@ -30,7 +30,7 @@
   background: none;
   font-size: 20px;
   cursor: pointer;
-  color: #900;
+  color: red;
 }
 
 .modal-login-title {
@@ -45,13 +45,18 @@
   gap: 20px;
 }
 
-.login-icon {
+.modal-login-content .material-symbols-outlined{
+  margin-top:15px;
+  font-size: 100px;
   width: 120px;
   height: auto;
+  color: #598dda;
 }
 
 .login-form {
   flex: 1;
+   display: flex;
+  flex-direction: column;
 }
 
 .form-login-group {
@@ -70,8 +75,13 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+body.dark-mode .form-login-group input{
+  background-color: #3e4446;
+  color:white;
+}
 .login-btn {
+  display: flex;
+  align-self: flex-end;
   background: #2e3ecf;
   color: white;
   font-weight: bold;
@@ -79,7 +89,7 @@
   border-radius: 6px;
   padding: 8px 18px;
   cursor: pointer;
-  margin-left : 100px;
+  width: fit-content;
 }
 
 .login-btn:hover {
@@ -88,9 +98,15 @@
 .error-msg {
   color: #DD4F4F; /* đỏ nổi bật */
   font-size: 14px;
-  margin-top: -10px; /* để sát input */
   margin-bottom: 10px;
   font-weight: 500;
+}
+body.dark-mode .modal-login {
+  background-color: #4b4b4b;
+  color: white;
+}
+body.dark-mode .modal-login-title {
+  color: white;
 }
 @media(max-width:600px){
 
