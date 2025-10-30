@@ -1,7 +1,7 @@
 // src/services/authService.js
 import axios from "axios";
 
-const API_URL = "https://pbl6-backend-iy5q.onrender.com/api/auth/login"; 
+const API_URL = "https://pbl6-backend-iy5q.onrender.com/api/auth/login";
 
 export async function login(username, password) {
   if (!username || !password) {
@@ -17,7 +17,7 @@ export async function login(username, password) {
     const data = response.data;
 
     if (data.success) {
-      // Lưu thông tin user và token vào sessionStorage 
+      // Lưu thông tin user và token vào sessionStorage
       sessionStorage.setItem("user", JSON.stringify(data.user));
       if (data.token) {
         sessionStorage.setItem("token", data.token);

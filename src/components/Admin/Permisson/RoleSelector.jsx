@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import "./RoleSelector.css";
 
-const RoleSelector = () => {
-  const roles = ["Sinh viên", "Cán bộ giảng viên", "Admin"];
-  const [selectedRole, setSelectedRole] = useState(null);
+const RoleSelector = ({ role }) => {
+  const roles = {
+    student: "Sinh viên",
+    teacher: "Giảng viên",
+    staff: "Nhân viên",
+    admin: "Admin",
+  };
+  const [selectedRole, setSelectedRole] = useState(role || null);
 
   const handleCheck = (role) => {
     setSelectedRole(selectedRole === role ? null : role);
@@ -12,14 +17,14 @@ const RoleSelector = () => {
   return (
     <div className="role-selector">
       <label className="role-label">Chọn vai trò:</label>
-      {roles.map((role) => (
-        <label key={role} className="role-option">
+      {Object.entries(roles).map(([key, value]) => (
+        <label key={key} className="role-option">
           <input
             type="checkbox"
-            checked={selectedRole === role}
-            onChange={() => handleCheck(role)}
+            checked={selectedRole === key}
+            onChange={() => handleCheck(key)}
           />
-          {role}
+          {value}
         </label>
       ))}
     </div>

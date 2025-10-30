@@ -100,8 +100,10 @@
 
 .create-account-form .error {
   color: red;
-  font-size: clamp(11px, 2vw, 13px);
-  margin-top: clamp(3px, 0.5vw, 5px);
+  font-size: clamp(11px, 2.5vw, 15px);
+  margin-top: clamp(3px, 1vw, 5px);
+  text-align: center;
 }
+
 @media (max-width: 780px) {
 }
