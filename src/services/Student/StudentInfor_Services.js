@@ -6,23 +6,21 @@ const API_BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles";
 //  Lấy thông tin sinh viên theo MSSV
 export const getStudentInfo = async (mssv) => {
   try {
-    console.log("Fetching student info for MSSV:", mssv);
     const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${API_BASE_URL}/student-number/${mssv}`, {
+    const response = await axios.get(`${API_BASE_URL}/user/${mssv}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("Thông tin sinh viên:", response.data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin sinh viên:", error);
         if (error.response) {
-      console.error("🟥 Response data:", error.response.data);
-      console.error("🟥 Status:", error.response.status);
-      console.error("🟥 Headers:", error.response.headers);
+      console.error(" Response data:", error.response.data);
+      console.error(" Status:", error.response.status);
+      console.error("Headers:", error.response.headers);
     } else if (error.request) {
-      console.error("🟨 Không nhận được phản hồi từ server:", error.request);
+      console.error("Không nhận được phản hồi từ server:", error.request);
     } else {
-      console.error("🟦 Lỗi khi tạo request:", error.message);
+      console.error("Lỗi khi tạo request:", error.message);
     }
 
     throw error;

@@ -22,18 +22,15 @@ function StudentInfo() {
   useEffect(() => {
     const fetchStudentInfo = async () => {
       try {
-        const data = await getStudentInfo(user.username); 
-        setStudentInfo({
-          ...data,
-          dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth) : null,
-        });
+        const data = await getStudentInfo(user.id); 
+         setStudentInfo(data);
       } catch (error) {
         console.error(error);
         alert("Không thể tải thông tin sinh viên!");
       }
     };
     fetchStudentInfo();
-  }, [user?.username]);
+  }, [user?.id]);
 
   const validateField = (name, value) => {
     let errorMsg = "";
@@ -61,7 +58,7 @@ function StudentInfo() {
     setStudentInfo((prev) => ({ ...prev, dateOfBirth: date }));
   };
 
-  // 🟡 Lưu thông tin sinh viên
+  //  Lưu thông tin sinh viên
   const handleSave = async () => {
     try {
       await updateStudentInfo(studentInfo);
@@ -71,6 +68,7 @@ function StudentInfo() {
       alert("Lỗi khi cập nhật thông tin. Vui lòng thử lại!");
     }
   };
+  console.log(studentInfo);
   if (!studentInfo) return <p>Đang tải thông tin sinh viên...</p>;
 
   return (
@@ -85,17 +83,17 @@ function StudentInfo() {
 
           {/* Cột thông tin */}
           <div className="student-details">
-            <h3 className="student-name">{studentInfo.name}</h3>
+            <h3 className="student-name">{studentInfo.full_name}</h3>
 
             <div className="info-row">
               <label>MSSV</label>
-              <input type="text" name="studentNumber" value={studentInfo.studentNumber} readOnly />
+              <input type="text" name="studentNumber" value={studentInfo.student_number} readOnly />
             </div>
 
             <div className="info-row">
               <label>Ngày sinh</label>
               <DatePicker
-                selected={studentInfo.dateOfBirth}
+                selected={studentInfo.date_of_birth}
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
                 locale="vi"
@@ -114,8 +112,8 @@ function StudentInfo() {
                 onChange={handleChange}
                 className="infor-select"
               >
-                <option value="Nam">Nam</option>
-                <option value="Nữ">Nữ</option>
+                <option value="male">Nam</option>
+                <option value="female">Nữ</option>
                 <option value="Khác">Khác</option>
               </select>
             </div>
@@ -163,44 +161,48 @@ function StudentInfo() {
               <input
                 type="text"
                 name="address"
-                value={studentInfo.address || ""}
+                value={studentInfo.contact_address || ""}
                 onChange={handleChange}
               />
             </div>
+            {user?.roles?.[0]?.role === "staff" &&(
+              <>
+              <div className="info-row">
+                    <label>Thuộc đơn vị</label>
+                    <select
+                      name="unit"
+                      value={studentInfo.unit || ""}
+                      onChange={handleChange}
+                      className="infor-select"
+                    >
+                      {org.map((item) => (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-            <div className="info-row">
-              <label>Thuộc đơn vị</label>
-              <select
-                name="unit"
-                value={studentInfo.unit || ""}
-                onChange={handleChange}
-                className="infor-select"
-              >
-                {org.map((item) => (
-                  <option key={item.id} value={item.name}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+                  <div className="info-row">
+                    <label>Chức vụ</label>
+                    <input
+                      type="text"
+                      name="position"
+                      value={studentInfo.position || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+              </>
+            )}
+           
 
-            <div className="info-row">
-              <label>Chức vụ</label>
-              <input
-                type="text"
-                name="position"
-                value={studentInfo.position || ""}
-                onChange={handleChange}
-              />
-            </div>
-
-            {user?.role === "student" && (
+            {user?.roles?.[0]?.role === "student" && (
               <button className="save-btn" onClick={handleSave}>
                 Lưu thông tin
               </button>
             )}
 
-            {user?.role === "admin" && (
+            {user?.roles?.[0]?.role  === "admin" && (
               <button
                 className="save-btn delete-btn"
                 onClick={async () => {

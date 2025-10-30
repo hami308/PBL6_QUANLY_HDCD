@@ -22,7 +22,7 @@ export async function login(username, password) {
       if (data.token) {
         sessionStorage.setItem("token", data.token);
       }
-
+      console.log(response.data);
       return { success: true, user: data.user };
     } else {
       return { success: false, message: data.message || "Đăng nhập thất bại" };
