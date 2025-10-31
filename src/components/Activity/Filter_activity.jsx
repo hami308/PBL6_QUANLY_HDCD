@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import "./Filter_activity.css";
 import { status_activity } from "../../data/status_activity.js";
 import { get_all_fields } from "../../services/Field_Service.js";
@@ -6,75 +7,104 @@ import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_org } from "../../services/Org_Service.js";
 
 function FilterBar() {
-  const [fields, setFields] = React.useState([]);
-  React.useEffect(() => {
+  const [fields, setFields] = useState([]);
+  const [organizations, setOrganizations] = useState([]);
+
+  useEffect(() => {
     async function fetchFields() {
       const result = await get_all_fields();
-      if (result.success) {
-        setFields(result.data);
-      }
+      if (result.success) setFields(result.data);
     }
     fetchFields();
   }, []);
-  const [organizations, setOrganizations] = React.useState([]);
-  React.useEffect(() => {
+
+  useEffect(() => {
     async function fetchOrganizations() {
       const [facultiesRes, orgRes] = await Promise.all([
         get_all_faculties(),
         get_all_org(),
       ]);
-
       if (facultiesRes.success || orgRes.success) {
         const faculties = facultiesRes.success ? facultiesRes.data : [];
         const orgs = orgRes.success ? orgRes.data : [];
-
-        // Gộp 2 mảng lại
         const combined = [
           ...faculties.map((item) => ({ ...item, type: "faculty" })),
           ...orgs.map((item) => ({ ...item, type: "organization" })),
         ];
-
         setOrganizations(combined);
       }
     }
     fetchOrganizations();
   }, []);
+
+  const customSelectStyles = {
+  control: (base, state) => ({
+    ...base,
+    minHeight: "4.5vh",
+    height: "4.5vh",
+    borderRadius: "0.3vw",
+    fontSize: "2vh",
+    borderColor: state.isFocused ? "#2979ff" : "#ccc",
+    boxShadow: state.isFocused ? "0 0 0 2px rgba(41, 121, 255, 0.3)" : "none",
+    "&:hover": { borderColor: "#2979ff" },
+  }),
+  valueContainer: (base) => ({
+    ...base,
+    height: "4.5vh",
+    padding: "0 0.6vw",
+  }),
+  indicatorsContainer: (base) => ({
+    ...base,
+    height: "4.5vh",
+  }),
+  menu: (base) => ({
+    ...base,
+    maxHeight: "200px",
+    overflowY: "auto",
+    overflowX: "hidden",
+  }),
+};
+
   return (
     <div className="filter-bar">
-      {/* Select tình trạng */}
-      <select className="filter-item" defaultValue="">
-        <option value="" disabled>Tình trạng</option>
-        <option value="all">Tất cả</option>
-        {status_activity.map(item => (
-          <option key={item.name} value={item.name}>{item.name}</option>
-        ))}
-      </select>
+      <Select
+        className="filter-item"
+        classNamePrefix="react-select"
+        placeholder="Tình trạng"
+        styles={customSelectStyles}
+        options={[
+          { value: "all", label: "Tất cả" },
+          ...status_activity.map((item) => ({ value: item.name, label: item.name })),
+        ]}
+      />
 
-      {/* Select lĩnh vực */}
-      <select className="filter-item" defaultValue="">
-        <option value="" disabled>Lĩnh vực</option>
-        <option value="all">Tất cả</option>
-        {fields.map(item => (
-          <option key={item._id} value={item.name}>{item.name}</option>
-        ))}
-      </select>
+      <Select
+        className="filter-item"
+        classNamePrefix="react-select"
+        placeholder="Lĩnh vực"
+        styles={customSelectStyles}
+        options={[
+          { value: "all", label: "Tất cả" },
+          ...fields.map((item) => ({ value: item.name, label: item.name })),
+        ]}
+      />
 
-      {/* Select tổ chức */}
-      <select className="filter-item" defaultValue="">
-        <option value="" disabled>Tổ chức/Khoa</option>
-        <option value="all">Tất cả</option>
-        {organizations.map(item => (
-          <option key={item._id} value={item.name}>{item.name}</option>
-        ))}
-      </select>
+      <Select
+        className="filter-item"
+        classNamePrefix="react-select"
+        placeholder="Tổ chức/Khoa"
+        styles={customSelectStyles}
+        options={[
+          { value: "all", label: "Tất cả" },
+          ...organizations.map((item) => ({ value: item.name, label: item.name })),
+        ]}
+      />
 
-      {/* Ô tìm kiếm */}
       <div className="search-box filter-item">
         <span className="icon"><span className="material-symbols-outlined">search</span></span>
         <input type="text" placeholder="Nhập tên hoạt động" />
       </div>
 
-      {/* Nút áp dụng và reset */}
       <div className="button-group">
         <button className="apply">Áp dụng bộ lọc</button>
         <button className="reset">Đặt lại</button>
