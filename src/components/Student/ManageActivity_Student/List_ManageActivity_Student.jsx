@@ -31,8 +31,6 @@ function List_ManageActivity_Student() {
 
         // Bước 2: Gọi API lấy hoạt động theo studentId
         const res = await get_activities_by_idstudent(studentId);
-        console.log("data",res.data.data);
-        console.log("success",res.success);
         if (res?.success && res?.data.data) {
           const dataArray = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
           const mappedData = dataArray.map((a) => ({
@@ -66,7 +64,6 @@ function List_ManageActivity_Student() {
   if (!activities.length) {
     return <div className="no-activity">Bạn chưa có hoạt động nào.</div>;
   }
-  console.log("activities:", activities);
 
   return (
     <Evaluate_Activity_Provider>

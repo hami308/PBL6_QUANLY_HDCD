@@ -66,7 +66,7 @@ function Activity_details() {
   }
   // Khi đã có dữ liệu
   return (
-    <>
+    <div className="activity-detail-page">
       <Header />
       {!user && <Menu_guest />}
       {user?.role === "student" && <Menu_student />}
@@ -89,7 +89,7 @@ function Activity_details() {
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }
 

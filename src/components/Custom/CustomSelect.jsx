@@ -1,6 +1,6 @@
 import React from "react";
 import Select, { components } from "react-select";
-
+import "./CustomSelect.css";
 function CustomSelect({ options, value, onChange, className, readOnly = false }) {
   // Hàm xử lý khi thay đổi lựa chọn
   const handleChange = (selectedOptions) => {
@@ -22,7 +22,7 @@ function CustomSelect({ options, value, onChange, className, readOnly = false })
   const allOption = { value: "all", label: "Tất cả" };
 
   return (
-    <div className="tag-select" style={{ width: "100%" }}>
+    <div className="tag-select">
       <Select
         isMulti
         options={[allOption, ...options]}
@@ -30,6 +30,7 @@ function CustomSelect({ options, value, onChange, className, readOnly = false })
         onChange={handleChange}
         placeholder="Chọn..."
         className={className}
+        classNamePrefix="react-select"  
         isDisabled={readOnly}
         menuPortalTarget={document.body}
         components={{

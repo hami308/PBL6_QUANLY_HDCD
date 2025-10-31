@@ -23,7 +23,6 @@ export async function get_all_activities() {
 export async function get_details_activity_by_id(id) {
   try {
     const response = await axios.get(`${API_URL}/activities/${id}`);
-    console.log(response);
     return {
       success: true,
       data: response.data,
@@ -45,7 +44,6 @@ export async function get_activities_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/activities/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return {
       success: true,
       data: response.data,

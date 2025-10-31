@@ -1,9 +1,6 @@
-.cross-bar{
-    margin-top: 0;
-    height:50px;
-}
-.cross-bar p{
-    margin-top: 0;
+body.dark-mode .activity-detail-page{
+  background-color: #4b4b4b;
+  color:white;
 }
 .other-activities {
   width: 100%;
@@ -21,6 +18,9 @@
   border-bottom: 1px solid black;
   width:50%;
   margin:10px auto;
+}
+body.dark-mode .other-activity-content{
+  border-bottom: 1px solid white;
 }
 .other-activity-content p{
   display: flex;

@@ -68,7 +68,6 @@ function StudentInfo() {
       alert("Lỗi khi cập nhật thông tin. Vui lòng thử lại!");
     }
   };
-  console.log(studentInfo);
   if (!studentInfo) return <p>Đang tải thông tin sinh viên...</p>;
 
   return (

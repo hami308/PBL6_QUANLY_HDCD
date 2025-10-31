@@ -48,6 +48,7 @@
   border-color: #2979ff;
   box-shadow: 0 0 0 2px rgba(41, 121, 255, 0.3);
 }
+
 .filter-bar .react-select__menu-list {
   max-height: 200px !important;
   overflow-y: auto !important;
@@ -82,19 +83,20 @@
 }
 
 /* --- Dark mode --- */
-body.dark-mode .filter-item .react-select__control {
+body.dark-mode .filter-item .react-select__control,
+body.dark-mode .react-select__control--menu-is-open  {
   background-color: #3e4446;
   border-color: #666;
   color: white;
 }
 
-body.dark-mode .filter-item .react-select__menu {
+body.dark-mode .filter-item .react-select__menu{
   background-color: #3e4446;
   color: white;
 }
 
 body.dark-mode .filter-item .react-select__option--is-focused {
-  background-color: rgba(41, 121, 255, 0.25);
+  background-color: #3e4446;
 }
 
 body.dark-mode .filter-item .react-select__option--is-selected {

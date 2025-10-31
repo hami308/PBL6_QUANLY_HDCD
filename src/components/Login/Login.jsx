@@ -19,7 +19,6 @@ function Login({ onClose }) {
       if (result.success) {
         onClose();
         alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
-        console.log("User info:", result.user);
         // Chuyển hướng theo role
         if (result.user.roles[0].role === "student") {
           navigate("/home-student", { replace: true });

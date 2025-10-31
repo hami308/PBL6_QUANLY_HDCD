@@ -17,7 +17,9 @@ footer {
 .footer-column {
   line-height: 1.4;
 }
-
+.footer-column p strong{
+  color:white
+}
 .footer-column a {
   color: #ffffff;
   text-decoration: none;
