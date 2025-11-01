@@ -106,7 +106,7 @@ function Activity_Details({ activity_details, ismodify = true }) {
           <h1 className="activity-title-details">{activity_details.title}</h1>
           <button className="join-btn">Đăng ký tham gia</button>
         </div>
-        <div className="activity-team-details">{activity_details.org}</div>
+        <div className="activity-team-details">{activity_details.org_unit_id.name}</div>
         <img
           src={activity_details.image || Activity_pic}
           alt={activity_details.name}

@@ -126,9 +126,10 @@ body.dark-mode .modal-login-title {
     width: 70%;
     margin-left: -20px;
   }
-  .login-icon{
-    width:50px;
-    margin-top: 40px;
+  .modal-login-content .material-symbols-outlined{
+    width:60px;
+    margin-top: 30px;
+    font-size: 70px;
   }
   .login-btn{
     margin: 0 0px;

@@ -1,9 +1,11 @@
 import "./ManageActivity_Student.css";
 import { useContext } from "react";
 import { Evaluate_Activity_Context } from "../Evaluate_Activity/Evaluate_Activity_Context";
+import { Activity } from "react";
 
-function ManageActivity_Student({ name_activity, org, date, location, status, img }) {
+function ManageActivity_Student({ id,name_activity, org, start_time,end_time, location, status, img }) {
   const { openEvaluate } = useContext(Evaluate_Activity_Context);
+  const date=start_time + " - " + end_time;
   return (
     <div className="event-card">
       <img src={img} alt="Event" className="event-image" />
@@ -45,7 +47,7 @@ function ManageActivity_Student({ name_activity, org, date, location, status, im
             Đánh giá
           </button>
         )}
-        <a href="/activity-details" className="event-link">
+        <a href={`/activity-details/${id}`} className="event-link">
           Chi tiết
         </a>
       </div>

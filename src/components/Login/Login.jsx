@@ -19,7 +19,6 @@ function Login({ onClose }) {
       if (result.success) {
         onClose();
         alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
-        console.log("User info:", result.user);
         // Chuyển hướng theo role
         if (result.user.roles[0].role === "student") {
           navigate("/home-student", { replace: true });
@@ -54,6 +53,7 @@ function Login({ onClose }) {
               <input
                 type="text"
                 value={username}
+                name="username"
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -63,6 +63,7 @@ function Login({ onClose }) {
               <input
                 type="password"
                 value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
