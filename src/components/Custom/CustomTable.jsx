@@ -1,9 +1,9 @@
 // CustomTable.jsx
 import React from "react";
-import "./CustomTable.css"; 
+import "./CustomTable.css";
 function CustomTable({ columns, data, renderActions }) {
-    return (
-        <div className="custom-table-wrapper">
+  return (
+    <div className="custom-table-wrapper">
       <table className="custom-table">
         <thead className="custom-table__head">
           <tr>
@@ -12,7 +12,9 @@ function CustomTable({ columns, data, renderActions }) {
                 {col}
               </th>
             ))}
-            {renderActions && <th className="custom-table__header">Thao tác</th>}
+            {renderActions && (
+              <th className="custom-table__header">Thao tác</th>
+            )}
           </tr>
         </thead>
         <tbody className="custom-table__body">
@@ -33,6 +35,6 @@ function CustomTable({ columns, data, renderActions }) {
         </tbody>
       </table>
     </div>
-    );
+  );
 }
 export default CustomTable;
