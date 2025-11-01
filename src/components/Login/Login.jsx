@@ -53,6 +53,7 @@ function Login({ onClose }) {
               <input
                 type="text"
                 value={username}
+                name="username"
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -62,6 +63,7 @@ function Login({ onClose }) {
               <input
                 type="password"
                 value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
