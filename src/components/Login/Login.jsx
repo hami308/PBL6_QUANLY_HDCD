@@ -29,7 +29,7 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
+        setError(result.message); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
@@ -54,6 +54,7 @@ function Login({ onClose }) {
               <input
                 type="text"
                 value={username}
+                name="username"
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -62,6 +63,7 @@ function Login({ onClose }) {
               <label>Mật khẩu:</label>
               <input
                 type="password"
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
