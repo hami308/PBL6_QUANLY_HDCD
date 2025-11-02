@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./ChangePassword.css";
+import { change_password } from "../../../services/Password_service";
 
 function ChangePassword() {
   const [oldPass, setOldPass] = useState("");
@@ -7,19 +8,16 @@ function ChangePassword() {
   const [reNewPass, setReNewPass] = useState("");
   const [message, setMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setIsSuccess(false);
 
+    //  Validate cơ bản trước khi gọi API
     if (!oldPass || !newPass || !reNewPass) {
       setMessage("Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
-
-    if (oldPass !== "123456") {
-      setMessage("Mật khẩu cũ không đúng");
       return;
     }
 
@@ -33,20 +31,41 @@ function ChangePassword() {
       return;
     }
 
-    setMessage("Mật khẩu đã được thay đổi thành công (demo).");
-    setIsSuccess(true);
-    setOldPass("");
-    setNewPass("");
-    setReNewPass("");
+    try {
+      setLoading(true);
+      const response = await change_password({
+        old_password: oldPass,
+        new_password: newPass,
+        confirm_password: reNewPass,
+      });
+
+      if (response.data.success) {
+        setMessage(response.data.message || "Đổi mật khẩu thành công!");
+        setIsSuccess(true);
+        setOldPass("");
+        setNewPass("");
+        setReNewPass("");
+      } else {
+        setMessage(response.message || "Đổi mật khẩu thất bại");
+        setIsSuccess(false);
+      }
+    } catch (err) {
+      console.error("Change password error:", err);
+      setMessage("Lỗi kết nối đến server, vui lòng thử lại sau.");
+      setIsSuccess(false);
+    } finally {
+      setLoading(false);
+    }
   };
-  const note_mes="Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.";
+
+  const note_mes =
+    "Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.";
+
   return (
     <div className="change-password-background">
       <div className="change-password-container">
         <h2 className="change-password-title">Đổi mật khẩu</h2>
-        <p className="change-password-note">
-          {note_mes}
-        </p>
+        <p className="change-password-note">{note_mes}</p>
 
         <form className="change-password-form" onSubmit={handleSubmit}>
           <label>Mật khẩu cũ</label>
@@ -69,13 +88,21 @@ function ChangePassword() {
             value={reNewPass}
             onChange={(e) => setReNewPass(e.target.value)}
           />
+
           {message && (
-            <div className={`bottom-message ${isSuccess ? "success" : "error"}`}>
+            <div
+              className={`bottom-message ${isSuccess ? "success" : "error"}`}
+            >
               {message}
             </div>
           )}
-          <button type="submit" className="change-password-button">
-            Lưu mật khẩu
+
+          <button
+            type="submit"
+            className="change-password-button"
+            disabled={loading}
+          >
+            {loading ? "Đang xử lý..." : "Lưu mật khẩu"}
           </button>
         </form>
       </div>

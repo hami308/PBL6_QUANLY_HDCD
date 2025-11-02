@@ -36,7 +36,11 @@ function App() {
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
-        <Route path="/change-password" element={<ChangePassword_Page />} />
+        <Route path="/change-password" element={
+          <ProtectedRoute>
+            <ChangePassword_Page />
+          </ProtectedRoute>}
+        />
         <Route path="/update-password" element={<UpdatePassword_Page />} />
         <Route
           path="/useraccount-management"
