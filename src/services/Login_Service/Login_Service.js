@@ -4,9 +4,6 @@ import axios from "axios";
 const API_URL = "https://pbl6-backend.vercel.app/api/auth/login";
 
 export async function login(username, password) {
-  if (!username || !password) {
-    return { success: false, message: "Vui lòng nhập đầy đủ thông tin" };
-  }
 
   try {
     const response = await axios.post(`${API_URL}`, {

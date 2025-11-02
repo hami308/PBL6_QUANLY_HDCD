@@ -39,16 +39,26 @@ function ChangePassword() {
         confirm_password: reNewPass,
       });
 
-      if (response.data.success) {
-        setMessage(response.data.message || "Đổi mật khẩu thành công!");
-        setIsSuccess(true);
-        setOldPass("");
-        setNewPass("");
-        setReNewPass("");
-      } else {
-        setMessage(response.message || "Đổi mật khẩu thất bại");
-        setIsSuccess(false);
-      }
+    if (!response) {
+  setMessage("Không có phản hồi từ server");
+  setIsSuccess(false);
+  return;
+}
+
+    const resData = response.data ? response.data : response; 
+
+    if (!resData.success) {
+      console.log("Fail:", resData);
+      setMessage(resData.message || "Đổi mật khẩu thất bại");
+      setIsSuccess(false);
+    } else {
+      console.log("Success:", resData);
+      setMessage(resData.message || "Đổi mật khẩu thành công!");
+      setIsSuccess(true);
+      setOldPass("");
+      setNewPass("");
+      setReNewPass("");
+    }
     } catch (err) {
       console.error("Change password error:", err);
       setMessage("Lỗi kết nối đến server, vui lòng thử lại sau.");
@@ -72,6 +82,7 @@ function ChangePassword() {
           <input
             type="password"
             value={oldPass}
+            name="oldPassword"
             onChange={(e) => setOldPass(e.target.value)}
           />
 
@@ -79,6 +90,7 @@ function ChangePassword() {
           <input
             type="password"
             value={newPass}
+            name="newPassword"
             onChange={(e) => setNewPass(e.target.value)}
           />
 
@@ -86,6 +98,7 @@ function ChangePassword() {
           <input
             type="password"
             value={reNewPass}
+            name="confirmPassword"
             onChange={(e) => setReNewPass(e.target.value)}
           />
 
