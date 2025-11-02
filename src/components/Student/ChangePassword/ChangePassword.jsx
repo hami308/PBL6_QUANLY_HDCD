@@ -10,42 +10,55 @@ function ChangePassword() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-    setIsSuccess(false);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMessage("");
+  setIsSuccess(false);
 
-    //  Validate cơ bản trước khi gọi API
-    if (!oldPass || !newPass || !reNewPass) {
-      setMessage("Vui lòng nhập đầy đủ thông tin");
-      return;
-    }
+  // Loại bỏ khoảng trắng đầu/cuối
+  const oldP = oldPass.trim();
+  const newP = newPass.trim();
+  const reNewP = reNewPass.trim();
 
-    if (newPass.length < 6 || newPass.length > 12) {
-      setMessage("Mật khẩu mới phải dài từ 6 đến 12 ký tự");
-      return;
-    }
+  // Kiểm tra nếu người dùng để trống
+  if (!oldP || !newP || !reNewP) {
+    setMessage("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
 
-    if (newPass !== reNewPass) {
-      setMessage("Mật khẩu nhập lại không khớp");
-      return;
-    }
+  // Kiểm tra khoảng trắng ở giữa mật khẩu mới
+  if (/\s/.test(newP)) {
+    setMessage("Mật khẩu không được chứa khoảng trắng");
+    return;
+  }
 
-    try {
-      setLoading(true);
-      const response = await change_password({
-        old_password: oldPass,
-        new_password: newPass,
-        confirm_password: reNewPass,
-      });
+  // Kiểm tra độ dài mật khẩu mới
+  if (newP.length < 6 || newP.length > 12) {
+    setMessage("Mật khẩu mới phải dài từ 6 đến 12 ký tự");
+    return;
+  }
+
+  // Kiểm tra mật khẩu nhập lại
+  if (newP !== reNewP) {
+    setMessage("Mật khẩu nhập lại không khớp");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    const response = await change_password({
+      old_password: oldP,
+      new_password: newP,
+      confirm_password: reNewP,
+    });
 
     if (!response) {
-  setMessage("Không có phản hồi từ server");
-  setIsSuccess(false);
-  return;
-}
+      setMessage("Không có phản hồi từ server");
+      setIsSuccess(false);
+      return;
+    }
 
-    const resData = response.data ? response.data : response; 
+    const resData = response.data ? response.data : response;
 
     if (!resData.success) {
       console.log("Fail:", resData);
@@ -59,17 +72,18 @@ function ChangePassword() {
       setNewPass("");
       setReNewPass("");
     }
-    } catch (err) {
-      console.error("Change password error:", err);
-      setMessage("Lỗi kết nối đến server, vui lòng thử lại sau.");
-      setIsSuccess(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (err) {
+    console.error("Change password error:", err);
+    setMessage("Lỗi kết nối đến server, vui lòng thử lại sau.");
+    setIsSuccess(false);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const note_mes =
-    "Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự.";
+    "Lưu ý: Không đặt mật khẩu trùng ngày sinh và mật khẩu dài 6 đến 12 ký tự và không chứa khoảng trắng.";
 
   return (
     <div className="change-password-background">
