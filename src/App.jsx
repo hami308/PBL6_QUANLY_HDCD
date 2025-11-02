@@ -23,6 +23,7 @@ import Receive_Notification from "./Pages/Receive_Notification/Receive_Notificat
 import List_Student_Page from "./Pages/List_Student_Page/List_Student_Page.jsx";
 import Approve_Activity_Proposed_Page from "./Pages/Approve_Activity_Proposed_Page/Approve_Activity_Proposed_Page.jsx";
 import OrgInfor_Page from "./Pages/OrgInfor_Page/OrgInfor_Page.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 function App() {
   return (
     <LoginProvider>
@@ -53,7 +54,14 @@ function App() {
           path="/manage-activities-student"
           element={<ManageActivity_Student_Page />}
         />
-        <Route path="/submit-evidence" element={<SubmitEvidence_Page />} />
+        <Route
+          path="/submit-evidence"
+          element={
+            <ProtectedRoute>
+              <SubmitEvidence_Page />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/approved-evidence" element={<Approved_Evidence_Page />} />
         <Route path="/evidence-details" element={<EvidenceDetail_Page />} />
         <Route
