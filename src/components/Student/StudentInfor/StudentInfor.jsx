@@ -22,11 +22,10 @@ function StudentInfo() {
   useEffect(() => {
     const fetchStudentInfo = async () => {
       try {
-        const data = await getStudentInfo(user.id); 
-         setStudentInfo(data);
+        const data = await getStudentInfo(user.id);
+        setStudentInfo(data);
       } catch (error) {
         console.error(error);
-        alert("Không thể tải thông tin sinh viên!");
       }
     };
     fetchStudentInfo();
@@ -86,7 +85,12 @@ function StudentInfo() {
 
             <div className="info-row">
               <label>MSSV</label>
-              <input type="text" name="studentNumber" value={studentInfo.student_number} readOnly />
+              <input
+                type="text"
+                name="studentNumber"
+                value={studentInfo.student_number}
+                readOnly
+              />
             </div>
 
             <div className="info-row">
@@ -119,12 +123,22 @@ function StudentInfo() {
 
             <div className="info-row">
               <label>Lớp</label>
-              <input type="text" name="class" value={studentInfo.class?.name || ""} readOnly />
+              <input
+                type="text"
+                name="class"
+                value={studentInfo.class?.name || ""}
+                readOnly
+              />
             </div>
 
             <div className="info-row">
               <label>Khoa</label>
-              <input type="text" name="faculty" value={studentInfo.faculty?.name || ""} readOnly />
+              <input
+                type="text"
+                name="faculty"
+                value={studentInfo.faculty?.name || ""}
+                readOnly
+              />
             </div>
 
             <div className="info-row">
@@ -164,36 +178,35 @@ function StudentInfo() {
                 onChange={handleChange}
               />
             </div>
-            {user?.roles?.[0]?.role === "staff" &&(
+            {user?.roles?.[0]?.role === "staff" && (
               <>
-              <div className="info-row">
-                    <label>Thuộc đơn vị</label>
-                    <select
-                      name="unit"
-                      value={studentInfo.unit || ""}
-                      onChange={handleChange}
-                      className="infor-select"
-                    >
-                      {org.map((item) => (
-                        <option key={item.id} value={item.name}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="info-row">
+                  <label>Thuộc đơn vị</label>
+                  <select
+                    name="unit"
+                    value={studentInfo.unit || ""}
+                    onChange={handleChange}
+                    className="infor-select"
+                  >
+                    {org.map((item) => (
+                      <option key={item.id} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  <div className="info-row">
-                    <label>Chức vụ</label>
-                    <input
-                      type="text"
-                      name="position"
-                      value={studentInfo.position || ""}
-                      onChange={handleChange}
-                    />
-                  </div>
+                <div className="info-row">
+                  <label>Chức vụ</label>
+                  <input
+                    type="text"
+                    name="position"
+                    value={studentInfo.position || ""}
+                    onChange={handleChange}
+                  />
+                </div>
               </>
             )}
-           
 
             {user?.roles?.[0]?.role === "student" && (
               <button className="save-btn" onClick={handleSave}>
@@ -201,11 +214,13 @@ function StudentInfo() {
               </button>
             )}
 
-            {user?.roles?.[0]?.role  === "admin" && (
+            {user?.roles?.[0]?.role === "admin" && (
               <button
                 className="save-btn delete-btn"
                 onClick={async () => {
-                  const confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa tài khoản này không?");
+                  const confirmDelete = window.confirm(
+                    "Bạn có chắc chắn muốn xóa tài khoản này không?"
+                  );
                   if (confirmDelete) {
                     try {
                       await deleteStudentProfile(studentInfo.id);
