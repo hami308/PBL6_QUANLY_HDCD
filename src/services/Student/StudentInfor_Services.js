@@ -10,6 +10,7 @@ export const getStudentInfo = async (mssv) => {
     const response = await axios.get(`${API_BASE_URL}/user/${mssv}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin sinh viên:", error);

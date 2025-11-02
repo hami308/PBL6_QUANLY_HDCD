@@ -76,8 +76,33 @@ function StudentInfo() {
         <div className="student-info-content">
           {/* Cột ảnh */}
           <div className="student-photo">
-            <img src={student_pic} alt="Student" className="photo-box" />
+            <label htmlFor="photo-upload" className="photo-upload-label">
+              <img
+                src={studentInfo.photo || student_pic}
+                alt="Student"
+                className="photo-box"
+              />
+              <div className="photo-overlay">Thay ảnh</div>
+            </label>
+            <input
+              id="photo-upload"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  const previewURL = URL.createObjectURL(file);
+                  setStudentInfo((prev) => ({
+                    ...prev,
+                    photo: previewURL, // ảnh hiển thị
+                    photoFile: file,   // lưu file để upload
+                  }));
+                }
+              }}
+            />
           </div>
+
 
           {/* Cột thông tin */}
           <div className="student-details">
@@ -126,7 +151,7 @@ function StudentInfo() {
               <input
                 type="text"
                 name="class"
-                value={studentInfo.class?.name || ""}
+                value={studentInfo.class_id?.name || ""}
                 readOnly
               />
             </div>
