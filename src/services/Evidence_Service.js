@@ -48,6 +48,7 @@ export async function get_evidence_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/evidences/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
+    console.log(response);
     return {
       success: true,
       data: response.data,

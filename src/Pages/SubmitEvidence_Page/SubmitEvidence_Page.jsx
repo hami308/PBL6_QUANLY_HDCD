@@ -5,7 +5,8 @@ import SubmitEvidence from "../../components/Student/SubmitEvidence/SubmitEviden
 import Footer from "../../components/Footer/Footer";
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 import React, { useState, useEffect } from "react";
-import { get_all_evidences } from "../../services/Evidence_Service";
+import { get_evidence_by_idstudent } from "../../services/Evidence_Service";
+import { getStudentInfo } from "../../services/Student/StudentInfor_Services.js";
 
 function SubmitEvidence_Page() {
   const [sortOrder, setSortOrder] = useState("desc");
@@ -13,32 +14,50 @@ function SubmitEvidence_Page() {
   const [evidences, setEvidences] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [refreshTrigger, setRefreshTrigger] = useState(0); // 🔹 state để trigger reload
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // --- Lấy danh sách minh chứng ---
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setError("");
 
       try {
-        const evidenceRes = await get_all_evidences();
-        if (evidenceRes.success && evidenceRes.data?.data) {
-          setEvidences(evidenceRes.data.data);
-        } else {
-          setEvidences([]);
-          setError("Không có minh chứng nào được tìm thấy.");
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        if (!user || !user.id) {
+          setError("Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.");
+          setLoading(false);
+          return;
         }
+
+        //  Gọi API lấy thông tin sinh viên
+        const studentRes = await getStudentInfo(user.id);
+        if (!studentRes) {
+          console.error("Không tìm thấy sinh viên tương ứng với user.id");
+          return;
+        }
+
+        const studentId = studentRes._id;
+
+          //  Gọi API lấy danh sách minh chứng theo ID sinh viên
+          const evidenceRes = await get_evidence_by_idstudent(studentId);
+
+          if (evidenceRes.success && evidenceRes.data?.data) {
+            setEvidences(evidenceRes.data.data);
+          } else {
+            setEvidences([]);
+            setError("Không có minh chứng nào được tìm thấy.");
+          }
+         
       } catch (err) {
         console.error("❌ Lỗi khi tải danh sách minh chứng:", err);
-        setError("Không thể tải danh sách minh chứng. Vui lòng thử lại sau.");
+        setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [refreshTrigger]); // 🔹 Mỗi khi refreshTrigger thay đổi → reload danh sách
+  }, [refreshTrigger]);
 
   const getStatusLabel = (status) => {
     switch ((status || "").toLowerCase()) {
@@ -52,7 +71,6 @@ function SubmitEvidence_Page() {
   };
 
   const handleEvidenceSubmitted = () => {
-    // 🔹 Khi con gọi callback, cha sẽ tăng refreshTrigger để reload danh sách
     setRefreshTrigger((prev) => prev + 1);
   };
 
@@ -61,7 +79,6 @@ function SubmitEvidence_Page() {
       <Header />
       <Menu_student />
 
-      {/* Truyền callback xuống component con */}
       <SubmitEvidence onSubmitSuccess={handleEvidenceSubmitted} />
 
       <h3 className="cross-bar">Danh sách các minh chứng đã nộp</h3>

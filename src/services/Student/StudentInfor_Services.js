@@ -3,11 +3,11 @@ import axios from "axios";
 
 const API_BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles"; 
 
-//  Lấy thông tin sinh viên theo MSSV
-export const getStudentInfo = async (mssv) => {
+//  Lấy thông tin sinh viên theo user_id
+export const getStudentInfo = async (user_id) => {
   try {
     const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${API_BASE_URL}/user/${mssv}`, {
+    const response = await axios.get(`${API_BASE_URL}/user/${user_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data.data;
