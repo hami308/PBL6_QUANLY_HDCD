@@ -126,7 +126,7 @@ function StudentInfo() {
               <input
                 type="text"
                 name="class"
-                value={studentInfo.class?.name || ""}
+                value={studentInfo.class_id.name || ""}
                 readOnly
               />
             </div>

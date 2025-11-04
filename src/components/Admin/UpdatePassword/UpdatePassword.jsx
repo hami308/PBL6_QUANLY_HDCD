@@ -15,18 +15,24 @@ const UpdatePassword = () => {
     }
     if (newPassword.length < 6 || newPassword.length > 12) {
       setError("Mật khẩu phải dài từ 6 đến 12 ký tự");
+      setNewPassword("");
+      setConfirmPassword("");
       return;
     }
     if (newPassword !== confirmPassword) {
       setError("Mật khẩu nhập lại không khớp");
+      setNewPassword("");
+      setConfirmPassword("");
       return;
     }
     setError("");
-    const result = await updatePassword(username, newPassword, confirmPassword);
+    const result = await updatePassword(username, newPassword);
     if (result.success) {
-      alert("Cập nhật mật khẩu thành công!");
+      alert("Cấp lại mật khẩu thành công!");
     } else {
       setError(result.message || "Cấp lại mật khẩu thất bại!");
+      setNewPassword("");
+      setConfirmPassword("");
     }
   };
 
@@ -59,7 +65,7 @@ const UpdatePassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="update-input"
         />
-        {error && <p className="update-note">{error}</p>}
+        {error && <p className="update-note2">{error}</p>}
         <button type="submit" className="update-btn">
           Lưu mật khẩu
         </button>
