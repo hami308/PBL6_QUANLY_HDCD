@@ -17,8 +17,7 @@ function Login({ onClose }) {
     return;
   }
     try {
-      const result = await login(username, password); // CHỜ API PHẢN HỒI
-
+      const result = await login(username, password);
       if (result.success) {
         onClose();
         // alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
@@ -31,7 +30,7 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
+        setError("Tên đăng nhập hoặc mật khẩu không đúng.");
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
