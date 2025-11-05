@@ -28,19 +28,25 @@ function SubmitEvidence_Page() {
           return;
         }
 
+        //  Gọi API lấy thông tin sinh viên
         const studentRes = await getStudentInfo(user.id);
         if (!studentRes) {
-          setError("Không tìm thấy sinh viên tương ứng với người dùng.");
-          setLoading(false);
+          console.error("Không tìm thấy sinh viên tương ứng với user.id");
           return;
         }
 
-        const evidenceRes = await get_evidence_by_idstudent(studentRes._id);
-        if (evidenceRes.success && evidenceRes.data?.data) {
-          setEvidences(evidenceRes.data.data);
-        } else {
-          setEvidences([]);
-        }
+        const studentId = studentRes._id;
+
+          //  Gọi API lấy danh sách minh chứng theo ID sinh viên
+          const evidenceRes = await get_evidence_by_idstudent(studentId);
+
+          if (evidenceRes.success && evidenceRes.data?.data) {
+            setEvidences(evidenceRes.data.data);
+          } else {
+            setEvidences([]);
+            setError("Không có minh chứng nào được tìm thấy.");
+          }
+         
       } catch (err) {
         console.error("❌ Lỗi khi tải danh sách minh chứng:", err);
         setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
@@ -52,6 +58,7 @@ function SubmitEvidence_Page() {
     fetchEvidences();
   }, [refreshTrigger]);
 
+  // 🏷️ Gán nhãn tình trạng
   const getStatusLabel = (status) => {
     switch ((status || "").toLowerCase()) {
       case "pending":
@@ -59,10 +66,22 @@ function SubmitEvidence_Page() {
       case "approved":
         return "Đã duyệt";
       default:
-        return "Chờ duyệt";
+        return "Không xác định";
     }
   };
 
+  // 🧭 Lọc và sắp xếp dữ liệu
+  const filteredAndSortedEvidences = evidences
+    .filter((item) =>
+      statusFilter ? (item.status || "").toLowerCase() === statusFilter : true
+    )
+    .sort((a, b) => {
+      const dateA = new Date(a.submitted_at);
+      const dateB = new Date(b.submitted_at);
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+    });
+
+  // 🔄 Làm mới danh sách khi nộp minh chứng mới
   const handleEvidenceSubmitted = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
@@ -85,19 +104,17 @@ function SubmitEvidence_Page() {
 
       <h3 className="cross-bar">Danh sách các minh chứng đã nộp</h3>
 
-      {/* Chỉ hiển thị filter & sort nếu có minh chứng */}
-      {filteredEvidences.length > 0 && (
-        <div className="filter-sort-container">
-          <select
-            name="status"
-            className="status-filter"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="">-- Chọn tình trạng --</option>
-            <option value="pending">Chờ duyệt</option>
-            <option value="approved">Đã duyệt</option>
-          </select>
+      <div className="filter-sort-container">
+        <select
+          name="status"
+          className="status-filter"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">-- Chọn tình trạng --</option>
+          <option value="pending">Chờ duyệt</option>
+          <option value="approved">Đã duyệt</option>
+        </select>
 
           <select
             className="sort-select"
@@ -111,6 +128,7 @@ function SubmitEvidence_Page() {
         </div>
       )}
 
+      {/* --- Bảng minh chứng --- */}
       {loading ? (
         <p style={{ textAlign: "center" }}>Đang tải danh sách minh chứng...</p>
       ) : error ? (
@@ -123,7 +141,7 @@ function SubmitEvidence_Page() {
         <div className="submit-evidence-customtable">
           <CustomTable
             columns={["Tên hoạt động", "Ngày nộp", "Tình trạng"]}
-            data={filteredEvidences.map((item) => ({
+            data={evidences.map((item) => ({
               tên_hoạt_động: item.title,
               ngày_nộp: new Date(item.submitted_at || "").toLocaleDateString("vi-VN"),
               tình_trạng: getStatusLabel(item.status),
@@ -132,8 +150,6 @@ function SubmitEvidence_Page() {
               <button className="btn-details">
                 <a
                   href={`/evidence-details/${item._id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Chi tiết
                 </a>

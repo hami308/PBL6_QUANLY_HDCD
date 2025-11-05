@@ -1,13 +1,41 @@
 import "./top_bar.css";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getStudentInfo } from "../../services/Student/StudentInfor_Services";
 
-function Menu_student({ ismoniter_class = true }) {
+function Menu_student() {
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+  const [isMonitor, setIsMonitor] = useState(false); // lớp trưởng hay không
   const btnRef = useRef(null);
   const closeTimeoutRef = useRef(null);
+
+  //  Gọi API lấy thông tin sinh viên
+  useEffect(() => {
+    const fetchStudentInfo = async () => {
+      try {
+        const user = JSON.parse(sessionStorage.getItem("user"));
+       const data = await getStudentInfo(user.id); // gọi API
+        if (data) {
+          const info = data;
+          setIsMonitor(info.isClassMonitor);
+          sessionStorage.setItem("student_id", info._id);
+        }
+      } catch (error) {
+        console.error("❌ Lỗi khi lấy thông tin sinh viên:", error);
+        // fallback: đọc từ sessionStorage nếu có
+        const userData = sessionStorage.getItem("user");
+        if (userData) {
+          const user = JSON.parse(userData);
+          setIsMonitor(!!user.isClassMonitor);
+
+        }
+      }
+    };
+
+    fetchStudentInfo();
+  }, []);
 
   const handleLogout = () => {
     sessionStorage.removeItem("user");
@@ -25,7 +53,7 @@ function Menu_student({ ismoniter_class = true }) {
     }
   };
 
-  // Khi mở menu thì tính vị trí và cập nhật khi resize/scroll
+  //  Cập nhật vị trí khi mở menu hoặc resize
   useEffect(() => {
     if (openProfile) updateDropdownPos();
     const handleResizeScroll = () => {
@@ -39,7 +67,7 @@ function Menu_student({ ismoniter_class = true }) {
     };
   }, [openProfile]);
 
-  // Tự đóng khi click ra ngoài
+  //  Tự đóng khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -54,7 +82,6 @@ function Menu_student({ ismoniter_class = true }) {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // Kiểm tra nếu là mobile -> dùng click thay hover
   const isTouchDevice = () =>
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
@@ -106,6 +133,7 @@ function Menu_student({ ismoniter_class = true }) {
         </button>
       </nav>
 
+      {/* --- Dropdown cá nhân --- */}
       {openProfile && (
         <div
           className="dropdown-menu"
@@ -124,11 +152,19 @@ function Menu_student({ ismoniter_class = true }) {
             zIndex: 9999,
           }}
         >
-          <a href="/student-infor/${user?.id}">Thông tin cá nhân</a>
+          <a href="/student-infor">Thông tin cá nhân</a>
           <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
-          <a href="/submit-evidence">Nộp minh chứng ngoài trường</a>
+          <a href="/submit-evidence" onClick={() => sessionStorage.setItem("previousPage", "/submit-evidence")}>
+            Nộp minh chứng ngoài trường
+          </a>
           <a href="/change-password">Đổi mật khẩu</a>
-          {ismoniter_class && <a href="/approved-evidence">Duyệt minh chứng</a>}
+
+          {/*  Hiện nút này nếu là lớp trưởng */}
+          {isMonitor && (
+            <a href="/approved-evidence" onClick={() => sessionStorage.setItem("previousPage", "/approved-evidence")}>
+              Duyệt minh chứng
+            </a>
+          )}
         </div>
       )}
     </div>

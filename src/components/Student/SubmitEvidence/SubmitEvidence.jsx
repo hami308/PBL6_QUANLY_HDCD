@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./SubmitEvidence.css";
 import { submit_evidence } from "../../../services/Evidence_Service";
-import { getStudentInfo } from "../../../services/Student/StudentInfor_Services";
 
 function SubmitEvidence({ onSubmitSuccess }) {
   const [activityName, setActivityName] = useState("");
@@ -10,33 +9,6 @@ function SubmitEvidence({ onSubmitSuccess }) {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [student, setStudent] = useState(null);
-
-  // --- Lấy thông tin sinh viên ---
-  useEffect(() => {
-    const fetchStudent = async () => {
-      try {
-        const user = JSON.parse(sessionStorage.getItem("user"));
-        if (!user || !(user.id || user._id)) {
-          setError("Không tìm thấy ID người dùng trong sessionStorage.");
-          return;
-        }
-
-        const studentRes = await getStudentInfo(user.id || user._id);
-        if (studentRes && (studentRes.success || studentRes._id)) {
-          setStudent(studentRes.data || studentRes);
-        } else {
-          console.error(" Không tìm thấy sinh viên tương ứng với user.id");
-          setError("Không thể tải thông tin sinh viên.");
-        }
-      } catch (err) {
-        console.error(" Lỗi khi lấy thông tin sinh viên:", err);
-        setError("Không thể tải thông tin sinh viên.");
-      }
-    };
-
-    fetchStudent();
-  }, []);
 
   // --- Xử lý khi nộp minh chứng ---
   const handleSubmit = async (e) => {
@@ -63,8 +35,9 @@ function SubmitEvidence({ onSubmitSuccess }) {
       setError("Điểm tự đánh giá không được nhỏ hơn 0.");
       return;
     }
-
-    if (!student?._id) {
+    const student_id=JSON.parse(sessionStorage.getItem("student_id"));
+    console.log(student_id);
+    if (student_id) {
       setError("Không tìm thấy thông tin sinh viên. Vui lòng đăng nhập lại.");
       return;
     }
@@ -72,7 +45,7 @@ function SubmitEvidence({ onSubmitSuccess }) {
     setLoading(true);
 
     const evidenceData = {
-      student_id: student._id,
+      student_id: student_id,
       title: activityName.trim(),
       file_url: evidenceLink.trim(),
       self_point: numericScore,
