@@ -29,25 +29,33 @@ function SubmitEvidence_Page() {
           return;
         }
 
-        //  Gọi API lấy thông tin sinh viên
+        // 🧩 Gọi API lấy thông tin sinh viên
         const studentRes = await getStudentInfo(user.id);
         if (!studentRes) {
           console.error("Không tìm thấy sinh viên tương ứng với user.id");
+          setError("Không tìm thấy thông tin sinh viên.");
           return;
         }
 
-        const studentId = studentRes._id;
+        // ⚠️ Một số backend trả về studentId, không phải _id
+        const studentId = studentRes.studentId || studentRes._id;
 
-          //  Gọi API lấy danh sách minh chứng theo ID sinh viên
-          const evidenceRes = await get_evidence_by_idstudent(studentId);
+        // 🧩 Gọi API lấy danh sách minh chứng
+        const evidenceRes = await get_evidence_by_idstudent(studentId);
 
-          if (evidenceRes.success && evidenceRes.data?.data) {
-            setEvidences(evidenceRes.data.data);
-          } else {
-            setEvidences([]);
-            setError("Không có minh chứng nào được tìm thấy.");
-          }
-         
+        // ✅ Xử lý kết quả theo cấu trúc backend
+        const evidenceList =
+          evidenceRes?.data?.data ||
+          evidenceRes?.data ||
+          evidenceRes ||
+          [];
+
+        if (evidenceList.length > 0) {
+          setEvidences(evidenceList);
+        } else {
+          setEvidences([]);
+          setError("Không có minh chứng nào được tìm thấy.");
+        }
       } catch (err) {
         console.error("❌ Lỗi khi tải danh sách minh chứng:", err);
         setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");
@@ -59,6 +67,7 @@ function SubmitEvidence_Page() {
     fetchData();
   }, [refreshTrigger]);
 
+  // 🏷️ Gán nhãn tình trạng
   const getStatusLabel = (status) => {
     switch ((status || "").toLowerCase()) {
       case "pending":
@@ -66,10 +75,22 @@ function SubmitEvidence_Page() {
       case "approved":
         return "Đã duyệt";
       default:
-        return "Chờ duyệt";
+        return "Không xác định";
     }
   };
 
+  // 🧭 Lọc và sắp xếp dữ liệu
+  const filteredAndSortedEvidences = evidences
+    .filter((item) =>
+      statusFilter ? (item.status || "").toLowerCase() === statusFilter : true
+    )
+    .sort((a, b) => {
+      const dateA = new Date(a.submitted_at);
+      const dateB = new Date(b.submitted_at);
+      return sortOrder === "desc" ? dateB - dateA : dateA - dateB;
+    });
+
+  // 🔄 Làm mới danh sách khi nộp minh chứng mới
   const handleEvidenceSubmitted = () => {
     setRefreshTrigger((prev) => prev + 1);
   };
@@ -83,6 +104,7 @@ function SubmitEvidence_Page() {
 
       <h3 className="cross-bar">Danh sách các minh chứng đã nộp</h3>
 
+      {/* --- Bộ lọc & sắp xếp --- */}
       <div className="filter-sort-container">
         <select
           name="status"
@@ -106,6 +128,7 @@ function SubmitEvidence_Page() {
         </select>
       </div>
 
+      {/* --- Bảng minh chứng --- */}
       {loading ? (
         <p style={{ textAlign: "center" }}>Đang tải danh sách minh chứng...</p>
       ) : error ? (
@@ -114,17 +137,16 @@ function SubmitEvidence_Page() {
         <div className="submit-evidence-customtable">
           <CustomTable
             columns={["Tên hoạt động", "Ngày nộp", "Tình trạng"]}
-            data={evidences.map((item) => ({
-              tên_hoạt_động: item.title,
-              ngày_nộp: new Date(item.submitted_at || "").toLocaleDateString("vi-VN"),
+            data={filteredAndSortedEvidences.map((item) => ({
+              _id: item._id,
+              tên_hoạt_động: item.title || item.name_activity,
+              ngày_nộp: new Date(item.submitted_at || item.date).toLocaleDateString("vi-VN"),
               tình_trạng: getStatusLabel(item.status),
             }))}
             renderActions={(item) => (
               <button className="btn-details">
                 <a
                   href={`/evidence-details/${item._id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Chi tiết
                 </a>

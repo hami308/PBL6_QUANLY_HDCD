@@ -25,10 +25,15 @@ export async function get_all_evidences() {
 
 export async function get_details_evidence_by_id(id) {
   try {
-    const response = await axios.get(`${API_URL}/evidences/${id}`);
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/evidences/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return {
       success: true,
-      data: response.data,
+      data: response.data.data,
     };
     
   } catch (error) {
@@ -48,7 +53,6 @@ export async function get_evidence_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/evidences/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return {
       success: true,
       data: response.data,
