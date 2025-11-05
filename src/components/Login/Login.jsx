@@ -31,7 +31,8 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
+        if(result.message == "User not found")  setError("Tên đăng nhập không tồn tại"); 
+        else if (result.message=="Invalid credentials") setError("Mật khẩu không đúng"); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);

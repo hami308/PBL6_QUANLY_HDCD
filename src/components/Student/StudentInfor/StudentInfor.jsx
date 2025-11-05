@@ -54,7 +54,7 @@ function StudentInfo() {
   };
 
   const handleDateChange = (date) => {
-    setStudentInfo((prev) => ({ ...prev, dateOfBirth: date }));
+    setStudentInfo((prev) => ({ ...prev, date_of_birth: date }));
   };
 
   //  Lưu thông tin sinh viên
@@ -234,7 +234,7 @@ function StudentInfo() {
             )}
 
             {user?.roles?.[0]?.role === "student" && (
-              <button className="save-btn" onClick={handleSave}>
+              <button className="save-student-infor-btn" onClick={handleSave}>
                 Lưu thông tin
               </button>
             )}
