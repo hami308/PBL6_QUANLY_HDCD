@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import { registerLocale } from "react-datepicker";
 import vi from "date-fns/locale/vi";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import {
   getStudentInfo,
   updateStudentInfo,
@@ -16,8 +16,9 @@ registerLocale("vi", vi);
 
 function StudentInfo() {
   const [studentInfo, setStudentInfo] = useState(null);
-  const [errors, setErrors] = useState({ email: "", phone: "" });
+  const [errors, setErrors] = useState({});
   const user = JSON.parse(sessionStorage.getItem("user"));
+
   // Lấy thông tin sinh viên
   useEffect(() => {
     const fetchStudentInfo = async () => {
@@ -35,17 +36,33 @@ function StudentInfo() {
     let errorMsg = "";
 
     if (name === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) errorMsg = "Email không hợp lệ.";
+      if (!value.trim()) {
+        errorMsg = "Email không được để trống.";
+      } else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) errorMsg = "Email không hợp lệ.";
+      }
     }
 
     if (name === "phone") {
-      const phoneRegex = /^0\d{9}$/;
-      if (!phoneRegex.test(value))
-        errorMsg = "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0";
+      if (!value.trim()) {
+        errorMsg = "Số điện thoại không được để trống.";
+      } else if (/\s/.test(value)) {
+        errorMsg = "Số điện thoại không được chứa khoảng trắng.";
+      } else {
+        const phoneRegex = /^0\d{9}$/;
+        if (!phoneRegex.test(value)) {
+          errorMsg = "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0.";
+        }
+      }
+    }
+
+    if (name === "contact_address") {
+      if (!value.trim()) errorMsg = "Địa chỉ không được để trống.";
     }
 
     setErrors((prev) => ({ ...prev, [name]: errorMsg }));
+    return errorMsg === "";
   };
 
   const handleChange = (e) => {
@@ -54,19 +71,54 @@ function StudentInfo() {
   };
 
   const handleDateChange = (date) => {
-    setStudentInfo((prev) => ({ ...prev, dateOfBirth: date }));
+    setStudentInfo((prev) => ({ ...prev, date_of_birth: date }));
+  };
+
+  const ReadOnlyInput = forwardRef(({ value, onClick }, ref) => (
+    <input
+      ref={ref}
+      value={value}
+      onClick={onClick}
+      readOnly
+      className="infor-date-picker"
+    />
+  ));
+
+  // Hàm kiểm tra tất cả các trường trước khi lưu
+  const validateAllFields = () => {
+    const fieldsToCheck = ["email", "phone", "contact_address"];
+    let isValid = true;
+    fieldsToCheck.forEach((field) => {
+      const value = studentInfo[field] || "";
+      const valid = validateField(field, value);
+      if (!valid) isValid = false;
+    });
+    return isValid;
   };
 
   //  Lưu thông tin sinh viên
   const handleSave = async () => {
     try {
-      await updateStudentInfo(studentInfo);
-      alert("Cập nhật thông tin thành công!");
+      const isValid = validateAllFields();
+
+      // Nếu có lỗi hoặc trường trống thì không cho lưu
+      if (!isValid) {
+        alert("Vui lòng kiểm tra và nhập đầy đủ thông tin trước khi lưu!");
+        return;
+      }
+
+      const status = await updateStudentInfo(studentInfo);
+      if (status.success) {
+        alert("Cập nhật thông tin thành công!");
+      } else {
+        alert("Cập nhật thông tin thất bại!");
+      }
     } catch (error) {
       console.error(error);
       alert("Lỗi khi cập nhật thông tin. Vui lòng thử lại!");
     }
   };
+
   if (!studentInfo) return <p>Đang tải thông tin sinh viên...</p>;
 
   return (
@@ -76,7 +128,13 @@ function StudentInfo() {
         <div className="student-info-content">
           {/* Cột ảnh */}
           <div className="student-photo">
-            <img src={student_pic} alt="Student" className="photo-box" />
+            <label htmlFor="photo-upload" className="photo-upload-label">
+              <img
+                src={studentInfo.photo || student_pic}
+                alt="Student"
+                className="photo-box"
+              />
+            </label>
           </div>
 
           {/* Cột thông tin */}
@@ -103,7 +161,7 @@ function StudentInfo() {
                 showMonthDropdown
                 showYearDropdown
                 dropdownMode="select"
-                className="infor-date-picker"
+                customInput={<ReadOnlyInput />}
               />
             </div>
 
@@ -117,7 +175,6 @@ function StudentInfo() {
               >
                 <option value="male">Nam</option>
                 <option value="female">Nữ</option>
-                <option value="Khác">Khác</option>
               </select>
             </div>
 
@@ -125,8 +182,7 @@ function StudentInfo() {
               <label>Lớp</label>
               <input
                 type="text"
-                name="class"
-                value={studentInfo.class_id.name || ""}
+                value={studentInfo.class_id?.name || ""}
                 readOnly
               />
             </div>
@@ -135,12 +191,12 @@ function StudentInfo() {
               <label>Khoa</label>
               <input
                 type="text"
-                name="faculty"
-                value={studentInfo.faculty?.name || ""}
+                value={studentInfo.falcuty_name || ""}
                 readOnly
               />
             </div>
 
+            {/* Email */}
             <div className="info-row">
               <label>Email</label>
               <div className="input-column">
@@ -150,11 +206,13 @@ function StudentInfo() {
                   value={studentInfo.email || ""}
                   onChange={handleChange}
                   onBlur={(e) => validateField("email", e.target.value)}
+                  required
                 />
                 {errors.email && <p className="error-text">{errors.email}</p>}
               </div>
             </div>
 
+            {/* Số điện thoại */}
             <div className="info-row">
               <label>Số điện thoại</label>
               <div className="input-column">
@@ -164,20 +222,33 @@ function StudentInfo() {
                   value={studentInfo.phone || ""}
                   onChange={handleChange}
                   onBlur={(e) => validateField("phone", e.target.value)}
+                  required
                 />
                 {errors.phone && <p className="error-text">{errors.phone}</p>}
               </div>
             </div>
 
+            {/* Địa chỉ */}
             <div className="info-row">
               <label>Địa chỉ</label>
-              <input
-                type="text"
-                name="address"
-                value={studentInfo.contact_address || ""}
-                onChange={handleChange}
-              />
+              <div className="input-column">
+                <input
+                  type="text"
+                  name="contact_address"
+                  value={studentInfo.contact_address || ""}
+                  onChange={handleChange}
+                  onBlur={(e) =>
+                    validateField("contact_address", e.target.value)
+                  }
+                  required
+                />
+                {errors.contact_address && (
+                  <p className="error-text">{errors.contact_address}</p>
+                )}
+              </div>
             </div>
+
+            {/* Nếu là staff */}
             {user?.roles?.[0]?.role === "staff" && (
               <>
                 <div className="info-row">
@@ -208,12 +279,14 @@ function StudentInfo() {
               </>
             )}
 
+            {/* Nếu là student */}
             {user?.roles?.[0]?.role === "student" && (
               <button className="save-btn" onClick={handleSave}>
                 Lưu thông tin
               </button>
             )}
 
+            {/* Nếu là admin */}
             {user?.roles?.[0]?.role === "admin" && (
               <button
                 className="save-btn delete-btn"

@@ -13,8 +13,8 @@ import CancelActivityPopup from "../Popup/CancelActivityPopup.jsx";
 import Activity_pic from "../../assets/images/activity.jpg";
 registerLocale("vi", vi);
 
-function Activity_Details({ activity_details, ismodify = true }) {
-  ismodify = true;
+function Activity_Details({ activity_details, ismodify }) {
+  ismodify = ismodify || false;
   //hiển thị popup hủy hoạt động
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const handleConfirmCancel = (reason) => {
@@ -60,7 +60,7 @@ function Activity_Details({ activity_details, ismodify = true }) {
 
   const [volunteers, setVolunteers] = useState(activity_details.capacity);
   const [location, setLocation] = useState(activity_details.location);
-  const [field_activity, setField] = useState(activity_details.field || ""  );
+  const [field_activity, setField] = useState(activity_details.field || "");
 
   const courseOptions = course.map((c) => ({ value: c.id, label: c.name }));
   const courseValues = activity_details.requirement_by_course
@@ -98,15 +98,27 @@ function Activity_Details({ activity_details, ismodify = true }) {
       setIsOverflowing(el.scrollHeight > maxVisibleHeight + 5);
     }
   }, [activity_details.description]);
-
+  const user = JSON.parse(sessionStorage.getItem("user"));
   return (
     <>
       <div className="activity-card-details">
         <div className="activity--details">
           <h1 className="activity-title-details">{activity_details.title}</h1>
-          <button className="join-btn">Đăng ký tham gia</button>
+          <button
+            className="join-btn"
+            onClick={() => {
+              if (!user) alert("Vui lòng đăng nhập để tham gia hoạt động!");
+              else {
+                alert("Đăng ký tham gia hoạt động thành công!");
+              }
+            }}
+          >
+            Đăng ký tham gia
+          </button>
         </div>
-        <div className="activity-team-details">{activity_details.org_unit_id.name}</div>
+        <div className="activity-team-details">
+          {activity_details.org_unit_id.name}
+        </div>
         <img
           src={activity_details.image || Activity_pic}
           alt={activity_details.name}
@@ -290,19 +302,19 @@ function Activity_Details({ activity_details, ismodify = true }) {
         </div>
 
         {ismodify && (
-        <div className="manage-infot-activity">
-          <button className="button-update-infor-activity">Cập nhật</button>
-          <button onClick={() => setShowCancelPopup(true)}>
-            Hủy hoạt động
-          </button>
+          <div className="manage-infot-activity">
+            <button className="button-update-infor-activity">Cập nhật</button>
+            <button onClick={() => setShowCancelPopup(true)}>
+              Hủy hoạt động
+            </button>
 
-          {showCancelPopup && (
-            <CancelActivityPopup
-              onClose={() => setShowCancelPopup(false)}
-              onConfirm={handleConfirmCancel}
-            />
-          )}
-        </div>
+            {showCancelPopup && (
+              <CancelActivityPopup
+                onClose={() => setShowCancelPopup(false)}
+                onConfirm={handleConfirmCancel}
+              />
+            )}
+          </div>
         )}
       </div>
     </>

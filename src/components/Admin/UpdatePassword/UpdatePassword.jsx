@@ -9,11 +9,11 @@ const UpdatePassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !newPassword || !confirmPassword) {
+    if (!username.trim() || !newPassword.trim() || !confirmPassword.trim()) {
       setError("Vui lòng nhập đầy đủ thông tin");
       return;
     }
-    if (newPassword.length < 6 || newPassword.length > 12) {
+    if (newPassword.trim().length < 6 || newPassword.trim().length > 12) {
       setError("Mật khẩu phải dài từ 6 đến 12 ký tự");
       setNewPassword("");
       setConfirmPassword("");

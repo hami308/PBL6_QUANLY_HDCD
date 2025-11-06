@@ -10,7 +10,7 @@ export const getStudentInfo = async (mssv) => {
     const response = await axios.get(`${API_BASE_URL}/user/${mssv}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("Response data:", response.data);
+    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin sinh viên:", error);
@@ -31,9 +31,9 @@ export const getStudentInfo = async (mssv) => {
 // Cập nhật thông tin sinh viên
 export const updateStudentInfo = async (studentData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     const response = await axios.put(
-      `${API_BASE_URL}/${studentData.id}`,
+      `${API_BASE_URL}/${studentData._id}`,
       studentData,
       {
         headers: { Authorization: `Bearer ${token}` },

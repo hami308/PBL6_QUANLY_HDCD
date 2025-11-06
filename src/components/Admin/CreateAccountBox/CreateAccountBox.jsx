@@ -175,8 +175,8 @@ const CreateAccount = () => {
         </>
       )}
 
-      {/* Dynamic fields for Teacher */}
-      {role === "teacher" && (
+      {/* Dynamic fields for Organization */}
+      {role === "organization" && (
         <>
           <div className="form-group">
             <label>Họ và tên</label>
