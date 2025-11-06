@@ -19,9 +19,12 @@ export async function login(username, password) {
       if (data.token) {
         sessionStorage.setItem("token", data.token);
       }
+      console.log(data);
       return { success: true, user: data.user };
     } else {
+      console.log(data);
       return { success: false, message: data.message || "Đăng nhập thất bại" };
+      
     }
   } catch (error) {
     console.error("Login error:", error);

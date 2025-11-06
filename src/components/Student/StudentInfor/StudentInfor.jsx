@@ -281,7 +281,7 @@ function StudentInfo() {
 
             {/* Nếu là student */}
             {user?.roles?.[0]?.role === "student" && (
-              <button className="save-btn" onClick={handleSave}>
+              <button className="save-student-infor-btn" onClick={handleSave}>
                 Lưu thông tin
               </button>
             )}

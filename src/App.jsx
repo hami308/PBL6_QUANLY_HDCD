@@ -34,7 +34,7 @@ function App() {
         <Route path="/home-student" element={<HomePage />} />
         <Route path="/home-admin" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
-        <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
+        <Route path="/student-infor" element={<StudentInfor_Page />} />
         <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
         <Route path="/change-password" element={
           <ProtectedRoute>
@@ -67,7 +67,7 @@ function App() {
           }
         />
         <Route path="/approved-evidence" element={<Approved_Evidence_Page />} />
-        <Route path="/evidence-details" element={<EvidenceDetail_Page />} />
+        <Route path="/evidence-details/:id" element={<EvidenceDetail_Page />} />
         <Route
           path="/activity-details/:id"
           element={<ActivityDetails_Page />}

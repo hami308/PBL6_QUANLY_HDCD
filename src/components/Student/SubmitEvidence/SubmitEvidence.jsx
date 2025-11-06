@@ -1,80 +1,75 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./SubmitEvidence.css";
 import { submit_evidence } from "../../../services/Evidence_Service";
-import { getStudentInfo } from "../../../services/Student/StudentInfor_Services";
 
-function SubmitEvidence() {
+function SubmitEvidence({ onSubmitSuccess }) {
   const [activityName, setActivityName] = useState("");
   const [evidenceLink, setEvidenceLink] = useState("");
   const [score, setScore] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [student, setStudent] = useState(null);
 
-  // --- Gọi API lấy thông tin sinh viên ---
-  useEffect(() => {
-    const fetchStudent = async () => {
-      const user = JSON.parse(sessionStorage.getItem("user"));
-      if (!user || !(user.id || user._id)) {
-        setError("Không tìm thấy ID người dùng trong sessionStorage.");
-        return;
-      }
-
-      try {
-        const studentRes = await getStudentInfo(user.id || user._id);
-
-        if (studentRes && (studentRes.success || studentRes._id)) {
-          setStudent(studentRes.data || studentRes);
-        } else {
-          console.error("Không tìm thấy sinh viên tương ứng với user.id");
-          setError("Không thể tải thông tin sinh viên.");
-        }
-      } catch (err) {
-        console.error("Lỗi khi lấy thông tin sinh viên:", err);
-        setError("Không thể tải thông tin sinh viên.");
-      }
-    };
-
-    fetchStudent();
-  }, []);
-
-  // --- Submit minh chứng ---
+  // --- Xử lý khi nộp minh chứng ---
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Reset thông báo
+    setError("");
+    setSuccessMessage("");
+
+    // --- Kiểm tra hợp lệ ---
     if (!activityName.trim() || !evidenceLink.trim() || !score.trim()) {
       setError("Vui lòng nhập đầy đủ thông tin.");
       return;
     }
 
-    if (!student?._id) {
+    const urlPattern = /^(https?:\/\/)([\w-]+\.)+[\w-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/;
+    if (!urlPattern.test(evidenceLink.trim())) {
+      setError("Link minh chứng không hợp lệ.");
+      return;
+    }
+
+    const numericScore = Number(score);
+    if (isNaN(numericScore) || numericScore < 0) {
+      setError("Điểm tự đánh giá không được nhỏ hơn 0.");
+      return;
+    }
+    const student_id=JSON.parse(sessionStorage.getItem("student_id"));
+    console.log(student_id);
+    if (student_id) {
       setError("Không tìm thấy thông tin sinh viên. Vui lòng đăng nhập lại.");
       return;
     }
 
-    setError("");
     setLoading(true);
 
-    // Dữ liệu gửi lên API 
     const evidenceData = {
-      student_id: student._id,
-      title: activityName,
-      file_url: evidenceLink,
-      self_point: Number(score),
+      student_id: student_id,
+      title: activityName.trim(),
+      file_url: evidenceLink.trim(),
+      self_point: numericScore,
     };
 
     try {
       const res = await submit_evidence(evidenceData);
+
       if (res.success) {
-        alert("Nộp minh chứng thành công!");
+        setSuccessMessage(" Nộp minh chứng thành công");
         setActivityName("");
         setEvidenceLink("");
         setScore("");
+
+        // --- Gọi callback reload danh sách ---
+        if (onSubmitSuccess) onSubmitSuccess();
+
+        // --- Tự ẩn thông báo sau 3 giây ---
+        setTimeout(() => setSuccessMessage(""), 3000);
       } else {
         setError(res.message || "Không thể nộp minh chứng, vui lòng thử lại.");
       }
     } catch (err) {
-      console.error("Lỗi khi nộp minh chứng:", err);
+      console.error(" Lỗi khi nộp minh chứng:", err);
       setError("Có lỗi xảy ra, vui lòng thử lại sau.");
     } finally {
       setLoading(false);
@@ -95,7 +90,11 @@ function SubmitEvidence() {
               type="text"
               placeholder="Nhập tên hoạt động..."
               value={activityName}
-              onChange={(e) => setActivityName(e.target.value)}
+              onChange={(e) => {
+                setActivityName(e.target.value);
+                setError("");
+                setSuccessMessage("");
+              }}
             />
           </div>
 
@@ -105,7 +104,11 @@ function SubmitEvidence() {
               type="text"
               placeholder="Nhập link minh chứng..."
               value={evidenceLink}
-              onChange={(e) => setEvidenceLink(e.target.value)}
+              onChange={(e) => {
+                setEvidenceLink(e.target.value);
+                setError("");
+                setSuccessMessage("");
+              }}
             />
           </div>
 
@@ -114,15 +117,25 @@ function SubmitEvidence() {
             <input
               type="number"
               placeholder="0"
-              min="0"
+              max="100"
               value={score}
-              onChange={(e) => setScore(e.target.value)}
+              onChange={(e) => {
+                setScore(e.target.value);
+                setError("");
+                setSuccessMessage("");
+              }}
             />
           </div>
 
+          {/* Hiển thị thông báo */}
           {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>}
 
-          <button type="submit" className="submit-evidence-button" disabled={loading}>
+          <button
+            type="submit"
+            className="submit-evidence-button"
+            disabled={loading}
+          >
             {loading ? "Đang nộp..." : "Nộp minh chứng"}
           </button>
         </form>
