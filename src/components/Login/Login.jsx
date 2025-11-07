@@ -14,11 +14,10 @@ function Login({ onClose }) {
     setError(""); // Xóa lỗi cũ trước khi đăng nhập
     if (!username || !password) {
       setError("Vui lòng nhập đầy đủ thông tin.");
-    return;
-  }
+      return;
+    }
     try {
-      const result = await login(username, password); // CHỜ API PHẢN HỒI
-
+      const result = await login(username, password);
       if (result.success) {
         onClose();
         // alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
@@ -31,8 +30,10 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        if(result.message == "User not found")  setError("Tên đăng nhập không tồn tại"); 
-        else if (result.message=="Invalid credentials") setError("Mật khẩu không đúng"); 
+        if (result.message == "User not found")
+          setError("Tên đăng nhập không tồn tại");
+        else if (result.message == "Invalid credentials")
+          setError("Mật khẩu không đúng");
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);

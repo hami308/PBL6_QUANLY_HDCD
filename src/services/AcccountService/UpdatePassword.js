@@ -1,9 +1,9 @@
 import axios from "axios";
-const handleUpdatePassword = async (username, newPassword, confirmPassword) => {
+const handleUpdatePassword = async (username, newPassword) => {
   try {
     const response = await axios.post(
-      "https://pbl6-backend.vercel.app/api/auth/admin-update-password",
-      { username, newPassword, confirmPassword },
+      "https://pbl6-backend-iy5q.onrender.com/api/auth/admin-update-password",
+      { username, newPassword },
       {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
