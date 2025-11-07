@@ -65,6 +65,11 @@
 .search-icon {
   padding: 0 6px;
 }
+.search-icon .material-symbols-outlined{
+  display: flex;
+  justify-items: center;
+  font-size: 25px;
+}
 
 /* Buttons */
 .filter-actions {

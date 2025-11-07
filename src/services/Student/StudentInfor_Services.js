@@ -1,7 +1,7 @@
 // src/services/studentService.js
 import axios from "axios";
 
-const API_BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles"; 
+const API_BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles";
 
 //  Lấy thông tin sinh viên theo user_id
 export const getStudentInfo = async (user_id) => {
@@ -13,7 +13,7 @@ export const getStudentInfo = async (user_id) => {
     return response.data.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin sinh viên:", error);
-        if (error.response) {
+    if (error.response) {
       console.error(" Response data:", error.response.data);
       console.error(" Status:", error.response.status);
       console.error("Headers:", error.response.headers);
@@ -30,10 +30,14 @@ export const getStudentInfo = async (user_id) => {
 // Cập nhật thông tin sinh viên
 export const updateStudentInfo = async (studentData) => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await axios.put(`${API_BASE_URL}/${studentData.id}`, studentData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const token = sessionStorage.getItem("token");
+    const response = await axios.put(
+      `${API_BASE_URL}/${studentData._id}`,
+      studentData,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Lỗi khi cập nhật thông tin sinh viên:", error);

@@ -27,10 +27,10 @@ const handleSubmit = async (e) => {
   }
 
   // Kiểm tra khoảng trắng ở giữa mật khẩu mới
-  if (/\s/.test(newP)) {
-    setMessage("Mật khẩu không được chứa khoảng trắng");
-    return;
-  }
+ if (/^\s|\s$|\s/.test(newPass)) {
+  setMessage("Mật khẩu không được chứa khoảng trắng");
+  return;
+}
 
   // Kiểm tra độ dài mật khẩu mới
   if (newP.length < 6 || newP.length > 12) {
@@ -62,11 +62,17 @@ const handleSubmit = async (e) => {
 
     if (!resData.success) {
       console.log("Fail:", resData);
-      setMessage(resData.message || "Đổi mật khẩu thất bại");
-      setIsSuccess(false);
+      if( resData.message == "New password must be different from old password"){
+        setMessage("Mật khẩu mới phải khác mật khẩu cũ");
+        setIsSuccess(false);
+      }
+      else{
+        setMessage(resData.message || "Đổi mật khẩu thất bại");
+        setIsSuccess(false);
+      }
     } else {
       console.log("Success:", resData);
-      setMessage(resData.message || "Đổi mật khẩu thành công!");
+      setMessage(resData.message || "Đổi mật khẩu thành công");
       setIsSuccess(true);
       setOldPass("");
       setNewPass("");

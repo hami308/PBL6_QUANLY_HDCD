@@ -25,10 +25,15 @@ export async function get_all_evidences() {
 
 export async function get_details_evidence_by_id(id) {
   try {
-    const response = await axios.get(`${API_URL}/evidences/${id}`);
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/evidences/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return {
       success: true,
-      data: response.data,
+      data: response.data.data,
     };
     
   } catch (error) {
@@ -48,7 +53,6 @@ export async function get_evidence_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/evidences/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return {
       success: true,
       data: response.data,
@@ -91,6 +95,77 @@ export async function submit_evidence(evidenceData) {
       message:
         error.response?.data?.message ||
         "Không thể nộp minh chứng, vui lòng thử lại sau.",
+    };
+  }
+}
+export async function update_evidence(id, updatedData) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.put(
+      `${API_URL}/evidences/${id}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(`Update evidence ${id} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể cập nhật minh chứng, vui lòng thử lại sau.",
+    };
+  }
+}
+export async function get_evidences_by_class(classId) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/evidences/class/${classId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(`Get evidences by class ${classId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách minh chứng theo lớp, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function approve_evidence(id, approveData) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/evidences/${id}/approve`, approveData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error(`Approve evidence ${id} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message || "Không thể duyệt minh chứng, vui lòng thử lại sau.",
     };
   }
 }
