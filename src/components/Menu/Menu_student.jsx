@@ -21,6 +21,7 @@ function Menu_student() {
           const info = data;
           setIsMonitor(info.isClassMonitor);
           sessionStorage.setItem("student_id", info._id);
+          sessionStorage.setItem("isMonitor", info.isClassMonitor);
         }
       } catch (error) {
         console.error("❌ Lỗi khi lấy thông tin sinh viên:", error);
