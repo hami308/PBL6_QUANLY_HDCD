@@ -72,7 +72,8 @@ function App() {
           path="/activity-details/:id"
           element={<ActivityDetails_Page />}
         />
-        <Route path="/propose-activity" element={<Propose_Activity_Page />} />
+        <Route path="/propose-activity" element={<Propose_Activity_Page iscreate={false}/>} />
+         <Route path="/create-activity" element={<Propose_Activity_Page iscreate={true} />} />
         <Route path="/create-qr-attendance" element={<Create_QR_Page />} />
         <Route
           path="/manage-activity-org"
