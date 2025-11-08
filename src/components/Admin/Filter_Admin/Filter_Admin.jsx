@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./Filter_Admin.css";
 import { FaFilter } from "react-icons/fa";
-
+import { get_all_faculties } from "../../../services/Faculty_Service";
+import { useEffect } from "react";
+import getClass from "../../../services/Class_Service";
+import { get_all_org } from "../../../services/Org_Service";
 const Filter_Admin = ({ activeTab }) => {
   // Student & Teacher filters
   const [studentId, setStudentId] = useState("");
-  const [faculty, setFaculty] = useState("");
+  const [idfaculty, setIdFaculty] = useState("");
   const [className, setClassName] = useState("");
 
   const [teacherId, setTeacherId] = useState("");
@@ -21,12 +24,57 @@ const Filter_Admin = ({ activeTab }) => {
   const [activityField, setActivityField] = useState("");
   const [organization, setOrganization] = useState("");
   const [activityStatus, setActivityStatus] = useState("");
+  const [facultyList, setFacultyList] = useState([]);
+  const [orgList, setOrgList] = useState([]);
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      const response = await get_all_faculties();
+      console.log("Faculties response:", response);
+      if (response.data) {
+        setFacultyList(response.data);
+      } else {
+        console.error("Failed to fetch faculties:", response.message);
+        return [];
+      }
+    };
+    fetchFaculties();
+  }, []);
+  useEffect(() => {
+    const fetchClasses = async () => {
+      if (idfaculty) {
+        const listClasses = await getClass(idfaculty);
+        console.log("Classes response:", listClasses);
+        if (listClasses.data) {
+          setClassName(listClasses.data);
+        } else {
+          console.error("Failed to fetch classes:", listClasses.message);
+        }
+      } else {
+        setClassName("");
+      }
+    };
+    fetchClasses();
+  }, [idfaculty]);
+
+  useEffect(() => {
+    const fetchOrg = async () => {
+      const response = await get_all_org();
+      console.log("Org response:", response);
+      if (response.data) {
+        setOrgList(response.data);
+      } else {
+        console.error("Failed to fetch faculties:", response.message);
+        return [];
+      }
+    };
+    fetchOrg();
+  }, []);
 
   const handleApply = () => {};
 
   const handleReset = () => {
     setStudentId("");
-    setFaculty("");
+    setIdFaculty("");
     setClassName("");
     setTeacherId("");
     setUnit("");
@@ -57,17 +105,26 @@ const Filter_Admin = ({ activeTab }) => {
               onChange={(e) => setStudentId(e.target.value)}
               className="filter-input"
             />
+
             <select
-              value={faculty}
-              onChange={(e) => setFaculty(e.target.value)}
+              value={idfaculty}
+              onChange={(e) => setIdFaculty(e.target.value)}
               className="Filter_Admin-select"
             >
               <option value="" disabled>
                 Khoa
               </option>
-              <option value="IT">Information Technology</option>
-              <option value="Economics">Economics</option>
-              <option value="Languages">Languages</option>
+              {facultyList.length > 0 ? (
+                facultyList.map((fac) => (
+                  <option key={fac._id} value={fac._id}>
+                    {fac.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Loading...
+                </option>
+              )}
             </select>
             <select
               value={className}
@@ -77,9 +134,17 @@ const Filter_Admin = ({ activeTab }) => {
               <option value="" disabled>
                 Lớp
               </option>
-              <option value="KTPM1">KTPM1</option>
-              <option value="HTTT2">HTTT2</option>
-              <option value="CNPM3">CNPM3</option>
+              {className.length > 0 ? (
+                className.map((cls) => (
+                  <option key={cls._id} value={cls.name}>
+                    {cls.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Trống
+                </option>
+              )}
             </select>
           </>
         )}
@@ -102,9 +167,17 @@ const Filter_Admin = ({ activeTab }) => {
               <option value="" disabled>
                 Đơn vị công tác
               </option>
-              <option value="IT">IT Department</option>
-              <option value="Economics">Economics Department</option>
-              <option value="Mechanical">Mechanical Department</option>
+              {orgList.length > 0 ? (
+                orgList.map((org) => (
+                  <option key={org._id} value={org._id}>
+                    {org.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Loading
+                </option>
+              )}
             </select>
             <select
               value={sortOrder}
@@ -131,16 +204,24 @@ const Filter_Admin = ({ activeTab }) => {
               className="filter-input"
             />
             <select
-              value={faculty}
-              onChange={(e) => setFaculty(e.target.value)}
+              value={idfaculty}
+              onChange={(e) => setIdFaculty(e.target.value)}
               className="Filter_Admin-select"
             >
               <option value="" disabled>
                 Khoa
               </option>
-              <option value="IT">CNTT</option>
-              <option value="Chemmistry">Hóa</option>
-              <option value="Electric">Điện</option>
+              {facultyList.length > 0 ? (
+                facultyList.map((fac) => (
+                  <option key={fac._id} value={fac._id}>
+                    {fac.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Loading...
+                </option>
+              )}
             </select>
             <select
               value={className}
@@ -150,9 +231,17 @@ const Filter_Admin = ({ activeTab }) => {
               <option value="" disabled>
                 Lớp
               </option>
-              <option value="KTPM1">KTPM1</option>
-              <option value="HTTT2">HTTT2</option>
-              <option value="CNPM3">NPM3</option>
+              {className.length > 0 ? (
+                className.map((cls) => (
+                  <option key={cls._id} value={cls.name}>
+                    {cls.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Trống
+                </option>
+              )}
             </select>
             <select
               value={academicYear}
@@ -205,9 +294,18 @@ const Filter_Admin = ({ activeTab }) => {
               <option value="" disabled>
                 Chọn đơn vị tổ chức
               </option>
-              <option value="1">Đội tư vấn sinh viên</option>
-              <option value="2">Đội CTXH</option>
-              <option value="3">CLB Môi trường</option>
+
+              {orgList.length > 0 ? (
+                orgList.map((org) => (
+                  <option key={org._id} value={org._id}>
+                    {org.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Loading
+                </option>
+              )}
             </select>
 
             <select

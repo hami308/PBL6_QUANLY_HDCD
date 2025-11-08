@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./CreateAccountBox.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { get_all_faculties } from "../../../services/Faculty_Service";
+import getClass from "../../../services/Class_Service";
+import { get_all_org } from "../../../services/Org_Service";
+import { LiaSymfony } from "react-icons/lia";
 const CreateAccount = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,7 +19,54 @@ const CreateAccount = () => {
   const [workUnit, setWorkUnit] = useState(""); // cho giảng viên
   const [position, setPosition] = useState(""); // cho giảng viên
 
+  const [listFaculty, setListFaculty] = useState([]);
+  const [orgList, setOrgList] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchFaculties = async () => {
+      const response = await get_all_faculties();
+      console.log("faculty", response);
+      if (response.data) {
+        setListFaculty(response.data);
+      } else {
+        console.log("Error : ", response.message);
+        return [];
+      }
+    };
+    fetchFaculties();
+  }, []);
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      if (faculty) {
+        const listClasses = await getClass(faculty);
+        console.log("Classes response:", listClasses);
+        if (listClasses.data) {
+          setClassName(listClasses.data);
+        } else {
+          console.error("Failed to fetch classes:", listClasses.message);
+        }
+      } else {
+        setClassName("");
+      }
+    };
+    fetchClasses();
+  }, [faculty]);
+
+  useEffect(() => {
+    const fetchOrg = async () => {
+      const response = await get_all_org();
+      console.log("Org response:", response);
+      if (response.data) {
+        setOrgList(response.data);
+      } else {
+        console.error("Failed to fetch faculties:", response.message);
+        return [];
+      }
+    };
+    fetchOrg();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,7 +145,7 @@ const CreateAccount = () => {
 
   return (
     <form onSubmit={handleSubmit} className="create-account-form">
-      <h2 className="form-title">Tạo 1 tài khoản</h2>
+      <h2 className="form-title">Tạo tài khoản mới</h2>
 
       {/* Username */}
       <div className="form-group">
@@ -142,22 +192,6 @@ const CreateAccount = () => {
               placeholder="Nhập họ và tên sinh viên"
             />
           </div>
-
-          <div className="form-group">
-            <label>Lớp</label>
-            <select
-              value={className}
-              onChange={(e) => setClassName(e.target.value)}
-            >
-              <option value="" disabled>
-                -- Chọn lớp --
-              </option>
-              <option value="class1">Lớp 1</option>
-              <option value="class2">Lớp 2</option>
-              <option value="class3">Lớp 3</option>
-            </select>
-          </div>
-
           <div className="form-group">
             <label>Khoa</label>
             <select
@@ -167,9 +201,39 @@ const CreateAccount = () => {
               <option value="" disabled>
                 -- Chọn khoa --
               </option>
-              <option value="faculty1">Khoa 1</option>
-              <option value="faculty2">Khoa 2</option>
-              <option value="faculty3">Khoa 3</option>
+              {listFaculty.length > 0 ? (
+                listFaculty.map((fac) => (
+                  <option key={fac._id} value={fac._id}>
+                    {fac.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Trống
+                </option>
+              )}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Lớp</label>
+            <select
+              value={className}
+              onChange={(e) => setClassName(e.target.value)}
+            >
+              <option value="" disabled>
+                Lớp
+              </option>
+              {className.length > 0 ? (
+                className.map((cls) => (
+                  <option key={cls._id} value={cls._id}>
+                    {cls.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Trống
+                </option>
+              )}
             </select>
           </div>
         </>
@@ -195,11 +259,19 @@ const CreateAccount = () => {
               onChange={(e) => setWorkUnit(e.target.value)}
             >
               <option value="" disabled>
-                -- Chọn đơn vị --
+                Đơn vị công tác
               </option>
-              <option value="unit1">Đơn vị 1</option>
-              <option value="unit2">Đơn vị 2</option>
-              <option value="unit3">Đơn vị 3</option>
+              {orgList.length > 0 ? (
+                orgList.map((org) => (
+                  <option key={org._id} value={org._id}>
+                    {org.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Loading
+                </option>
+              )}
             </select>
           </div>
 

@@ -6,7 +6,7 @@ import CustomTable from "../../components/Custom/CustomTable";
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserAccount_Management.css";
-import { getStudents, getTeachers } from "../../services/Account_Service";
+import { getStudents, getTeachers } from "../../services/manageAccount_Service";
 
 function UserAccount_Management() {
   const [activeTab, setActiveTab] = useState("student");
@@ -118,8 +118,8 @@ function UserAccount_Management() {
                     data={students.map((item) => ({
                       mã_sinh_viên: item.student_number,
                       họ_tên: item.full_name,
-                      lớp: item.className || item.class || "—",
-                      khoa: item.faculty || item.department || "—",
+                      lớp: item.class_id?.name || "-",
+                      khoa: item.falcuty_name || "-",
                       chọn: <input type="checkbox" key={item.studentId} />,
                       thao_tác: (
                         <button
@@ -153,8 +153,8 @@ function UserAccount_Management() {
                     data={teachers.map((item) => ({
                       mã_giảng_viên: item.staff_number,
                       họ_tên: item.full_name,
-                      đơn_vị: item.unit,
-                      chức_vụ: item.position,
+                      đơn_vị: item.org_unit_id?.name,
+                      chức_vụ: item.org_unit_id?.name,
                       chọn: <input type="checkbox" key={item.teacherId} />,
                       thao_tác: (
                         <button
