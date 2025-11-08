@@ -127,4 +127,45 @@ export async function update_evidence(id, updatedData) {
     };
   }
 }
+export async function get_evidences_by_class(classId) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/evidences/class/${classId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(`Get evidences by class ${classId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách minh chứng theo lớp, vui lòng thử lại sau.",
+    };
+  }
+}
 
+export async function approve_evidence(id, approveData) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/evidences/${id}/approve`, approveData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error(`Approve evidence ${id} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message || "Không thể duyệt minh chứng, vui lòng thử lại sau.",
+    };
+  }
+}

@@ -1,7 +1,7 @@
 import "./EvidenceDetails.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { get_details_evidence_by_id, update_evidence } from "../../../services/Evidence_Service";
+import { get_details_evidence_by_id, update_evidence, approve_evidence } from "../../../services/Evidence_Service";
 
 function EvidenceDetail() {
   const { id } = useParams();
@@ -47,7 +47,7 @@ function EvidenceDetail() {
     return <p style={{ textAlign: "center", color: "red" }}>Không tìm thấy minh chứng.</p>;
 
   const data = formData;
-  const isMonitor = data.student_id.isClassMonitor;
+  const isMonitor =JSON.parse(sessionStorage.getItem("isMonitor"));
   const isApproved = data.status === "approved";
 
   // --- Phân quyền ---
@@ -56,7 +56,6 @@ function EvidenceDetail() {
       ? true
       : isMonitor && previousPage === "submit-evidence";
   const canApprove = isMonitor && previousPage === "approved-evidence";
-
   // --- Xử lý thay đổi input ---
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +70,7 @@ function EvidenceDetail() {
     setUpdating(false);
     if (result.success) {
       alert(" Cập nhật minh chứng thành công!");
+      handleBack();
     } else {
       alert(result.message);
     }
@@ -80,17 +80,17 @@ function EvidenceDetail() {
   const handleApprove = async () => {
     if (!window.confirm("Bạn có chắc muốn duyệt minh chứng này?")) return;
     setUpdating(true);
-    // const result = await approve_evidence(id, {
-    //   score_moniter: formData.score_moniter || 0,
-    //   status: "approved",
-    // });
-    // setUpdating(false);
-    // if (result.success) {
-    //   alert(" Minh chứng đã được duyệt!");
-    //   handleBack();
-    // } else {
-    //   alert(result.message);
-    // }
+    const result = await approve_evidence(id, {
+      score_moniter: formData.score_moniter || 0,
+      status: "approved",
+    });
+    setUpdating(false);
+    if (result.success) {
+      alert(" Minh chứng đã được duyệt!");
+      handleBack();
+    } else {
+      alert(result.message);
+    }
   };
 
   return (

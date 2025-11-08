@@ -1,6 +1,6 @@
 .tag-select {
   width: 70%;
-  height: 40px;
+  min-height:40px ;
 }
 
 /* Nền control (ô chọn) */
