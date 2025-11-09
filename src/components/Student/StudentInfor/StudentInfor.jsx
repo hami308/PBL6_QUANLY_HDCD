@@ -14,7 +14,7 @@ import { org } from "../../../data/org.js";
 
 registerLocale("vi", vi);
 
-function StudentInfo() {
+function StudentInfo({ idstudent }) {
   const [studentInfo, setStudentInfo] = useState(null);
   const [errors, setErrors] = useState({});
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -23,14 +23,14 @@ function StudentInfo() {
   useEffect(() => {
     const fetchStudentInfo = async () => {
       try {
-        const data = await getStudentInfo(user.id);
+        const data = await getStudentInfo(idstudent);
         setStudentInfo(data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchStudentInfo();
-  }, [user?.id]);
+  }, [idstudent]);
 
   const validateField = (name, value) => {
     let errorMsg = "";

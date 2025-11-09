@@ -125,7 +125,7 @@ function UserAccount_Management() {
                         <button
                           className="xct"
                           onClick={() =>
-                            navigate(`/student-infor/${item.studentId}`)
+                            navigate(`/student-infor/${item.user_id?._id}`)
                           }
                         >
                           Xem chi tiết

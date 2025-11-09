@@ -16,7 +16,7 @@ function Menu_student() {
     const fetchStudentInfo = async () => {
       try {
         const user = JSON.parse(sessionStorage.getItem("user"));
-       const data = await getStudentInfo(user.id); // gọi API
+        const data = await getStudentInfo(user.id); // gọi API
         if (data) {
           const info = data;
           setIsMonitor(info.isClassMonitor);
@@ -30,7 +30,6 @@ function Menu_student() {
         if (userData) {
           const user = JSON.parse(userData);
           setIsMonitor(!!user.isClassMonitor);
-
         }
       }
     };
@@ -99,7 +98,8 @@ function Menu_student() {
       closeTimeoutRef.current = setTimeout(() => setOpenProfile(false), 250);
     }
   };
-
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  console.log(user);
   return (
     <div className="top-bar">
       <nav className="header-right">
@@ -153,16 +153,27 @@ function Menu_student() {
             zIndex: 9999,
           }}
         >
-          <a href="/student-infor">Thông tin cá nhân</a>
+          {user && <a href={`/student-infor/${user.id}`}>Thông tin cá nhân</a>}
+
           <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
-          <a href="/submit-evidence" onClick={() => sessionStorage.setItem("previousPage", "/submit-evidence")}>
+          <a
+            href="/submit-evidence"
+            onClick={() =>
+              sessionStorage.setItem("previousPage", "/submit-evidence")
+            }
+          >
             Nộp minh chứng ngoài trường
           </a>
           <a href="/change-password">Đổi mật khẩu</a>
 
           {/*  Hiện nút này nếu là lớp trưởng */}
           {isMonitor && (
-            <a href="/approved-evidence" onClick={() => sessionStorage.setItem("previousPage", "/approved-evidence")}>
+            <a
+              href="/approved-evidence"
+              onClick={() =>
+                sessionStorage.setItem("previousPage", "/approved-evidence")
+              }
+            >
               Duyệt minh chứng
             </a>
           )}

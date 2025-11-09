@@ -34,12 +34,15 @@ function App() {
         <Route path="/home-student" element={<HomePage />} />
         <Route path="/home-admin" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
-        <Route path="/student-infor" element={<StudentInfor_Page />} />
+        <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
-        <Route path="/change-password" element={
-          <ProtectedRoute>
-            <ChangePassword_Page />
-          </ProtectedRoute>}
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <ChangePassword_Page />
+            </ProtectedRoute>
+          }
         />
         <Route path="/update-password" element={<UpdatePassword_Page />} />
         <Route
@@ -72,8 +75,14 @@ function App() {
           path="/activity-details/:id"
           element={<ActivityDetails_Page />}
         />
-        <Route path="/propose-activity" element={<Propose_Activity_Page iscreate={false}/>} />
-         <Route path="/create-activity" element={<Propose_Activity_Page iscreate={true} />} />
+        <Route
+          path="/propose-activity"
+          element={<Propose_Activity_Page iscreate={false} />}
+        />
+        <Route
+          path="/create-activity"
+          element={<Propose_Activity_Page iscreate={true} />}
+        />
         <Route path="/create-qr-attendance" element={<Create_QR_Page />} />
         <Route
           path="/manage-activity-org"
