@@ -162,7 +162,18 @@ input[readonly],
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
   font-size: 35px;
 }
-
+.delete-btn {
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: #d12c2c;
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.2s;
+}
 /* Responsive */
 @media (max-width: 1200px) {
   .teacher-info-container {
