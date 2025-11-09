@@ -1,5 +1,5 @@
 import Header from "../../components/Header/Header";
-import Menu_org from "../../components/Menu/Menu_student";
+import Menu_org from "../../components/Menu/Menu_org";
 import Filter_Activity from "../../components/Activity/Filter_activity";
 import Footer from "../../components/Footer/Footer";
 import "./Manage_Activity_Org_Page.css";
@@ -10,9 +10,6 @@ function Manage_Activity_Org_Page() {
       <Header />
       <Menu_org />
       <div className="background-image-manage-activity-org"></div>
-      <div className="cross-bar">
-        <p>Danh sách các hoạt động</p>
-      </div>
       <Filter_Activity />
       <List_Activity_org_component />
       <Footer />

@@ -8,7 +8,7 @@ const DEFAULT_MENU = [
   { label: "Thông tin tổ chức", href: "/org-infor", requiredPer: "org_unit:read" },
   // chỗ này sẽ thay đổi label & href theo quyền
   { label: "Đề xuất hoạt động", href: "/propose-activity", requiredPer: "activity:create" },
-  { label: "Quản lý hoạt động", href: "/manage-activity", requiredPer: "activity:approve" },
+  { label: "Quản lý hoạt động", href: "/manage-activity-org", requiredPer: "activity:approve" },
   { label: "Tạo mã điểm danh", href: "/create-attendance", requiredPer: "attendance:scan" },
 ];
 
