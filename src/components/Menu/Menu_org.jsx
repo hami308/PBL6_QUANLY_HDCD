@@ -5,13 +5,15 @@ import { get_user_permissions } from "../../services/Permission_Service";
 
 const DEFAULT_MENU = [
   { label: "Trang chủ", href: "/home-student", requiredPer: null },
-  { label: "Thông tin tổ chức", href: "/org-info", requiredPer: "org_unit:read" },
+  { label: "Thông tin tổ chức", href: "/org-infor", requiredPer: "org_unit:read" },
+  // chỗ này sẽ thay đổi label & href theo quyền
   { label: "Đề xuất hoạt động", href: "/propose-activity", requiredPer: "activity:create" },
   { label: "Quản lý hoạt động", href: "/manage-activity", requiredPer: "activity:approve" },
   { label: "Tạo mã điểm danh", href: "/create-attendance", requiredPer: "attendance:scan" },
 ];
 
 export default function TopMenu() {
+  const [menuData, setMenuData] = useState(DEFAULT_MENU);
   const [otherData, setOtherData] = useState([]);
   const [openOther, setOpenOther] = useState(false);
   const otherRef = useRef(null);
@@ -20,35 +22,57 @@ export default function TopMenu() {
 
   const isTouchDevice = () => "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
-  // Lấy permissions
   useEffect(() => {
     const fetchPermissions = async () => {
       try {
-        const user = JSON.parse(sessionStorage.getItem("user"));
-        if (!user?.id) return;
+        const cached = sessionStorage.getItem("user_permissions");
+        let userPerms = [];
 
-        const result = await get_user_permissions(user.id);
-        if (!result.success) return;
+        if (cached) {
+          userPerms = JSON.parse(cached);
+        } else {
+          const user = JSON.parse(sessionStorage.getItem("user"));
+          if (!user?.id) return;
 
-        const perms = result.data.permissions || {};
-        const userPerms = Object.entries(perms).flatMap(([module, actions]) =>
-          actions.map(action => `${module}:${action}`.toLowerCase())
-        );
+          const result = await get_user_permissions(user.id);
+          if (!result.success) return;
 
-        const defaultPerms = DEFAULT_MENU.map(item => item.requiredPer)
+          const perms = result.data.permissions || {};
+          userPerms = Object.entries(perms).flatMap(([module, actions]) =>
+            actions.map((a) => `${module}:${a}`.toLowerCase())
+          );
+
+          sessionStorage.setItem("user_permissions", JSON.stringify(userPerms));
+        }
+
+        // ✅ Nếu có quyền activity:create => đổi label & href
+        const newMenu = DEFAULT_MENU.map((item) => {
+          if (item.requiredPer === "activity:create") {
+            if (userPerms.includes("activity:create")) {
+              return { ...item, label: "Tạo hoạt động", href: "/create-activity" };
+            } else {
+              return { ...item, label: "Đề xuất hoạt động", href: "/propose-activity" };
+            }
+          }
+          return item;
+        });
+
+        setMenuData(newMenu);
+
+        // Tạo danh sách "Khác"
+        const defaultPerms = DEFAULT_MENU.map((i) => i.requiredPer)
           .filter(Boolean)
-          .map(p => p.toLowerCase());
-
-        const filtered = userPerms.filter(p => !defaultPerms.includes(p));
+          .map((p) => p.toLowerCase());
+        const filtered = userPerms.filter((p) => !defaultPerms.includes(p));
         setOtherData(filtered);
       } catch (err) {
         console.error(err);
       }
     };
+
     fetchPermissions();
   }, []);
 
-  // Hover / click
   const handleMouseEnter = () => {
     if (!isTouchDevice()) {
       clearTimeout(closeTimeoutRef.current);
@@ -61,21 +85,21 @@ export default function TopMenu() {
     }
   };
 
-  // Logout
   const handleLogout = () => {
     sessionStorage.removeItem("user");
-    navigate("/"); // redirect về login
+    sessionStorage.removeItem("user_permissions");
+    navigate("/");
   };
 
   return (
     <div className="top-bar">
       <nav className="header-right">
-        {/* Menu chính */}
-        {DEFAULT_MENU.map((item, idx) => (
-          <a key={idx} href={item.href}>{item.label}</a>
+        {menuData.map((item, idx) => (
+          <a key={idx} href={item.href}>
+            {item.label}
+          </a>
         ))}
 
-        {/* Menu "Khác" */}
         {otherData.length > 0 && (
           <div
             className="profile-dropdown"
@@ -86,7 +110,7 @@ export default function TopMenu() {
             <button
               className="profile-btn"
               onClick={() => {
-                if (isTouchDevice()) setOpenOther(prev => !prev);
+                if (isTouchDevice()) setOpenOther((prev) => !prev);
               }}
             >
               Khác
@@ -101,19 +125,19 @@ export default function TopMenu() {
                 }
               >
                 {otherData.map((perm, idx) => (
-                  <a key={idx} href="#">{perm}</a>
+                  <a key={idx} href="#">
+                    {perm}
+                  </a>
                 ))}
               </div>
             )}
           </div>
         )}
 
-        {/* Icon thông báo */}
         <a href="/receive-notification" className="icon-link">
           <span className="material-symbols-outlined">notifications</span>
         </a>
 
-        {/* Nút Thoát */}
         <button className="logout-btn" onClick={handleLogout}>
           Thoát
         </button>

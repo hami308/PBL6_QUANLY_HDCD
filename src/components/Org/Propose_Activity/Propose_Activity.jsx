@@ -14,9 +14,10 @@ export default function Propose_Activity({ iscreate }) {
     startTime: null,
     endTime: null,
     location: "",
-    faculty: [],   // ✅ nhiều khoa
-    course: [],    // ✅ nhiều khóa
+    faculty: [],
+    course: [],
     volunteers: "",
+    maxpoint: "", // ✅ thêm trường điểm tối đa
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +26,6 @@ export default function Propose_Activity({ iscreate }) {
   const facultyOptions = Faculty.map((f) => ({ value: f.id, label: f.name }));
   const courseOptions = course.map((c) => ({ value: c.id, label: c.name }));
 
-  // 🧠 Xử lý nhập liệu cơ bản
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -38,7 +38,6 @@ export default function Propose_Activity({ iscreate }) {
     setForm({ ...form, endTime: date });
   };
 
-  // 🧠 Chọn nhiều khoa / khóa học
   const handleFacultyChange = (selected) => {
     setForm({ ...form, faculty: selected || [] });
   };
@@ -47,7 +46,6 @@ export default function Propose_Activity({ iscreate }) {
     setForm({ ...form, course: selected || [] });
   };
 
-  // 🧩 Kiểm tra hợp lệ
   const validateForm = () => {
     if (
       !form.name ||
@@ -55,12 +53,13 @@ export default function Propose_Activity({ iscreate }) {
       !form.startTime ||
       !form.endTime ||
       !form.location ||
-      !form.volunteers
+      !form.volunteers ||
+      !form.maxpoint // ✅ kiểm tra thêm maxpoint
     ) {
       return "Vui lòng nhập đầy đủ thông tin.";
     }
 
-    if (form.startTime && form.endTime && form.endTime <= form.startTime) {
+    if (form.endTime <= form.startTime) {
       return "Thời gian kết thúc phải sau thời gian bắt đầu.";
     }
 
@@ -68,14 +67,16 @@ export default function Propose_Activity({ iscreate }) {
       return "Số lượng tình nguyện viên phải lớn hơn 0.";
     }
 
+    if (Number(form.maxpoint) <= 0) {
+      return "Điểm tối đa phải lớn hơn 0.";
+    }
+
     return "";
   };
 
-  // 🧾 Gửi form
   const handleSubmit = async (e) => {
     e.preventDefault();
     const error = validateForm();
-
     if (error) {
       setErrorMessage(error);
       return;
@@ -87,14 +88,15 @@ export default function Propose_Activity({ iscreate }) {
     try {
       if (iscreate) {
         const payload = {
-          name: form.name,
+          title: form.name,
           description: form.description,
-          startTime: form.startTime.toISOString(),
-          endTime: form.endTime.toISOString(),
+          start_time: form.startTime.toISOString(),
+          end_time: form.endTime.toISOString(),
           location: form.location,
-          faculty: form.faculty.map((f) => f.value).join(","),  // ✅ convert sang chuỗi id
-          course: form.course.map((c) => c.value).join(","),    // ✅ convert sang chuỗi id
+          faculty: form.faculty.map((f) => f.value).join(","),
+          course: form.course.map((c) => c.value).join(","),
           volunteers: Number(form.volunteers),
+          points: Number(form.maxpoint), 
         };
 
         const res = await create_activity(payload);
@@ -110,6 +112,7 @@ export default function Propose_Activity({ iscreate }) {
             faculty: [],
             course: [],
             volunteers: "",
+            maxpoint: "",
           });
         } else {
           setErrorMessage(res.message);
@@ -118,8 +121,8 @@ export default function Propose_Activity({ iscreate }) {
         alert("Đề xuất hoạt động thành công!");
       }
     } catch (err) {
-      setErrorMessage("Đã xảy ra lỗi khi xử lý, vui lòng thử lại sau.");
-      console.log(err);
+      setErrorMessage("Đã xảy ra lỗi, vui lòng thử lại sau.");
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -203,7 +206,7 @@ export default function Propose_Activity({ iscreate }) {
           <label>Áp dụng với các khoa:</label>
           <CustomSelect
             options={facultyOptions}
-            isMulti       
+            isMulti
             value={form.faculty}
             onChange={handleFacultyChange}
             className="propose-activity-tag-select"
@@ -215,7 +218,7 @@ export default function Propose_Activity({ iscreate }) {
           <label>Áp dụng với khóa:</label>
           <CustomSelect
             options={courseOptions}
-            isMulti   
+            isMulti
             value={form.course}
             onChange={handleCourseChange}
             className="propose-activity-tag-select"
@@ -235,12 +238,23 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Hiển thị lỗi */}
+        {/* ✅ Điểm tối đa */}
+        <div className="form-propose-activity">
+          <label>Điểm tối đa:</label>
+          <input
+            name="maxpoint"
+            value={form.maxpoint}
+            onChange={handleChange}
+            type="number"
+            placeholder="Nhập điểm tối đa"
+            min="1"
+          />
+        </div>
+
         {errorMessage && (
           <div className="error-message-propose">{errorMessage}</div>
         )}
 
-        {/* Nút gửi */}
         <div className="form-actions">
           <button
             type="submit"
