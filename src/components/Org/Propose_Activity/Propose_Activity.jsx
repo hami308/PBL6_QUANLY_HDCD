@@ -5,7 +5,10 @@ import "./Propose_Activity.css";
 import CustomSelect from "../../Custom/CustomSelect";
 import { course } from "../../../data/course";
 import { Faculty } from "../../../data/Faculty";
-import { create_activity } from "../../../services/Activity_Services";
+import {
+  create_activity,
+  propose_activity,
+} from "../../../services/Activity_Services";
 
 export default function Propose_Activity({ iscreate }) {
   const [form, setForm] = useState({
@@ -17,7 +20,7 @@ export default function Propose_Activity({ iscreate }) {
     faculty: [],
     course: [],
     volunteers: "",
-    maxpoint: "", // ✅ thêm trường điểm tối đa
+    maxpoint: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,6 +29,7 @@ export default function Propose_Activity({ iscreate }) {
   const facultyOptions = Faculty.map((f) => ({ value: f.id, label: f.name }));
   const courseOptions = course.map((c) => ({ value: c.id, label: c.name }));
 
+  //  Xử lý thay đổi input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -46,6 +50,7 @@ export default function Propose_Activity({ iscreate }) {
     setForm({ ...form, course: selected || [] });
   };
 
+  //  Kiểm tra hợp lệ form
   const validateForm = () => {
     if (
       !form.name ||
@@ -54,7 +59,7 @@ export default function Propose_Activity({ iscreate }) {
       !form.endTime ||
       !form.location ||
       !form.volunteers ||
-      !form.maxpoint // ✅ kiểm tra thêm maxpoint
+      !form.maxpoint
     ) {
       return "Vui lòng nhập đầy đủ thông tin.";
     }
@@ -74,8 +79,10 @@ export default function Propose_Activity({ iscreate }) {
     return "";
   };
 
+  //  Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const error = validateForm();
     if (error) {
       setErrorMessage(error);
@@ -86,43 +93,42 @@ export default function Propose_Activity({ iscreate }) {
     setLoading(true);
 
     try {
-      if (iscreate) {
-        const payload = {
-          title: form.name,
-          description: form.description,
-          start_time: form.startTime.toISOString(),
-          end_time: form.endTime.toISOString(),
-          location: form.location,
-          faculty: form.faculty.map((f) => f.value).join(","),
-          course: form.course.map((c) => c.value).join(","),
-          volunteers: Number(form.volunteers),
-          points: Number(form.maxpoint), 
-        };
+      const payload = {
+        title: form.name,
+        description: form.description,
+        start_time: form.startTime.toISOString(),
+        end_time: form.endTime.toISOString(),
+        location: form.location,
+        faculty: form.faculty.map((f) => f.value).join(","),
+        course: form.course.map((c) => c.value).join(","),
+        volunteers: Number(form.volunteers),
+        points: Number(form.maxpoint),
+      };
 
-        const res = await create_activity(payload);
+      //  Gọi API phù hợp
+      const res = iscreate
+        ? await create_activity(payload)
+        : await propose_activity(payload);
 
-        if (res.success) {
-          alert("Tạo hoạt động thành công!");
-          setForm({
-            name: "",
-            description: "",
-            startTime: null,
-            endTime: null,
-            location: "",
-            faculty: [],
-            course: [],
-            volunteers: "",
-            maxpoint: "",
-          });
-        } else {
-          setErrorMessage(res.message);
-        }
+      if (res.success) {
+        alert(iscreate ? "Tạo hoạt động thành công!" : "Đề xuất hoạt động thành công!");
+        setForm({
+          name: "",
+          description: "",
+          startTime: null,
+          endTime: null,
+          location: "",
+          faculty: [],
+          course: [],
+          volunteers: "",
+          maxpoint: "",
+        });
       } else {
-        alert("Đề xuất hoạt động thành công!");
+        setErrorMessage(res.message || "Thao tác thất bại.");
       }
     } catch (err) {
-      setErrorMessage("Đã xảy ra lỗi, vui lòng thử lại sau.");
       console.error(err);
+      setErrorMessage("Đã xảy ra lỗi, vui lòng thử lại sau.");
     } finally {
       setLoading(false);
     }
@@ -135,7 +141,7 @@ export default function Propose_Activity({ iscreate }) {
           {iscreate ? "Tạo hoạt động" : "Đề xuất hoạt động"}
         </h2>
 
-        {/* Tên hoạt động */}
+        {/*  Tên hoạt động */}
         <div className="form-propose-activity">
           <label>Tên hoạt động:</label>
           <input
@@ -147,7 +153,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Mô tả */}
+        {/*  Mô tả */}
         <div className="form-propose-activity">
           <label>Mô tả:</label>
           <textarea
@@ -174,7 +180,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Thời gian kết thúc */}
+        {/*  Thời gian kết thúc */}
         <div className="form-propose-activity">
           <label>Thời gian kết thúc hoạt động:</label>
           <DatePicker
@@ -189,7 +195,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Địa điểm */}
+        {/*  Địa điểm */}
         <div className="form-propose-activity">
           <label>Địa điểm:</label>
           <input
@@ -201,7 +207,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Khoa áp dụng */}
+        {/*  Khoa áp dụng */}
         <div className="form-propose-activity">
           <label>Áp dụng với các khoa:</label>
           <CustomSelect
@@ -213,7 +219,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Khóa áp dụng */}
+        {/*  Khóa áp dụng */}
         <div className="form-propose-activity">
           <label>Áp dụng với khóa:</label>
           <CustomSelect
@@ -225,7 +231,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Số lượng tình nguyện viên */}
+        {/*  Số lượng tình nguyện viên */}
         <div className="form-propose-activity">
           <label>Số lượng tình nguyện viên:</label>
           <input
@@ -238,7 +244,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* ✅ Điểm tối đa */}
+        {/*  Điểm tối đa */}
         <div className="form-propose-activity">
           <label>Điểm tối đa:</label>
           <input
@@ -251,10 +257,12 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
+        {/*  Thông báo lỗi */}
         {errorMessage && (
           <div className="error-message-propose">{errorMessage}</div>
         )}
 
+        {/*  Nút hành động */}
         <div className="form-actions">
           <button
             type="submit"
