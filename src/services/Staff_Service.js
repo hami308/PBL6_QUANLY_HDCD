@@ -1,14 +1,14 @@
 // src/services/studentService.js
 import axios from "axios";
 
-const API_BASE_URL = "https://pbl6-backend.vercel.app/api/staff-profiles";
+const API_BASE_URL = "https://pbl6-backend.vercel.app/api/staff-profiles/user";
 export const getStaffInfo = async (_id) => {
   try {
     const token = sessionStorage.getItem("token");
     const response = await axios.get(`${API_BASE_URL}/${_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    // console.log("nhaajn dduowjc", response);
+    // console.log("ket qua ", response);
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin staff:", error);
