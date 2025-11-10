@@ -1,100 +1,91 @@
+import React, { useState, useEffect } from "react";
 import Activity_org_component from "./Activity_org_component";
 import Pagination from "../../Pagination/Pagination";
-import React, { useState } from "react";
-import Activity_pic from '../../../assets/images/activity.jpg';
+import Activity_pic from "../../../assets/images/activity.jpg";
+import { get_activities_by_orgunit } from "../../../services/Activity_Services";
+import { getStaffInfo } from "../../../services/Staff_Service"; 
 
-  const activity_list = [
-    {
-        id: 1,
-      name: "Hiến máu nhân đạo",
-      org: "CLB Công tác xã hội",
-      date: "15/9/2025",
-      location: "Khu B ĐHBK",
-      status: "Chưa diễn ra",
-        image: Activity_pic,
-    },
-    {
-      id: 2,
-      name: "Ngày hội Sách và Tri thức",
-      org: "CLB Kỹ năng mềm",
-      date: "22/10/2025",
-      location: "Thư viện trường",
-      status: "Đang diễn ra",
-        image: Activity_pic,
-    },
-    {
-      id: 3,
-      name: "Giải bóng đá sinh viên",
-      org: "Đoàn khoa CNTT",
-      date: "30/10/2025",
-      location: "Sân vận động KTX",
-      status: "Đã kết thúc",    
-        image: Activity_pic,
-    },
-    {
-     id: 1,
-      name: "Hiến máu nhân đạo",
-      org: "CLB Công tác xã hội",
-      time_org_start: "15/9/2025",
-      location: "Khu B ĐHBK",
-      status: "Chưa diễn ra",
-      image: Activity_pic,
-    },
-    {
-      id: 2,
-      name: "Ngày hội Sách và Tri thức ",
-      org: "CLB Kỹ năng mềm",
-      date: "22/10/2025",
-      location: "Thư viện trường",
-      status: "Đang diễn ra",
-        image: Activity_pic,
-    },
-    {
-      id: 3,
-      name: "Giải bóng đá sinh viên",
-      org: "Đoàn khoa CNTT",
-      date: "30/10/2025",
-      location: "Sân vận động KTX",
-      status: "Đã kết thúc",
-        image: Activity_pic,
-    },
-  ];
+function List_Activity_org_component() {
+  const [activities, setActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-function List_Activity_org_component(){
-    const [currentPage, setCurrentPage] = useState(1);
-      const itemsPerPage = 5; // số hoạt động mỗi trang
-    
-      // Tính toán chỉ mục hiển thị
-      const totalPages = Math.ceil(activity_list.length / itemsPerPage);
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const currentActivities = activity_list.slice(
-        startIndex,
-        startIndex + itemsPerPage
-      );
-    
-      // Hàm xử lý chuyển trang
-      const handlePageChange = (page) => {
-        if (page >= 1 && page <= totalPages) {
-          setCurrentPage(page);
-          
-        }
-      };
-    
+  const itemsPerPage = 5;
   
-    return (
-        <div className="list-activity-org-component-container">         
-            {currentActivities.map((activity, index) => (
-                <Activity_org_component
-                    key={index} 
-                    activity={activity}
-                />
-            ))}
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-        </div>
-    );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const user = JSON.parse(sessionStorage.getItem("user"));
+        // 🔹 1. Lấy user từ sessionStorage
+        if (!user) throw new Error("Không tìm thấy thông tin. Vui lòng đăng nhập");
+
+        // 🔹 2. Gọi API lấy thông tin staff
+        const staff = await getStaffInfo(user.id);
+        if (!staff) throw new Error("Không thể lấy thông tin staff.");
+
+        // 🔹 3. Lấy org_unit_id từ staff
+        const orgUnitId = staff.org_unit_id;
+        if (!orgUnitId) throw new Error("Staff không thuộc tổ chức nào.");
+
+        // 🔹 4. Gọi API lấy danh sách hoạt động theo tổ chức
+        const actRes = await get_activities_by_orgunit(orgUnitId);
+        if (actRes.success && Array.isArray(actRes.data)) {
+          const withImages = actRes.data.map((item) => ({
+            ...item,
+            image: item.image || Activity_pic,
+          }));
+          setActivities(withImages);
+        } else {
+          throw new Error(actRes.message || "Không thể tải danh sách hoạt động.");
+        }
+      } catch (err) {
+        console.error("Fetch activities error:", err);
+        setError(err.message || "Lỗi kết nối đến máy chủ.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // 🔢 Phân trang
+  const totalPages = Math.ceil(activities.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentActivities = activities.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  };
+
+  // 💬 Hiển thị
+  if (loading) return <p style={{ textAlign: "center" }}>⏳ Đang tải dữ liệu...</p>;
+  if (error) return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
+
+  return (
+    <div className="list-activity-org-component-container">
+      <h3 style={{ textAlign: "center" }}>Danh sách hoạt động của tổ chức</h3>
+
+      {currentActivities.length > 0 ? (
+        currentActivities.map((activity) => (
+          <Activity_org_component key={activity._id || activity.id} activity={activity} />
+        ))
+      ) : (
+        <p style={{ textAlign: "center" }}>Không có hoạt động nào.</p>
+      )}
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </div>
+  );
 }
-export default  List_Activity_org_component;
+
+export default List_Activity_org_component;
