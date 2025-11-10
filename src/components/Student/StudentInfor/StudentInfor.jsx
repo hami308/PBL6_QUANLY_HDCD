@@ -14,7 +14,7 @@ import { org } from "../../../data/org.js";
 
 registerLocale("vi", vi);
 
-function StudentInfo(idstudent) {
+function StudentInfo({ idstudent }) {
   const [studentInfo, setStudentInfo] = useState(null);
   const [errors, setErrors] = useState({});
   const user = JSON.parse(sessionStorage.getItem("user"));

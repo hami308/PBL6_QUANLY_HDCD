@@ -34,7 +34,7 @@ function TeacherInfo({ idstaff }) {
     const fetchStaffInfo = async () => {
       try {
         const reponse = await getStaffInfo(idstaff);
-        console.log(reponse);
+        // console.log(reponse);
         setTeacherInfo(reponse);
       } catch (error) {
         console.error(error);
@@ -102,9 +102,7 @@ function TeacherInfo({ idstaff }) {
         alert("Vui lòng kiểm tra và nhập đầy đủ thông tin trước khi lưu!");
         return;
       }
-
       const status = await updateStaffInfo(teacherInfo);
-      console.log("kết quả ", status);
       if (status) {
         alert("Cập nhật thông tin thành công!");
       } else {

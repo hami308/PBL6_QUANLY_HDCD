@@ -159,7 +159,9 @@ function UserAccount_Management() {
                       thao_tác: (
                         <button
                           className="xct"
-                          onClick={() => navigate(`/staff-infor/${item._id}`)}
+                          onClick={() =>
+                            navigate(`/staff-infor/${item.user_id._id}`)
+                          }
                         >
                           Xem chi tiết
                         </button>
