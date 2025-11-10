@@ -138,11 +138,15 @@
 @media (max-width: 1024px) {
   .top-bar {
     padding: 0 15px;
+
     
   }
 
   .header-right {
     gap: 16px;
+     overflow-x: auto; /* Cho phép cuộn ngang */
+  white-space: nowrap; /* Không xuống dòng */
+  scrollbar-width: thin; /* hiển thị thanh cuộn gọn nhẹ */
   }
 
   .dropdown-menu {

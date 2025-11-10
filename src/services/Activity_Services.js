@@ -92,3 +92,35 @@ export async function create_activity(activityData) {
   }
 }
 
+export async function propose_activity(activityData) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    // Gửi request POST đến API tạo hoạt động
+    const response = await axios.post(
+      `${API_URL}/activities/suggest`,
+      activityData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+      message: "Tạo hoạt động thành công!",
+    };
+  } catch (error) {
+    console.error("Create activity error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể tạo hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+

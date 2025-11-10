@@ -6,9 +6,8 @@ import { get_user_permissions } from "../../services/Permission_Service";
 const DEFAULT_MENU = [
   { label: "Trang chủ", href: "/home-student", requiredPer: null },
   { label: "Thông tin tổ chức", href: "/org-infor", requiredPer: "org_unit:read" },
-  // chỗ này sẽ thay đổi label & href theo quyền
-  { label: "Đề xuất hoạt động", href: "/propose-activity", requiredPer: "activity:create" },
-  { label: "Quản lý hoạt động", href: "/manage-activity-org", requiredPer: "activity:approve" },
+  { label: "Đề xuất hoạt động", href: "/propose-activity", requiredPer: ["activity:propose", "activity:create"] },
+  { label: "Quản lý hoạt động", href: "/manage-activity-org", requiredPer: ["activity:read", "activity:approve","activity:update"] },
   { label: "Tạo mã điểm danh", href: "/create-attendance", requiredPer: "attendance:scan" },
 ];
 
@@ -16,6 +15,7 @@ export default function TopMenu() {
   const [menuData, setMenuData] = useState(DEFAULT_MENU);
   const [otherData, setOtherData] = useState([]);
   const [openOther, setOpenOther] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const otherRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const navigate = useNavigate();
@@ -25,29 +25,26 @@ export default function TopMenu() {
   useEffect(() => {
     const fetchPermissions = async () => {
       try {
-        const cached = sessionStorage.getItem("user_permissions");
         let userPerms = [];
-
+        const cached = sessionStorage.getItem("user_permissions");
         if (cached) {
           userPerms = JSON.parse(cached);
         } else {
           const user = JSON.parse(sessionStorage.getItem("user"));
           if (!user?.id) return;
-
           const result = await get_user_permissions(user.id);
           if (!result.success) return;
-
           const perms = result.data.permissions || {};
           userPerms = Object.entries(perms).flatMap(([module, actions]) =>
             actions.map((a) => `${module}:${a}`.toLowerCase())
           );
-
           sessionStorage.setItem("user_permissions", JSON.stringify(userPerms));
         }
 
-        // ✅ Nếu có quyền activity:create => đổi label & href
+        // Cập nhật menu "Đề xuất/Tạo hoạt động"
         const newMenu = DEFAULT_MENU.map((item) => {
-          if (item.requiredPer === "activity:create") {
+          const req = Array.isArray(item.requiredPer) ? item.requiredPer : [item.requiredPer];
+          if (req.includes("activity:create")) {
             if (userPerms.includes("activity:create")) {
               return { ...item, label: "Tạo hoạt động", href: "/create-activity" };
             } else {
@@ -56,13 +53,10 @@ export default function TopMenu() {
           }
           return item;
         });
-
         setMenuData(newMenu);
 
-        // Tạo danh sách "Khác"
-        const defaultPerms = DEFAULT_MENU.map((i) => i.requiredPer)
-          .filter(Boolean)
-          .map((p) => p.toLowerCase());
+        // Lọc quyền ngoài menu mặc định để cho "Khác"
+        const defaultPerms = DEFAULT_MENU.flatMap(i => (Array.isArray(i.requiredPer) ? i.requiredPer : [i.requiredPer])).filter(Boolean).map(p => p.toLowerCase());
         const filtered = userPerms.filter((p) => !defaultPerms.includes(p));
         setOtherData(filtered);
       } catch (err) {
@@ -73,12 +67,50 @@ export default function TopMenu() {
     fetchPermissions();
   }, []);
 
+  // Cập nhật vị trí dropdown
+  const updateDropdownPos = () => {
+    if (otherRef.current) {
+      const rect = otherRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + 5,
+        left: rect.left + rect.width / 2,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (openOther) updateDropdownPos();
+    const handleResizeScroll = () => {
+      if (openOther) updateDropdownPos();
+    };
+    window.addEventListener("resize", handleResizeScroll);
+    window.addEventListener("scroll", handleResizeScroll);
+    return () => {
+      window.removeEventListener("resize", handleResizeScroll);
+      window.removeEventListener("scroll", handleResizeScroll);
+    };
+  }, [openOther]);
+
+  // Đóng dropdown khi click ngoài
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (otherRef.current && !otherRef.current.contains(e.target) &&
+          !document.querySelector(".dropdown-menu")?.contains(e.target)) {
+        setOpenOther(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   const handleMouseEnter = () => {
     if (!isTouchDevice()) {
       clearTimeout(closeTimeoutRef.current);
       setOpenOther(true);
+      updateDropdownPos();
     }
   };
+
   const handleMouseLeave = () => {
     if (!isTouchDevice()) {
       closeTimeoutRef.current = setTimeout(() => setOpenOther(false), 200);
@@ -95,9 +127,7 @@ export default function TopMenu() {
     <div className="top-bar">
       <nav className="header-right">
         {menuData.map((item, idx) => (
-          <a key={idx} href={item.href}>
-            {item.label}
-          </a>
+          <a key={idx} href={item.href}>{item.label}</a>
         ))}
 
         {otherData.length > 0 && (
@@ -110,7 +140,7 @@ export default function TopMenu() {
             <button
               className="profile-btn"
               onClick={() => {
-                if (isTouchDevice()) setOpenOther((prev) => !prev);
+                if (isTouchDevice()) setOpenOther(prev => !prev);
               }}
             >
               Khác
@@ -119,15 +149,19 @@ export default function TopMenu() {
             {openOther && (
               <div
                 className="dropdown-menu"
+                style={{
+                  position: "fixed",
+                  top: `${dropdownPos.top}px`,
+                  left: `${dropdownPos.left}px`,
+                  transform: "translateX(-50%)",
+                  zIndex: 9999,
+                  minWidth: "150px"
+                }}
                 onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
-                onMouseLeave={() =>
-                  (closeTimeoutRef.current = setTimeout(() => setOpenOther(false), 200))
-                }
+                onMouseLeave={() => (closeTimeoutRef.current = setTimeout(() => setOpenOther(false), 200))}
               >
                 {otherData.map((perm, idx) => (
-                  <a key={idx} href="#">
-                    {perm}
-                  </a>
+                  <a key={idx} href="#">{perm}</a>
                 ))}
               </div>
             )}
@@ -138,9 +172,7 @@ export default function TopMenu() {
           <span className="material-symbols-outlined">notifications</span>
         </a>
 
-        <button className="logout-btn" onClick={handleLogout}>
-          Thoát
-        </button>
+        <button className="logout-btn" onClick={handleLogout}>Thoát</button>
       </nav>
     </div>
   );
