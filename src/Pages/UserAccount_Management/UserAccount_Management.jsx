@@ -154,14 +154,12 @@ function UserAccount_Management() {
                       mã_giảng_viên: item.staff_number,
                       họ_tên: item.full_name,
                       đơn_vị: item.org_unit_id?.name,
-                      chức_vụ: item.org_unit_id?.name,
+                      chức_vụ: item.position,
                       chọn: <input type="checkbox" key={item.teacherId} />,
                       thao_tác: (
                         <button
                           className="xct"
-                          onClick={() =>
-                            navigate(`/teacher-infor/${item.teacherId}`)
-                          }
+                          onClick={() => navigate(`/staff-infor/${item._id}`)}
                         >
                           Xem chi tiết
                         </button>

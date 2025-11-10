@@ -35,7 +35,7 @@ function App() {
         <Route path="/home-admin" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
-        <Route path="/teacher-infor" element={<TeacherInfor_Page />} />
+        <Route path="/staff-infor/:id" element={<TeacherInfor_Page />} />
         <Route
           path="/change-password"
           element={
