@@ -151,4 +151,29 @@ export async function get_activities_by_orgunit(org_unit_id) {
   }
 }
 
+export async function get_activities_by_orgunit_and_status(org_unit_id, status) {
+  try {
+    const token = sessionStorage.getItem("token");
 
+    const response = await axios.get(`${API_URL}/activities`, {
+      params: { org_unit_id, status },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return {
+      success: true,
+      data: response.data.data || response.data,
+      message: response.data.message || "Lấy danh sách hoạt động theo tổ chức và trạng thái thành công.",
+    };
+  } catch (error) {
+    console.error(`Get activities by org_unit_id (${org_unit_id}) and status (${status}) error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách hoạt động theo đơn vị và trạng thái, vui lòng thử lại sau.",
+    };
+  }
+}
