@@ -137,7 +137,8 @@ export async function get_activities_by_orgunit(org_unit_id) {
 
     return {
       success: true,
-      data: response.data,
+      data: response.data.data,
+      message: response.data.message || "",
     };
   } catch (error) {
     console.error(`Get activities by org_unit_id (${org_unit_id}) error:`, error);

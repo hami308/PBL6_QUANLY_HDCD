@@ -19,18 +19,18 @@ function List_Activity_org_component() {
         setLoading(true);
         setError("");
         const user = JSON.parse(sessionStorage.getItem("user"));
-        // 🔹 1. Lấy user từ sessionStorage
+        //  1. Lấy user từ sessionStorage
         if (!user) throw new Error("Không tìm thấy thông tin. Vui lòng đăng nhập");
 
-        // 🔹 2. Gọi API lấy thông tin staff
+        //  2. Gọi API lấy thông tin staff
         const staff = await getStaffInfo(user.id);
         if (!staff) throw new Error("Không thể lấy thông tin staff.");
 
-        // 🔹 3. Lấy org_unit_id từ staff
+        //  3. Lấy org_unit_id từ staff
         const orgUnitId = staff.org_unit_id;
         if (!orgUnitId) throw new Error("Staff không thuộc tổ chức nào.");
 
-        // 🔹 4. Gọi API lấy danh sách hoạt động theo tổ chức
+        //  4. Gọi API lấy danh sách hoạt động theo tổ chức
         const actRes = await get_activities_by_orgunit(orgUnitId);
         if (actRes.success && Array.isArray(actRes.data)) {
           const withImages = actRes.data.map((item) => ({
@@ -52,7 +52,7 @@ function List_Activity_org_component() {
     fetchData();
   }, []);
 
-  // 🔢 Phân trang
+  //  Phân trang
   const totalPages = Math.ceil(activities.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentActivities = activities.slice(startIndex, startIndex + itemsPerPage);
@@ -61,13 +61,12 @@ function List_Activity_org_component() {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  // 💬 Hiển thị
-  if (loading) return <p style={{ textAlign: "center" }}>⏳ Đang tải dữ liệu...</p>;
+  //  Hiển thị
+  if (loading) return <p style={{ textAlign: "center" }}> Đang tải dữ liệu...</p>;
   if (error) return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
 
   return (
     <div className="list-activity-org-component-container">
-      <h3 style={{ textAlign: "center" }}>Danh sách hoạt động của tổ chức</h3>
 
       {currentActivities.length > 0 ? (
         currentActivities.map((activity) => (
