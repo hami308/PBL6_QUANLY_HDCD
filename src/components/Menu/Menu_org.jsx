@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { get_user_permissions } from "../../services/Permission_Service";
 
+// --- MENU CỐ ĐỊNH ---
 const DEFAULT_MENU = [
   { label: "Trang chủ", href: "/home-student", requiredPer: null },
   { label: "Thông tin tổ chức", href: "/org-infor", requiredPer: "org_unit" },
@@ -19,18 +20,12 @@ const DEFAULT_MENU = [
   { label: "Tạo mã điểm danh", href: "/create-qr-attendance", requiredPer: "attendance:scan" },
 ];
 
-// Mapping quyền với label "Khác"
+// --- CÁC QUYỀN ĐẶC BIỆT TRONG "KHÁC" ---
 const OTHER_LABELS = [
   { code: "evidence:approve", label: "Duyệt minh chứng" },
   { code: "activity:approve", label: "Duyệt hoạt động" },
   { code: "pvcd_record:read", label: "Xem thống kê điểm PVCD" },
   { code: "class:read", label: "Xem danh sách lớp" },
-];
-
-// Menu cố định cho "Cá nhân"
-const defaultProfileMenu = [
-  { label: "Thông tin cá nhân", href: "/staff-infor" },
-  { label: "Đổi mật khẩu", href: "/change-password" },
 ];
 
 export default function TopMenu() {
@@ -41,30 +36,35 @@ export default function TopMenu() {
   const [profilePos, setProfilePos] = useState({ top: 0, left: 0 });
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
   const [isTouch, setIsTouch] = useState(false);
+  const [user, setUser] = useState(null);
 
   const profileRef = useRef(null);
   const otherRef = useRef(null);
   const closeTimeoutRef = useRef(null);
   const navigate = useNavigate();
 
-  // Xác định thiết bị cảm ứng
+  // Kiểm tra thiết bị cảm ứng
   useEffect(() => {
     setIsTouch("ontouchstart" in window || navigator.maxTouchPoints > 0);
   }, []);
 
-  // Lấy quyền người dùng (chỉ phục vụ phần "Khác" và cập nhật menu)
+  // Lấy user từ sessionStorage
+  useEffect(() => {
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
+  }, []);
+
+  // Lấy quyền người dùng và cập nhật menu
   useEffect(() => {
     const fetchPermissions = async () => {
       try {
+        if (!user?.id) return;
+
         let userPerms = [];
         const cached = sessionStorage.getItem("user_permissions");
-
         if (cached) {
           userPerms = JSON.parse(cached);
         } else {
-          const user = JSON.parse(sessionStorage.getItem("user"));
-          if (!user?.id) return;
-
           const result = await get_user_permissions(user.id);
           if (!result.success) return;
 
@@ -75,11 +75,10 @@ export default function TopMenu() {
               name: a.action_name,
             }))
           );
-
           sessionStorage.setItem("user_permissions", JSON.stringify(userPerms));
         }
 
-        // Cập nhật menu mặc định "Đề xuất/Tạo hoạt động"
+        // Cập nhật menu chính theo quyền
         const newMenu = DEFAULT_MENU.map((item) => {
           const req = Array.isArray(item.requiredPer) ? item.requiredPer : [item.requiredPer];
           if (req.includes("activity:create")) {
@@ -91,18 +90,18 @@ export default function TopMenu() {
         });
         setMenuData(newMenu);
 
-        // Lọc quyền có mapping trong OTHER_LABELS
+        // Lọc quyền cho dropdown "Khác"
         const otherList = OTHER_LABELS.filter((item) =>
           userPerms.some((p) => p.code === item.code)
         );
         setOtherData(otherList);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching permissions:", err);
       }
     };
 
     fetchPermissions();
-  }, []);
+  }, [user]);
 
   // Cập nhật vị trí dropdown
   const updateProfilePos = () => {
@@ -140,7 +139,6 @@ export default function TopMenu() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Hover mở/đóng menu
   const handleMouseEnter = (type) => {
     clearTimeout(closeTimeoutRef.current);
     if (type === "profile") {
@@ -151,6 +149,7 @@ export default function TopMenu() {
       updateDropdownPos();
     }
   };
+
   const handleMouseLeave = (type) => {
     closeTimeoutRef.current = setTimeout(() => {
       if (type === "profile") setOpenProfile(false);
@@ -158,7 +157,6 @@ export default function TopMenu() {
     }, 150);
   };
 
-  // Click cho thiết bị cảm ứng
   const handleClick = (type) => {
     if (!isTouch) return;
     if (type === "profile") setOpenProfile((prev) => !prev);
@@ -202,11 +200,14 @@ export default function TopMenu() {
                 minWidth: "180px",
               }}
             >
-              {defaultProfileMenu.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
+              {user?.id ? (
+                <>
+                  <a href={`/staff-infor/${user.id}`}>Thông tin cá nhân</a>
+                  <a href="/change-password">Đổi mật khẩu</a>
+                </>
+              ) : (
+                <p>Đang tải...</p>
+              )}
             </div>
           )}
         </div>
