@@ -129,7 +129,7 @@ export default function TopMenu() {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // Đóng dropdown khi cuộn
+  // Đóng dropdown khi scroll
   useEffect(() => {
     const handleScroll = () => {
       setOpenProfile(false);
@@ -240,11 +240,20 @@ export default function TopMenu() {
                   minWidth: "180px",
                 }}
               >
-                {otherData.map((p) => (
-                  <a key={p.code} href="#">
-                    {p.label}
-                  </a>
-                ))}
+                {otherData.map((p) => {
+                  // Gán href tùy theo code
+                  let href = "#";
+                  if (p.code === "evidence:approve") href = "/approved-evidence";
+                  else if (p.code === "activity:approve") href = "/activity-approved";
+                  // else if (p.code === "pvcd_record:read") href = "/pvcd-statistics";
+                  else if (p.code === "class:read") href = "/class-list";
+
+                  return (
+                    <a key={p.code} href={href}>
+                      {p.label}
+                    </a>
+                  );
+                })}
               </div>
             )}
           </div>

@@ -3,7 +3,7 @@ import "./CreateAccountBox.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import getClass from "../../../services/Class_Service";
+import {getClass} from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
 import { LiaSymfony } from "react-icons/lia";
 const CreateAccount = () => {
