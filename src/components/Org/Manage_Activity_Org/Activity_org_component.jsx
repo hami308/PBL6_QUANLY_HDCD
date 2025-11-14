@@ -5,7 +5,6 @@ function Activity_Org_Component({ activity }) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
 
-  // Ẩn menu khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -16,8 +15,26 @@ function Activity_Org_Component({ activity }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Chuyển đổi ISO sang định dạng dễ đọc
+  const formatDateTime = (isoString) => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+    return new Date(isoString).toLocaleString("vi-VN", options);
+  };
+
+  const date = `${formatDateTime(activity.start_time)} - ${formatDateTime(activity.end_time)}`;
+
   return (
-    <div className="activity-org-component-card" style={{ zIndex: showMenu ? 1001 : 1 }}>
+    <div
+      className="activity-org-component-card"
+      style={{ zIndex: showMenu ? 1001 : 1 }}
+    >
       <div className="activity-org-component-left">
         <img
           src={activity.image}
@@ -25,29 +42,20 @@ function Activity_Org_Component({ activity }) {
           className="activity-org-component-image"
         />
         <div className="activity-org-component-text-content">
-          <h2 className="activity-org-component-title">{activity.name}</h2>
-          <span className="activity-org-component-club">{activity.org}</span>
-          <p className="activity-org-component-info">Thời gian: {activity.date}</p>
-          <p className="activity-org-component-info">Địa điểm: {activity.location}</p>
+          <h2 className="activity-org-component-title">{activity.title}</h2>
+          <span className="activity-org-component-club">
+            {activity.org_unit_id.name}
+          </span>
+          <p className="activity-org-component-info">Thời gian: {date}</p>
+          <p className="activity-org-component-info">
+            Địa điểm: {activity.location}
+          </p>
         </div>
       </div>
 
-      {/* BÊN PHẢI */}
       <div className="activity-org-component-right" ref={menuRef}>
-        {/* Trạng thái */}
-        <div
-          className={`activity-org-component-status ${
-            activity.status === "Đã duyệt"
-              ? "approved"
-              : activity.status === "Chờ duyệt"
-              ? "pending"
-              : "rejected"
-          }`}
-        >
-          {activity.status}
-        </div>
+        <div className="activity-org-component-status">{activity.status}</div>
 
-        {/* Icon menu */}
         <span
           className="material-symbols-outlined menu-icon"
           onClick={() => setShowMenu(!showMenu)}
@@ -59,13 +67,11 @@ function Activity_Org_Component({ activity }) {
           <ul className="activity-org-component-menu">
             <li onClick={() => alert("Xem chi tiết")}>Xem chi tiết</li>
             <li onClick={() => alert("Chỉnh sửa")}>Chỉnh sửa</li>
-            <li onClick={() => alert("Xóa hoạt động")}>Xóa hoạt động</li>
-            <li onClick={() => alert("Xóa hoạt động")}>Xóa hoạt động</li>
+            <li onClick={() => alert("Xóa hoạt động")}>Hủy hoạt động</li>
           </ul>
         )}
       </div>
     </div>
   );
 }
-
 export default Activity_Org_Component;

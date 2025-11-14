@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./CreateAccountBox.css";
 import { useNavigate } from "react-router-dom";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import getClass from "../../../services/Class_Service";
+import {getClass} from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
 import {
   createAccount_Student,

@@ -18,6 +18,23 @@
   width: 100%;
 
 }
+/* Style cho select bình thường */
+.select-basic {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  appearance: none; /* loại bỏ mũi tên mặc định trình duyệt nếu muốn */
+  cursor: pointer;
+}
+
+/* Giới hạn chiều cao dropdown và thêm scroll */
+.select-basic option {
+  max-height: 100px;
+  overflow-y: auto;
+}
 
 .form-title {
   text-align: center;

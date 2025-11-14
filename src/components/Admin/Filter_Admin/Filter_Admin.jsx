@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Filter_Admin.css";
 import { FaFilter } from "react-icons/fa";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import getClass from "../../../services/Class_Service";
+import { useEffect } from "react";
+import { getClass } from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
 
 const Filter_Admin = ({ activeTab }) => {
