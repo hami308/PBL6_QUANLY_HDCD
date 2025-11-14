@@ -7,15 +7,17 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserAccount_Management.css";
 import { getStudents, getTeachers } from "../../services/manageAccount_Service";
-
+import { deleteAccount } from "../../services/AcccountService/DeleteAccountService";
 function UserAccount_Management() {
   const [activeTab, setActiveTab] = useState("student");
-  const [showDeleteOptions, setShowDeleteOptions] = useState(false);
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [isAllSelected, setIsAllSelected] = useState(false);
+
+  const navigate = useNavigate();
   // Lấy danh sách sinh viên
   const fetchStudents = useCallback(async () => {
     setLoading(true);
@@ -56,6 +58,42 @@ function UserAccount_Management() {
     students.length,
     teachers.length,
   ]);
+  const handleDeleteSelected = async () => {
+    if (selectedIds.length === 0) {
+      alert("Vui lòng chọn ít nhất một tài khoản để xóa!");
+      return;
+    }
+
+    if (!window.confirm("Bạn có chắc chắn muốn xóa các tài khoản đã chọn?")) {
+      return;
+    }
+
+    setLoading(true);
+    let successCount = 0;
+
+    for (const id of selectedIds) {
+      const result = await deleteAccount(id);
+      if (result.success) successCount++;
+    }
+
+    setLoading(false);
+    setSelectedIds([]);
+
+    // Reload lại dữ liệu
+    if (activeTab === "student") await fetchStudents();
+    else await fetchTeachers();
+    if (successCount === selectedIds.length) {
+      alert("Xóa thành công tất cả tài khoản đã chọn.");
+    }
+    if (successCount === 0) {
+      alert("Không thể xóa tài khoản đã chọn.");
+    }
+    if (successCount > 0 && successCount < selectedIds.length) {
+      alert(
+        `Đã xóa ${successCount}/${selectedIds.length} tài khoản thành công.`
+      );
+    }
+  };
 
   return (
     <div className="user-account-management">
@@ -83,15 +121,36 @@ function UserAccount_Management() {
       {/* Nội dung từng tab */}
       <div className="tabs-content">
         <div className="delete-section">
-          <button
-            className="delete-btn"
-            onClick={() => setShowDeleteOptions((prev) => !prev)}
-          >
-            🗑 Xóa
-          </button>
-          <div className={`delete-dropdown ${showDeleteOptions ? "show" : ""}`}>
-            <div className="delete-option">Xóa tất cả</div>
-            <div className="delete-option">Xóa các tài khoản đã chọn</div>
+          <div className="action-buttons">
+            <button
+              className="select-all-btn"
+              onClick={() => {
+                const currentList =
+                  activeTab === "student" ? students : teachers;
+                if (isAllSelected) {
+                  // Bỏ chọn tất cả
+                  setSelectedIds([]);
+                  setIsAllSelected(false);
+                } else {
+                  // Chọn tất cả
+                  const allIds = currentList
+                    .map((item) => item.user_id?._id)
+                    .filter(Boolean);
+                  setSelectedIds(allIds);
+                  setIsAllSelected(true);
+                }
+              }}
+            >
+              {isAllSelected ? "Bỏ chọn tất cả" : "Chọn tất cả"}
+            </button>
+
+            <button
+              className="delete-selected-btn"
+              onClick={handleDeleteSelected}
+              disabled={selectedIds.length === 0}
+            >
+              🗑 Xóa
+            </button>
           </div>
         </div>
 
@@ -120,7 +179,25 @@ function UserAccount_Management() {
                       họ_tên: item.full_name,
                       lớp: item.class_id?.name || "-",
                       khoa: item.falcuty_name || "-",
-                      chọn: <input type="checkbox" key={item.studentId} />,
+                      chọn: (
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(item.user_id?._id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedIds((prev) => [
+                                ...prev,
+                                item.user_id?._id,
+                              ]);
+                            } else {
+                              setSelectedIds((prev) =>
+                                prev.filter((id) => id !== item.user_id?._id)
+                              );
+                            }
+                          }}
+                        />
+                      ),
+
                       thao_tác: (
                         <button
                           className="xct"
@@ -155,7 +232,25 @@ function UserAccount_Management() {
                       họ_tên: item.full_name,
                       đơn_vị: item.org_unit_id?.name,
                       chức_vụ: item.position,
-                      chọn: <input type="checkbox" key={item.teacherId} />,
+                      chọn: (
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.includes(item.user_id?._id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedIds((prev) => [
+                                ...prev,
+                                item.user_id?._id,
+                              ]);
+                            } else {
+                              setSelectedIds((prev) =>
+                                prev.filter((id) => id !== item.user_id?._id)
+                              );
+                            }
+                          }}
+                        />
+                      ),
+
                       thao_tác: (
                         <button
                           className="xct"

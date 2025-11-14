@@ -6,9 +6,8 @@
   width: 90%;
   margin: 20px auto; /* căn giữa ngang */
   border: 1px solid black; /* viền xám nhạt */
-  max-height: 600px;
+  max-height: 1200px;
 }
-
 
 .custom-table {
   width: 100%;
@@ -39,14 +38,14 @@
   border-bottom: 1px solid #e5e7eb;
   transition: background-color 0.2s ease;
 }
-body.dark-mode .custom-table__row{
+body.dark-mode .custom-table__row {
   background-color: #4b4b4b;
 }
 
 .custom-table__row:hover {
   background-color: #e7e9f5; /* hover sáng */
 }
-body.dark-mode .custom-table__row:hover{
+body.dark-mode .custom-table__row:hover {
   background-color: #181a1b;
 }
 
@@ -54,8 +53,8 @@ body.dark-mode .custom-table__row:hover{
   padding: 12px;
   color: #374151;
 }
-body.dark-mode .custom-table__cell{
-  color:white
+body.dark-mode .custom-table__cell {
+  color: white;
 }
 .custom-table__actions {
   display: flex;

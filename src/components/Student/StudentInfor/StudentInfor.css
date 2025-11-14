@@ -128,20 +128,41 @@
   background-color: #f2f2f2;
   box-sizing: border-box;
 }
-.save-student-infor-btn {
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.save-student-infor-btn,
+.delete-btn-student {
   background-color: #2c1966;
   color: #fff;
   border: none;
   padding: 10px 25px;
   font-size: 15px;
   cursor: pointer;
-  transition: 0.2s;
-  display: flex;
-   margin: 20px 0 0 auto;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-align: center;
 }
 
 .save-student-infor-btn:hover {
   background-color: #4a33a1;
+  transform: scale(1.05);
+}
+
+.delete-btn-student {
+  background-color: #c0392b;
+}
+
+.delete-btn-student:hover {
+  background-color: #e74c3c;
+  transform: scale(1.05);
 }
 
 input[readonly],
@@ -220,7 +241,17 @@ input[readonly],
   .student-info-container {
     max-width: 600px;
   }
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
 
+  .save-student-infor-btn,
+  .delete-btn-student {
+    width: 100%;
+    font-size: 12px;
+    padding: 10px 0;
+  }
   .title {
     font-size: 22px;
   }
@@ -276,7 +307,12 @@ input[readonly],
     max-width: 420px;
     padding: 4px 8px;
   }
-
+  .save-student-infor-btn,
+  .delete-btn-student {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 0;
+  }
   .title {
     font-size: 14px;
     margin-bottom: 15px;
@@ -308,7 +344,7 @@ input[readonly],
   }
 
   .save-btn {
-    font-size: 12px;
+    font-size: 10px;
     padding: 4px 10px;
     margin-top: 10px;
   }

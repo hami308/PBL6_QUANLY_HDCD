@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://pbl6-backend.vercel.app/api"; 
+const API_URL = "https://pbl6-backend.vercel.app/api";
 
 export async function get_all_faculties() {
   try {
@@ -19,4 +19,3 @@ export async function get_all_faculties() {
     };
   }
 }
-

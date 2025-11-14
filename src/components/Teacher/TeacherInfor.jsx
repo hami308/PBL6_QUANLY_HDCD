@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useEffect, useState, forwardRef } from "react";
 import { get_all_org } from "../../services/Org_Service";
 import { getStaffInfo, updateStaffInfo } from "../../services/Staff_Service";
-
+import { get_all_position } from "../../services/Position_Service";
 registerLocale("vi", vi);
 
 function TeacherInfo({ idstaff }) {
@@ -15,7 +15,7 @@ function TeacherInfo({ idstaff }) {
   const [errors, setErrors] = useState({ email: "", phone: "" });
 
   const [orgList, setOrgList] = useState([]);
-
+  const [positionList, setPositionList] = useState([]);
   useEffect(() => {
     const fetchOrg = async () => {
       const response = await get_all_org();
@@ -30,11 +30,26 @@ function TeacherInfo({ idstaff }) {
     fetchOrg();
   }, []);
 
+  //Lấy chức vụ
+  useEffect(() => {
+    const fetchPositions = async () => {
+      const result = await get_all_position();
+      console.log(result);
+      if (result.success) {
+        setPositionList(result.data);
+      } else {
+        console.error("Lỗi lấy chức vụ:", result.message);
+      }
+    };
+
+    fetchPositions();
+  }, []);
+
   useEffect(() => {
     const fetchStaffInfo = async () => {
       try {
         const reponse = await getStaffInfo(idstaff);
-        // console.log(reponse);
+        console.log("Thông tin cán bộ ", reponse);
         setTeacherInfo(reponse);
       } catch (error) {
         console.error(error);
@@ -259,15 +274,36 @@ function TeacherInfo({ idstaff }) {
               </div>
             )}
 
-            <div className="info-row">
-              <label>Chức vụ</label>
-              <input
-                type="text"
-                name="position"
-                value={teacherInfo?.position || " "}
-                onChange={handleChange}
-              />
-            </div>
+            {user?.roles?.[0]?.role == "admin" ? (
+              <div className="info-row">
+                <label>Chức vụ</label>
+                <select
+                  name="position"
+                  value={teacherInfo?.position || " "}
+                  onChange={handleChange}
+                  className="infor-select"
+                >
+                  <option value="" disabled>
+                    -- Chọn chức vụ --
+                  </option>
+                  {positionList.map((pos) => (
+                    <option key={pos} value={pos}>
+                      {pos}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div className="info-row">
+                <label>Chức vụ</label>
+                <input
+                  type="text"
+                  name="position"
+                  value={teacherInfo?.position || " "}
+                  readOnly
+                />
+              </div>
+            )}
 
             {(user?.roles?.[0]?.role === "staff" ||
               user?.roles?.[0]?.role === "admin") && (
