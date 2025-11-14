@@ -12,7 +12,7 @@ import {
 } from "../../../services/Student/StudentInfor_Services.js";
 import { org } from "../../../data/org.js";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import getClass from "../../../services/Class_Service";
+import { getClass } from "../../../services/Class_Service";
 registerLocale("vi", vi);
 
 function StudentInfo({ idstudent }) {
