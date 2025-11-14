@@ -12,14 +12,15 @@ function Login({ onClose }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Xóa lỗi cũ trước khi đăng nhập
-
+    if (!username || !password) {
+      setError("Vui lòng nhập đầy đủ thông tin.");
+      return;
+    }
     try {
-      const result = await login(username, password); // CHỜ API PHẢN HỒI
-
+      const result = await login(username, password);
       if (result.success) {
         onClose();
-        alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
-        console.log("User info:", result.user);
+        // alert(`Đăng nhập thành công! Chào mừng ${result.user.username}`);
         // Chuyển hướng theo role
         if (result.user.roles[0].role === "student") {
           navigate("/home-student", { replace: true });
@@ -29,7 +30,7 @@ function Login({ onClose }) {
           navigate("/", { replace: true });
         }
       } else {
-        setError(result.message); 
+        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
@@ -65,6 +66,7 @@ function Login({ onClose }) {
                 type="password"
                 name="password"
                 value={password}
+                name="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

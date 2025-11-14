@@ -1,29 +1,39 @@
 import React, { useState } from "react";
 import "./UpdatePassword.css";
-
+import updatePassword from "../../../services/AcccountService/UpdatePassword";
 const UpdatePassword = () => {
   const [username, setUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username || !newPassword || !confirmPassword) {
+    if (!username.trim() || !newPassword.trim() || !confirmPassword.trim()) {
       setError("Vui lòng nhập đầy đủ thông tin");
       return;
     }
-    if (newPassword.length < 6 || newPassword.length > 12) {
+    if (newPassword.trim().length < 6 || newPassword.trim().length > 12) {
       setError("Mật khẩu phải dài từ 6 đến 12 ký tự");
+      setNewPassword("");
+      setConfirmPassword("");
       return;
     }
     if (newPassword !== confirmPassword) {
       setError("Mật khẩu nhập lại không khớp");
+      setNewPassword("");
+      setConfirmPassword("");
       return;
     }
     setError("");
-    // Xử lý cập nhật mật khẩu ở đây (gọi API, v.v.)
-    alert("Cập nhật mật khẩu thành công!");
+    const result = await updatePassword(username, newPassword);
+    if (result.success) {
+      alert("Cấp lại mật khẩu thành công!");
+    } else {
+      setError(result.message || "Cấp lại mật khẩu thất bại!");
+      setNewPassword("");
+      setConfirmPassword("");
+    }
   };
 
   return (
@@ -55,7 +65,7 @@ const UpdatePassword = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           className="update-input"
         />
-        {error && <p className="update-note">{error}</p>}
+        {error && <p className="update-note2">{error}</p>}
         <button type="submit" className="update-btn">
           Lưu mật khẩu
         </button>

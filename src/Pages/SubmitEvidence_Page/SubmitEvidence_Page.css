@@ -53,6 +53,7 @@ body.dark-mode .sort-select{
 body.dark-mode .submit-evidence{
     background-color: #4b4b4b;
 }
+
 @media (max-width:400px){
     .filter-sort-container {
         font-size: 10px;

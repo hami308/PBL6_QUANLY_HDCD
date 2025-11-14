@@ -1,18 +1,17 @@
 // src/services/studentService.js
 import axios from "axios";
 
-const API_BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles";
-
-//  Lấy thông tin sinh viên theo user_id
-export const getStudentInfo = async (user_id) => {
+const API_BASE_URL = "https://pbl6-backend.vercel.app/api/staff-profiles/user";
+export const getStaffInfo = async (_id) => {
   try {
     const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${API_BASE_URL}/user/${user_id}`, {
+    const response = await axios.get(`${API_BASE_URL}/${_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data.data;
+    console.log("ket qua ", response);
+    return response.data;
   } catch (error) {
-    console.error("Lỗi khi lấy thông tin sinh viên:", error);
+    console.error("Lỗi khi lấy thông tin staff:", error);
     if (error.response) {
       console.error(" Response data:", error.response.data);
       console.error(" Status:", error.response.status);
@@ -27,13 +26,13 @@ export const getStudentInfo = async (user_id) => {
   }
 };
 
-// Cập nhật thông tin sinh viên
-export const updateStudentInfo = async (studentData) => {
+// Cập nhật thông tin staff
+export const updateStaffInfo = async (staffData) => {
   try {
     const token = sessionStorage.getItem("token");
     const response = await axios.put(
-      `${API_BASE_URL}/${studentData._id}`,
-      studentData,
+      `https://pbl6-backend.vercel.app/api/staff-profiles/${staffData._id}`,
+      staffData,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -41,14 +40,14 @@ export const updateStudentInfo = async (studentData) => {
     return response.data;
   } catch (error) {
     console.error("Lỗi khi cập nhật thông tin sinh viên:", error);
-    throw error;
+    return null;
   }
 };
 // Xóa hồ sơ sinh viên
-export const deleteStudentProfile = async (studentId) => {
+export const deleteStaffProfile = async (staffId) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.delete(`${API_BASE_URL}/${studentId}`, {
+    const response = await axios.delete(`${API_BASE_URL}/${staffId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;

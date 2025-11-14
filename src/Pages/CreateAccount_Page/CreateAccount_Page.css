@@ -17,8 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: clamp(400px, 50vh, 650px);
-
+  min-height: clamp(400px, 70vh, 650px);
   position: relative;
 }
 .createAccountPage .thanhngang {

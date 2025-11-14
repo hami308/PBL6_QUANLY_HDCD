@@ -7,6 +7,7 @@ import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import dut_home_pic from "../../assets/images/anhnen.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
+import Menu_org from "../../components/Menu/Menu_org.jsx";
 //import { use } from "react";
 
 function HomePage() {
@@ -17,6 +18,7 @@ function HomePage() {
     {!user && <Menu_guest />}
     {user?.roles?.[0]?.role === "student" && <Menu_student />}
     {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+    {user?.roles?.[0]?.role === "staff" && <Menu_org />}
       <div className="home-main">
         <div className="home-image-container">
           <img src={dut_home_pic} alt="DUT Home" className="home-image" />

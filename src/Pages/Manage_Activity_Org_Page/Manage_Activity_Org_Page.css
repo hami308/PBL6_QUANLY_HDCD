@@ -6,5 +6,6 @@
     z-index: 1;
 }
 .manage-activity-org-page .filter-bar{
-    max-width: 60%;
+    max-width: 80%;
+    margin-top: -60px;
 }

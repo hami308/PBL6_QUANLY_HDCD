@@ -1,0 +1,97 @@
+.tag-select {
+  width: 70%;
+  min-height: 40px;
+}
+
+/* ==== DARK MODE ==== */
+
+/* Nền control (ô chọn) */
+body.dark-mode .tag-select .react-select__control {
+  background-color: #2a2a3d !important;
+  color: white !important;
+  border-color: #555 !important;
+}
+
+/* Nền menu dropdown */
+body.dark-mode .react-select__menu {
+  background-color: #2a2a3d !important;
+  color: white !important;
+}
+
+/* Option trong menu */
+body.dark-mode .react-select__option {
+  background-color: #2a2a3d !important;
+  color: white !important;
+}
+
+body.dark-mode .react-select__option--is-focused {
+  background-color: #3a3a4d !important;
+}
+
+body.dark-mode .react-select__option--is-selected {
+  background-color: #4b4b6a !important;
+}
+
+/* Tag hiển thị khi chọn */
+body.dark-mode .react-select__multi-value {
+  background-color: #3a3a4d !important;
+  color: white !important;
+  border: 0.5px solid white !important;
+}
+
+/* Label trong tag */
+body.dark-mode .react-select__multi-value__label {
+  color: white !important;
+}
+
+/* Nút xóa tag */
+body.dark-mode .react-select__multi-value__remove:hover {
+  background-color: #555 !important;
+}
+
+/* ==== GIỚI HẠN CHIỀU CAO TAG ĐÃ CHỌN ==== */
+.tag-select .react-select__value-container {
+  max-height: 120px; /* Giới hạn vùng hiển thị tag */
+  overflow-y: auto;
+  flex-wrap: wrap;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #2a2a3d;
+}
+
+/* Thanh cuộn mảnh và gọn gàng */
+.tag-select .react-select__value-container::-webkit-scrollbar {
+  width: 6px;
+}
+.tag-select .react-select__value-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+.tag-select .react-select__value-container::-webkit-scrollbar-track {
+  background: #2a2a3d;
+}
+
+/* ==== GIỚI HẠN CHIỀU CAO MENU DROPDOWN ==== */
+.react-select__menu-list {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #2a2a3d;
+}
+
+.react-select__menu-list::-webkit-scrollbar {
+  width: 6px;
+}
+.react-select__menu-list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 3px;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .tag-select {
+    width: 100%;
+  }
+  .tag-select .react-select__value-container {
+    max-height: 100px;
+  }
+}

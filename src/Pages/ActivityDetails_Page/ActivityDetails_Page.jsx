@@ -11,7 +11,6 @@ import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activ
 import { get_details_activity_by_id } from "../../services/Activity_Services.js";
 
 function Activity_details() {
-
   // Lấy thông tin user và vai trò
   const user = JSON.parse(sessionStorage.getItem("user"));
   const ismodify = user?.role === "org"; // nếu là tổ chức thì cho phép sửa
@@ -66,7 +65,7 @@ function Activity_details() {
   }
   // Khi đã có dữ liệu
   return (
-    <>
+    <div className="activity-detail-page">
       <Header />
       {!user && <Menu_guest />}
       {user?.role === "student" && <Menu_student />}
@@ -89,7 +88,7 @@ function Activity_details() {
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }
 
