@@ -24,6 +24,7 @@ import List_Student_Page from "./Pages/List_Student_Page/List_Student_Page.jsx";
 import Approve_Activity_Proposed_Page from "./Pages/Approve_Activity_Proposed_Page/Approve_Activity_Proposed_Page.jsx";
 import OrgInfor_Page from "./Pages/OrgInfor_Page/OrgInfor_Page.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ManageFaculty from "./Pages/Other_Page/ManageFaculty.jsx";
 function App() {
   return (
     <LoginProvider>
@@ -36,6 +37,7 @@ function App() {
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/staff-infor/:id" element={<TeacherInfor_Page />} />
+        <Route path="/manage-faculty" element={<ManageFaculty />} />
         <Route
           path="/change-password"
           element={
