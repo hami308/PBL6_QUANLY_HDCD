@@ -1,89 +1,108 @@
 import { useEffect, useState } from "react";
 import "./CreateAccountBox.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 import getClass from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
-import { LiaSymfony } from "react-icons/lia";
+import {
+  createAccount_Student,
+  createAccount_Staff,
+} from "../../../services/AcccountService/CreateAccountService";
+import { get_all_position } from "../../../services/Position_Service";
 const CreateAccount = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [message, setMessage] = useState("");
 
-  // Thông tin bổ sung theo vai trò
+  // Thông tin bổ sung
   const [fullName, setFullName] = useState("");
-  const [className, setClassName] = useState(""); // cho sinh viên
-  const [faculty, setFaculty] = useState(""); // cho sinh viên
-  const [workUnit, setWorkUnit] = useState(""); // cho giảng viên
-  const [position, setPosition] = useState(""); // cho giảng viên
+  const [classId, setClassId] = useState(""); // ID lớp được chọn
+  const [faculty, setFaculty] = useState(""); // ID khoa
+  const [workUnit, setWorkUnit] = useState("");
+  const [position, setPosition] = useState("");
 
+  // Danh sách dữ liệu
   const [listFaculty, setListFaculty] = useState([]);
+  const [listClass, setListClass] = useState([]);
   const [orgList, setOrgList] = useState([]);
+  const [positionList, setPositionList] = useState([]);
+
   const navigate = useNavigate();
 
+  // Lấy danh sách khoa
   useEffect(() => {
     const fetchFaculties = async () => {
       const response = await get_all_faculties();
-      console.log("faculty", response);
       if (response.data) {
         setListFaculty(response.data);
       } else {
-        console.log("Error : ", response.message);
-        return [];
+        console.error("Error:", response.message);
       }
     };
     fetchFaculties();
   }, []);
 
+  // Lấy danh sách lớp theo khoa
   useEffect(() => {
     const fetchClasses = async () => {
       if (faculty) {
-        const listClasses = await getClass(faculty);
-        console.log("Classes response:", listClasses);
-        if (listClasses.data) {
-          setClassName(listClasses.data);
+        const response = await getClass(faculty);
+        if (response.data) {
+          setListClass(response.data); // ✅ danh sách lớp
         } else {
-          console.error("Failed to fetch classes:", listClasses.message);
+          console.error("Failed to fetch classes:", response.message);
         }
       } else {
-        setClassName("");
+        setListClass([]); // reset nếu chưa chọn khoa
       }
     };
     fetchClasses();
   }, [faculty]);
 
+  //Lấy chức vụ
+  useEffect(() => {
+    const fetchPositions = async () => {
+      const result = await get_all_position();
+      console.log(result);
+      if (result.success) {
+        setPositionList(result.data);
+      } else {
+        console.error("Lỗi lấy chức vụ:", result.message);
+      }
+    };
+
+    fetchPositions();
+  }, []);
+
+  // Lấy danh sách tổ chức
   useEffect(() => {
     const fetchOrg = async () => {
       const response = await get_all_org();
-      console.log("Org response:", response);
       if (response.data) {
         setOrgList(response.data);
       } else {
-        console.error("Failed to fetch faculties:", response.message);
-        return [];
+        console.error("Failed to fetch orgs:", response.message);
       }
     };
     fetchOrg();
   }, []);
 
+  // Xử lý submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra thông tin cơ bản
     if (!username || !password || !role) {
       setMessage("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
-    // Kiểm tra thông tin riêng theo role
-    if (role === "student" && (!fullName || !className || !faculty)) {
+    if (role === "student" && (!fullName || !classId || !faculty)) {
       setMessage("Vui lòng nhập đầy đủ thông tin sinh viên!");
       return;
     }
 
-    if (role === "teacher" && (!fullName || !workUnit || !position)) {
+    if (role === "staff" && (!fullName || !workUnit || !position)) {
       setMessage("Vui lòng nhập đầy đủ thông tin giảng viên!");
       return;
     }
@@ -93,52 +112,90 @@ const CreateAccount = () => {
       setMessage("Bạn cần đăng nhập bằng tài khoản admin để tạo tài khoản!");
       return;
     }
-    try {
-      const response = await axios.post(
-        "https://pbl6-backend.vercel.app/api/auth/register",
-        {
+
+    if (role == "student") {
+      try {
+        const response = await createAccount_Student({
           username,
           password,
           roleName: role,
-          fullName,
-          className,
-          faculty,
-          workUnit,
-          position,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+          full_name: fullName,
+          class_id: classId,
+        });
+        // console.log(
+        //   "Dữ liệu kiểm tra:",
+        //   username,
+        //   password,
+        //   role,
+        //   fullName,
+        //   classId
+        // );
 
-      if (response.status === 201 || response.data.success) {
-        const per = window.confirm(
-          "Tạo tài khoản thành công! Bạn có muốn phân quyền hay không?"
-        );
-        if (per) {
-          navigate("/permission", { state: { username, role } });
+        if (response.success) {
+          const per = window.confirm(
+            "Tạo tài khoản sinh viên thành công! Bạn có muốn phân quyền không?"
+          );
+          if (per) {
+            navigate("/permission", { state: { username, role } });
+          } else {
+            setUsername("");
+            setPassword("");
+            setRole("");
+            setFullName("");
+            setClassId("");
+            setFaculty("");
+            setWorkUnit("");
+            setPosition("");
+          }
         } else {
-          // Reset form
-          setUsername("");
-          setPassword("");
-          setRole("");
-          setFullName("");
-          setClassName("");
-          setFaculty("");
-          setWorkUnit("");
-          setPosition("");
+          setMessage(response.message);
         }
-      } else {
-        setMessage(response.data.message);
+      } catch (error) {
+        console.error("Lỗi tạo tài khoản:", error);
+        setMessage(error.response?.data?.message || "Lỗi khi gọi API!");
       }
-    } catch (error) {
-      console.error("Lỗi tạo tài khoản:", error);
-      if (error.response) {
-        setMessage(error.response.data.message || "Lỗi khi gọi API!");
-      } else {
-        setMessage("Không thể kết nối tới máy chủ!");
+    }
+    if (role == "staff") {
+      try {
+        const response = await createAccount_Staff({
+          username,
+          password,
+          roleName: role,
+          full_name: fullName,
+          org_unit_id: workUnit,
+          position,
+        });
+        console.log(
+          "Dữ liệu kiểm tra:",
+          username,
+          password,
+          role,
+          fullName,
+          classId
+        );
+
+        if (response.success) {
+          const per = window.confirm(
+            "Tạo tài khoản cho cán bộ giảng viên thành công! Bạn có muốn phân quyền không?"
+          );
+          if (per) {
+            navigate("/permission", { state: { username, role } });
+          } else {
+            setUsername("");
+            setPassword("");
+            setRole("");
+            setFullName("");
+            setClassId("");
+            setFaculty("");
+            setWorkUnit("");
+            setPosition("");
+          }
+        } else {
+          setMessage(response.message);
+        }
+      } catch (error) {
+        console.error("Lỗi tạo tài khoản:", error);
+        setMessage(error.response?.data?.message || "Lỗi khi gọi API!");
       }
     }
   };
@@ -175,12 +232,12 @@ const CreateAccount = () => {
             -- Chọn vai trò --
           </option>
           <option value="student">Sinh viên</option>
-          <option value="organization">Tổ chức</option>
+          <option value="staff">Tổ chức</option>
           <option value="admin">Admin</option>
         </select>
       </div>
 
-      {/* Dynamic fields for Student */}
+      {/* Sinh viên */}
       {role === "student" && (
         <>
           <div className="form-group">
@@ -192,6 +249,7 @@ const CreateAccount = () => {
               placeholder="Nhập họ và tên sinh viên"
             />
           </div>
+
           <div className="form-group">
             <label>Khoa</label>
             <select
@@ -201,46 +259,35 @@ const CreateAccount = () => {
               <option value="" disabled>
                 -- Chọn khoa --
               </option>
-              {listFaculty.length > 0 ? (
-                listFaculty.map((fac) => (
-                  <option key={fac._id} value={fac._id}>
-                    {fac.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Trống
+              {listFaculty.map((fac) => (
+                <option key={fac._id} value={fac._id}>
+                  {fac.name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
+
           <div className="form-group">
             <label>Lớp</label>
             <select
-              value={className}
-              onChange={(e) => setClassName(e.target.value)}
+              value={classId}
+              onChange={(e) => setClassId(e.target.value)} // ✅ chọn id lớp
             >
               <option value="" disabled>
-                Lớp
+                -- Chọn lớp --
               </option>
-              {className.length > 0 ? (
-                className.map((cls) => (
-                  <option key={cls._id} value={cls._id}>
-                    {cls.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Trống
+              {listClass.map((cls) => (
+                <option key={cls._id} value={cls._id}>
+                  {cls.name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
         </>
       )}
 
-      {/* Dynamic fields for Organization */}
-      {role === "organization" && (
+      {/* Tổ chức */}
+      {role === "staff" && (
         <>
           <div className="form-group">
             <label>Họ và tên</label>
@@ -248,7 +295,7 @@ const CreateAccount = () => {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Nhập họ và tên giảng viên"
+              placeholder="Nhập tên cán bộ /giảng viên"
             />
           </div>
 
@@ -259,30 +306,31 @@ const CreateAccount = () => {
               onChange={(e) => setWorkUnit(e.target.value)}
             >
               <option value="" disabled>
-                Đơn vị công tác
+                -- Chọn đơn vị công tác --
               </option>
-              {orgList.length > 0 ? (
-                orgList.map((org) => (
-                  <option key={org._id} value={org._id}>
-                    {org.name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Loading
+              {orgList.map((org) => (
+                <option key={org._id} value={org._id}>
+                  {org.name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
 
           <div className="form-group">
             <label>Chức vụ</label>
-            <input
-              type="text"
+            <select
               value={position}
               onChange={(e) => setPosition(e.target.value)}
-              placeholder="Nhập chức vụ"
-            />
+            >
+              <option value="" disabled>
+                -- Chọn chức vụ --
+              </option>
+              {positionList.map((pos) => (
+                <option key={pos} value={pos}>
+                  {pos}
+                </option>
+              ))}
+            </select>
           </div>
         </>
       )}
@@ -293,21 +341,6 @@ const CreateAccount = () => {
         <button type="submit">
           <span className="material-symbols-outlined">done_outline</span>
         </button>
-      </div>
-
-      <div className="note">
-        <p>Lưu ý:</p>
-        <ul>
-          <li>
-            Tài khoản sinh viên mặc định username và mật khẩu là mã số sinh
-            viên.
-          </li>
-          <li>
-            Tài khoản giảng viên mặc định username và mật khẩu là mã số giảng
-            viên.
-          </li>
-          <li>Tài khoản cán bộ mặc định username và mật khẩu là mã cán bộ.</li>
-        </ul>
       </div>
     </form>
   );

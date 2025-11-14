@@ -80,7 +80,7 @@ const Menu_Admin = () => {
       <nav className="header-right">
         <a href="/home-admin">Trang chủ</a>
         <a href="/create-account">Tạo tài khoản</a>
-        <a href="/delete-account">Xóa tài khoản</a>
+        {/* <a href="/delete-account">Xóa tài khoản</a> */}
 
         {/* Xem thống kê */}
         <div
@@ -129,6 +129,29 @@ const Menu_Admin = () => {
             Quản lý tài khoản
           </button>
         </div>
+        {/* Khác */}
+        <div
+          className="profile-dropdown"
+          onMouseEnter={(e) => {
+            if (!isTouchDevice())
+              handleOpenMenu(
+                "khac",
+                e.currentTarget.querySelector(".profile-btn")
+              );
+          }}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
+        >
+          <button
+            className="profile-btn"
+            onClick={(e) => {
+              if (isTouchDevice()) handleToggleMenu("khac", e);
+            }}
+          >
+            Khác
+          </button>
+        </div>
 
         <button onClick={handleLogout} className="logout-btn">
           Thoát
@@ -153,6 +176,27 @@ const Menu_Admin = () => {
         >
           <a href="/statistical/Score">Xem thống kê điểm PVCD</a>
           <a href="/statistical/Activity">Xem thống kê các hoạt động</a>
+        </div>
+      )}
+      {activeMenu === "khac" && (
+        <div
+          className="dropdown-menu fixed-dropdown"
+          style={{
+            position: "fixed",
+            top: `${menuPosition.top}px`,
+            left: `${menuPosition.left}px`,
+            transform: "translateX(-50%)",
+            zIndex: 9999,
+          }}
+          onMouseEnter={() => clearTimeout(closeTimeoutRef.current)}
+          onMouseLeave={() => {
+            if (!isTouchDevice()) handleCloseMenu();
+          }}
+        >
+          <a href="/manage-faculty">Quản lý khoa</a>
+          <a href="/manage-position">Quản lý chức vụ</a>
+          <a href="/manage-class">Quản lý lớp</a>
+          <a href="/manage-org">Quản lý tổ chức</a>
         </div>
       )}
 

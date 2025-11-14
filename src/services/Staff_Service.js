@@ -31,7 +31,7 @@ export const updateStaffInfo = async (staffData) => {
   try {
     const token = sessionStorage.getItem("token");
     const response = await axios.put(
-      `${API_BASE_URL}/${staffData._id}`,
+      `https://pbl6-backend.vercel.app/api/staff-profiles/${staffData._id}`,
       staffData,
       {
         headers: { Authorization: `Bearer ${token}` },

@@ -1,14 +1,19 @@
 import axios from "axios";
-
-const API_URL = "https://pbl6-backend.vercel.app/api";
+import { BsEar } from "react-icons/bs";
 
 export async function get_all_position() {
+  const token = sessionStorage.getItem("token");
   try {
-    const response = await axios.get(`${API_URL}/org-units`);
-    return {
-      success: true,
-      data: response.data,
-    };
+    const response = await axios.get(
+      "https://pbl6-backend.vercel.app/api/staff-profiles/positions",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
   } catch (error) {
     console.error("Get activities error:", error);
     return {

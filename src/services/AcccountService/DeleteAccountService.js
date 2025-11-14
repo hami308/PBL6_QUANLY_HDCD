@@ -1,25 +1,29 @@
-export const checkUsername = async (username) => {
-  // try {
-  //   const response = await fetch(`/api/accounts/${username}`);
-  //   if (!response.ok)
-  //     return {
-  //       status: false,
-  //       role: null,
-  //     };
+import axios from "axios";
 
-  //   const { status, role } = await response.json();
-  //   return { status, role };
-  // } catch (error) {
-  //   console.error("Lỗi kiểm tra username:", error);
-  //   return {
-  //       status: false,
-  //       role: null,
-  //     };
-  // }
-  // Giả lập dữ liệu
-  if (username === "student") return { status: true, role: "student" };
-  if (username === "teacher") return { status: true, role: "teacher" };
+export const deleteAccount = async (iduser) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.delete(
+      `https://pbl6-backend.vercel.app/api/users/${iduser}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-  // Nếu username không khớp
-  return { status: false, role: null };
+    if (response.status === 200 && response.data?.message) {
+      console.log("Delete success:", response.data.message);
+      return { success: true, message: response.data.message };
+    } else {
+      console.warn("Unexpected delete response:", response);
+      return { success: false, message: "Xóa không thành công" };
+    }
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Lỗi server",
+    };
+  }
 };
