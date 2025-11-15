@@ -8,6 +8,7 @@ import dut_home_pic from "../../assets/images/anhnen.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Menu_org from "../../components/Menu/Menu_org.jsx";
+import {status_activity} from "../../data/status.js";
 //import { use } from "react";
 
 function HomePage() {
@@ -24,7 +25,7 @@ function HomePage() {
           <img src={dut_home_pic} alt="DUT Home" className="home-image" />
         </div>
         <div className="home-container">
-          <Filter_activity />
+          <Filter_activity status={status_activity} />
           <Activity_list />
         </div>
       </div>
