@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Menu_student from "../../components/Menu/Menu_student";
+import Pagination from "../../components/Pagination/Pagination"; 
 import "./Receive_Notification.css";
-import { get_notifications,read_all_notifications } from "../../services/Notifications_Services";
+import { get_notifications, read_all_notifications } from "../../services/Notifications_Services";
 
 const ICONS = {
   default: "📢",
@@ -14,6 +15,9 @@ const Receive_Notification = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10;
 
   // Hàm định dạng ngày theo chuẩn vi-VN
   const renderDate = (date) =>
@@ -25,45 +29,54 @@ const Receive_Notification = () => {
     });
 
   useEffect(() => {
-  const fetchNotifications = async () => {
-    try {
-      setLoading(true);
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true);
 
-      const studentId = sessionStorage.getItem("student_id");
-      const res = await get_notifications(studentId);
+        const studentId = sessionStorage.getItem("student_id");
+        const res = await get_notifications(studentId);
 
-      if (res.success && Array.isArray(res.data.data)) {
-        const formatted = res.data.data.map((n) => ({
-          id: n._id,
-          title: n.title,
-          content: n.content,
-          date: n.published_date,
-          read: n.isRead,
-        }));
+        if (res.success && Array.isArray(res.data.data)) {
+          const formatted = res.data.data.map((n) => ({
+            id: n._id,
+            title: n.title,
+            content: n.content,
+            date: n.published_date,
+            read: n.isRead,
+          }));
 
-        setNotifications(formatted);
-        setUnreadCount(res.data.unread_count);
+          setNotifications(formatted);
+          setUnreadCount(res.data.unread_count);
 
-        // Gọi API read-all nhưng không thay đổi state ngay
-        if (res.data.unread_count > 0) {
-          await read_all_notifications();
-          // Không update notifications ngay, trạng thái read sẽ cập nhật khi load lại trang
+          // Gọi API read-all nhưng không cập nhật state ngay
+          if (res.data.unread_count > 0) {
+            await read_all_notifications();
+          }
+        } else {
+          setNotifications([]);
+          setUnreadCount(0);
         }
-      } else {
-        setNotifications([]);
-        setUnreadCount(0);
+      } catch (err) {
+        console.error("Error fetching notifications:", err);
+        setError("Không thể tải thông báo. Vui lòng thử lại sau.");
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error("Error fetching notifications:", err);
-      setError("Không thể tải thông báo. Vui lòng thử lại sau.");
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  // Phân trang
+  const totalPages = Math.ceil(notifications.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentNotifications = notifications.slice(indexOfFirst, indexOfLast);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
   };
-
-  fetchNotifications();
-}, []);
-
 
   return (
     <div className="notification-page">
@@ -106,7 +119,7 @@ const Receive_Notification = () => {
             </div>
 
             <div className="notification-list">
-              {notifications.map((n, index) => (
+              {currentNotifications.map((n, index) => (
                 <div
                   key={n.id || `noti-${index}`}
                   className={`notification-item ${!n.read ? "unread" : ""}`}
@@ -120,6 +133,15 @@ const Receive_Notification = () => {
                 </div>
               ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </section>
         )}
       </main>
