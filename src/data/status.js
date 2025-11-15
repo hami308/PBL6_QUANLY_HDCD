@@ -5,3 +5,7 @@ export const status_activity = [
   { "name": "Đang tổ chức" },
   { "name": "Chờ duyệt" }
 ];
+export const status_activity_student=[
+  {"name": "Đã đăng ký"},
+  {"name": "Đã tham gia"}
+]

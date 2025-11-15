@@ -4,7 +4,7 @@ import "./RoleSelector.css";
 const RoleSelector = ({ role }) => {
   const roles = {
     student: "Sinh viên",
-    organization: "Tổ chức",
+    staff: "Tổ chức",
     admin: "Admin",
   };
   const [selectedRole, setSelectedRole] = useState(role || null);

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Filter_Evidence.css";
 import { getStudentInfo } from "../../../services/Student/StudentInfor_Services";
+import { getClassesByFaculty } from "../../../services/Class_Service";
 
-export default function Filter_Evidence({total}) {
+export default function Filter_Evidence({ total }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const isFaculty = user?.roles?.[0]?.role === "org";
-  const [studentClass, setStudentClass] = useState(null);
+  const isFaculty = user?.roles?.[0]?.role === "staff";
 
-  // Gọi API lấy thông tin sinh viên
+  const [studentClass, setStudentClass] = useState(null);
+  const [classList, setClassList] = useState([]); // danh sách lớp cho faculty
+
+  // Lấy thông tin sinh viên
   useEffect(() => {
     const fetchStudentInfo = async () => {
       try {
@@ -26,6 +29,24 @@ export default function Filter_Evidence({total}) {
     }
   }, [isFaculty]);
 
+  // Lấy danh sách lớp cho giảng viên
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const result = await getClassesByFaculty(); // giả sử getClass trả về { success: true, data: [...] }
+        if (result.success && Array.isArray(result.data)) {
+          setClassList(result.data); // result.data là mảng các lớp { id, name }
+        }
+      } catch (error) {
+        console.error("❌ Lỗi khi lấy danh sách lớp:", error);
+      }
+    };
+
+    if (isFaculty) {
+      fetchClasses();
+    }
+  }, [isFaculty]);
+
   return (
     <div className="filter-evidence-container">
       <div className="total-box">
@@ -39,9 +60,12 @@ export default function Filter_Evidence({total}) {
         <div className="class-select-container">
           <label htmlFor="classSelect">Lớp</label>
           <select id="classSelect" className="class-select">
-            <option>22T_DT2</option>
-            <option>22T_DT1</option>
-            <option>21T_DT2</option>
+            <option value="">Chọn lớp</option>
+            {classList.map((cls) => (
+              <option key={cls.id} value={cls.id}>
+                {cls.name}
+              </option>
+            ))}
           </select>
         </div>
       ) : (
@@ -50,20 +74,22 @@ export default function Filter_Evidence({total}) {
 
       <div className="filter-evidence-bar">
         <select className="filter-evidence-select">
-          <option>Tình trạng</option>
-          <option>Đã duyệt</option>
-          <option>Chờ duyệt</option>
+          <option value="">Tình trạng</option>
+          <option value="approved">Đã duyệt</option>
+          <option value="pending">Chờ duyệt</option>
         </select>
 
         <div className="search-evidence-box">
-          <span className="search-icon"><span className="material-symbols-outlined">search</span></span>
+          <span className="search-icon">
+            <span className="material-symbols-outlined">search</span>
+          </span>
           <input type="text" placeholder="Tìm kiếm theo tên" />
         </div>
 
         <select className="filter-evidence-select">
           <option disabled>Sắp xếp</option>
-          <option>Mới nhất</option>
-          <option>Cũ nhất</option>
+          <option value="newest">Mới nhất</option>
+          <option value="oldest">Cũ nhất</option>
         </select>
       </div>
 

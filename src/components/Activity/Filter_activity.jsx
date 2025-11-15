@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import "./Filter_activity.css";
-import { status_activity } from "../../data/status_activity.js";
 import { get_all_fields } from "../../services/Field_Service.js";
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_org } from "../../services/Org_Service.js";
 
-function FilterBar() {
+function FilterBar({ status = [] }) {
   const [fields, setFields] = useState([]);
   const [organizations, setOrganizations] = useState([]);
   // renderKey để buộc re-render khi body.class thay đổi (dark-mode)
@@ -129,7 +128,7 @@ function FilterBar() {
         menuPortalTarget={typeof document !== "undefined" ? document.body : null}
         options={[
           { value: "all", label: "Tất cả" },
-          ...status_activity.map((item) => ({ value: item.name, label: item.name })),
+          ...status.map((item) => ({ value: item.name, label: item.name })),
         ]}
       />
 
