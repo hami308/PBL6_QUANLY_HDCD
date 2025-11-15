@@ -33,6 +33,7 @@ function App() {
         <Route path="/delete-account" element={<DeleteAccount_Page />} />
         <Route path="/home-student" element={<HomePage />} />
         <Route path="/home-admin" element={<HomePage />} />
+        <Route path="/home-staff" element={<HomePage/>}/>
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/staff-infor/:id" element={<TeacherInfor_Page />} />

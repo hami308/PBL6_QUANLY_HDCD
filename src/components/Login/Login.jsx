@@ -26,6 +26,8 @@ function Login({ onClose }) {
           navigate("/home-student", { replace: true });
         } else if (result.user.roles[0].role === "admin") {
           navigate("/home-admin", { replace: true });
+        } else if (result.user.roles[0].role==="staff"){
+          navigate("/home-staff", {replace: true})
         } else {
           navigate("/", { replace: true });
         }
@@ -66,7 +68,6 @@ function Login({ onClose }) {
                 type="password"
                 name="password"
                 value={password}
-                name="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
