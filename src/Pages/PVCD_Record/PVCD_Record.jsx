@@ -7,29 +7,12 @@ import List_Year_Record from "../../components/PVCD_Record/List_Year_Record.jsx"
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 import "./PVCD_Record.css";
 import FeedbackPopup from "../../components/Popup/FeedbackPopup.jsx";
-import { useState,useEffect } from "react";
-import {get_pvcd_by_idstudent} from "../../services/PVCD_Service.js";
+import { useState } from "react";
 
 function PVCD_Record() {
-   const [pvcd_record, setpvcd_record] = useState(null);
-   const user = JSON.parse(sessionStorage.getItem("user"));
-  useEffect(() => {
-      const fetchStudentInfo = async () => {
-        try {
-          const data = await get_pvcd_by_idstudent(user.id); 
-          setpvcd_record({
-            data
-          });
-        } catch (error) {
-          console.error(error);
-          alert("Không thể tải thông tin sinh viên!");
-        }
-      };
-      fetchStudentInfo();
-    }, [user?.id]);
-    console.log(pvcd_record);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
+
   const handleFeedbackClick = (activity) => {
     setSelectedActivity(activity);
     setShowPopup(true);
@@ -39,6 +22,7 @@ function PVCD_Record() {
     console.log("Phản hồi gửi đi:", data);
     // sau này bạn có thể gửi data này lên server
   };
+
   const activities = [
     {
       studentId: "102200001",
@@ -46,85 +30,33 @@ function PVCD_Record() {
       join_date: "20/9/2025",
       score: 15,
     },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 20,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
   ];
+
   const goal_record = 15;
+
   return (
     <div className="pvcd-rercord-container">
       <Header />
       <Menu_student />
       <img className="dut-pic" src={dut_pic} alt="DUT" />
+
       <div className="cross-bar-pvcd-record">
         <p>Điểm phục vụ cộng đồng</p>
       </div>
+
       <div className="total-record">
         <Total_Record />
       </div>
-      <p className="goal-record"> Mỗi năm tối thiểu {goal_record} điểm</p>
+
+      <p className="goal-record">Mỗi năm tối thiểu {goal_record} điểm</p>
+
       <List_Year_Record />
+
       <div className="activity-joined-container">
         <h3 className="activity-joined-title">
           Danh sách hoạt động đã tham gia
         </h3>
+
         <CustomTable
           columns={["Tên hoạt động", "Ngày tham gia", "Điểm"]}
           data={activities.map((item) => ({
@@ -142,6 +74,7 @@ function PVCD_Record() {
           )}
         />
       </div>
+
       {showPopup && selectedActivity && (
         <FeedbackPopup
           activity={selectedActivity["tên_hoạt_động"]}
@@ -155,4 +88,5 @@ function PVCD_Record() {
     </div>
   );
 }
+
 export default PVCD_Record;
