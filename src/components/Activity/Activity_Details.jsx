@@ -127,20 +127,11 @@ function Activity_Details({ activity_details, ismodify }) {
         <div className="activity-content-details">
           <div className="activity-description-wrapper">
             <strong>Mô tả:</strong>
-            <div
-              ref={descRef}
-              className={`activity-description ${
-                showFullDescription ? "expanded" : "collapsed"
-              }`}
-            >
+            <div ref={descRef} className={`activity-description ${showFullDescription ? "expanded" : "collapsed"}`}>
               {activity_details.description}
             </div>
-
             {isOverflowing && (
-              <button
-                className="collapse-btn"
-                onClick={() => setShowFullDescription((prev) => !prev)}
-              >
+              <button className="collapse-btn" onClick={() => setShowFullDescription((prev) => !prev)}>
                 {showFullDescription ? "Thu gọn" : "Xem thêm"}
               </button>
             )}

@@ -1,6 +1,8 @@
 import "./ActivityDetails_Page.css";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
+import Menu_org from "../../components/Menu/Menu_org.jsx";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import ActivityList from "../../components/Activity/Activity_list.jsx";
@@ -13,7 +15,7 @@ import { get_details_activity_by_id } from "../../services/Activity_Services.js"
 function Activity_details() {
   // Lấy thông tin user và vai trò
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const ismodify = user?.role === "org"; // nếu là tổ chức thì cho phép sửa
+  const ismodify = user?.role === "staff"; 
 
   const { id } = useParams(); // lấy id từ URL
   const [activity, setActivity] = useState(null);
@@ -44,7 +46,9 @@ function Activity_details() {
       <>
         <Header />
         {!user && <Menu_guest />}
-        {user?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
         <p className="loading">Đang tải dữ liệu hoạt động...</p>
         <Footer />
       </>
@@ -57,7 +61,9 @@ function Activity_details() {
       <>
         <Header />
         {!user && <Menu_guest />}
-        {user?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
         <p className="error">Không tìm thấy hoạt động.</p>
         <Footer />
       </>
@@ -67,8 +73,10 @@ function Activity_details() {
   return (
     <div className="activity-detail-page">
       <Header />
-      {!user && <Menu_guest />}
-      {user?.role === "student" && <Menu_student />}
+        {!user && <Menu_guest />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
 
       <Activity_Details activity_details={activity.data} ismodify={ismodify} />
 
