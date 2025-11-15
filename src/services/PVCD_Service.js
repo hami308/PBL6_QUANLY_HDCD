@@ -10,7 +10,7 @@ export async function get_all_activities() {
       data: response.data,
     };
   } catch (error) {
-    console.error("Get activities error:", error);
+    console.error("Get pvcd error:", error);
     return {
       success: false,
       message:
@@ -31,7 +31,7 @@ export async function get_pvcd_by_idstudent(idstudent) {
       data: response.data,
     };
   } catch (error) {
-    console.error(`Get activity ${idstudent} error:`, error);
+    console.error(`Get pvcd ${idstudent} error:`, error);
     return {
       success: false,
       message:

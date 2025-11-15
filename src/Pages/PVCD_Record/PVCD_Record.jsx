@@ -7,40 +7,11 @@ import List_Year_Record from "../../components/PVCD_Record/List_Year_Record.jsx"
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 import "./PVCD_Record.css";
 import FeedbackPopup from "../../components/Popup/FeedbackPopup.jsx";
-import { useState, useEffect } from "react";
-import { get_pvcd_by_idstudent } from "../../services/PVCD_Service.js";
-import { getStudentInfo } from "../../services/Student/StudentInfor_Services.js";
+import { useState } from "react";
 
 function PVCD_Record() {
-  const [pvcd_record, setPvcd_record] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Lấy thông tin sinh viên trước
-        const studentData = await getStudentInfo(user.id);
-       
-
-        if (studentData?._id) {
-          // Sau đó lấy danh sách PVCD theo studentId
-          const pvcdData = await get_pvcd_by_idstudent(studentData._id);
-          setPvcd_record(pvcdData);
-        } else {
-          console.warn("Không tìm thấy studentId trong thông tin sinh viên");
-        }
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-        alert("Không thể tải thông tin phục vụ cộng đồng!");
-      }
-    };
-
-    fetchData();
-  }, [user?.id]);
-
-  console.log("✅ PVCD Record:", pvcd_record);
 
   const handleFeedbackClick = (activity) => {
     setSelectedActivity(activity);
