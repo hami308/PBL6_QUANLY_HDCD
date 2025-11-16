@@ -1,51 +1,124 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 import "./Filter_Evidence.css";
-import { getStudentInfo } from "../../../services/Student/StudentInfor_Services";
-import { getClassesByFaculty } from "../../../services/Class_Service";
+import { getClass, getClassesByFaculty } from "../../../services/Class_Service";
+import { get_all_faculties } from "../../../services/Faculty_Service";
 
-export default function Filter_Evidence({ total }) {
+export default function Filter_Evidence({ total, onClassChange }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isFaculty = user?.roles?.[0]?.role === "staff";
 
-  const [studentClass, setStudentClass] = useState(null);
-  const [classList, setClassList] = useState([]); // danh sách lớp cho faculty
+  const [faculties, setFaculties] = useState([]);
+  const [classList, setClassList] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
 
-  // Lấy thông tin sinh viên
+  // ==============================
+  // Lấy danh sách khoa
+  // ==============================
   useEffect(() => {
-    const fetchStudentInfo = async () => {
+    const fetchFaculties = async () => {
       try {
-        const user = JSON.parse(sessionStorage.getItem("user"));
-        const result = await getStudentInfo(user.id);
-        if (result.class_id) {
-          setStudentClass(result.class_id.name || "Không xác định");
+        const result = await get_all_faculties();
+
+        if (result.success && Array.isArray(result.data)) {
+          const facultyOptions = [
+            { value: "all", label: "Tất cả khoa" }, // 📌 thêm "Tất cả khoa"
+            ...result.data.map((fac) => ({
+              value: fac._id,
+              label: fac.name,
+            })),
+          ];
+          setFaculties(facultyOptions);
+          setSelectedFaculty(facultyOptions[0]); // mặc định "Tất cả khoa"
         }
       } catch (error) {
-        console.error("❌ Lỗi khi lấy thông tin sinh viên:", error);
+        console.error("❌ Lỗi khi lấy danh sách khoa:", error);
       }
     };
 
-    if (!isFaculty) {
-      fetchStudentInfo();
-    }
+    if (isFaculty) fetchFaculties();
   }, [isFaculty]);
 
-  // Lấy danh sách lớp cho giảng viên
+  // ==============================
+  // Lấy danh sách lớp theo khoa
+  // ==============================
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const result = await getClassesByFaculty(); // giả sử getClass trả về { success: true, data: [...] }
+        let result;
+
+        if (!selectedFaculty || selectedFaculty.value === "all") {
+          result = await getClass(); // tất cả lớp
+        } else {
+          result = await getClassesByFaculty(selectedFaculty.value); // lớp của khoa
+        }
+
         if (result.success && Array.isArray(result.data)) {
-          setClassList(result.data); // result.data là mảng các lớp { id, name }
+          const classOptions = [
+            { value: "all", label: "Tất cả lớp" }, // 📌 thêm "Tất cả lớp"
+            ...result.data.map((cls) => ({
+              value: cls._id,
+              label: cls.name,
+            })),
+          ];
+
+          setClassList(classOptions);
+          setSelectedClass(classOptions[0]); // mặc định chọn "Tất cả lớp"
+
+          if (onClassChange) onClassChange(classOptions[0].value); // gửi "all" lên cha
         }
       } catch (error) {
-        console.error("❌ Lỗi khi lấy danh sách lớp:", error);
+        console.error("❌ Lỗi khi load lớp:", error);
       }
     };
 
-    if (isFaculty) {
-      fetchClasses();
-    }
-  }, [isFaculty]);
+    if (isFaculty) fetchClasses();
+  }, [selectedFaculty, isFaculty, onClassChange]);
+
+  // ==============================
+  // Style React Select
+  // ==============================
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      backgroundColor: "white",
+      border: "none",
+      borderRadius: "4px",
+      minHeight: "36px",
+      boxShadow: state.isFocused ? "0 0 0 1px #3a7bd5" : "none",
+      "&:hover": { border: "none" },
+      width: 150,
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "white",
+      borderRadius: "4px",
+      zIndex: 9999,
+    }),
+    menuList: (base) => ({
+      ...base,
+      maxHeight: "200px",
+      padding: 0,
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused ? "#f0f0f0" : "white",
+      color: "black",
+      padding: "8px 12px",
+      "&:active": { backgroundColor: "#3a7bd5" },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: "#666",
+      fontSize: "14px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: "#333",
+      fontSize: "14px",
+    }),
+  };
 
   return (
     <div className="filter-evidence-container">
@@ -56,22 +129,39 @@ export default function Filter_Evidence({ total }) {
 
       <h2>Danh sách các minh chứng đã nộp</h2>
 
-      {isFaculty ? (
+      {/* ==============================
+          COMBOBOX KHOA + LỚP
+      ============================== */}
+      {isFaculty && (
         <div className="class-select-container">
-          <label htmlFor="classSelect">Lớp</label>
-          <select id="classSelect" className="class-select">
-            <option value="">Chọn lớp</option>
-            {classList.map((cls) => (
-              <option key={cls.id} value={cls.id}>
-                {cls.name}
-              </option>
-            ))}
-          </select>
+          <label>Khoa</label>
+          <Select
+            options={faculties}
+            value={selectedFaculty}
+            onChange={setSelectedFaculty}
+            placeholder="Chọn khoa"
+            classNamePrefix="react-select"
+            styles={customStyles}
+          />
+
+          <label>Lớp</label>
+          <Select
+            options={classList}
+            value={selectedClass}
+            onChange={(option) => {
+              setSelectedClass(option);
+              if (option && onClassChange) onClassChange(option.value); // gửi classId lên cha
+            }}
+            placeholder="Chọn lớp"
+            classNamePrefix="react-select"
+            styles={customStyles}
+          />
         </div>
-      ) : (
-        studentClass && <p className="class-info">Lớp: {studentClass}</p>
       )}
 
+      {/* ==============================
+          Bộ lọc phụ: trạng thái + tìm kiếm + sắp xếp
+      ============================== */}
       <div className="filter-evidence-bar">
         <select className="filter-evidence-select">
           <option value="">Tình trạng</option>
@@ -80,9 +170,7 @@ export default function Filter_Evidence({ total }) {
         </select>
 
         <div className="search-evidence-box">
-          <span className="search-icon">
-            <span className="material-symbols-outlined">search</span>
-          </span>
+          <span className="search-icon material-symbols-outlined">search</span>
           <input type="text" placeholder="Tìm kiếm theo tên" />
         </div>
 
