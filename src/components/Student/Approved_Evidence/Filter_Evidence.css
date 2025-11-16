@@ -59,16 +59,16 @@
   min-width: 200px;
   font-size: 13px;
 }
-.react-select__control {
+.class-select-container .react-select__control {
   border: none !important;
   box-shadow: none !important;
   height: 30px !important;
   min-height: 0  !important;
 }
-.react-select__menu {
+.class-select-container .react-select__menu {
   z-index: 9999 !important;
 }
-.react-select__option {
+.class-select-container .react-select__option {
   cursor: pointer !important;
 }
 

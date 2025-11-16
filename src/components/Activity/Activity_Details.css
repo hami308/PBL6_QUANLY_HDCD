@@ -28,10 +28,8 @@ body.dark-mode .activity-card-details{
 }
 
 .activity-title-details[contenteditable="true"] {
-  border: 1px solid #3182ce;
   border-radius: 6px;
   padding: 8px 10px;
-  background-color: #f7fafc;
   outline: none;
 }
 
@@ -156,13 +154,6 @@ body.dark-mode .activity-card-details{
 
 /* --- STYLES CHO CHẾ ĐỘ CHỈNH SỬA VÀ CHỈ XEM --- */
 
-/* Date pickers - Chế độ chỉnh sửa */
-.register-time .custom-date-picker:not(:disabled),
-.event-time .custom-date-picker:not(:disabled) {
-  border: 1px solid #3182ce;
-  background-color: #f7fafc;
-  box-shadow: 0 0 0 1px rgba(49, 130, 206, 0.2);
-}
 
 /* Date pickers - Chế độ chỉ xem */
 .register-time .custom-date-picker:disabled,
@@ -176,12 +167,6 @@ body.dark-mode .activity-card-details{
   opacity: 1;
 }
 
-/* Select field - Chế độ chỉnh sửa */
-select.field-select:not(:disabled) {
-  border: 1px solid #3182ce;
-  background-color: #f7fafc;
-  box-shadow: 0 0 0 1px rgba(49, 130, 206, 0.2);
-}
 
 /* Select field - Chế độ chỉ xem */
 select.field-select:disabled {
@@ -199,17 +184,15 @@ select.field-select:disabled {
 /* Editable fields - Chế độ chỉnh sửa */
 .editable[contenteditable="true"] {
   padding: 4px 8px;
-  border: 1px solid #3182ce;
   border-radius: 4px;
-  background-color: #f7fafc;
   min-width: 80px;
   cursor: text;
-  box-shadow: 0 0 0 1px rgba(49, 130, 206, 0.2);
+  border:1px solid #ccc;
+  max-width: 300px;
 }
 
 .editable[contenteditable="true"]:focus {
   outline: none;
-  border-color: #3182ce;
   background-color: #fff;
   box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.3);
 }
@@ -220,13 +203,6 @@ select.field-select:disabled {
   border: none;
   background: transparent;
   cursor: default;
-}
-
-/* Custom select - Chế độ chỉnh sửa */
-.activity-tag-select__control:not(.activity-tag-select__control--is-disabled) {
-  border: 1px solid #3182ce;
-  background-color: #f7fafc;
-  box-shadow: 0 0 0 1px rgba(49, 130, 206, 0.2);
 }
 
 /* Custom select - Chế độ chỉ xem */
@@ -264,7 +240,7 @@ select.field-select:disabled {
 
 /* Select field */
 select.field-select {
-  width: 240px;
+  width: 300px;
   height: 36px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -295,7 +271,6 @@ select.field-select {
 }
 
 .activity-tag-select__control--is-focused {
-  border-color: #3182ce;
   box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
 }
 
@@ -374,25 +349,21 @@ body.dark-mode .field {
 /* Dark mode - Chế độ chỉnh sửa */
 body.dark-mode .custom-date-picker:not(:disabled) {
   background-color: #2a2a3d;
-  border-color: #9fc3e4;
   color: #e0e0e0;
 }
 
 body.dark-mode select.field-select:not(:disabled) {
   background-color: #2a2a3d;
-  border-color: #9fc3e4;
   color: #e0e0e0;
 }
 
 body.dark-mode .editable[contenteditable="true"] {
   background-color: #2a2a3d;
-  border-color: #9fc3e4;
   color: #e0e0e0;
 }
 
 body.dark-mode .activity-tag-select__control:not(.activity-tag-select__control--is-disabled) {
   background-color: #2a2a3d;
-  border-color: #9fc3e4;
   color: #e0e0e0;
 }
 
