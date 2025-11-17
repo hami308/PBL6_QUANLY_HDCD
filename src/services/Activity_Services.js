@@ -44,6 +44,7 @@ export async function get_activities_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/activities/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
+    console.log("rp",response);
     return {
       success: true,
       data: response.data,
