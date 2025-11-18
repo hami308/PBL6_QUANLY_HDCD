@@ -6,7 +6,6 @@ export async function get_attendance_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/attendances/student/${idstudent}/activities`, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return {
       success: true,
       data: response.data,
@@ -48,6 +47,37 @@ export async function submit_feedback(attendanceId, feedbackData) {
       message:
         error.response?.data?.message ||
         "Không thể gửi phản hồi, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function get_attendance_detail(studentId, activityId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/attendances/student/${studentId}/activity/${activityId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log("Attendance detail response:", response.data);
+    return {
+      success: true,
+      data: response.data,
+    };
+
+  } catch (error) {
+    console.error(
+      `Get attendance detail for student ${studentId} activity ${activityId} error:`,
+      error
+    );
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy chi tiết điểm danh, vui lòng thử lại sau.",
     };
   }
 }
