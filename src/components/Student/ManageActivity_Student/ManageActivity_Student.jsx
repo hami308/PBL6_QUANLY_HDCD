@@ -87,7 +87,7 @@ function ManageActivity_Student({
           </button>
         )}
 
-        <a href={`/activity-details/${id}`} className="event-link">
+        <a href={`/activity-details-student/${id}`} className="event-link">
           Chi tiết
         </a>
       </div>
