@@ -1,37 +1,41 @@
 import "./Activity_Details.css";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dayjs from "dayjs";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale } from "react-datepicker";
 import vi from "date-fns/locale/vi";
-import { field } from "../../data/field";
+
 import CustomSelect from "../Custom/CustomSelect.jsx";
 import CancelActivityPopup from "../Popup/CancelActivityPopup.jsx";
 import Activity_pic from "../../assets/images/activity.jpg";
 
+import { get_all_fields } from "../../services/Field_Service.js";
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_cohort } from "../../services/Cohort_Services.js";
+import { register_activity } from "../../services/Activity_Services.js";
 
 registerLocale("vi", vi);
 
-function Activity_Details({ activity_details, ismodify }) {
-  ismodify = ismodify || false;
+function Activity_Details({ activity_details, ismodify = false }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
 
-  // Popup hủy hoạt động
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const handleConfirmCancel = (reason) => console.log("Lý do hủy:", reason);
 
-  // Thời gian
   const start_time_org = dayjs(activity_details.start_time || "");
   const end_time_org = dayjs(activity_details.end_time || "");
+
   const [registerStart, setRegisterStart] = useState(
-    activity_details.registration_open ? new Date(activity_details.registration_open) : null
+    activity_details.registration_open
+      ? new Date(activity_details.registration_open)
+      : null
   );
   const [registerEnd, setRegisterEnd] = useState(
-    activity_details.registration_close ? new Date(activity_details.registration_close) : null
+    activity_details.registration_close
+      ? new Date(activity_details.registration_close)
+      : null
   );
+
   const [eventStartDate, setEventStartDate] = useState(
     start_time_org.isValid() ? start_time_org.toDate() : null
   );
@@ -39,40 +43,46 @@ function Activity_Details({ activity_details, ismodify }) {
     end_time_org.isValid() ? end_time_org.toDate() : null
   );
 
-  // Số lượng, địa điểm, lĩnh vực
   const [volunteers, setVolunteers] = useState(activity_details.capacity);
   const [location, setLocation] = useState(activity_details.location);
   const [field_activity, setField] = useState(activity_details.field || "");
 
-  // Danh sách khóa và khoa từ API
   const [facultyOptions, setFacultyOptions] = useState([]);
   const [courseOptions, setCourseOptions] = useState([]);
+  const [fieldOptions, setFieldOptions] = useState([]);
 
   useEffect(() => {
-    async function fetchFacultyAndCohort() {
+    async function fetchOptions() {
       try {
-        const [facRes, cohRes] = await Promise.all([
+        const [facRes, cohRes, fieldRes] = await Promise.all([
           get_all_faculties(),
-          get_all_cohort()
+          get_all_cohort(),
+          get_all_fields()
         ]);
 
         if (facRes.success) {
-          const facOptions = facRes.data.map((f) => ({ value: f.name, label: f.name }));
-          setFacultyOptions(facOptions);
+          setFacultyOptions(
+            facRes.data.map((f) => ({ value: f.name, label: f.name }))
+          );
         }
 
         if (cohRes.success) {
-          const cohOptions = cohRes.data.map((c) => ({ value: c.year, label: `Khóa ${c.year}` }));
-          setCourseOptions(cohOptions);
+          setCourseOptions(
+            cohRes.data.map((c) => ({ value: c.year, label: `Khóa ${c.year}` }))
+          );
+        }
+
+        if (fieldRes.success) {
+          setFieldOptions(fieldRes.data);
         }
       } catch (err) {
-        console.error("Lỗi khi lấy khoa/khóa:", err);
+        console.error("Lỗi khi lấy dữ liệu options:", err);
       }
     }
-    fetchFacultyAndCohort();
+
+    fetchOptions();
   }, []);
 
-  // Giá trị đã chọn từ requirements
   const courseValues = (activity_details.requirements || [])
     .filter((r) => r.type === "cohort")
     .map((r) => ({ value: r.year, label: `Khóa ${r.year}` }));
@@ -84,7 +94,6 @@ function Activity_Details({ activity_details, ismodify }) {
   const [courseValuesState, setCourseValuesState] = useState(courseValues);
   const [facultyValuesState, setFacultyValuesState] = useState(facultyValues);
 
-  // Mô tả
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const descRef = useRef(null);
@@ -98,17 +107,41 @@ function Activity_Details({ activity_details, ismodify }) {
     }
   }, [activity_details.description]);
 
+  // Hàm đăng ký tham gia với alert xác nhận
+  const handleRegister = async () => {
+    if (!user) {
+      alert("Vui lòng đăng nhập để tham gia hoạt động!");
+      return;
+    }
+
+    if (!(user?.roles?.[0]?.role === "student")) {
+      alert("Chỉ sinh viên mới được đăng ký tham gia hoạt động!");
+      return;
+    }
+
+    const confirmRegister = window.confirm(
+      `Bạn có chắc chắn muốn đăng ký tham gia hoạt động "${activity_details.title}"?`
+    );
+    if (!confirmRegister) return;
+
+    try {
+      const res = await register_activity(activity_details._id);
+      if (res.success) {
+        alert("Đăng ký tham gia hoạt động thành công!");
+      } else {
+        alert(`Đăng ký thất bại: ${res.message}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+    }
+  };
+
   return (
     <div className="activity-card-details">
       <div className="activity--details">
         <h1 className="activity-title-details">{activity_details.title}</h1>
-        <button
-          className="join-btn"
-          onClick={() => {
-            if (!user) alert("Vui lòng đăng nhập để tham gia hoạt động!");
-            else alert("Đăng ký tham gia hoạt động thành công!");
-          }}
-        >
+        <button className="join-btn" onClick={handleRegister}>
           Đăng ký tham gia
         </button>
       </div>
@@ -124,12 +157,13 @@ function Activity_Details({ activity_details, ismodify }) {
       />
 
       <div className="activity-content-details">
-        {/* Mô tả */}
         <div className="activity-description-wrapper">
           <strong>Mô tả:</strong>
           <div
             ref={descRef}
-            className={`activity-description ${showFullDescription ? "expanded" : "collapsed"}`}
+            className={`activity-description ${
+              showFullDescription ? "expanded" : "collapsed"
+            }`}
           >
             {activity_details.description}
           </div>
@@ -143,7 +177,6 @@ function Activity_Details({ activity_details, ismodify }) {
           )}
         </div>
 
-        {/* Thời gian đăng ký */}
         <div className="field">
           <strong>Thời gian đăng ký:</strong>
           <span className="register-time">
@@ -167,7 +200,6 @@ function Activity_Details({ activity_details, ismodify }) {
           </span>
         </div>
 
-        {/* Thời gian tổ chức */}
         <div className="field">
           <strong>Thời gian tổ chức:</strong>
           <span className="event-time">
@@ -197,7 +229,6 @@ function Activity_Details({ activity_details, ismodify }) {
           </span>
         </div>
 
-        {/* Số lượng */}
         <div className="field">
           <strong>Số lượng tình nguyện viên cần:</strong>
           <div>
@@ -213,7 +244,6 @@ function Activity_Details({ activity_details, ismodify }) {
           </div>
         </div>
 
-        {/* Địa điểm */}
         <div className="field">
           <strong>Địa điểm:</strong>
           <span
@@ -226,7 +256,6 @@ function Activity_Details({ activity_details, ismodify }) {
           </span>
         </div>
 
-        {/* Lĩnh vực */}
         <div className="field">
           <strong>Lĩnh vực:</strong>
           <select
@@ -235,15 +264,14 @@ function Activity_Details({ activity_details, ismodify }) {
             className="field-select"
             disabled={!ismodify}
           >
-            {field.map((option) => (
-              <option key={option.id} value={option.name}>
+            {fieldOptions.map((option) => (
+              <option key={option._id} value={option.name}>
                 {option.name}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Yêu cầu theo khóa */}
         <div className="field">
           <strong>Yêu cầu theo khóa:</strong>
           <CustomSelect
@@ -255,7 +283,6 @@ function Activity_Details({ activity_details, ismodify }) {
           />
         </div>
 
-        {/* Yêu cầu theo khoa */}
         <div className="field">
           <strong>Yêu cầu theo khoa:</strong>
           <CustomSelect
@@ -268,7 +295,6 @@ function Activity_Details({ activity_details, ismodify }) {
         </div>
       </div>
 
-      {/* Quản lý hoạt động */}
       {ismodify && (
         <div className="manage-infot-activity">
           <button className="button-update-infor-activity">Cập nhật</button>

@@ -230,3 +230,34 @@ export async function filter_activities_by_student(studentId,filters) {
     };
   }
 }
+
+export async function register_activity(activityId, registrationData = {}) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.post(
+      `${API_URL}/activities/${activityId}/register`,
+      registrationData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Đăng ký tham gia hoạt động thành công!",
+    };
+  } catch (error) {
+    console.error(`Register activity ${activityId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể đăng ký tham gia hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
