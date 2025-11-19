@@ -1,12 +1,12 @@
-
 import "./List_ManageActivity_Student.css";
 import activityImg from "../../../assets/images/activity.jpg";
 import ManageActivity_Student from "./ManageActivity_Student.jsx";
 import { Evaluate_Activity_Provider } from "../Evaluate_Activity/Evaluate_Activity_Context";
-import {get_activities_by_idstudent} from "../../../services/Activity_Services";
-import { useEffect,useState } from "react";
-import {getStudentInfo} from "../../../services/Student/StudentInfor_Services.js";
-function List_ManageActivity_Student() {
+import { get_activities_by_idstudent, filter_activities_by_student } from "../../../services/Activity_Services";
+import { useEffect, useState } from "react";
+import { getStudentInfo } from "../../../services/Student/StudentInfor_Services.js";
+
+function List_ManageActivity_Student({ filters }) {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,6 @@ function List_ManageActivity_Student() {
         }
 
         // Bước 1: Lấy thông tin sinh viên từ user.id
-        
         const studentRes = await getStudentInfo(user.id);
         if (!studentRes) {
           console.error("Không tìm thấy sinh viên tương ứng với user.id");
@@ -29,19 +28,34 @@ function List_ManageActivity_Student() {
 
         const studentId = studentRes._id;
 
-        // Bước 2: Gọi API lấy hoạt động theo studentId
-        const res = await get_activities_by_idstudent(studentId);
-        if (res?.success && res?.data.data) {
-          const dataArray = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
+        let res;
+        // Kiểm tra xem có filters không
+        if (Object.keys(filters).length > 0) {
+          // Gọi API lọc
+          res = await filter_activities_by_student(studentId, filters);
+        } else {
+          // Gọi API lấy tất cả
+          res = await get_activities_by_idstudent(studentId);
+        }
+
+        if (res?.success) {
+          // Xử lý dữ liệu từ cả hai API
+          let dataArray = [];
+          if (res.data.data) {
+            dataArray = Array.isArray(res.data.data) ? res.data.data : [res.data.data];
+          } else if (res.data) {
+            dataArray = Array.isArray(res.data) ? res.data : [res.data];
+          }
+
           const mappedData = dataArray.map((a) => ({
             id: a._id,
             name: a.title,
-            org: a.organization?.name || "Không rõ đơn vị",
+            org: a.org_unit_name || a.org_unit_id?.name || "Không rõ đơn vị",
             start_time: new Date(a.start_time).toLocaleDateString("vi-VN"),
             end_time: new Date(a.end_time).toLocaleDateString("vi-VN"),
             location: a.location || "Chưa cập nhật",
-            status: a.status || "Chưa rõ trạng thái",
-            img: a.image || activityImg,
+            status: a.registration.status || "Chưa rõ trạng thái",
+            img: a.image || a.activity_image || activityImg,
           }));
 
           setActivities(mappedData);
@@ -56,13 +70,14 @@ function List_ManageActivity_Student() {
     }
 
     fetchActivities();
-  }, []);
+  }, [filters]); // Thêm filters vào dependency
+
   if (loading) {
     return <div className="loading">Đang tải danh sách hoạt động...</div>;
   }
 
   if (!activities.length) {
-    return <div className="no-activity">Bạn chưa có hoạt động nào.</div>;
+    return <div className="no-activity">Không tìm thấy hoạt động nào phù hợp.</div>;
   }
 
   return (

@@ -9,10 +9,17 @@ import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Menu_org from "../../components/Menu/Menu_org.jsx";
 import {status_activity} from "../../data/status.js";
-//import { use } from "react";
+import { useState } from "react"; // Thêm import
 
 function HomePage() {
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const [filters, setFilters] = useState({}); // State để lưu filters
+
+  // Hàm xử lý khi filter thay đổi
+  const handleFilter = (newFilters) => {
+    setFilters(newFilters);
+  };
+
   return (
     <>
     <Header />
@@ -25,8 +32,10 @@ function HomePage() {
           <img src={dut_home_pic} alt="DUT Home" className="home-image" />
         </div>
         <div className="home-container">
-          <Filter_activity status={status_activity} />
-          <Activity_list />
+          {/* Truyền hàm handleFilter xuống Filter_activity */}
+          <Filter_activity status={status_activity} onFilter={handleFilter} />
+          {/* Truyền filters xuống Activity_list */}
+          <Activity_list filters={filters} />
         </div>
       </div>
       <Footer />

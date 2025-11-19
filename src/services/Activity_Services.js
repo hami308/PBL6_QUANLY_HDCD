@@ -178,3 +178,55 @@ export async function get_activities_by_orgunit_and_status(org_unit_id, status) 
     };
   }
 }
+
+export async function filter_activities(filters) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(`${API_URL}/activities/filter`, {
+      params: filters,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return {
+      success: true,
+      data: response.data.data || response.data,
+      message: response.data.message || "Lọc hoạt động thành công.",
+    };
+  } catch (error) {
+    console.error("Filter activities error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lọc hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function filter_activities_by_student(studentId,filters) {
+  try {
+    const token = sessionStorage.getItem("token");
+    console.log("filters",filters);
+    const response = await axios.get(`${API_URL}/activities/student/${studentId}/filter`, {
+      params: filters,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("response filter",response);
+    return {
+      success: true,
+      data: response.data.data || response.data,
+      message: response.data.message || "Lọc hoạt động thành công.",
+    };
+  } catch (error) {
+    console.error("Filter activities error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lọc hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}

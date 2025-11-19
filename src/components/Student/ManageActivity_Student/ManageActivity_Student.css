@@ -71,20 +71,9 @@ body.dark-mode .event-club{
   font-size: 14px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   color: black;
+   background-color: #E9C3E4; /* tím nhạt */
 }
 
-/* Màu cho từng trạng thái */
-.event-status.registered {
-  background-color: #FF7E80; /* đỏ nhạt */
-}
-
-.event-status.joined {
-  background-color: #42E694; /* xanh lá nhạt */
-}
-
-.event-status.approved {
-  background-color: #E9C3E4; /* tím nhạt */
-}
 /* Điểm */
 .event-point {
   margin-top: 6px;
