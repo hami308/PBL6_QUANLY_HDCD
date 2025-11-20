@@ -46,18 +46,44 @@ function List_ManageActivity_Student({ filters }) {
           } else if (res.data) {
             dataArray = Array.isArray(res.data) ? res.data : [res.data];
           }
+          
+          const mappedData = dataArray.map((a) => {
+              const attendance = a.attendance;
 
-          const mappedData = dataArray.map((a) => ({
-            id: a._id,
-            name: a.title,
-            org: a.org_unit_name || a.org_unit_id?.name || "Không rõ đơn vị",
-            start_time: new Date(a.start_time).toLocaleDateString("vi-VN"),
-            end_time: new Date(a.end_time).toLocaleDateString("vi-VN"),
-            location: a.location || "Chưa cập nhật",
-            status: a.registration.status || "Chưa rõ trạng thái",
-            img: a.image || a.activity_image || activityImg,
-          }));
+              let status = "";
+              if (attendance) {
+                status = "Đã tham gia"; 
+              } else if (a.registration?.status) {
+                switch (a.registration.status) {
+                  case "pending":
+                    status = "Đã đăng ký";
+                    break;
+                  case "approved":
+                    status = "Đã duyệt";
+                    break;
+                  case "rejected":
+                    status = "Đã từ chối";
+                    break;
+                  default:
+                    status = "Không rõ trạng thái";
+                }
+              } else {
+                status = "Không rõ trạng thái";
+              }
 
+              return {
+                id: a._id,
+                name: a.title,
+                org: a.org_unit_name || a.org_unit_id?.name || "Không rõ đơn vị",
+                start_time: new Date(a.start_time).toLocaleDateString("vi-VN"),
+                end_time: new Date(a.end_time).toLocaleDateString("vi-VN"),
+                location: a.location || "Chưa cập nhật",
+                status,
+                img: a.image || a.activity_image || activityImg,
+              };
+            });
+
+          
           setActivities(mappedData);
         } else {
           console.error("Lỗi khi lấy danh sách hoạt động:", res);

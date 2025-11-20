@@ -44,7 +44,6 @@ export async function get_activities_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/activities/student/${idstudent}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("rp",response);
     return {
       success: true,
       data: response.data,
@@ -258,6 +257,36 @@ export async function register_activity(activityId, registrationData = {}) {
       message:
         error.response?.data?.message ||
         "Không thể đăng ký tham gia hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function get_activity_details_of_student(activityId, studentId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/activities/${activityId}/student/${studentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Lấy thông tin tham gia của sinh viên thành công.",
+    };
+  } catch (error) {
+    console.error(`Get activity ${activityId} for student ${studentId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy thông tin tham gia hoạt động của sinh viên, vui lòng thử lại sau.",
     };
   }
 }

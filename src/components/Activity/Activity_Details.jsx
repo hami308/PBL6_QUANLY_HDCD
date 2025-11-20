@@ -106,7 +106,7 @@ function Activity_Details({ activity_details, ismodify = false }) {
       setIsOverflowing(el.scrollHeight > maxVisibleHeight + 5);
     }
   }, [activity_details.description]);
-
+  console.log("status",activity_details.status);
   // Hàm đăng ký tham gia với alert xác nhận
   const handleRegister = async () => {
     if (!user) {

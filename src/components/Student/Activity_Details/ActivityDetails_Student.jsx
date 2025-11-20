@@ -1,33 +1,37 @@
 import "../../Activity/Activity_Details.css";
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import Activity_pic from "../../../assets/images/activity.jpg";
-import "./ActivityDetails_Student.css"
+import "./ActivityDetails_Student.css";
+
+import Evaluate_Activity from "../Evaluate_Activity/Evaluate_Activity";
 
 function Activity_Details({ activity_details, onCancelRegister }) {
+  const [showEvaluatePopup, setShowEvaluatePopup] = useState(false);
 
-  // ======== Format ngày giờ ========
+  // Format thời gian
   const formatDateTime = (date) =>
     date ? dayjs(date).format("HH:mm DD/MM/YYYY") : "Không rõ";
 
   const formatDate = (date) =>
     date ? dayjs(date).format("DD/MM/YYYY") : "Không rõ";
 
-  const studentStatus = activity_details.student_status;
-  const processedTime = activity_details.processed_time;
-  const attendanceTime = activity_details.attendance_time;
+  // Trạng thái của sinh viên trong hoạt động
+  const studentStatus = activity_details.student.registrationStatus;
+  const processedTime = activity_details.student.registration.approved_at;
+  const attendanceTime = activity_details.student.attendance.scanned_at;
 
-  // ======== Text trạng thái ========
-  const getStatusLabel = () => {
+  // ======== FORMAT TRẠNG THÁI HIỂN THỊ ========
+  const renderStatus = () => {
+    if (attendanceTime) return "Đã tham gia";
+
     switch (studentStatus) {
       case "pending":
         return "Đã đăng ký";
       case "approved":
         return "Đã được duyệt";
       case "rejected":
-        return "Đã từ chối";
-      case "attendanced":
-        return "Đã tham gia";
+        return "Đã bị từ chối";
       default:
         return "Không rõ";
     }
@@ -38,61 +42,57 @@ function Activity_Details({ activity_details, onCancelRegister }) {
 
       {/* Tên hoạt động */}
       <div className="activity--details">
-        <h1 className="activity-title-details">{activity_details.title}</h1>
+        <h1 className="activity-title-details">{activity_details.activity.title}</h1>
       </div>
 
       {/* Đơn vị tổ chức */}
       <div className="activity-team-details">
-        {activity_details.org_unit_id?.name || "Không có đơn vị tổ chức"}
+        {activity_details.activity.org_unit_id?.name || "Không có đơn vị tổ chức"}
       </div>
 
       {/* Ảnh */}
       <img
-        src={activity_details.image || Activity_pic}
-        alt={activity_details.title}
+        src={activity_details.activity.activity_image || Activity_pic}
+        alt={activity_details.activity.title}
         className="activity-image-details"
       />
 
-      {/* Nội dung */}
       <div className="activity-content-details">
 
         <div className="field">
           <strong>Mô tả:</strong>
-          <p>{activity_details.description}</p>
+          <p>{activity_details.activity.description}</p>
         </div>
 
         <div className="field">
           <strong>Thời gian tổ chức:</strong>
           <span>
-            {formatDateTime(activity_details.start_time)} –{" "}
-            {formatDateTime(activity_details.end_time)}
-          </span>
-        </div>
-
-        <div className="field">
-          <strong>Thời gian đăng ký:</strong>
-          <span>
-            {formatDate(activity_details.registration_open)} –{" "}
-            {formatDate(activity_details.registration_close)}
+            {formatDateTime(activity_details.activity.start_time)} –{" "}
+            {formatDateTime(activity_details.activity.end_time)}
           </span>
         </div>
 
         <div className="field">
           <strong>Lĩnh vực:</strong>
-          <span>{activity_details.field || "Không rõ"}</span>
+          <span>{activity_details.activity.field_id.name || "Không rõ"}</span>
         </div>
 
         <div className="field">
           <strong>Địa điểm:</strong>
-          <span>{activity_details.location || "Không rõ"}</span>
+          <span>{activity_details.activity.location || "Không rõ"}</span>
         </div>
 
-        {studentStatus && (
-          <div className="field">
-            <strong>Trạng thái:</strong>
-            <span>{getStatusLabel()}</span>
-          </div>
-        )}
+        <div className="field">
+          <strong>Trạng thái:</strong>
+          <span>{renderStatus()}</span>
+        </div>
+
+        <div className="field">
+          <strong>Thời gian đăng ký:</strong>
+          <span>
+            {formatDate(activity_details.student.registration.registered_at)}
+          </span>
+        </div>
 
         {(studentStatus === "approved" || studentStatus === "rejected") && (
           <div className="field">
@@ -101,7 +101,7 @@ function Activity_Details({ activity_details, onCancelRegister }) {
           </div>
         )}
 
-        {studentStatus === "attendanced" && (
+        {attendanceTime && (
           <div className="field">
             <strong>Thời gian điểm danh:</strong>
             <span>{formatDateTime(attendanceTime)}</span>
@@ -110,13 +110,36 @@ function Activity_Details({ activity_details, onCancelRegister }) {
       </div>
 
       {/* ======== NÚT HỦY ĐĂNG KÝ ======== */}
-      {(studentStatus === "pending" ) && (
+      {!attendanceTime && studentStatus === "pending" && (
         <div className="activity-action">
           <button className="cancel-register-btn" onClick={onCancelRegister}>
             Hủy đăng ký
           </button>
         </div>
       )}
+
+      {/* ======== NÚT ĐÁNH GIÁ (KHI ĐÃ THAM GIA) ======== */}
+      {attendanceTime && (
+        <div className="activity-action">
+          <button
+            className="evaluate-btn"
+            onClick={() => setShowEvaluatePopup(true)}
+          >
+             Đánh giá hoạt động
+          </button>
+        </div>
+      )}
+
+      {/* ======== POPUP ĐÁNH GIÁ ======== */}
+      {showEvaluatePopup && (
+        <Evaluate_Activity 
+          onClose={() => setShowEvaluatePopup(false)}
+          activityId={activity_details.activity._id} 
+          title={activity_details.activity.title}
+        />
+      )}
+
+
     </div>
   );
 }

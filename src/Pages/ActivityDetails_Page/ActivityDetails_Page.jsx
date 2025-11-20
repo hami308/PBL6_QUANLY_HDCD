@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activity/See_List_Evaluate_Activity.jsx";
 import { get_details_activity_by_id } from "../../services/Activity_Services.js";
+import { get_feedback_by_activity } from "../../services/Feedback_Services.js";
 
 function Activity_details() {
   // Lấy thông tin user và vai trò
@@ -19,6 +20,7 @@ function Activity_details() {
 
   const { id } = useParams(); // lấy id từ URL
   const [activity, setActivity] = useState(null);
+  const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Gọi API lấy chi tiết hoạt động
@@ -33,6 +35,26 @@ function Activity_details() {
         }
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu hoạt động:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchActivity();
+  }, [id]);
+
+  // Gọi API lấy đánh giá hoạt động
+  useEffect(() => {
+    async function fetchActivity() {
+      try {
+        const result = await get_feedback_by_activity(id);
+        if (result.success) {
+          setFeedback(result.data.data.feedbacks);
+          console.log("feedback", result.data.data.feedbacks);
+        } else {
+          console.error(result.message);
+        }
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu đánh giá hoạt động:", err);
       } finally {
         setLoading(false);
       }
@@ -81,7 +103,7 @@ function Activity_details() {
       <Activity_Details activity_details={activity.data} ismodify={ismodify} />
 
       {/* Nếu hoạt động đã tổ chức thì hiển thị danh sách đánh giá */}
-      {activity.status === "Đã tổ chức" && <See_List_Evaluate_Activity />}
+      {activity.data.status === "đã tổ chức" &&<See_List_Evaluate_Activity reviews={feedback || []} />}
 
       {/* Nếu chưa đăng nhập thì hiển thị các hoạt động khác */}
       {!user && (
@@ -94,6 +116,7 @@ function Activity_details() {
           </div>
         </>
       )}
+
 
       <Footer />
     </div>

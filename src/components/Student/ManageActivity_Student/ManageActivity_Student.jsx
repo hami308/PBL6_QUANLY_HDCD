@@ -15,38 +15,6 @@ function ManageActivity_Student({
   const { openEvaluate } = useContext(Evaluate_Activity_Context);
   const date = start_time + " - " + end_time;
 
-  // ======== Xử lý trạng thái =========
-  let statusLabel = "";
-  let statusClass = "";
-
-  switch (status) {
-    case "pending":
-      statusLabel = "Đã đăng ký";
-      statusClass = "registered";
-      break;
-
-    case "approved":
-      statusLabel = "Đã được duyệt";
-      statusClass = "approved";
-      break;
-
-    case "rejected":
-      statusLabel = "Đã từ chối";
-      statusClass = "rejected";
-      break;
-
-    case "attendanced":
-      statusLabel = "Đã tham gia";
-      statusClass = "joined";
-      break;
-
-    default:
-      statusLabel = status || "Không rõ";
-      statusClass = "registered";
-      break;
-  }
-  // ===================================
-
   return (
     <div className="event-card">
       <img src={img} alt="Event" className="event-image" />
@@ -66,7 +34,7 @@ function ManageActivity_Student({
       </div>
 
       <div className="event-status-wrapper">
-        <span className={`event-status ${statusClass}`}>{statusLabel}</span>
+        <span className={`event-status ${status}`}>{status}</span>
 
         {status === "attendanced" && (
           <p className="event-point">Điểm: 5 điểm</p>
@@ -74,19 +42,21 @@ function ManageActivity_Student({
       </div>
 
       <div className="event-actions">
-        {status === "attendanced" && (
+        {/* Nút đánh giá chỉ hiển thị khi đã tham gia */}
+        {status === "Đã tham gia" && (
           <button
             className="event-link"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              openEvaluate();
+               openEvaluate(id, name_activity); 
             }}
           >
             Đánh giá
           </button>
         )}
 
+        {/* Nút chi tiết luôn hiển thị */}
         <a href={`/activity-details-student/${id}`} className="event-link">
           Chi tiết
         </a>
