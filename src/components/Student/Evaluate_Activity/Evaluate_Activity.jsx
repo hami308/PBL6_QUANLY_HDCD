@@ -1,12 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Evaluate_Activity.css";
-import { create_feedback } from "../../../services/Feedback_Services";
+import { create_feedback, get_feedback_by_student_activity } from "../../../services/Feedback_Services";
 
 function Evaluate_Activity({ onClose, activityId, title }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [evaluate, setEvaluate] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isLoadingPopup, setIsLoadingPopup] = useState(true);
+  const [hasFeedback, setHasFeedback] = useState(false);
+
+  useEffect(() => {
+    const fetchFeedback = async () => {
+      const studentId = sessionStorage.getItem("student_id");
+      if (!studentId) {
+        setIsLoadingPopup(false);
+        return;
+      }
+
+      const res = await get_feedback_by_student_activity(studentId, activityId);
+      if (res.success && res.data) {
+        setRating(res.data.data.rating);
+        setEvaluate(res.data.data.comment || "");
+        setHasFeedback(true);
+      } else {
+        if(res.message === "Feedback not found for this student and activity"){
+          setRating(0);
+          setEvaluate("");
+          setHasFeedback(false);
+        }
+      }
+
+      setIsLoadingPopup(false);
+    };
+
+    fetchFeedback();
+  }, [activityId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +46,7 @@ function Evaluate_Activity({ onClose, activityId, title }) {
       return;
     }
 
-    if (rating === 0|| evaluate.trim() === "") {
+    if (rating === 0 || evaluate.trim() === "") {
       alert("Vui lòng chọn số sao đánh giá và nhập nội dung đánh giá!");
       return;
     }
@@ -28,11 +57,10 @@ function Evaluate_Activity({ onClose, activityId, title }) {
       student_id: studentId,
       activity_id: activityId,
       rating: rating,
-      commnent: evaluate,
+      comment: evaluate,
     };
 
     const res = await create_feedback(data);
-
     setLoading(false);
 
     if (res.success) {
@@ -43,6 +71,16 @@ function Evaluate_Activity({ onClose, activityId, title }) {
     }
   };
 
+  if (isLoadingPopup) {
+    return (
+      <div className="evaluate-container">
+        <div className="evaluate-card">
+          <h3>Đang tải dữ liệu đánh giá...</h3>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="evaluate-container">
       <div className="evaluate-card">
@@ -50,6 +88,7 @@ function Evaluate_Activity({ onClose, activityId, title }) {
         <p className="evaluate-activity-title">
           <strong>Hoạt động:</strong> {title}
         </p>
+
         <div className="rating-section">
           <p className="rating-label">⭐ Đánh giá của bạn</p>
           <div className="stars">
@@ -84,9 +123,12 @@ function Evaluate_Activity({ onClose, activityId, title }) {
           <button className="cancel-evaluate-btn" onClick={onClose} disabled={loading}>
             ✕ Hủy bỏ
           </button>
-          <button className="submit-evaluate-btn" onClick={handleSubmit} disabled={loading}>
-            {loading ? "Đang gửi..." : "Gửi đánh giá"}
-          </button>
+
+          {!hasFeedback && (
+            <button className="submit-evaluate-btn" onClick={handleSubmit} disabled={loading}>
+              {loading ? "Đang gửi..." : "Gửi đánh giá"}
+            </button>
+          )}
         </div>
       </div>
     </div>
