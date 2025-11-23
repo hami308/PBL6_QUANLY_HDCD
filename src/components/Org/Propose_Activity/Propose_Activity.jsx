@@ -12,6 +12,7 @@ import {
   propose_activity,
 } from "../../../services/Activity_Services";
 import CustomSelect from "../../Custom/CustomSelect";
+
 export default function Propose_Activity({ iscreate }) {
   const [form, setForm] = useState({
     name: "",
@@ -21,7 +22,7 @@ export default function Propose_Activity({ iscreate }) {
     location: "",
     faculty: [],
     course: [],
-    field: "", // Chỉ 1 lĩnh vực
+    field: "",
     volunteers: "",
     maxpoint: "",
   });
@@ -34,7 +35,7 @@ export default function Propose_Activity({ iscreate }) {
   const [fieldOptions, setFieldOptions] = useState([]);
   const [orgUnitId, setOrgUnitId] = useState(null);
 
-  // --- Gọi API lấy dữ liệu cơ bản ---
+  // ====================== FETCH DATA ======================
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,60 +43,62 @@ export default function Propose_Activity({ iscreate }) {
         if (!user) throw new Error("Không tìm thấy thông tin người dùng.");
 
         const staff = await getStaffInfo(user.id);
-        if (staff && staff.org_unit_id) {
-          setOrgUnitId(staff.org_unit_id);
-        } else {
-          console.warn("Không tìm thấy org_unit_id trong staff info.");
-        }
+        if (staff?.org_unit_id) setOrgUnitId(staff.org_unit_id);
 
-        // Khoa
+        // Faculty list
         const facRes = await get_all_faculties();
-        if (facRes.success && Array.isArray(facRes.data)) {
+        if (facRes.success)
           setFacultyOptions(
             facRes.data.map((f) => ({
               value: f._id || f.id,
               label: f.name,
             }))
           );
-        }
 
-        // Khóa
+        // Cohort list
         const cohortRes = await get_all_cohort();
-        if (cohortRes.success && Array.isArray(cohortRes.data)) {
+        if (cohortRes.success)
           setCourseOptions(
             cohortRes.data.map((c) => ({
               value: c._id || c.id,
               label: c.name || c.cohort_name || `Khóa ${c.year}`,
             }))
           );
-        }
 
-        // Lĩnh vực
+        // Field list
         const fieldRes = await get_all_fields();
-        if (fieldRes.success && Array.isArray(fieldRes.data)) {
+        if (fieldRes.success)
           setFieldOptions(
             fieldRes.data.map((f) => ({
               value: f._id || f.id,
               label: f.name,
             }))
           );
-        }
       } catch (err) {
-        console.error("Lỗi khi tải dữ liệu:", err);
+        console.error("Fetch error:", err);
       }
     };
 
     fetchData();
   }, []);
 
-  // --- Handle input ---
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-  const handleStartTimeChange = (date) => setForm({ ...form, startTime: date });
-  const handleEndTimeChange = (date) => setForm({ ...form, endTime: date });
-  const handleFacultyChange = (selected) => setForm({ ...form, faculty: selected || [] });
-  const handleCourseChange = (selected) => setForm({ ...form, course: selected || [] });
+  // ====================== INPUT HANDLER ======================
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  // --- Validate ---
+  const handleStartTimeChange = (date) =>
+    setForm({ ...form, startTime: date });
+
+  const handleEndTimeChange = (date) =>
+    setForm({ ...form, endTime: date });
+
+  const handleFacultyChange = (selected) =>
+    setForm({ ...form, faculty: selected });
+
+  const handleCourseChange = (selected) =>
+    setForm({ ...form, course: selected });
+
+  // ====================== VALIDATE ======================
   const validateForm = () => {
     if (
       !form.name ||
@@ -119,37 +122,67 @@ export default function Propose_Activity({ iscreate }) {
     if (Number(form.maxpoint) <= 0)
       return "Điểm tối đa phải lớn hơn 0.";
 
-    if (!orgUnitId)
-      return "Không xác định được khoa (org_unit_id).";
+    if (!orgUnitId) return "Không xác định đơn vị tổ chức.";
 
     return "";
   };
 
-  // --- Submit ---
+  // ====================== BUILD REQUIREMENTS ======================
+  const extractYear = (label) => {
+    if (!label || typeof label !== "string") return null;
+    const match = label.match(/\d{4}/);
+    return match ? match[0] : null;
+  };
+
+  const buildRequirements = () => {
+    let req = [];
+
+    // ===== Faculty =====
+    if (!form.faculty.some((f) => f.value === "all")) {
+      req.push(
+        ...form.faculty.map((f) => ({
+          type: "falcuty",
+          name: f.label,
+        }))
+      );
+    }
+
+    // ===== Course / Cohort =====
+    if (!form.course.some((c) => c.value === "all")) {
+      req.push(
+        ...form.course.map((c) => ({
+          type: "cohort",
+          year: extractYear(c.label),
+        }))
+      );
+    }
+
+    return req;
+  };
+
+  // ====================== SUBMIT ======================
   const handleSubmit = async (e) => {
     e.preventDefault();
     const error = validateForm();
-    if (error) {
-      setErrorMessage(error);
-      return;
-    }
+    if (error) return setErrorMessage(error);
 
     setErrorMessage("");
     setLoading(true);
 
     try {
+      const requirements = buildRequirements();
+
       const payload = {
         title: form.name,
         description: form.description,
         start_time: form.startTime.toISOString(),
         end_time: form.endTime.toISOString(),
         location: form.location,
-        faculty: form.faculty.map((f) => f.value).join(","),
-        course: form.course.map((c) => c.value).join(","),
         field: form.field,
         capacity: Number(form.volunteers),
         points: Number(form.maxpoint),
         org_unit_id: orgUnitId,
+        requirements: requirements, // MẢNG đúng chuẩn BE yêu cầu
       };
 
       const res = iscreate
@@ -158,6 +191,7 @@ export default function Propose_Activity({ iscreate }) {
 
       if (res.success) {
         alert(iscreate ? "Tạo hoạt động thành công!" : "Đề xuất thành công!");
+
         setForm({
           name: "",
           description: "",
@@ -181,7 +215,7 @@ export default function Propose_Activity({ iscreate }) {
     }
   };
 
-  // --- Render ---
+  // ====================== RENDER ======================
   return (
     <div className="propose-activity-container">
       <form onSubmit={handleSubmit} className="propose-activity-form">
@@ -189,7 +223,7 @@ export default function Propose_Activity({ iscreate }) {
           {iscreate ? "Tạo hoạt động" : "Đề xuất hoạt động"}
         </h2>
 
-        {/* Tên hoạt động */}
+        {/* Name */}
         <div className="form-propose-activity">
           <label>Tên hoạt động:</label>
           <input
@@ -201,7 +235,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Mô tả */}
+        {/* Description */}
         <div className="form-propose-activity">
           <label>Mô tả:</label>
           <textarea
@@ -213,16 +247,16 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Lĩnh vực (select bình thường) */}
+        {/* Field */}
         <div className="form-propose-activity">
           <label>Lĩnh vực:</label>
           <select
             name="field"
             value={form.field}
-            onChange={(e) => setForm({ ...form, field: e.target.value })}
+            onChange={handleChange}
             className="select-basic"
           >
-            <option value="">-- Chọn một lĩnh vực --</option>
+            <option value="">-- Chọn lĩnh vực --</option>
             {fieldOptions.map((f) => (
               <option key={f.value} value={f.value}>
                 {f.label}
@@ -231,59 +265,52 @@ export default function Propose_Activity({ iscreate }) {
           </select>
         </div>
 
-        {/* Thời gian bắt đầu */}
+        {/* Time */}
         <div className="form-propose-activity">
           <label>Thời gian bắt đầu:</label>
           <DatePicker
             selected={form.startTime}
             onChange={handleStartTimeChange}
             showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
             dateFormat="HH:mm dd/MM/yyyy"
-            placeholderText="Chọn thời gian bắt đầu"
             className="custom-date-picker-propose-activity"
           />
         </div>
 
-        {/* Thời gian kết thúc */}
         <div className="form-propose-activity">
           <label>Thời gian kết thúc:</label>
           <DatePicker
             selected={form.endTime}
             onChange={handleEndTimeChange}
             showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={15}
             dateFormat="HH:mm dd/MM/yyyy"
-            placeholderText="Chọn thời gian kết thúc"
             className="custom-date-picker-propose-activity"
           />
         </div>
 
-        {/* Khoa */}
+        {/* Faculty */}
         <div className="form-propose-activity">
-          <label>Áp dụng với các khoa:</label>
+          <label>Áp dụng với khoa:</label>
           <CustomSelect
             options={facultyOptions}
-            isMulti
             value={form.faculty}
             onChange={handleFacultyChange}
+            isMulti
           />
         </div>
 
-        {/* Khóa */}
+        {/* Course */}
         <div className="form-propose-activity">
           <label>Áp dụng với khóa:</label>
           <CustomSelect
             options={courseOptions}
-            isMulti
             value={form.course}
             onChange={handleCourseChange}
+            isMulti
           />
         </div>
 
-        {/* Địa điểm */}
+        {/* Location */}
         <div className="form-propose-activity">
           <label>Địa điểm:</label>
           <input
@@ -295,7 +322,7 @@ export default function Propose_Activity({ iscreate }) {
           />
         </div>
 
-        {/* Số lượng tình nguyện viên */}
+        {/* Volunteers */}
         <div className="form-propose-activity">
           <label>Số lượng tình nguyện viên:</label>
           <input
@@ -303,12 +330,11 @@ export default function Propose_Activity({ iscreate }) {
             value={form.volunteers}
             onChange={handleChange}
             type="number"
-            placeholder="0"
             min="1"
           />
         </div>
 
-        {/* Điểm tối đa */}
+        {/* Max Points */}
         <div className="form-propose-activity">
           <label>Điểm tối đa:</label>
           <input
@@ -316,23 +342,18 @@ export default function Propose_Activity({ iscreate }) {
             value={form.maxpoint}
             onChange={handleChange}
             type="number"
-            placeholder="Nhập điểm tối đa"
             min="1"
           />
         </div>
 
-        {/* Thông báo lỗi */}
+        {/* Error */}
         {errorMessage && (
           <div className="error-message-propose">{errorMessage}</div>
         )}
 
-        {/* Nút submit */}
+        {/* Submit */}
         <div className="form-actions">
-          <button
-            type="submit"
-            className="submit-propose-activity-btn"
-            disabled={loading}
-          >
+          <button className="submit-propose-activity-btn" disabled={loading}>
             <span className="material-symbols-outlined">check</span>
             <span style={{ marginLeft: 8 }}>
               {loading
