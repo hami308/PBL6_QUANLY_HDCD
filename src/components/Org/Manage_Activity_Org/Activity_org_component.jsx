@@ -65,7 +65,14 @@ function Activity_Org_Component({ activity }) {
 
         {showMenu && (
           <ul className="activity-org-component-menu">
-            <li onClick={() => alert("Xem chi tiết")}>Xem chi tiết</li>
+            <li>
+              <a 
+                href={`/activity-details/${activity._id}`} 
+                className="activity-org-menu-link"
+              >
+                Xem chi tiết
+              </a>
+            </li>
             <li onClick={() => alert("Chỉnh sửa")}>Chỉnh sửa</li>
             <li onClick={() => alert("Xóa hoạt động")}>Hủy hoạt động</li>
           </ul>

@@ -1,85 +1,90 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import "./Filter_Evidence.css";
+
 import { getClass, getClassesByFaculty } from "../../../services/Class_Service";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 
-export default function Filter_Evidence({ total, onClassChange }) {
+export default function Filter_Evidence({ total, onFilterChange }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isFaculty = user?.roles?.[0]?.role === "staff";
 
   const [faculties, setFaculties] = useState([]);
-  const [classList, setClassList] = useState([]);
+  const [classes, setClasses] = useState([]);
+
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  // ==============================
-  // Lấy danh sách khoa
-  // ==============================
-  useEffect(() => {
-    const fetchFaculties = async () => {
-      try {
-        const result = await get_all_faculties();
+  const [status, setStatus] = useState("");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
 
-        if (result.success && Array.isArray(result.data)) {
-          const facultyOptions = [
-            { value: "all", label: "Tất cả khoa" }, // 📌 thêm "Tất cả khoa"
-            ...result.data.map((fac) => ({
-              value: fac._id,
-              label: fac.name,
-            })),
-          ];
-          setFaculties(facultyOptions);
-          setSelectedFaculty(facultyOptions[0]); // mặc định "Tất cả khoa"
-        }
-      } catch (error) {
-        console.error("❌ Lỗi khi lấy danh sách khoa:", error);
+  // Hàm gửi filter ra ngoài
+  const sendFilter = (faculty, classId) => {
+    onFilterChange?.({
+      facultyId: faculty || selectedFaculty?.value,
+      classId: classId || selectedClass?.value,
+      status,
+      search,
+      sort,
+    });
+  };
+
+  // ============================
+  // Load faculties
+  // ============================
+  useEffect(() => {
+    if (!isFaculty) return;
+
+    const fetchFaculties = async () => {
+      const result = await get_all_faculties();
+
+      if (result.success && Array.isArray(result.data)) {
+        const options = [
+          { value: "all", label: "Tất cả khoa" },
+          ...result.data.map((f) => ({
+            value: f._id,
+            label: f.name,
+          })),
+        ];
+        setFaculties(options);
+        setSelectedFaculty(options[0]);
       }
     };
 
-    if (isFaculty) fetchFaculties();
+    fetchFaculties();
   }, [isFaculty]);
 
-  // ==============================
-  // Lấy danh sách lớp theo khoa
-  // ==============================
+  // ============================
+  // Load classes based on faculty
+  // ============================
   useEffect(() => {
+    if (!selectedFaculty) return;
+
     const fetchClasses = async () => {
-      try {
-        let result;
+      let result =
+        selectedFaculty.value === "all"
+          ? await getClass()
+          : await getClassesByFaculty(selectedFaculty.value);
 
-        if (!selectedFaculty || selectedFaculty.value === "all") {
-          result = await getClass(); // tất cả lớp
-        } else {
-          result = await getClassesByFaculty(selectedFaculty.value); // lớp của khoa
-        }
+      if (result.success && Array.isArray(result.data)) {
+        const options = [
+          { value: "all", label: "Tất cả lớp" },
+          ...result.data.map((c) => ({
+            value: c._id,
+            label: c.name,
+          })),
+        ];
 
-        if (result.success && Array.isArray(result.data)) {
-          const classOptions = [
-            { value: "all", label: "Tất cả lớp" }, // 📌 thêm "Tất cả lớp"
-            ...result.data.map((cls) => ({
-              value: cls._id,
-              label: cls.name,
-            })),
-          ];
-
-          setClassList(classOptions);
-          setSelectedClass(classOptions[0]); // mặc định chọn "Tất cả lớp"
-
-          if (onClassChange) onClassChange(classOptions[0].value); // gửi "all" lên cha
-        }
-      } catch (error) {
-        console.error("❌ Lỗi khi load lớp:", error);
+        setClasses(options);
+        setSelectedClass(options[0]);
+        sendFilter(selectedFaculty.value, options[0].value);
       }
     };
 
-    if (isFaculty) fetchClasses();
-  }, [selectedFaculty, isFaculty, onClassChange]);
-
-  // ==============================
-  // Style React Select
-  // ==============================
-  const customStyles = {
+    fetchClasses();
+  }, [selectedFaculty]);
+   const customStyles = {
     control: (base, state) => ({
       ...base,
       backgroundColor: "white",
@@ -119,7 +124,6 @@ export default function Filter_Evidence({ total, onClassChange }) {
       fontSize: "14px",
     }),
   };
-
   return (
     <div className="filter-evidence-container">
       <div className="total-box">
@@ -129,61 +133,90 @@ export default function Filter_Evidence({ total, onClassChange }) {
 
       <h2>Danh sách các minh chứng đã nộp</h2>
 
-      {/* ==============================
-          COMBOBOX KHOA + LỚP
-      ============================== */}
       {isFaculty && (
         <div className="class-select-container">
           <label>Khoa</label>
           <Select
             options={faculties}
             value={selectedFaculty}
-            onChange={setSelectedFaculty}
-            placeholder="Chọn khoa"
-            classNamePrefix="react-select"
+            onChange={(opt) => {
+              setSelectedFaculty(opt);
+              sendFilter(opt.value, selectedClass?.value);
+            }}
             styles={customStyles}
           />
 
           <label>Lớp</label>
           <Select
-            options={classList}
+            options={classes}
             value={selectedClass}
-            onChange={(option) => {
-              setSelectedClass(option);
-              if (option && onClassChange) onClassChange(option.value); // gửi classId lên cha
+            onChange={(opt) => {
+              setSelectedClass(opt);
+              sendFilter(selectedFaculty?.value, opt.value);
             }}
-            placeholder="Chọn lớp"
-            classNamePrefix="react-select"
             styles={customStyles}
           />
         </div>
       )}
 
-      {/* ==============================
-          Bộ lọc phụ: trạng thái + tìm kiếm + sắp xếp
-      ============================== */}
+      {/* FILTER */}
       <div className="filter-evidence-bar">
-        <select className="filter-evidence-select">
+        {/* Trạng thái */}
+        <select
+          className="filter-evidence-select"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+        >
           <option value="">Tình trạng</option>
           <option value="approved">Đã duyệt</option>
           <option value="pending">Chờ duyệt</option>
+          <option value="rejected">Từ chối</option>
         </select>
 
+        {/* Search */}
         <div className="search-evidence-box">
-          <span className="search-icon material-symbols-outlined">search</span>
-          <input type="text" placeholder="Tìm kiếm theo tên" />
+          <span className="material-symbols-outlined search-icon">search</span>
+          <input
+            type="text"
+            placeholder="Tìm kiếm theo tên"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
 
-        <select className="filter-evidence-select">
-          <option disabled>Sắp xếp</option>
+        {/* Sort */}
+        <select
+          className="filter-evidence-select"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option disabled value="">
+            Sắp xếp
+          </option>
           <option value="newest">Mới nhất</option>
           <option value="oldest">Cũ nhất</option>
         </select>
       </div>
 
       <div className="filter-actions">
-        <button className="apply-btn">✔ Áp dụng bộ lọc</button>
-        <button className="reset-btn">🔄 Đặt lại</button>
+        <button
+          className="apply-btn"
+          onClick={() => sendFilter()}
+        >
+          ✔ Áp dụng bộ lọc
+        </button>
+
+        <button
+          className="reset-btn"
+          onClick={() => {
+            setStatus("");
+            setSearch("");
+            setSort("");
+            sendFilter("all", "all");
+          }}
+        >
+          🔄 Đặt lại
+        </button>
       </div>
     </div>
   );

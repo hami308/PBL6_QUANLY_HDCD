@@ -169,3 +169,31 @@ export async function approve_evidence(id, approveData) {
     };
   }
 }
+
+export async function get_evidences_by_faculty(facultyId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/evidences/faculty/${facultyId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(`Get evidences by faculty ${facultyId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách minh chứng theo khoa, vui lòng thử lại sau.",
+    };
+  }
+}

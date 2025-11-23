@@ -6,7 +6,11 @@ import Filter_Evidence from "../../components/Student/Approved_Evidence/Filter_E
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 
 import { useEffect, useState } from "react";
-import { get_evidences_by_class } from "../../services/Evidence_Service";
+import { 
+  get_evidences_by_class, 
+  get_evidences_by_faculty,
+  get_all_evidences
+} from "../../services/Evidence_Service";
 import { getStaffInfo } from "../../services/Staff_Service.js";
 
 function Approved_Evidence_Page() {
@@ -18,38 +22,46 @@ function Approved_Evidence_Page() {
   const user = JSON.parse(sessionStorage.getItem("user"));
 
   // ============================
-  // HÀM LẤY MINH CHỨNG THEO LỚP
+  // TẢI DỮ LIỆU TỪ API
   // ============================
-  const fetchEvidencesByClass = async (classId) => {
+  const loadEvidences = async ({ facultyId, classId }) => {
     try {
       setLoading(true);
       setError("");
 
-      if (!classId) {
+      let res;
+
+      // ==== TRƯỜNG HỢP 1: tất cả khoa + tất cả lớp ====
+      if (facultyId === "all" && classId === "all") {
+        res = await get_all_evidences();
+      }
+      // ==== TRƯỜNG HỢP 2: chỉ chọn khoa ====
+      else if (facultyId && (classId === "all" || !classId)) {
+        res = await get_evidences_by_faculty(facultyId);
+      }
+      // ==== TRƯỜNG HỢP 3: chọn lớp cụ thể ====
+      else if (classId && classId !== "all") {
+        res = await get_evidences_by_class(classId);
+      }
+      else {
         setEvidences([]);
         setTotal(0);
         return;
       }
 
-      const res = await get_evidences_by_class(classId);
-
-      if (res.success) {
-        const evidencesData = Array.isArray(res.data)
+      const evidencesData = 
+        Array.isArray(res.data)
           ? res.data
           : Array.isArray(res.data?.data)
           ? res.data.data
           : [];
 
-        setEvidences(evidencesData);
-        setTotal(evidencesData.length);
-      } else {
-        setError("Không thể tải minh chứng.");
-        setEvidences([]);
-        setTotal(0);
-      }
+      setEvidences(evidencesData);
+      setTotal(evidencesData.length);
+
     } catch (err) {
       console.error(err);
-      setError("Lỗi tải dữ liệu.");
+      setError("Không thể tải dữ liệu.");
       setEvidences([]);
       setTotal(0);
     } finally {
@@ -58,18 +70,22 @@ function Approved_Evidence_Page() {
   };
 
   // ============================
-  // LOAD LỚP ĐẦU TIÊN (nếu có)
+  // TẢI DỮ LIỆU BAN ĐẦU
   // ============================
   useEffect(() => {
     const initLoad = async () => {
       try {
         const staff = await getStaffInfo(user.id);
+
+        const facultyId = staff?.faculty?._id || "all";
         const classes = staff?.faculty?.classes || [];
 
-        // Nếu có lớp thì load lớp đầu tiên
         if (classes.length > 0) {
-          fetchEvidencesByClass(classes[0]._id);
+          loadEvidences({ facultyId, classId: classes[0]._id });
+        } else {
+          loadEvidences({ facultyId, classId: "all" });
         }
+
       } catch (err) {
         console.error(err);
         setError("Không thể tải dữ liệu ban đầu.");
@@ -78,7 +94,7 @@ function Approved_Evidence_Page() {
 
     initLoad();
   }, []);
-
+  
   return (
     <>
       <Header />
@@ -86,9 +102,11 @@ function Approved_Evidence_Page() {
 
       <div className="approved-evidence-background"></div>
 
-      <Filter_Evidence 
+      <Filter_Evidence
         total={total}
-        onClassChange={(classId) => fetchEvidencesByClass(classId)}
+        onFilterChange={({ facultyId, classId }) => {
+          loadEvidences({ facultyId, classId });
+        }}
       />
 
       <div className="approved-evidence-customtable">
@@ -102,7 +120,7 @@ function Approved_Evidence_Page() {
           <CustomTable
             columns={["Tên hoạt động", "Người nộp", "Ngày nộp", "Trạng thái"]}
             data={evidences.map((item) => {
-              let statusText =
+              const statusText =
                 item.status === "pending"
                   ? "Chờ duyệt"
                   : item.status === "approved"

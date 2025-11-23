@@ -8,7 +8,6 @@ export const getStaffInfo = async (_id) => {
     const response = await axios.get(`${API_BASE_URL}/${_id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("ket qua ", response);
     return response.data;
   } catch (error) {
     console.error("Lỗi khi lấy thông tin staff:", error);

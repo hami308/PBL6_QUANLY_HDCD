@@ -16,9 +16,9 @@ import { register_activity } from "../../services/Activity_Services.js";
 
 registerLocale("vi", vi);
 
-function Activity_Details({ activity_details, ismodify = false }) {
+function Activity_Details({ activity_details }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
-
+  const ismodify = user && user.roles && user.roles[0].role === "staff";
   const [showCancelPopup, setShowCancelPopup] = useState(false);
   const handleConfirmCancel = (reason) => console.log("Lý do hủy:", reason);
 
@@ -106,7 +106,6 @@ function Activity_Details({ activity_details, ismodify = false }) {
       setIsOverflowing(el.scrollHeight > maxVisibleHeight + 5);
     }
   }, [activity_details.description]);
-  console.log("status",activity_details.status);
   // Hàm đăng ký tham gia với alert xác nhận
   const handleRegister = async () => {
     if (!user) {
