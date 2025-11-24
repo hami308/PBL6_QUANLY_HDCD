@@ -12,16 +12,41 @@ import Activity_pic from "../../assets/images/activity.jpg";
 import { get_all_fields } from "../../services/Field_Service.js";
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_cohort } from "../../services/Cohort_Services.js";
-import { register_activity } from "../../services/Activity_Services.js";
+import { register_activity, update_activity,cancel_activity  } from "../../services/Activity_Services.js";
+import { useLocation } from "react-router-dom";
 
 registerLocale("vi", vi);
 
 function Activity_Details({ activity_details }) {
+  console.log("Activity Details Props:", activity_details);
+  
+  const loc = useLocation();
+  const params = new URLSearchParams(loc.search);
+  const fromPage = params.get("from")?.trim();
+  const isInManagePage = fromPage === "manage-activity-org";
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const ismodify = user && user.roles && user.roles[0].role === "staff";
+  const isStaff = user && user.roles && user.roles[0].role === "staff";
+  const isCanceled = activity_details.status === "hủy hoạt động";
+  const canEdit = isStaff  && !isCanceled && isInManagePage;
   const [showCancelPopup, setShowCancelPopup] = useState(false);
 
-  const handleConfirmCancel = (reason) => console.log("Lý do hủy:", reason);
+  const handleConfirmCancel = async (reason) => {
+    try {
+      const res = await cancel_activity(activity_details._id, reason);
+      if (res.success) {
+        alert("Hủy hoạt động thành công!");
+        // Có thể thêm logic cập nhật UI hoặc chuyển hướng
+        window.location.reload(); // hoặc cập nhật state
+      } else {
+        alert(`Hủy hoạt động thất bại: ${res.message}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+    } finally {
+      setShowCancelPopup(false);
+    }
+  };
 
   const start_time_org = dayjs(activity_details.start_time || "");
   const end_time_org = dayjs(activity_details.end_time || "");
@@ -125,11 +150,44 @@ function Activity_Details({ activity_details }) {
     }
   };
 
+  const handleUpdateActivity = async () => {
+    if (!window.confirm("Bạn có chắc chắn muốn cập nhật hoạt động này?")) return;
+
+    const activityData = {
+      title: activity_details.title,
+      description: activity_details.description,
+      start_time: eventStartDate,
+      end_time: eventEndDate,
+      registration_open: registerStart,
+      registration_close: registerEnd,
+      capacity: Number(volunteers),
+      location: location,
+      field: field_activity,
+      requirements: [
+        ...courseValuesState.map(c => ({ type: "cohort", year: c.value })),
+        ...facultyValuesState.map(f => ({ type: "falcuty", name: f.value })),
+      ],
+    };
+
+    try {
+      const res = await update_activity(activity_details._id, activityData);
+      if (res.success) alert(res.message);
+      else alert(`Cập nhật thất bại: ${res.message}`);
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+    }
+  };
+
   return (
     <div className="activity-card-details">
       <div className="activity--details">
         <h1 className="activity-title-details">{activity_details.title}</h1>
-        <button className="join-btn" onClick={handleRegister}>Đăng ký tham gia</button>
+        {!isStaff && (
+          <button className="join-btn" onClick={handleRegister}>
+            Đăng ký tham gia
+          </button>
+        )}
       </div>
 
       <div className="activity-team-details">
@@ -149,50 +207,82 @@ function Activity_Details({ activity_details }) {
             {activity_details.description}
           </div>
           {isOverflowing && (
-            <button className="collapse-btn" onClick={() => setShowFullDescription((prev) => !prev)}>
+            <button className="collapse-btn" onClick={() => setShowFullDescription(prev => !prev)}>
               {showFullDescription ? "Thu gọn" : "Xem thêm"}
             </button>
           )}
         </div>
+         <div className="field">
+          <strong>Trạng thái:</strong>
+          <div>
+            <span className="editable" contentEditable={false} suppressContentEditableWarning >
+              {activity_details.status}
+            </span>
+          </div>
+        </div>
+        {activity_details.status === "hủy hoạt động" && (
+          <>
+            <div className="field">
+              <strong>Thời gian hủy:</strong>
+              <div>
+                <span className="editable" contentEditable={false} suppressContentEditableWarning >
+                  {activity_details.cancelled_at ? dayjs(activity_details.cancelled_at).format("HH:mm DD/MM/YYYY") : ""}
+                </span>
+              </div>
+            </div>
+             <div className="field">
+              <strong>Lý do hủy:</strong>
+              <div>
+                <span className="editable" contentEditable={false} suppressContentEditableWarning >
+                  {activity_details.cancellation_reason || ""}
+                </span>
+              </div>
+            </div>
+          </>
+          
+        )}
 
+        
         <div className="field">
           <strong>Thời gian đăng ký:</strong>
           <span className="register-time">
-            <DatePicker selected={registerStart} onChange={setRegisterStart} dateFormat="dd/MM/yyyy" locale="vi" disabled={!ismodify} className="custom-date-picker" />
+            <DatePicker selected={registerStart} onChange={setRegisterStart} dateFormat="dd/MM/yyyy" locale="vi" disabled={!canEdit} className="custom-date-picker" />
             <span className="dash">-</span>
-            <DatePicker selected={registerEnd} onChange={setRegisterEnd} dateFormat="dd/MM/yyyy" locale="vi" disabled={!ismodify} className="custom-date-picker" />
+            <DatePicker selected={registerEnd} onChange={setRegisterEnd} dateFormat="dd/MM/yyyy" locale="vi" disabled={!canEdit} className="custom-date-picker" />
           </span>
         </div>
 
         <div className="field">
           <strong>Thời gian tổ chức:</strong>
           <span className="event-time">
-            <DatePicker selected={eventStartDate} onChange={setEventStartDate} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="HH:mm dd/MM/yyyy" locale="vi" disabled={!ismodify} className="custom-date-picker" />
+            <DatePicker selected={eventStartDate} onChange={setEventStartDate} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="HH:mm dd/MM/yyyy" locale="vi" disabled={!canEdit} className="custom-date-picker" />
             <span className="dash">-</span>
-            <DatePicker selected={eventEndDate} onChange={setEventEndDate} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="HH:mm dd/MM/yyyy" locale="vi" disabled={!ismodify} className="custom-date-picker" />
+            <DatePicker selected={eventEndDate} onChange={setEventEndDate} showTimeSelect timeFormat="HH:mm" timeIntervals={15} dateFormat="HH:mm dd/MM/yyyy" locale="vi" disabled={!canEdit} className="custom-date-picker" />
           </span>
         </div>
 
         <div className="field">
           <strong>Số lượng tình nguyện viên cần:</strong>
           <div>
-            <span className="editable" contentEditable={ismodify} suppressContentEditableWarning onBlur={(e) => setVolunteers(e.target.innerText)}>
+            <span className="editable" contentEditable={canEdit} suppressContentEditableWarning onBlur={(e) => setVolunteers(e.target.innerText)}>
               {volunteers}
             </span>
             <span> sinh viên</span>
           </div>
         </div>
 
+        
+
         <div className="field">
           <strong>Địa điểm:</strong>
-          <span className="editable" contentEditable={ismodify} suppressContentEditableWarning onBlur={(e) => setLocation(e.target.innerText)}>
+          <span className="editable" contentEditable={canEdit} suppressContentEditableWarning onBlur={(e) => setLocation(e.target.innerText)}>
             {location}
           </span>
         </div>
 
         <div className="field">
           <strong>Lĩnh vực:</strong>
-          <select value={field_activity} onChange={(e) => setField(e.target.value)} className="field-select" disabled={!ismodify}>
+          <select value={field_activity} onChange={(e) => setField(e.target.value)} className="field-select" disabled={!canEdit}>
             {fieldOptions.map((option) => (
               <option key={option._id} value={option.name}>{option.name}</option>
             ))}
@@ -201,18 +291,18 @@ function Activity_Details({ activity_details }) {
 
         <div className="field">
           <strong>Yêu cầu theo khóa:</strong>
-          <CustomSelect options={courseOptions} value={courseValuesState} onChange={setCourseValuesState} readOnly={!ismodify} />
+          <CustomSelect options={courseOptions} value={courseValuesState} onChange={setCourseValuesState} readOnly={!canEdit} />
         </div>
 
         <div className="field">
           <strong>Yêu cầu theo khoa:</strong>
-          <CustomSelect options={facultyOptions} value={facultyValuesState} onChange={setFacultyValuesState} readOnly={!ismodify} />
+          <CustomSelect options={facultyOptions} value={facultyValuesState} onChange={setFacultyValuesState} readOnly={!canEdit} />
         </div>
       </div>
 
-      {ismodify && (
+      {canEdit  && (
         <div className="manage-infot-activity">
-          <button className="button-update-infor-activity">Cập nhật</button>
+          <button className="button-update-infor-activity" onClick={handleUpdateActivity}>Cập nhật</button>
           <button onClick={() => setShowCancelPopup(true)}>Hủy hoạt động</button>
 
           {showCancelPopup && (

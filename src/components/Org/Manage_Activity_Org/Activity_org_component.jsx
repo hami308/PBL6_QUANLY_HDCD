@@ -67,7 +67,7 @@ function Activity_Org_Component({ activity }) {
           <ul className="activity-org-component-menu">
             <li>
               <a 
-                href={`/activity-details/${activity._id}`} 
+                href={`/activity-details/${activity._id}?from=manage-activity-org`} 
                 className="activity-org-menu-link"
               >
                 Xem chi tiết

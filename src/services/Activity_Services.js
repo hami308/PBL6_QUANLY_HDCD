@@ -23,7 +23,6 @@ export async function get_all_activities() {
 export async function get_details_activity_by_id(id) {
   try {
     const response = await axios.get(`${API_URL}/activities/${id}`);
-    console.log(`Get activity ${id} response:`, response);
     return {
       success: true,
       data: response.data,
@@ -288,6 +287,62 @@ export async function get_activity_details_of_student(activityId, studentId) {
       message:
         error.response?.data?.message ||
         "Không thể lấy thông tin tham gia hoạt động của sinh viên, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function update_activity(id, activityData) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/activities/${id}`,activityData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Cập nhật hoạt động thành công!",
+    };
+
+  } catch (error) {
+    console.error(`Update activity ${id} error:`, error);
+    return {
+    success: false,
+    message:
+    error.response?.data?.message ||
+    "Không thể cập nhật hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function cancel_activity(activityId,reason) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/activities/${activityId}/cancel`,  {reason},
+    {
+    headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    },
+    }
+    );
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Hủy hoạt động thành công!",
+    };
+  } catch (error) {
+    console.error(`Cancel activity ${activityId} error:`, error);
+    return {
+    success: false,
+    message:
+    error.response?.data?.message ||
+    "Không thể hủy hoạt động, vui lòng thử lại sau.",
     };
   }
 }

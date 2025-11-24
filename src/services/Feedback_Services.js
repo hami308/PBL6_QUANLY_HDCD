@@ -5,7 +5,6 @@ const API_URL = "https://pbl6-backend-iy5q.onrender.com/api";
 export async function get_feedback_by_activity(id_activity) {
   try {
     const response = await axios.get(`${API_URL}/feedback/activity/${id_activity}`);
-    console.log("rp",response);
     return {
       success: true,
       data: response.data,

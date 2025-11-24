@@ -49,7 +49,6 @@ function Activity_details() {
         const result = await get_feedback_by_activity(id);
         if (result.success) {
           setFeedback(result.data.data.feedbacks);
-          console.log("feedback", result.data.data.feedbacks);
         } else {
           console.error(result.message);
         }
