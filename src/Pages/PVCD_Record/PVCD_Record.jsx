@@ -1,151 +1,217 @@
+import { useState, useEffect } from "react";
 import Header from "../../components/Header/Header.jsx";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
-import dut_pic from "../../assets/images/anhnen.jpg";
 import Footer from "../../components/Footer/Footer.jsx";
 import Total_Record from "../../components/PVCD_Record/Total_Record.jsx";
 import List_Year_Record from "../../components/PVCD_Record/List_Year_Record.jsx";
 import CustomTable from "../../components/Custom/CustomTable.jsx";
-import "./PVCD_Record.css";
 import FeedbackPopup from "../../components/Popup/FeedbackPopup.jsx";
-import { useState,useEffect } from "react";
-import {get_pvcd_by_idstudent} from "../../services/PVCD_Service.js";
+import dut_pic from "../../assets/images/anhnen.jpg";
+
+import {
+  get_attendance_by_idstudent,
+  get_attendance_detail,
+  submit_feedback,
+} from "../../services/Attendance_Services.js";
+
+import { get_pvcd_by_idstudent } from "../../services/PVCD_Service.js";
+
+import "./PVCD_Record.css";
 
 function PVCD_Record() {
-   const [pvcd_record, setpvcd_record] = useState(null);
-   const user = JSON.parse(sessionStorage.getItem("user"));
-  useEffect(() => {
-      const fetchStudentInfo = async () => {
-        try {
-          const data = await get_pvcd_by_idstudent(user.id); 
-          setpvcd_record({
-            data
-          });
-        } catch (error) {
-          console.error(error);
-          alert("Không thể tải thông tin sinh viên!");
-        }
-      };
-      fetchStudentInfo();
-    }, [user?.id]);
-    console.log(pvcd_record);
+  const [activities, setActivities] = useState([]);
+  const [yearRecords, setYearRecords] = useState([]);
+
+  const [summary, setSummary] = useState({
+    totalScore: 0,
+    totalActivity: 0,
+  });
+
+  const [loadingActivities, setLoadingActivities] = useState(true);
+  const [loadingYear, setLoadingYear] = useState(true);
+
+  const [errorActivities, setErrorActivities] = useState(null);
+  const [errorYear, setErrorYear] = useState(null);
+
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
-  const handleFeedbackClick = (activity) => {
-    setSelectedActivity(activity);
+
+  const studentId = sessionStorage.getItem("student_id");
+  const goal_record = 15;
+
+  const formatDate = (iso) => {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("vi-VN");
+  };
+
+  // Load danh sách hoạt động
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        setLoadingActivities(true);
+
+        const response = await get_attendance_by_idstudent(studentId);
+        const raw = response?.data?.data || [];
+
+        const formatted = raw.map((item) => ({
+          id: item._id,
+          title: item.title || "Không rõ",
+          points: item.points,
+          start_time: item.start_time,
+          end_time: item.end_time,
+          attendance_id: item.attendance_id,
+        }));
+
+        setActivities(formatted);
+
+        setSummary((prev) => ({
+          ...prev,
+          totalActivity: formatted.length,
+        }));
+      } catch (err) {
+        console.error("Err:", err);
+        setErrorActivities("Lỗi khi tải danh sách hoạt động");
+      } finally {
+        setLoadingActivities(false);
+      }
+    };
+
+    fetchActivities();
+  }, [studentId]);
+
+  // Load PVCD theo năm
+  useEffect(() => {
+    const fetchYearRecord = async () => {
+      try {
+        setLoadingYear(true);
+
+        const res = await get_pvcd_by_idstudent(studentId);
+        const raw = res?.data || [];
+
+        const formatted = raw.map((item) => ({
+          record: item.total_point,
+          start_year: new Date(item.start_year).getFullYear(),
+          end_year: new Date(item.end_year).getFullYear(),
+        }));
+
+        setYearRecords(formatted);
+
+        const totalScore = formatted.reduce((sum, r) => sum + r.record, 0);
+
+        setSummary((prev) => ({
+          ...prev,
+          totalScore,
+        }));
+      } catch (err) {
+        console.error("Err:", err);
+        setErrorYear("Không thể tải dữ liệu năm");
+      } finally {
+        setLoadingYear(false);
+      }
+    };
+
+    fetchYearRecord();
+  }, [studentId]);
+
+  // Khi click phản hồi → kiểm tra feedback cũ
+  const handleFeedbackClick = async (activity) => {
+    
+
+    const detail = await get_attendance_detail(studentId, activity.id);
+    setSelectedActivity({
+      ...activity,
+      data:  detail.data.data || "",
+    });
     setShowPopup(true);
   };
 
-  const handleSubmitFeedback = (data) => {
-    console.log("Phản hồi gửi đi:", data);
-    // sau này bạn có thể gửi data này lên server
+  // Gửi feedback
+  const handleSubmitFeedback = async (data) => {
+    try {
+      const res = await submit_feedback(selectedActivity.attendance_id, {
+        feedback: data.feedback,
+      });
+
+      if (res.success) {
+        alert("Gửi phản hồi thành công!");
+      } else {
+        alert(res.message || "Gửi phản hồi thất bại!");
+      }
+    } catch (err) {
+      console.log("Err:", err);
+      alert("Lỗi hệ thống, thử lại sau.");
+    } finally {
+      setShowPopup(false);
+    }
   };
-  const activities = [
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 20,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-    {
-      studentId: "102200001",
-      name_activity: "Hiến máu nhân đạo",
-      join_date: "20/9/2025",
-      score: 15,
-    },
-  ];
-  const goal_record = 15;
+
   return (
     <div className="pvcd-rercord-container">
       <Header />
       <Menu_student />
+
       <img className="dut-pic" src={dut_pic} alt="DUT" />
+
       <div className="cross-bar-pvcd-record">
         <p>Điểm phục vụ cộng đồng</p>
       </div>
+
       <div className="total-record">
-        <Total_Record />
-      </div>
-      <p className="goal-record"> Mỗi năm tối thiểu {goal_record} điểm</p>
-      <List_Year_Record />
-      <div className="activity-joined-container">
-        <h3 className="activity-joined-title">
-          Danh sách hoạt động đã tham gia
-        </h3>
-        <CustomTable
-          columns={["Tên hoạt động", "Ngày tham gia", "Điểm"]}
-          data={activities.map((item) => ({
-            tên_hoạt_động: item.name_activity,
-            ngày_tham_gia: item.join_date,
-            điểm: item.score,
-          }))}
-          renderActions={(item) => (
-            <button
-              className="px-2 py-1 border rounded"
-              onClick={() => handleFeedbackClick(item)}
-            >
-              Phản hồi
-            </button>
-          )}
+        <Total_Record
+          score={summary.totalScore}
+          num_activity={summary.totalActivity}
         />
       </div>
+
+      <p className="goal-record">Mỗi năm tối thiểu {goal_record} điểm</p>
+
+      {loadingYear ? (
+        <p>Đang tải năm học...</p>
+      ) : errorYear ? (
+        <p className="error-message">{errorYear}</p>
+      ) : (
+        <List_Year_Record data={yearRecords} />
+      )}
+
+      <div className="activity-joined-container">
+        <h3 className="activity-joined-title">Danh sách hoạt động đã tham gia</h3>
+
+        {loadingActivities ? (
+          <p>Đang tải dữ liệu...</p>
+        ) : errorActivities ? (
+          <p className="error-message">{errorActivities}</p>
+        ) : activities.length === 0 ? (
+          <p>Chưa tham gia hoạt động nào</p>
+        ) : (
+          <CustomTable
+            columns={["Tên hoạt động", "Ngày bắt đầu", "Ngày kết thúc", "Điểm"]}
+            data={activities.map((item) => ({
+              id: item.id,
+              tên_hoạt_động: item.title,
+              ngày_bắt_đầu: formatDate(item.start_time),
+              ngày_kết_thúc: formatDate(item.end_time),
+              điểm: item.points,
+            }))}
+            renderActions={(row) => {
+              const origin = activities.find((a) => a.id === row.id);
+              return (
+                <button
+                  className="px-2 py-1 border rounded"
+                  onClick={() => handleFeedbackClick(origin)}
+                >
+                  Phản hồi
+                </button>
+              );
+            }}
+          />
+        )}
+      </div>
+
       {showPopup && selectedActivity && (
         <FeedbackPopup
-          activity={selectedActivity["tên_hoạt_động"]}
-          score={selectedActivity["điểm"]}
+          activity={selectedActivity.title}
+          score={selectedActivity.points}
+          data={selectedActivity.data}
           onClose={() => setShowPopup(false)}
           onSubmit={handleSubmitFeedback}
         />
@@ -155,4 +221,5 @@ function PVCD_Record() {
     </div>
   );
 }
+
 export default PVCD_Record;

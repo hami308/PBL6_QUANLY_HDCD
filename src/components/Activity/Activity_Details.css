@@ -1,49 +1,49 @@
 .activity-card-details {
   max-width: 800px;
   margin: 10px auto;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 15px;
+  border-radius: 8px;
   border: 1px solid black;
 }
+
 body.dark-mode .activity-card-details{
   border:1px solid white;
-  
 }
+
 .activity--details {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 12px;
 }
 
 .activity-title-details {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #1a365d;
   flex: 1;
-  padding: 12px 0;
-  border-radius: 10px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 8px 0;
+  margin: 0;
 }
 
-.activity-title-details:focus {
-  border-color: #3182ce;
-  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+.activity-title-details[contenteditable="true"] {
+  border-radius: 6px;
+  padding: 8px 10px;
+  outline: none;
 }
 
 .join-btn {
   background: #C3C1DF;
   color: black;
   border: none;
-  padding: 14px 28px;
-  font-size: 1.1rem;
+  padding: 10px 20px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  border-radius: 6px;
+  margin-top: 8px;
   white-space: nowrap;
-  border-radius: 8px;
-  margin-top: 10px;
 }
 
 .join-btn:hover {
@@ -52,260 +52,251 @@ body.dark-mode .activity-card-details{
 }
 
 .activity-team-details {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #718096;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-style: italic;
 }
 
 .activity-image-details {
   width: 100%;
-  height: 450px;
+  height: 400px;
   object-fit: cover;
-  margin-bottom: 20px;
-}
-.activity-content-details {
-  flex-direction: column;
-  max-width: 800px;
-  line-height: 1.6;
+  margin-bottom: 15px;
 }
 
-.container {
-  background: #fff;
-  border-radius: 10px;
-  padding: 25px 30px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  max-width: 800px;
-  margin: 30px auto;
-  line-height: 1.6;
-}
-/* --- MÔ TẢ --- */
+/* --- MÔ TẢ VỚI NÚT XEM THÊM/THU GỌN --- */
 .activity-description-wrapper {
-  margin-top: 12px;
+  margin: 15px 0;
   display: block;
 }
 
 .activity-description-wrapper strong {
-  display: block; /* chữ “Mô tả:” nằm riêng 1 dòng */
-  margin-bottom: 4px; /* tạo khoảng cách nhỏ giữa label và nội dung */
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #251d64;
+  font-weight: 600;
 }
 
 .activity-description {
-  display: block;
-  overflow: hidden;
-  line-height: 1.5em;
-  transition: max-height 0.3s ease;
+  line-height: 1.5;
   white-space: pre-line;
-  position: relative;
-  background-color: white;
-  padding: 8px;
-  text-align: justify; /* căn đều nội dung mô tả */
+  text-align: justify;
+  transition: all 0.3s ease;
+  width: 100%;
 }
 
-/* Khi thu gọn thì chỉ hiển thị 3 dòng */
+/* Khi thu gọn - giới hạn 3 dòng */
 .activity-description.collapsed {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: calc(1.5em * 3);
 }
 
-/* Khi mở rộng thì hiển thị toàn bộ */
+/* Khi mở rộng - hiển thị toàn bộ */
 .activity-description.expanded {
   display: block;
+  max-height: none;
 }
 
-/* Nút xem thêm / thu gọn */
+/* Nút Xem thêm/Thu gọn */
 .collapse-btn {
-  margin-top: 6px;
+  margin-top: 8px;
   background: none;
   border: none;
   color: #007bff;
   cursor: pointer;
   font-size: 14px;
-  padding: 0;
+  padding: 4px 0;
+  display: inline-block;
+  font-weight: 500;
 }
 
 .collapse-btn:hover {
   text-decoration: underline;
 }
 
+/* --- LAYOUT DẠNG BẢNG --- */
 .field {
   margin: 12px 0;
-  font-size: 16px;
-  display: flex;
-  align-items: center; /* canh giữa theo chiều dọc */
-  gap: 10px; /* khoảng cách giữa label và select */
-  flex-wrap: wrap; /* nếu màn nhỏ thì tự xuống dòng */
+  font-size: 15px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  min-height: 32px;
 }
-.field .react-datepicker-wrapper{
-  width: fit-content;
+
+.field:last-child {
+  border-bottom: none;
 }
-strong {
+
+.field strong {
   color: #251d64;
-  margin-right: 8px;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.field-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 32px;
+}
+
+/* --- STYLES CHO CHẾ ĐỘ CHỈNH SỬA VÀ CHỈ XEM --- */
+
+
+/* Date pickers - Chế độ chỉ xem */
+.register-time .custom-date-picker:disabled,
+.event-time .custom-date-picker:disabled {
+  background-color: transparent;
+  border: none;
+  color: black;
+  padding: 4px 0;
+  cursor: default;
+  width: auto;
+  opacity: 1;
+}
+
+
+/* Select field - Chế độ chỉ xem */
+select.field-select:disabled {
+  background-color: transparent;
+  border: none;
+  color: black;
+  padding: 6px 0;
+  cursor: default;
+  width: auto;
+  opacity: 1;
+  background-image: none;
+  appearance:none;
+}
+
+/* Editable fields - Chế độ chỉnh sửa */
+.editable[contenteditable="true"] {
+  padding: 4px 8px;
+  border-radius: 4px;
+  min-width: 80px;
+  cursor: text;
+  border:1px solid #ccc;
+  max-width: 300px;
+}
+
+.editable[contenteditable="true"]:focus {
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.3);
+}
+
+/* Editable fields - Chế độ chỉ xem */
+.editable:not([contenteditable="true"]) {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+/* Custom select - Chế độ chỉ xem */
+.activity-tag-select__control--is-disabled {
+  background-color: transparent;
+  border: none;
+  opacity: 1;
+}
+
+/* Date pickers */
+.field .react-datepicker-wrapper {
+  width: fit-content;
 }
 
 .register-time, .event-time {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
+
 .custom-date-picker {
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 4px 8px;
   font-size: 14px;
   background-color: white;
-  color: #333;
+  color: black;
   height: 32px;
   line-height: 1.2;
   box-sizing: border-box;
-  width: fit-content;
-}
-
-/* Khi disabled */
-.custom-date-picker:disabled {
-  background-color: #f9f9f9;
-  color: #888;
-  cursor: not-allowed;
-}
-select.field-select {
-  display: block;
-  width: 250px;
-  min-width: 150px;
-  max-width: 100%;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 8px 12px;
-  font-size: 15px;
-  font-family: inherit;
-  background-color: #fff;
-  color: #333;
-  cursor: pointer;
+  width: 150px;
   transition: all 0.2s ease;
-  box-sizing: border-box;
-  appearance: none; /* ẩn mũi tên mặc định */
-  background-image: linear-gradient(45deg, transparent 50%, #251d64 50%), 
-                    linear-gradient(135deg, #251d64 50%, transparent 50%);
-  background-position: calc(100% - 20px) calc(1em + 2px),
-                       calc(100% - 15px) calc(1em + 2px);
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
 }
 
-/* Hover */
-select.field-select:hover {
-  border-color: #251d64;
-  box-shadow: 0 0 4px rgba(37, 29, 100, 0.3);
-}
-
-/* Focus */
-select.field-select:focus {
-  outline: none;
-  border-color: #251d64;
-  box-shadow: 0 0 0 3px rgba(37, 29, 100, 0.2);
-}
-
-/* Khi bị disable */
-select.field-select:disabled {
-  background-color: #f8f8f8;
-  color: #999;
-  cursor: not-allowed;
-  opacity: 0.8;
-}
-select.field-select option {
-  font-size: 13px;
+/* Select field */
+select.field-select {
+  width: 300px;
+  height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   padding: 6px 10px;
-  line-height: 1.3;
-}
-.editable {
-  display: inline-block;
-  width: fit-content;
-  cursor: text;
-  padding: 2px 4px;
-}
-
-.editable:focus {
-  outline: none;
-  border-bottom: 1px solid #251d64;
-  background: #f2f2ff;
+  font-size: 14px;
+  background-color: #fff;
+  color:black;
+  transition: all 0.2s ease;
 }
 
 .dash {
   font-weight: bold;
   margin: 0 6px;
+  color: #666;
 }
+
+/* Custom select */
 .activity-tag-select{
-  width: 80%;
+  width: 100%;
 }
+
 .activity-tag-select__control {
   border: 1px solid #ccc;
-  border-radius: 8px;
-  min-height: 45px;
-  font-size: 1rem;
-  padding-left: 4px;
-  box-shadow: none;
+  border-radius: 6px;
+  min-height: 36px;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .activity-tag-select__control--is-focused {
-  border-color: #3182ce;
   box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.2);
 }
 
-.activity-tag-select__multi-value {
-  background-color: #e2e8f0;
-  border-radius: 6px;
-  padding: 2px 6px;
-}
-
-.activity-tag-select__multi-value__label {
-  color: #2d3748;
-  font-weight: 500;
-}
-
-.activity-tag-select__multi-value__remove {
-  color: #e53e3e;
-}
-
-.activity-tag-select__multi-value__remove:hover {
-  background-color: #feb2b2;
-  color: #fff;
-  border-radius: 4px;
-}
-
-.activity-tag-select__placeholder {
-  color: #718096;
-  font-style: italic;
-}
-
-.activity-tag-select__dropdown-indicator {
-  color: #4a5568;
-}
-
-.activity-tag-select__dropdown-indicator:hover {
-  color: #2b6cb0;
-}
+/* Buttons */
 .manage-infot-activity{
   width:100%;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
-  margin-top:20px;
+  margin: 20px 0 5px 0;
+  gap: 12px;
 }
+
 .button-update-infor-activity,
 .button-cancel-activity {
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  margin-right: 10px;
-  transition: background 0.3s;
+  transition: all 0.2s ease;
 }
 
 .button-update-infor-activity {
-  background-color: #4CAF50; /* màu xanh lá */
+  background-color: #4CAF50;
+  color: white;
 }
 
 .button-update-infor-activity:hover {
@@ -313,140 +304,18 @@ select.field-select option {
 }
 
 .button-cancel-activity {
-  background-color: #f08080; /* màu hồng đỏ */
+  background-color: #f08080;
+  color: white;
 }
 
 .button-cancel-activity:hover {
   background-color: #e57373;
 }
 
-@media (max-width: 1024px) {
-  .activity-card-details,
-  .container {
-    padding: 15px 20px;
-    max-width: 90%;
-  }
-
-  .activity-title-details {
-    font-size: 20px;
-  }
-
-  .join-btn {
-    padding: 10px 20px;
-    font-size: 18px;
-  }
-  select.field-select {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-
-  .container {
-    padding: 10px 15px;
-
-  }
-
-  .activity-title-details {
-    font-size: 18px;
-  }
-
-  .join-btn {
-    align-self: flex-start;
-    font-size: 16px;
-    padding: 5px 10px;
-  }
-  .activity-team-details{
-    font-size: 16px;
-  }
-  .field {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .activity-image-details {
-    max-height: 300px;
-  }
-
-  .activity-tag-select {
-    width: 100%;
-  }
-  .custom-date-picker{
-    width: 200px;
-  }
-  .button-update-infor-activity,
-  .button-cancel-activity {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-
-  .manage-infot-activity {
-    padding-right: 0;
-  }
-    select.field-select {
-    width: 100%;
-    font-size: 14px;
-    padding: 6px 10px;
-  }
-}
-
-@media (max-width: 480px) {
-    .container {
-    padding: 5px 7px;
-  }
-
-  .activity-title-details {
-    font-size: 14px;
-  }
-
-  .join-btn {
-    align-self: flex-start;
-    font-size: 14px;
-    padding: 5px 7px;
-    border-radius: 2px;
-  }
-  .activity-team-details{
-    font-size: 10px;
-  }
-  .field {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .activity-image-details {
-    max-height: 300px;
-  }
-
-  .activity-tag-select {
-    width: 100%;
-  }
-  .custom-date-picker{
-    width: 120px;
-  }
-   .button-update-infor-activity,
-  .button-cancel-activity {
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-
-  .manage-infot-activity {
-    padding-right: 0;
-    margin-bottom: 0;
-  }
-  select.field-select {
-    width: 100%;
-    font-size: 13px;
-    padding: 6px 8px;
-  }
-}
-
-/* Dark-mode */
-body.dark-mode .container,
+/* --- DARK MODE --- */
 body.dark-mode .activity-card-details {
   background-color: #4b4b4b;
-  border: 1px solid #444;
   color: #e0e0e0;
-  border: 1px solid white;
 }
 
 body.dark-mode .activity-title-details {
@@ -457,90 +326,167 @@ body.dark-mode .activity-team-details {
   color: #b0b0b0;
 }
 
-/* Mô tả hoạt động */
+body.dark-mode .activity-description-wrapper strong {
+  color: #b4c5ff;
+}
+
 body.dark-mode .activity-description {
-  background-color: #2a2a3d;
   color: white;
 }
 
-/* Nút Xem thêm / Thu gọn */
 body.dark-mode .collapse-btn {
   color: #7fb2ff;
 }
 
-/* Label, strong */
 body.dark-mode strong {
   color: #b4c5ff;
 }
 
-/* Input ngày tháng */
-body.dark-mode .custom-date-picker {
-  background-color: #2a2a3d;
-  border: 1px solid #555;
-  color: #e0e0e0;
-}
-body.dark-mode .custom-date-picker:disabled {
-  background-color: #1f1f1f;
-  color: #777;
-}
-
-/* Select */
-body.dark-mode select.field-select {
-  background-color: #2a2a3d;
-  color: #e0e0e0;
-  border: 1px solid #555;
-  background-image: linear-gradient(45deg, transparent 50%, #9fc3e4 50%), 
-                    linear-gradient(135deg, #9fc3e4 50%, transparent 50%);
-}
-/* Select (disabled) */
-body.dark-mode select.field-select:disabled {
-  background-color: #1f1f1f;
-  color: #777;
-}
-
-/* react-select (multi-tag) */
-body.dark-mode .activity-tag-select__control {
-  background-color: #2a2a3d;
-  border-color: #555;
-}
-body.dark-mode .activity-tag-select__multi-value {
-  background-color: #3b3b5a;
-}
-body.dark-mode .activity-tag-select__multi-value__label {
-  color: #e0e0e0;
-}
-body.dark-mode .activity-tag-select__multi-value__remove {
-  color: #f88;
-}
-
-/* Nút hành động */
-body.dark-mode .button-update-infor-activity {
-  background-color: #3fa76a;
-  color: white;
-}
-body.dark-mode .button-update-infor-activity:hover {
-  background-color: #359c61;
-}
-
-body.dark-mode .button-cancel-activity {
-  background-color: #d46a6a;
-  color: white;
-}
-body.dark-mode .button-cancel-activity:hover {
-  background-color: #c15a5a;
-}
-
-/* Editable text */
-body.dark-mode .editable {
-  background-color: #2a2a3d;
-  color: #e0e0e0;
-}
-body.dark-mode .editable:focus {
-  background-color: #3b3b5a;
-  border-bottom: 1px solid #9fc3e4;
-}
-
-/* Border tổng thể */
 body.dark-mode .field {
+  border-bottom-color: #555;
+}
+
+/* Dark mode - Chế độ chỉnh sửa */
+body.dark-mode .custom-date-picker:not(:disabled) {
+  background-color: #2a2a3d;
   color: #e0e0e0;
+}
+
+body.dark-mode select.field-select:not(:disabled) {
+  background-color: #2a2a3d;
+  color: #e0e0e0;
+}
+
+body.dark-mode .editable[contenteditable="true"] {
+  background-color: #2a2a3d;
+  color: #e0e0e0;
+}
+
+body.dark-mode .activity-tag-select__control:not(.activity-tag-select__control--is-disabled) {
+  background-color: #2a2a3d;
+  color: #e0e0e0;
+}
+
+/* Dark mode - Chế độ chỉ xem */
+body.dark-mode .custom-date-picker:disabled {
+  background-color: transparent;
+  color: #e0e0e0;
+}
+
+body.dark-mode select.field-select:disabled {
+  background-color: transparent;
+  color: #e0e0e0;
+}
+
+body.dark-mode .editable:not([contenteditable="true"]) {
+  background-color: transparent;
+  color: #e0e0e0;
+}
+
+body.dark-mode .activity-tag-select__control--is-disabled {
+  background-color: transparent;
+  border: none;
+  color: #e0e0e0;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+  .activity-card-details {
+    padding: 10px 12px;
+  }
+
+  .activity--details {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .activity-title-details {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+
+  .join-btn {
+    align-self: flex-start;
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .activity-image-details {
+    height: 300px;
+    margin-bottom: 12px;
+  }
+
+  .field {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin: 8px 0;
+    padding: 4px 0;
+  }
+
+  .field strong {
+    margin-bottom: 2px;
+  }
+
+  .custom-date-picker {
+    width: 130px;
+  }
+
+  .register-time, .event-time {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .dash {
+    margin: 0;
+    align-self: center;
+  }
+
+  select.field-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .activity-card-details {
+    padding: 8px 10px;
+  }
+
+  .activity-title-details {
+    font-size: 1.3rem;
+  }
+
+  .join-btn {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .activity-image-details {
+    height: 250px;
+  }
+
+  .custom-date-picker {
+    width: 110px;
+    font-size: 13px;
+  }
+
+  .manage-infot-activity {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .button-update-infor-activity,
+  .button-cancel-activity {
+    padding: 6px 12px;
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .field {
+    font-size: 14px;
+  }
+
+  .field strong {
+    font-size: 14px;
+  }
 }

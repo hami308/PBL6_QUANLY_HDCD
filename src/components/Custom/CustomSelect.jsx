@@ -1,44 +1,40 @@
 import React from "react";
 import Select, { components } from "react-select";
 import "./CustomSelect.css";
-function CustomSelect({ options, value, onChange, className, readOnly = false }) {
-  // Hàm xử lý khi thay đổi lựa chọn
-  const handleChange = (selectedOptions) => {
-    // Nếu chọn "Tất cả"
-    if (selectedOptions?.some((opt) => opt.value === "all")) {
-      // Nếu đã chọn tất cả rồi → bỏ chọn hết
-      if (value.length === options.length) {
-        onChange([]);
-      } else {
-        // Chọn tất cả các option
-        onChange(options);
-      }
-    } else {
-      onChange(selectedOptions || []);
-    }
-  };
 
-  // Tạo thêm option "Tất cả" ở đầu danh sách
-  const allOption = { value: "all", label: "Tất cả" };
+function CustomSelect({ options, value, onChange, className, readOnly = false }) {
+  const ALL_OPTION = { value: "all", label: "Tất cả" };
+
+  const handleChange = (selected) => {
+    if (selected?.some((s) => s.value === "all")) {
+      onChange([ALL_OPTION]); // Chỉ giữ lại All
+      return;
+    }
+    onChange(selected || []);
+  };
 
   return (
     <div className="tag-select">
       <Select
         isMulti
-        options={[allOption, ...options]}
-        value={value}
+        options={[ALL_OPTION, ...options]}
+        value={
+          value?.some((v) => v.value === "all")
+            ? [ALL_OPTION]
+            : value
+        }
         onChange={handleChange}
         placeholder="Chọn..."
         className={className}
-        classNamePrefix="react-select"  
+        classNamePrefix="react-select"
         isDisabled={readOnly}
+        closeMenuOnSelect={false}
         menuPortalTarget={document.body}
         components={{
           ClearIndicator: readOnly ? () => null : components.ClearIndicator,
           DropdownIndicator: readOnly ? () => null : components.DropdownIndicator,
-          MultiValueRemove: readOnly ? () => null : components.MultiValueRemove,
+          MultiValueRemove: readOnly ? () => null : components.MultiValueRemove
         }}
-        closeMenuOnSelect={false} // để menu không tắt khi chọn
       />
     </div>
   );

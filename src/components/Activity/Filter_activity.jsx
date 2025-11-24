@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import "./Filter_activity.css";
-import { status_activity } from "../../data/status_activity.js";
 import { get_all_fields } from "../../services/Field_Service.js";
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_org } from "../../services/Org_Service.js";
 
-function FilterBar() {
+function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
   const [fields, setFields] = useState([]);
   const [organizations, setOrganizations] = useState([]);
-  // renderKey để buộc re-render khi body.class thay đổi (dark-mode)
   const [renderKey, setRenderKey] = useState(0);
+  
+  // State cho các bộ lọc
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedField, setSelectedField] = useState(null);
+  const [selectedOrg, setSelectedOrg] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     async function fetchFields() {
@@ -19,7 +23,6 @@ function FilterBar() {
     }
     fetchFields();
   }, []);
-
   useEffect(() => {
     async function fetchOrganizations() {
       const [facultiesRes, orgRes] = await Promise.all([
@@ -38,6 +41,43 @@ function FilterBar() {
     }
     fetchOrganizations();
   }, []);
+ // Observe class changes on body (toggle dark-mode) để setRenderKey gây re-render Select
+  useEffect(() => {
+    if (typeof MutationObserver === "undefined" || typeof document === "undefined") return;
+    const obs = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === "class") {
+          // tăng key để re-render Select và áp dụng styles mới
+          setRenderKey((k) => k + 1);
+          break;
+        }
+      }
+    });
+    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => obs.disconnect();
+  }, []);
+  // Hàm xử lý khi nhấn nút Áp dụng bộ lọc
+  const handleApplyFilter = () => {
+    const filters = {
+      status: selectedStatus?.value !== "all" ? selectedStatus?.value : null,
+      field_id: selectedField?.value !== "all" ? selectedField?.value : null,
+      org_unit_id: selectedOrg?.value !== "all" ? selectedOrg?.value : null,
+      title: searchText || null,
+    };
+    
+    // Gọi hàm onFilter từ props và truyền filters
+    onFilter(filters);
+  };
+
+  // Hàm xử lý khi nhấn nút Đặt lại
+  const handleReset = () => {
+    setSelectedStatus(null);
+    setSelectedField(null);
+    setSelectedOrg(null);
+    setSearchText("");
+    // Gọi onFilter với filters rỗng để lấy tất cả hoạt động
+    onFilter({});
+  };
 
   // Gắng đọc trạng thái dark mode hiện tại
   const isDarkMode = typeof document !== "undefined" && document.body.classList.contains("dark-mode");
@@ -102,22 +142,6 @@ function FilterBar() {
     }),
   };
 
-  // Observe class changes on body (toggle dark-mode) để setRenderKey gây re-render Select
-  useEffect(() => {
-    if (typeof MutationObserver === "undefined" || typeof document === "undefined") return;
-    const obs = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.attributeName === "class") {
-          // tăng key để re-render Select và áp styles mới
-          setRenderKey((k) => k + 1);
-          break;
-        }
-      }
-    });
-    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    return () => obs.disconnect();
-  }, []);
-
   return (
     <div className="filter-bar">
       <Select
@@ -129,8 +153,10 @@ function FilterBar() {
         menuPortalTarget={typeof document !== "undefined" ? document.body : null}
         options={[
           { value: "all", label: "Tất cả" },
-          ...status_activity.map((item) => ({ value: item.name, label: item.name })),
+          ...status.map((item) => ({ value: item.label, label: item.name })),
         ]}
+        value={selectedStatus}
+        onChange={setSelectedStatus}
       />
 
       <Select
@@ -142,8 +168,10 @@ function FilterBar() {
         menuPortalTarget={typeof document !== "undefined" ? document.body : null}
         options={[
           { value: "all", label: "Tất cả" },
-          ...fields.map((item) => ({ value: item.name, label: item.name })),
+          ...fields.map((item) => ({ value: item._id, label: item.name })),
         ]}
+        value={selectedField}
+        onChange={setSelectedField}
       />
 
       <Select
@@ -155,18 +183,25 @@ function FilterBar() {
         menuPortalTarget={typeof document !== "undefined" ? document.body : null}
         options={[
           { value: "all", label: "Tất cả" },
-          ...organizations.map((item) => ({ value: item.name, label: item.name })),
+          ...organizations.map((item) => ({ value: item._id, label: item.name })),
         ]}
+        value={selectedOrg}
+        onChange={setSelectedOrg}
       />
 
       <div className="search-box filter-item">
         <span className="icon"><span className="material-symbols-outlined">search</span></span>
-        <input type="text" placeholder="Nhập tên hoạt động" />
+        <input 
+          type="text" 
+          placeholder="Nhập tên hoạt động" 
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
       </div>
 
       <div className="button-group">
-        <button className="apply">Áp dụng bộ lọc</button>
-        <button className="reset">Đặt lại</button>
+        <button className="apply" onClick={handleApplyFilter}>Áp dụng bộ lọc</button>
+        <button className="reset" onClick={handleReset}>Đặt lại</button>
       </div>
     </div>
   );

@@ -3,14 +3,20 @@ import "./CancelActivityPopup.css";
 
 const CancelActivityPopup = ({ onClose, onConfirm }) => {
   const [reason, setReason] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!reason.trim()) {
       alert("Vui lòng nhập lý do hủy hoạt động!");
       return;
     }
-    onConfirm(reason); // gửi lý do lên cha
-    onClose(); // đóng popup
+    
+    setIsLoading(true);
+    try {
+      await onConfirm(reason);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -21,13 +27,22 @@ const CancelActivityPopup = ({ onClose, onConfirm }) => {
           placeholder="Nhập lý do hủy hoạt động"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
+          disabled={isLoading}
         />
         <div className="popup-actions">
-          <button className="cancel-btn" onClick={onClose}>
+          <button 
+            className="cancel-btn" 
+            onClick={onClose}
+            disabled={isLoading}
+          >
             Hủy
           </button>
-          <button className="confirm-btn" onClick={handleConfirm}>
-            Xác nhận
+          <button 
+            className="confirm-btn" 
+            onClick={handleConfirm}
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang xử lý..." : "Xác nhận"}
           </button>
         </div>
       </div>

@@ -1,0 +1,19 @@
+.activity-action {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.cancel-register-btn {
+  padding: 10px 20px;
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cancel-register-btn:hover {
+  background-color: #c5303a;
+}

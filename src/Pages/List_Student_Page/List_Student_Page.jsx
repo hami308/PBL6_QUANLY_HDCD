@@ -1,102 +1,170 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header.jsx";
-import Menu_org from "../../components/Menu/Menu_student.jsx";
+import Menu_org from "../../components/Menu/Menu_org.jsx";
 import "./List_Student_Page.css";
 import Footer from "../../components/Footer/Footer.jsx";
-import { Faculty } from "../../data/Faculty.js";
-import { Class } from "../../data/Class.js";
 import CustomTable from "../../components/Custom/CustomTable.jsx";
+import Select from "react-select";
+import { useParams } from "react-router-dom";
+
+import { get_all_faculties } from "../../services/Faculty_Service.js";
+import { getClass } from "../../services/Class_Service.js";
+import { get_registered_students } from "../../services/Activity_Services.js";
 
 function List_Student_Page() {
+  const { idactivity } = useParams();
+
+  // Tabs
+  const [activeTab, setActiveTab] = useState("registered");
+
+  // Filters
   const [faculty, setFaculty] = useState("");
   const [className, setClassName] = useState("");
-  const [activeTab, setActiveTab] = useState("student-registered");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermMSSV, setSearchTermMSSV] = useState("");
+  const [searchTermName, setSearchTermName] = useState("");
 
-  const handleSearch = () => {
-    console.log("Searching...", { faculty, className, searchTerm });
-  };
+  // API data
+  const [faculties, setFaculties] = useState([]);
+  const [classes, setClasses] = useState([]);
+  const [studentsRegistered, setStudentsRegistered] = useState([]);
+  const [studentsAttended] = useState([]); // KHÔNG GỌI API
 
-  const studentList_registered = [
-    { id: 1, mssv: "21110001", name: "Nguyễn Văn A", faculty: "CNTT", className: "21CNTT1", status: "Đã tham gia" },
-    { id: 2, mssv: "21110002", name: "Trần Thị B", faculty: "XD", className: "21XD1", status: "Chưa tham gia" },
-  ];
+  // Load dữ liệu ban đầu
+  useEffect(() => {
+    async function fetchInit() {
+      try {
+        const resFaculty = await get_all_faculties();
+        const resClass = await getClass();
+        const resRegistered = await get_registered_students(idactivity);
 
-  const studentList_attended = [
-    { id: 1, mssv: "21110001", name: "Nguyễn Văn A", faculty: "CNTT", className: "21CNTT1", status: "Đã tham gia" },
-  ];
+        setFaculties(resFaculty.data || []);
+        setClasses(resClass.data || []);
 
-  const studentList = activeTab === "student-registered" ? studentList_registered : studentList_attended;
+        // Đảm bảo là mảng
+        setStudentsRegistered(
+          Array.isArray(resRegistered.data.data) ? resRegistered.data.data : []
+        );
 
-  // Khi chọn khoa, chỉ hiển thị lớp thuộc khoa đó
-  const filteredClasses = Class.filter(
-    (cls) => !faculty || cls.faculty === Number(faculty)
+        // Không gọi API tham gia → luôn trống
+        // setStudentsAttended([])
+
+      } catch (error) {
+        console.error("Lỗi tải dữ liệu:", error);
+      }
+    }
+
+    fetchInit();
+  }, [idactivity]);
+
+  // Chọn đúng danh sách theo tab
+  const students =
+    activeTab === "registered" ? studentsRegistered : studentsAttended;
+
+  // Select options
+  const facultyOptions = faculties.map((f) => ({
+    value: f._id,
+    label: f.name,
+  }));
+
+  const classOptions = classes.map((cls) => ({
+    value: cls._id,
+    label: cls.name,
+  }));
+
+  // Lọc lớp theo khoa
+  const filteredClassOptions = classOptions.filter(
+    (option) =>
+      !faculty ||
+      classes.find((c) => c._id === option.value)?.falcuty_id?._id === faculty
   );
 
-  // Cột của bảng
- // Cột của bảng (ẩn cột “Điểm” nếu không phải tab student-attended)
-const columns = activeTab === "student-attended"
-  ? ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái", "Điểm"]
-  : ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái"];
+  // Lọc sinh viên
+  const filteredStudents = (Array.isArray(students) ? students : []).filter(
+    (s) => {
+      const mssv = s.student_id?.student_number || "";
+      const fullName = s.student_id?.full_name || "";
 
-
-  const filteredStudents = studentList.filter((student) => {
       return (
-        (!faculty || student.faculty === Number(faculty)) &&
-        (!className || student.className === className) &&
-        (!searchTerm ||
-          student.mssv.includes(searchTerm) ||
-          student.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        (!faculty || s.faculty_id === faculty) &&
+        (!className || s.class_id === className) &&
+        (!searchTermMSSV || mssv.includes(searchTermMSSV)) &&
+        (!searchTermName ||
+          fullName.toLowerCase().includes(searchTermName.toLowerCase()))
       );
-    });
-  // Dữ liệu hiển thị cho bảng
-const tableData = filteredStudents.map((student, index) => {
-  const baseData = {
+    }
+  );
+
+  // Cột bảng
+  const columns =
+    activeTab === "attended"
+      ? ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái", "Điểm"]
+      : ["STT", "MSSV", "Họ và tên", "Khoa", "Lớp", "Trạng thái"];
+
+  // Dữ liệu bảng
+  const tableData = filteredStudents.map((s, index) => ({
+    id: s._id || index,
     stt: index + 1,
-    mssv: student.mssv,
-    họ_và_tên: student.name,
-    khoa: Faculty.find((f) => f.id === student.faculty)?.name || "",
-    lớp: student.className,
-    trạng_thái: student.status,
-  };
+    mssv: s.student_id?.student_number,
+    họ_và_tên: s.student_id?.full_name,
+    khoa: s.faculty_name,
+    lớp: s.class_name,
+    trạng_thái: s.status,
+    ...(activeTab === "attended" && { điểm: s.score }),
+  }));
 
-  // Nếu tab là student-attended thì thêm cột “điểm”
-  if (activeTab === "student-attended") {
-    baseData.điểm = (
-      <input type="number" min="0" max="10" className="score-input" />
-    );
-  }
-
-  return baseData;
-});
-
-  // Render cột “Thao tác”
   const renderActions = () => (
     <button className="action-btn">Chi tiết</button>
   );
+
+  // Style React Select
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      padding: "4px 8px",
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      fontSize: "14px",
+      width: "180px",
+      height: "40px",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 1000,
+    }),
+    option: (provided) => ({
+      ...provided,
+      fontSize: "14px",
+    }),
+  };
 
   return (
     <div className="list-student-page">
       <Header />
       <Menu_org />
       <div className="background-list-student-page"></div>
+
       <div className="cross-bar">
-        <p>Danh sách sinh viên</p>
+        <p>
+          {activeTab === "registered"
+            ? "Danh sách sinh viên đăng ký"
+            : "Danh sách sinh viên tham gia"}
+        </p>
       </div>
 
       {/* Tabs */}
       <div className="management-tabs">
         <button
-          className={activeTab === "student-registered" ? "tab_active" : "tab"}
-          onClick={() => setActiveTab("student-registered")}
+          className={activeTab === "registered" ? "tab_active" : "tab"}
+          onClick={() => setActiveTab("registered")}
         >
-          Danh sách sinh viên đăng ký
+          Danh sách đăng ký
         </button>
+
         <button
-          className={activeTab === "student-attended" ? "tab_active" : "tab"}
-          onClick={() => setActiveTab("student-attended")}
+          className={activeTab === "attended" ? "tab_active" : "tab"}
+          onClick={() => setActiveTab("attended")}
         >
-          Danh sách sinh viên tham gia
+          Danh sách tham gia
         </button>
       </div>
 
@@ -104,73 +172,58 @@ const tableData = filteredStudents.map((student, index) => {
       <div className="filters-list-student-container">
         <input
           type="text"
-          name="search-mssv"
           placeholder="Mã số sinh viên"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTermMSSV}
+          onChange={(e) => setSearchTermMSSV(e.target.value)}
           className="filter-list-student-input"
         />
+
         <input
           type="text"
-          name="search-name"
           placeholder="Tên sinh viên"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTermName}
+          onChange={(e) => setSearchTermName(e.target.value)}
           className="filter-list-student-input"
         />
 
-        {/* Khoa */}
-        <select
-          value={faculty}
-          onChange={(e) => {
-            setFaculty(e.target.value);
-            setClassName(""); // reset lớp khi đổi khoa
+        <Select
+          options={facultyOptions}
+          value={facultyOptions.find((opt) => opt.value === faculty)}
+          onChange={(selected) => {
+            setFaculty(selected ? selected.value : "");
+            setClassName("");
           }}
-          className="filter-select"
-        >
-          <option value="" disabled>Khoa</option>
-          {Faculty.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
+          placeholder="Khoa"
+          isClearable
+          styles={customStyles}
+        />
 
-        {/* Lớp (lọc theo khoa) */}
-        <select
-          value={className}
-          onChange={(e) => setClassName(e.target.value)}
-          className="filter-select"
-        >
-          <option value="" disabled>Lớp</option>
-          {filteredClasses.map((cls) => (
-            <option key={cls.id} value={cls.id}>
-              {cls.name}
-            </option>
-          ))}
-        </select>
-
-        <button onClick={handleSearch} className="search-btn">
-          Tìm kiếm
-        </button>
-      </div>
-
-      {/* Bảng dữ liệu */}
-      <div className="table-list-student-container">     
-        <CustomTable
-          columns={columns}
-          data={tableData}
-          renderActions={renderActions}
+        <Select
+          options={filteredClassOptions}
+          value={filteredClassOptions.find((opt) => opt.value === className)}
+          onChange={(selected) => setClassName(selected ? selected.value : "")}
+          placeholder="Lớp"
+          isClearable
+          styles={customStyles}
         />
       </div>
 
-      {/* Nút xác nhận */}
-      {activeTab === "student-attended" && (
-        <div className="action-footer">
-          <button className="confirm-btn">Xác nhận điểm</button>
-        </div>
-      )}
-     
+      {/* Bảng */}
+      <div className="table-list-student-container">
+        {filteredStudents.length === 0 ? (
+          <p className="no-student-msg">
+            {activeTab === "registered"
+              ? "Chưa có sinh viên nào đăng ký hoạt động"
+              : "Chưa có sinh viên nào tham gia hoạt động"}
+          </p>
+        ) : (
+          <CustomTable
+            columns={columns}
+            data={tableData}
+            renderActions={renderActions}
+          />
+        )}
+      </div>
 
       <Footer />
     </div>

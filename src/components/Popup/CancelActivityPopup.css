@@ -63,3 +63,11 @@
 .popup-overlay .confirm-btn:hover {
   background: #a00636;
 }
+.popup-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.popup-textarea:disabled {
+  background-color: #f5f5f5;
+}

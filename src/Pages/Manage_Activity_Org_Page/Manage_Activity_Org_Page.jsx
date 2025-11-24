@@ -4,13 +4,14 @@ import Filter_Activity from "../../components/Activity/Filter_activity";
 import Footer from "../../components/Footer/Footer";
 import "./Manage_Activity_Org_Page.css";
 import List_Activity_org_component from "../../components/Org/Manage_Activity_Org/List_Activity_org_component";
+import {status_activity} from "../../data/status";
 function Manage_Activity_Org_Page() {
   return (
     <div className="manage-activity-org-page">
       <Header />
       <Menu_org />
       <div className="background-image-manage-activity-org"></div>
-      <Filter_Activity />
+      <Filter_Activity status={status_activity} />
       <List_Activity_org_component />
       <Footer />
     </div>

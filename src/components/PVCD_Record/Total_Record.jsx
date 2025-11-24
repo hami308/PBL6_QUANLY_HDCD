@@ -1,5 +1,5 @@
 import "./Total_Record.css";
-function Total_Record({ score=50 ,num_activity=10}) {
+function Total_Record({ score=0 ,num_activity=0}) {
     return (
     <div className="score-box">
       <p>Tổng điểm tích lũy</p>

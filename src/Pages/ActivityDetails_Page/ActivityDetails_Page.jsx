@@ -1,6 +1,8 @@
 import "./ActivityDetails_Page.css";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
+import Menu_org from "../../components/Menu/Menu_org.jsx";
+import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import ActivityList from "../../components/Activity/Activity_list.jsx";
@@ -9,14 +11,16 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activity/See_List_Evaluate_Activity.jsx";
 import { get_details_activity_by_id } from "../../services/Activity_Services.js";
+import { get_feedback_by_activity } from "../../services/Feedback_Services.js";
 
 function Activity_details() {
   // Lấy thông tin user và vai trò
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const ismodify = user?.role === "org"; // nếu là tổ chức thì cho phép sửa
+  const ismodify = user?.role === "staff"; 
 
   const { id } = useParams(); // lấy id từ URL
   const [activity, setActivity] = useState(null);
+  const [feedback, setFeedback] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Gọi API lấy chi tiết hoạt động
@@ -38,13 +42,34 @@ function Activity_details() {
     fetchActivity();
   }, [id]);
 
+  // Gọi API lấy đánh giá hoạt động
+  useEffect(() => {
+    async function fetchActivity() {
+      try {
+        const result = await get_feedback_by_activity(id);
+        if (result.success) {
+          setFeedback(result.data.data.feedbacks);
+        } else {
+          console.error(result.message);
+        }
+      } catch (err) {
+        console.error("Lỗi khi lấy dữ liệu đánh giá hoạt động:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchActivity();
+  }, [id]);
+
   // Hiển thị trong khi chờ dữ liệu
   if (loading) {
     return (
       <>
         <Header />
         {!user && <Menu_guest />}
-        {user?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
         <p className="loading">Đang tải dữ liệu hoạt động...</p>
         <Footer />
       </>
@@ -57,7 +82,9 @@ function Activity_details() {
       <>
         <Header />
         {!user && <Menu_guest />}
-        {user?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
         <p className="error">Không tìm thấy hoạt động.</p>
         <Footer />
       </>
@@ -67,13 +94,15 @@ function Activity_details() {
   return (
     <div className="activity-detail-page">
       <Header />
-      {!user && <Menu_guest />}
-      {user?.role === "student" && <Menu_student />}
+        {!user && <Menu_guest />}
+        {user?.roles?.[0]?.role === "student" && <Menu_student />}
+        {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+        {user?.roles?.[0]?.role === "staff" && <Menu_org />}
 
       <Activity_Details activity_details={activity.data} ismodify={ismodify} />
 
       {/* Nếu hoạt động đã tổ chức thì hiển thị danh sách đánh giá */}
-      {activity.status === "Đã tổ chức" && <See_List_Evaluate_Activity />}
+      {activity.data.status === "đã tổ chức" &&<See_List_Evaluate_Activity reviews={feedback || []} />}
 
       {/* Nếu chưa đăng nhập thì hiển thị các hoạt động khác */}
       {!user && (
@@ -86,6 +115,7 @@ function Activity_details() {
           </div>
         </>
       )}
+
 
       <Footer />
     </div>

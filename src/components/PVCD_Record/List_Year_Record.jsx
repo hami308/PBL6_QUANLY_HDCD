@@ -1,19 +1,23 @@
 import "./List_Year_Record.css";
 import Year_Record from "./Year_Record.jsx";
-function List_Year_Record() {
-    const data=[
-        {year:1,record:10},
-        {year:2,record:15},
-        {year:3,record:20},
-        {year:4,record:0},
-        {year:5,record:0},
-    ];
+
+function List_Year_Record({ data }) {
+    if (!data || data.length === 0)
+        return <p className="no-data">Không có dữ liệu năm</p>;
+
     return (
         <div className="list-year-record">
-            {data.map((item)=>
-                <Year_Record key={item.year} year={item.year} record={item.record} />
-            )}
+            {data.map((item, index) => (
+                <Year_Record
+                    key={index}
+                    year={index + 1}
+                    start_year={item.start_year}
+                    end_year={item.end_year}
+                    record={item.record}
+                />
+            ))}
         </div>
     );
 }
+
 export default List_Year_Record;

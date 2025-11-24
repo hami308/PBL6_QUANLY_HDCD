@@ -26,14 +26,13 @@ function Login({ onClose }) {
           navigate("/home-student", { replace: true });
         } else if (result.user.roles[0].role === "admin") {
           navigate("/home-admin", { replace: true });
+        } else if (result.user.roles[0].role==="staff"){
+          navigate("/home-staff", {replace: true})
         } else {
           navigate("/", { replace: true });
         }
       } else {
-        if (result.message == "User not found")
-          setError("Tên đăng nhập không tồn tại");
-        else if (result.message == "Invalid credentials")
-          setError("Mật khẩu không đúng");
+        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);
@@ -67,8 +66,8 @@ function Login({ onClose }) {
               <label>Mật khẩu:</label>
               <input
                 type="password"
-                value={password}
                 name="password"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>

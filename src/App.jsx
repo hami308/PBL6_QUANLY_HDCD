@@ -24,6 +24,7 @@ import List_Student_Page from "./Pages/List_Student_Page/List_Student_Page.jsx";
 import Approve_Activity_Proposed_Page from "./Pages/Approve_Activity_Proposed_Page/Approve_Activity_Proposed_Page.jsx";
 import OrgInfor_Page from "./Pages/OrgInfor_Page/OrgInfor_Page.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ActivityDetails_Student from "./Pages/ActivityDetails_Student/ActivityDetails_Student_page.jsx";
 import ManageFaculty from "./Pages/Other_Page/ManageFaculty.jsx";
 import ManageClass from "./Pages/Other_Page/ManageClass.jsx";
 import ManageCohort from "./Pages/Other_Page/ManageCohort.jsx";
@@ -38,9 +39,14 @@ function App() {
         <Route path="/delete-account" element={<DeleteAccount_Page />} />
         <Route path="/home-student" element={<HomePage />} />
         <Route path="/home-admin" element={<HomePage />} />
+        <Route path="/home-staff" element={<HomePage />} />
         <Route path="/pvcd-record" element={<PVCD_Record />} />
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/staff-infor/:id" element={<TeacherInfor_Page />} />
+        <Route
+          path="/activity-details-student/:id"
+          element={<ActivityDetails_Student />}
+        />
         <Route path="/manage-faculty" element={<ManageFaculty />} />
         <Route path="/manage-class/:facultyId" element={<ManageClass />} />
         <Route path="/manage-cohort" element={<ManageCohort />} />
@@ -104,11 +110,11 @@ function App() {
           element={<Receive_Notification />}
         />
         <Route
-          path="/list-student-registered"
+          path="/list-student-registered/:idactivity"
           element={<List_Student_Page activeTab="student-registered" />}
         />
         <Route
-          path="/list-student-attendance"
+          path="/list-student-attendance/:idactivity"
           element={<List_Student_Page activeTab="student-attendance" />}
         />
         <Route
