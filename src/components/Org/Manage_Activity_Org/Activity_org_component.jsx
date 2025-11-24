@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Activity_org_component.css";
+import List_Student_Page from "../../../Pages/List_Student_Page/List_Student_Page";
 
 function Activity_Org_Component({ activity }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -73,8 +74,18 @@ function Activity_Org_Component({ activity }) {
                 Xem chi tiết
               </a>
             </li>
-            <li onClick={() => alert("Chỉnh sửa")}>Chỉnh sửa</li>
-            <li onClick={() => alert("Xóa hoạt động")}>Hủy hoạt động</li>
+           {activity.status !== "hủy hoạt động" && <li>Hủy hoạt động</li>}
+           <li>
+            <a 
+                href={`list-student-registered/${activity._id}`} 
+                className="activity-org-menu-link"
+              >
+                Xem danh sách sinh viên
+              </a>
+           </li>
+           <li>
+            Xác nhận điểm
+           </li>
           </ul>
         )}
       </div>

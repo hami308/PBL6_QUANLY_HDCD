@@ -97,11 +97,11 @@ function App() {
           element={<Receive_Notification />}
         />
         <Route
-          path="/list-student-registered"
+          path="/list-student-registered/:idactivity"
           element={<List_Student_Page activeTab="student-registered" />}
         />
         <Route
-          path="/list-student-attendance"
+          path="/list-student-attendance/:idactivity"
           element={<List_Student_Page activeTab="student-attendance" />}
         />
         <Route

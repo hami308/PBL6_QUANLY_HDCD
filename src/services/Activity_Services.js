@@ -14,7 +14,7 @@ export async function get_all_activities() {
     return {
       success: false,
       message:
-        error.response?.data?.message ||
+        error.response?.data?.messaage ||
         "Lỗi kết nối đến server, vui lòng thử lại sau.",
     };
   }
@@ -343,6 +343,36 @@ export async function cancel_activity(activityId,reason) {
     message:
     error.response?.data?.message ||
     "Không thể hủy hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function get_registered_students(activityId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/activities/${activityId}/registrations`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response",response);
+    return {
+      success: true,
+      data: response.data, 
+      message: response.data.message || "Lấy danh sách đăng ký thành công.",
+    };
+  } catch (error) {
+    console.error(`Get registrations for activity ${activityId} error:`, error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách đăng ký, vui lòng thử lại sau.",
     };
   }
 }
