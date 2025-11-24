@@ -45,15 +45,30 @@ export const updateStudentInfo = async (studentData) => {
   }
 };
 // Xóa hồ sơ sinh viên
-export const deleteStudentProfile = async (studentId) => {
+export const deleteStudentProfile = async (iduser) => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await axios.delete(`${API_BASE_URL}/${studentId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
+    const token = sessionStorage.getItem("token");
+    const response = await axios.delete(
+      `https://pbl6-backend.vercel.app/api/users/${iduser}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200 && response.data?.message) {
+      console.log("Delete success:", response.data.message);
+      return { success: true, message: response.data.message };
+    } else {
+      console.warn("Unexpected delete response:", response);
+      return { success: false, message: "Xóa không thành công" };
+    }
   } catch (error) {
-    console.error("Lỗi khi xóa hồ sơ sinh viên:", error);
-    throw error;
+    console.error("Error deleting account:", error);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Lỗi server",
+    };
   }
 };

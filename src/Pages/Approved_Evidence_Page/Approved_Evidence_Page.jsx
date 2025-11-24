@@ -65,7 +65,7 @@ function Approved_Evidence_Page() {
     };
 
     fetchEvidences();
-  }, [isStudent, user]);
+  }, []);
 
   return (
     <>

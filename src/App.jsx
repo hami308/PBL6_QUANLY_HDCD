@@ -25,6 +25,10 @@ import Approve_Activity_Proposed_Page from "./Pages/Approve_Activity_Proposed_Pa
 import OrgInfor_Page from "./Pages/OrgInfor_Page/OrgInfor_Page.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ManageFaculty from "./Pages/Other_Page/ManageFaculty.jsx";
+import ManageClass from "./Pages/Other_Page/ManageClass.jsx";
+import ManageCohort from "./Pages/Other_Page/ManageCohort.jsx";
+import ManageField from "./Pages/Other_Page/ManageField.jsx";
+import ManagePosition from "./Pages/Other_Page/ManagePossition.jsx";
 function App() {
   return (
     <LoginProvider>
@@ -38,6 +42,10 @@ function App() {
         <Route path="/student-infor/:id" element={<StudentInfor_Page />} />
         <Route path="/staff-infor/:id" element={<TeacherInfor_Page />} />
         <Route path="/manage-faculty" element={<ManageFaculty />} />
+        <Route path="/manage-class/:facultyId" element={<ManageClass />} />
+        <Route path="/manage-cohort" element={<ManageCohort />} />
+        <Route path="/manage-field" element={<ManageField />} />
+        <Route path="/manage-position" element={<ManagePosition />} />
         <Route
           path="/change-password"
           element={
