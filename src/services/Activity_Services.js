@@ -376,3 +376,66 @@ export async function get_registered_students(activityId) {
     };
   }
 }
+
+export async function approve_activity(activityId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.put(
+      `${API_URL}/activities/${activityId}/approve`,
+      {}, // body rỗng
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Phê duyệt hoạt động thành công!",
+    };
+  } catch (error) {
+    console.error(`Approve activity ${activityId} error:`, error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể phê duyệt hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function reject_activity(activityId, reason) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.put(
+      `${API_URL}/activities/${activityId}/reject`,
+      { reason }, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+      message: response.data.message || "Từ chối hoạt động thành công!",
+    };
+  } catch (error) {
+    console.error(`Reject activity ${activityId} error:`, error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể từ chối hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}

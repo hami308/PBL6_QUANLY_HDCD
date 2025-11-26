@@ -107,13 +107,7 @@ function App() {
         <Route
           path="/activity-approved"
           element={
-            <Approve_Activity_Proposed_Page activeTab="activity-approved" />
-          }
-        />
-        <Route
-          path="/activity-not-yet-approved"
-          element={
-            <Approve_Activity_Proposed_Page activeTab="activity-not-yet-approved" />
+            <Approve_Activity_Proposed_Page />
           }
         />
         <Route path="/org-infor" element={<OrgInfor_Page />} />

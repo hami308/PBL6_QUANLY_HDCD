@@ -7,7 +7,7 @@ const CancelActivityPopup = ({ onClose, onConfirm }) => {
 
   const handleConfirm = async () => {
     if (!reason.trim()) {
-      alert("Vui lòng nhập lý do hủy hoạt động!");
+      alert("Vui lòng nhập lý do!");
       return;
     }
     
@@ -24,7 +24,7 @@ const CancelActivityPopup = ({ onClose, onConfirm }) => {
       <div className="popup-container">
         <textarea
           className="popup-textarea"
-          placeholder="Nhập lý do hủy hoạt động"
+          placeholder="Nhập lý do"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
           disabled={isLoading}

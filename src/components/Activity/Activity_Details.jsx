@@ -18,7 +18,6 @@ import { useLocation } from "react-router-dom";
 registerLocale("vi", vi);
 
 function Activity_Details({ activity_details }) {
-  console.log("Activity Details Props:", activity_details);
   
   const loc = useLocation();
   const params = new URLSearchParams(loc.search);
@@ -195,7 +194,7 @@ function Activity_Details({ activity_details }) {
       </div>
 
       <img
-        src={activity_details.image || Activity_pic}
+        src={activity_details.activity_image || Activity_pic}
         alt={activity_details.title}
         className="activity-image-details"
       />
