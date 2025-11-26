@@ -6,10 +6,10 @@ import Filter_Evidence from "../../components/Student/Approved_Evidence/Filter_E
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 
 import { useEffect, useState } from "react";
-import { 
-  get_evidences_by_class, 
+import {
+  get_evidences_by_class,
   get_evidences_by_faculty,
-  get_all_evidences
+  get_all_evidences,
 } from "../../services/Evidence_Service";
 import { getStaffInfo } from "../../services/Staff_Service.js";
 
@@ -42,23 +42,20 @@ function Approved_Evidence_Page() {
       // ==== TRƯỜNG HỢP 3: chọn lớp cụ thể ====
       else if (classId && classId !== "all") {
         res = await get_evidences_by_class(classId);
-      }
-      else {
+      } else {
         setEvidences([]);
         setTotal(0);
         return;
       }
 
-      const evidencesData = 
-        Array.isArray(res.data)
-          ? res.data
-          : Array.isArray(res.data?.data)
-          ? res.data.data
-          : [];
+      const evidencesData = Array.isArray(res.data)
+        ? res.data
+        : Array.isArray(res.data?.data)
+        ? res.data.data
+        : [];
 
       setEvidences(evidencesData);
       setTotal(evidencesData.length);
-
     } catch (err) {
       console.error(err);
       setError("Không thể tải dữ liệu.");
@@ -85,7 +82,6 @@ function Approved_Evidence_Page() {
         } else {
           loadEvidences({ facultyId, classId: "all" });
         }
-
       } catch (err) {
         console.error(err);
         setError("Không thể tải dữ liệu ban đầu.");
@@ -94,7 +90,7 @@ function Approved_Evidence_Page() {
 
     initLoad();
   }, []);
-  
+
   return (
     <>
       <Header />

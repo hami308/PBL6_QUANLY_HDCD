@@ -13,6 +13,8 @@ import {
 import { org } from "../../../data/org.js";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 import { getClass } from "../../../services/Class_Service";
+import { useNavigate } from "react-router-dom";
+
 registerLocale("vi", vi);
 
 function StudentInfo({ idstudent }) {
@@ -25,6 +27,7 @@ function StudentInfo({ idstudent }) {
   const [classList, setClassList] = useState([]); // ✅ danh sách lớp
   const [selectedClass, setSelectedClass] = useState(""); // ✅ lớp được chọn
 
+  const navigate = useNavigate();
   // Lấy thông tin sinh viên
   useEffect(() => {
     const fetchStudentInfo = async () => {
@@ -404,8 +407,15 @@ function StudentInfo({ idstudent }) {
                     );
                     if (confirmDelete) {
                       try {
-                        await deleteStudentProfile(studentInfo.id);
-                        alert("Đã xóa tài khoản sinh viên!");
+                        const res = await deleteStudentProfile(
+                          studentInfo.user_id._id
+                        );
+                        if (res.success) {
+                          alert("Đã xóa tài khoản sinh viên!");
+                          navigate("/useraccount-management");
+                        } else {
+                          alert(res.message || "Không thể xóa tài khoản!");
+                        }
                       } catch {
                         alert("Không thể xóa tài khoản!");
                       }

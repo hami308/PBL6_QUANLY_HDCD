@@ -195,7 +195,8 @@ const Menu_Admin = () => {
         >
           <a href="/manage-faculty">Quản lý khoa</a>
           <a href="/manage-position">Quản lý chức vụ</a>
-          <a href="/manage-class">Quản lý lớp</a>
+          <a href="/manage-field">Quản lý lĩnh vực</a>
+          <a href="/manage-cohort">Quản lý khóa</a>
           <a href="/manage-org">Quản lý tổ chức</a>
         </div>
       )}

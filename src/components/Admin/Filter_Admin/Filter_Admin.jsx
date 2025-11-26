@@ -5,7 +5,7 @@ import { get_all_faculties } from "../../../services/Faculty_Service";
 import { getClass } from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
 
-const Filter_Admin = ({ activeTab }) => {
+const Filter_Admin = ({ activeTab, onFilterApply }) => {
   // === STUDENT & TEACHER FILTERS ===
   const [studentId, setStudentId] = useState("");
   const [idfaculty, setIdFaculty] = useState("");
@@ -78,20 +78,14 @@ const Filter_Admin = ({ activeTab }) => {
 
   // === BUTTON ACTIONS ===
   const handleApply = () => {
-    console.log({
-      studentId,
+    const filters = {
+      studentCode,
       idfaculty,
       selectedClass,
-      teacherId,
-      unit,
-      sortOrder,
-      studentCode,
       academicYear,
-      activityYear,
-      activityField,
-      organization,
-      activityStatus,
-    });
+    };
+
+    if (onFilterApply) onFilterApply(filters);
   };
 
   const handleReset = () => {
