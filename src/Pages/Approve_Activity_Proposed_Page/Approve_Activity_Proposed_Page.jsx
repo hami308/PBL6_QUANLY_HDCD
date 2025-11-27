@@ -103,7 +103,6 @@ function Approve_Activity_Proposed_Page() {
     "Thời gian tổ chức",
     "Địa điểm",
     "Ngày đề xuất",
-    "Thao tác",
   ];
 
   const tableData = sortedActivities.map((item, index) => ({
