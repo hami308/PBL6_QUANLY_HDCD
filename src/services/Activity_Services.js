@@ -439,3 +439,33 @@ export async function reject_activity(activityId, reason) {
     };
   }
 }
+
+export async function get_students_stats_by_activity(activityId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/attendances/activity/${activityId}/students-stats`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data, 
+      message: response.data.message || "Lấy thống kê sinh viên tham gia thành công.",
+    };
+  } catch (error) {
+    console.error(`Get student stats for activity ${activityId} error:`, error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy thống kê sinh viên tham gia, vui lòng thử lại sau.",
+    };
+  }
+}

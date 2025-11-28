@@ -9,7 +9,10 @@ import { useParams } from "react-router-dom";
 
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { getClass } from "../../services/Class_Service.js";
-import { get_registered_students } from "../../services/Activity_Services.js";
+import {
+  get_registered_students,
+  get_students_stats_by_activity,
+} from "../../services/Activity_Services.js";
 
 function List_Student_Page() {
   const { idactivity } = useParams();
@@ -27,27 +30,33 @@ function List_Student_Page() {
   const [faculties, setFaculties] = useState([]);
   const [classes, setClasses] = useState([]);
   const [studentsRegistered, setStudentsRegistered] = useState([]);
-  const [studentsAttended] = useState([]); // KHÔNG GỌI API
+  const [studentsAttended, setStudentsAttended] = useState([]);
 
-  // Load dữ liệu ban đầu
+  // Load dữ liệu
   useEffect(() => {
     async function fetchInit() {
       try {
         const resFaculty = await get_all_faculties();
         const resClass = await getClass();
         const resRegistered = await get_registered_students(idactivity);
+        const resAttended = await get_students_stats_by_activity(idactivity);
 
         setFaculties(resFaculty.data || []);
         setClasses(resClass.data || []);
 
-        // Đảm bảo là mảng
+        // Danh sách đăng ký
         setStudentsRegistered(
-          Array.isArray(resRegistered.data.data) ? resRegistered.data.data : []
+          Array.isArray(resRegistered?.data?.data)
+            ? resRegistered.data.data
+            : []
         );
 
-        // Không gọi API tham gia → luôn trống
-        // setStudentsAttended([])
-
+        // Danh sách tham gia
+        setStudentsAttended(
+          Array.isArray(resAttended?.data?.data)
+            ? resAttended.data.data
+            : []
+        );
       } catch (error) {
         console.error("Lỗi tải dữ liệu:", error);
       }
@@ -56,7 +65,7 @@ function List_Student_Page() {
     fetchInit();
   }, [idactivity]);
 
-  // Chọn đúng danh sách theo tab
+  // Chọn danh sách theo tab
   const students =
     activeTab === "registered" ? studentsRegistered : studentsAttended;
 
