@@ -87,6 +87,18 @@ function List_Student_Page() {
       classes.find((c) => c._id === option.value)?.falcuty_id?._id === faculty
   );
 
+  // Hàm cập nhật điểm
+const handleScoreChange = (studentId, value) => {
+  setStudentsAttended((prev) =>
+    prev.map((s) =>
+      s.student_id?._id === studentId
+        ? { ...s, total_points: value }
+        : s
+    )
+  );
+};
+
+
   // Lọc sinh viên
   const filteredStudents = (Array.isArray(students) ? students : []).filter(
     (s) => {
@@ -111,14 +123,30 @@ function List_Student_Page() {
 
   // Dữ liệu bảng
   const tableData = filteredStudents.map((s, index) => ({
-    id: s._id || index,
+    id:  index,
     stt: index + 1,
     mssv: s.student_id?.student_number,
     họ_và_tên: s.student_id?.full_name,
-    khoa: s.faculty_name,
-    lớp: s.class_name,
+    khoa: s.student_id?.falcuty_id?.name,
+    lớp: s.student_id?.class_id?.name,
     trạng_thái: s.status,
-    ...(activeTab === "attended" && { điểm: s.score }),
+
+    ...(activeTab === "attended" && {
+      điểm: (
+        <input
+          type="number"
+          value={s.total_points ?? ""}
+          onChange={(e) => handleScoreChange(s.student_id._id, e.target.value)}
+          className="score-input"
+          style={{
+            width: "80px",
+            padding: "4px 6px",
+            border: "1px solid #ccc",
+            borderRadius: "6px",
+          }}
+        />
+      ),
+    }),
   }));
 
   const renderActions = () => (

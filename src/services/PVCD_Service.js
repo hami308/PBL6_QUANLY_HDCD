@@ -26,6 +26,7 @@ export async function get_pvcd_by_idstudent(idstudent) {
      const response = await axios.get(`${API_URL}/student/${idstudent}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log("response pvcd",response);
     return {
       success: true,
       data: response.data,

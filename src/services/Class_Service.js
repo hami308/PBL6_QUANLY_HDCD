@@ -1,9 +1,9 @@
 import axios from "axios";
 const API_URL = "https://pbl6-backend.vercel.app/api";
-export const getClass = async (Id_faculty) => {
+export const getClass = async () => {
   try {
     const response = await axios.get(
-      `${API_URL}/classes/faculty/${Id_faculty}/classes`
+      `${API_URL}/classes`
     );
     return {
       success: true,

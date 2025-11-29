@@ -38,7 +38,7 @@ function Activity_Org_Component({ activity }) {
     >
       <div className="activity-org-component-left">
         <img
-          src={activity.image}
+          src={activity.activity_image}
           alt={activity.name}
           className="activity-org-component-image"
         />

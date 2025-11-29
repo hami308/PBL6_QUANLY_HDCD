@@ -93,7 +93,7 @@ function PVCD_Record() {
           start_year: new Date(item.start_year).getFullYear(),
           end_year: new Date(item.end_year).getFullYear(),
         }));
-
+        
         setYearRecords(formatted);
 
         const totalScore = formatted.reduce((sum, r) => sum + r.record, 0);
