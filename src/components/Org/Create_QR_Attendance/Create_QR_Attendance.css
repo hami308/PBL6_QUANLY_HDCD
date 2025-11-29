@@ -162,7 +162,7 @@
 }
 
 /* ===========================
-   POPUP (Từ phần trước)
+   POPUP (Cho phép resize)
 =========================== */
 
 .qr-popup-overlay {
@@ -189,6 +189,14 @@
   text-align: center;
 
   animation: fadeIn 0.25s ease-out;
+
+  /*  Cho phép kéo giãn */
+  resize: both;
+  overflow: auto;
+
+  /*  Không cho thu quá nhỏ */
+  min-width: 250px;
+  min-height: 300px;
 }
 
 .qr-popup-title {
@@ -198,13 +206,17 @@
 }
 
 .qr-popup-image {
-  width: 240px;
-  height: 240px;
+  width: 100%;     /* Tự giãn theo container */
+  height: auto;
+
   padding: 10px;
   border-radius: 10px;
   object-fit: contain;
+
   background: #f8f8f8;
   border: 1px solid #ddd;
+
+  max-width: 100%;
 }
 
 .qr-popup-close {

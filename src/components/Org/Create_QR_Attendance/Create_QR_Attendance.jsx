@@ -8,6 +8,7 @@ export default function Create_QR_Attendance({ activity }) {
   const [qrData, setQrData] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
 
+  // Hàm format thời gian
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleString("vi-VN", {
@@ -19,6 +20,7 @@ export default function Create_QR_Attendance({ activity }) {
     });
   };
 
+  // Hàm tạo QR
   const handleGenerateQR = async () => {
     if (loading) return;
     setLoading(true);
@@ -42,6 +44,7 @@ export default function Create_QR_Attendance({ activity }) {
   return (
     <>
       <div className="create-qr-card">
+        {/* Bên trái: thông tin activity */}
         <div className="create-qr-left">
           <img
             src={activity.activity_image || activity_pic}
@@ -59,7 +62,7 @@ export default function Create_QR_Attendance({ activity }) {
           </div>
         </div>
 
-        {/* Bên phải: QR và text */}
+        {/* Bên phải: QR icon + text */}
         <div className="create-qr-right" onClick={handleGenerateQR}>
           <span className="material-symbols-outlined">
             qr_code_2
@@ -73,8 +76,8 @@ export default function Create_QR_Attendance({ activity }) {
 
       {/* Popup QR */}
       {showPopup && qrData && (
-        <div className="qr-popup-overlay" onClick={() => setShowPopup(false)}>
-          <div className="qr-popup-container" onClick={(e) => e.stopPropagation()}>
+        <div className="qr-popup-overlay">
+          <div className="qr-popup-container">
             <div className="qr-popup-title">Mã QR Điểm Danh</div>
 
             <img
