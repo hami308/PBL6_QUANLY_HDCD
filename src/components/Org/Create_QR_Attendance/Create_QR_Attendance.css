@@ -1,138 +1,239 @@
+/* ===========================
+   CARD WRAPPER
+=========================== */
 .create-qr-card {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border: 2px solid #222;
-  border-radius: 10px;
-  padding: 10px 15px;
-  width: 80%;
+  align-items: center;
+  width: 85%;
   max-width: 1200px;
   margin: 20px auto;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 14px 18px;
+
+  background: #ffffff;
+  border: 2px solid #222;
+  border-radius: 12px;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* ===========================
+   LEFT SECTION
+=========================== */
 .create-qr-left {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
 }
 
 .create-qr-image {
   width: 130px;
   height: 100px;
-  border-radius: 8px;
+  border-radius: 10px;
   object-fit: cover;
 }
 
+/* TEXT */
 .create-qr-title {
-  margin: 0;
   font-size: 22px;
   font-weight: 700;
+  margin: 0;
 }
 
 .create-qr-club {
   display: inline-block;
   background-color: #d8f5e0;
   color: #0a6847;
-  font-size: 13px;
-  padding: 3px 10px;
-  border-radius: 5px;
   font-style: italic;
-  margin-top: 4px;
-  margin-bottom: 6px;
+
+  padding: 4px 10px;
+  margin: 5px 0;
+
+  border-radius: 6px;
+  font-size: 13px;
 }
 
 .create-qr-info {
-  margin: 4px 0;
   font-size: 15px;
+  margin: 5px 0;
 }
 
+/* ===========================
+   RIGHT SECTION: Generate QR
+=========================== */
 .create-qr-right {
   text-align: center;
   cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 10px;
+  transition: 0.2s ease;
 }
-.create-qr-right .material-symbols-outlined{
-    font-size: 55px;
+
+.create-qr-right:hover {
+  background: #f3f3f3;
 }
+
+.create-qr-right .material-symbols-outlined {
+  font-size: 55px;
+  color: #222;
+}
+
 .create-qr-qr-text {
-  margin: 4px 0 0 0;
+  margin: 4px 0 0;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
 }
+
+/* ===========================
+   RESPONSIVE TABLET
+=========================== */
 @media (max-width: 768px) {
-  .create-qr-card{
-    width: 85%;
+  .create-qr-card {
+    width: 95%;
+    padding: 12px;
   }
+
   .create-qr-image {
-    width: 100px;
+    width: 110px;
+    height: 85px;
   }
+
   .create-qr-title {
     font-size: 20px;
   }
-  .create-qr-club{
-    margin-bottom: 0;
+
+  .create-qr-info {
+    font-size: 14px;
   }
-  .create-qr-right .material-symbols-outlined{
+
+  .create-qr-club {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .create-qr-right .material-symbols-outlined {
     font-size: 50px;
-}
+  }
+
+  .create-qr-qr-text {
+    font-size: 16px;
+  }
 }
 
-@media (max-width: 768px) {
-  .create-qr-card{
-    padding: 10px;
-    width: 95%;
-  }
-  .create-qr-image {
-    width: 90px; 
-    height: 70px;
-  }
-  .create-qr-title {
-    font-size: 18px; 
-  }
-  .create-qr-info {
-    font-size: 14px; 
-  }
-  .create-qr-club{
-    font-size: 12px;
-    padding: 2px 8px;
-    margin-bottom: 0;
-  }
-  .create-qr-right .material-symbols-outlined{
-    font-size: 45px; 
-}
-  .create-qr-qr-text {
-    font-size: 15px;
-  }
-}
+/* ===========================
+   RESPONSIVE MOBILE
+=========================== */
 @media (max-width: 480px) {
   .create-qr-card {
+    padding: 10px;
     flex-direction: row;
     align-items: center;
-    padding: 8px;
   }
+
   .create-qr-left {
     gap: 10px;
   }
+
   .create-qr-image {
-    width: 70px; 
-    height: 80px;
+    width: 75px;
+    height: 65px;
   }
+
   .create-qr-title {
     font-size: 16px;
   }
-  .create-qr-club{
+
+  .create-qr-club {
     font-size: 11px;
-    padding: 1px 1px;
+    padding: 2px 6px;
   }
+
   .create-qr-info {
-    font-size: 13px;
-    margin: 2px 0;
+    font-size: 12.5px;
   }
-  .create-qr-right .material-symbols-outlined{
-    font-size: 35px;
+
+  .create-qr-right .material-symbols-outlined {
+    font-size: 38px;
   }
+
   .create-qr-qr-text {
-    font-size: 13px;
+    font-size: 14px;
+  }
+}
+
+/* ===========================
+   POPUP (Từ phần trước)
+=========================== */
+
+.qr-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+}
+
+.qr-popup-container {
+  background: #ffffff;
+  width: 360px;
+  padding: 22px;
+  border-radius: 14px;
+  text-align: center;
+
+  animation: fadeIn 0.25s ease-out;
+}
+
+.qr-popup-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.qr-popup-image {
+  width: 240px;
+  height: 240px;
+  padding: 10px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+}
+
+.qr-popup-close {
+  margin-top: 18px;
+  padding: 10px 20px;
+
+  background: #1976d2;
+  color: #fff;
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-size: 15px;
+
+  transition: 0.2s;
+}
+
+.qr-popup-close:hover {
+  background: #0f5aaa;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
