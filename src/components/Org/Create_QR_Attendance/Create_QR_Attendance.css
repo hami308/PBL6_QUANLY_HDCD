@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   width: 85%;
   max-width: 1200px;
   margin: 20px auto;
@@ -45,10 +46,8 @@
   background-color: #d8f5e0;
   color: #0a6847;
   font-style: italic;
-
   padding: 4px 10px;
   margin: 5px 0;
-
   border-radius: 6px;
   font-size: 13px;
 }
@@ -85,7 +84,158 @@
 }
 
 /* ===========================
-   RESPONSIVE TABLET
+   POPUP OVERLAY (QR + TIME)
+=========================== */
+.qr-popup-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 999;
+}
+
+/* ===========================
+   POPUP CONTAINER (CHUNG)
+=========================== */
+.qr-popup-container {
+  background: #ffffff;
+  width: 360px;
+  padding: 22px;
+  border-radius: 14px;
+  text-align: center;
+
+  animation: fadeIn 0.25s ease-out;
+}
+
+.qr-popup-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* ===========================
+   TIME POPUP (POPUP CHỌN THỜI GIAN)
+=========================== */
+.time-popup {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.time-popup-label {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+.qr-time-input {
+  width: 80px;
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 0 auto 20px;
+}
+
+.time-popup-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.time-popup-confirm {
+  flex: 1;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.time-popup-confirm:hover {
+  background: #1565c0;
+}
+
+.time-popup-cancel {
+  flex: 1;
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.time-popup-cancel:hover {
+  background: #e0e0e0;
+}
+
+/* ===========================
+   QR DISPLAY POPUP (POPUP HIỂN THỊ QR)
+=========================== */
+.qr-display-popup {
+  min-height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.qr-popup-image {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.qr-popup-close {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.2s;
+  margin-top: auto;
+}
+
+.qr-popup-close:hover {
+  background: #1565c0;
+}
+
+/* ===========================
+   ANIMATION
+=========================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===========================
+   RESPONSIVE
 =========================== */
 @media (max-width: 768px) {
   .create-qr-card {
@@ -118,11 +268,13 @@
   .create-qr-qr-text {
     font-size: 16px;
   }
+
+  .qr-popup-container {
+    width: 320px;
+    margin: 20px;
+  }
 }
 
-/* ===========================
-   RESPONSIVE MOBILE
-=========================== */
 @media (max-width: 480px) {
   .create-qr-card {
     padding: 10px;
@@ -159,93 +311,13 @@
   .create-qr-qr-text {
     font-size: 14px;
   }
-}
 
-/* ===========================
-   POPUP (Cho phép resize)
-=========================== */
-
-.qr-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  background: rgba(0, 0, 0, 0.5);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  z-index: 999;
-}
-
-.qr-popup-container {
-  background: #ffffff;
-  width: 360px;
-  padding: 22px;
-  border-radius: 14px;
-  text-align: center;
-
-  animation: fadeIn 0.25s ease-out;
-
-  /*  Cho phép kéo giãn */
-  resize: both;
-  overflow: auto;
-
-  /*  Không cho thu quá nhỏ */
-  min-width: 250px;
-  min-height: 300px;
-}
-
-.qr-popup-title {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 14px;
-}
-
-.qr-popup-image {
-  width: 100%;     /* Tự giãn theo container */
-  height: auto;
-
-  padding: 10px;
-  border-radius: 10px;
-  object-fit: contain;
-
-  background: #f8f8f8;
-  border: 1px solid #ddd;
-
-  max-width: 100%;
-}
-
-.qr-popup-close {
-  margin-top: 18px;
-  padding: 10px 20px;
-
-  background: #1976d2;
-  color: #fff;
-
-  border: none;
-  border-radius: 8px;
-
-  cursor: pointer;
-  font-size: 15px;
-
-  transition: 0.2s;
-}
-
-.qr-popup-close:hover {
-  background: #0f5aaa;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
+  .qr-popup-container {
+    width: 280px;
+    padding: 18px;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  .time-popup-buttons {
+    flex-direction: column;
   }
 }
