@@ -215,6 +215,7 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
   }));
 
   const renderActions = (row) => {
+    if( activeTab === "student-attendance") return null;
     if (row.trạng_thái === "approved" || row.trạng_thái === "rejected") return null;
 
     return (
