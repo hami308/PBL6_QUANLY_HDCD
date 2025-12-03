@@ -230,13 +230,13 @@ export async function filter_activities_by_student(studentId,filters) {
   }
 }
 
-export async function register_activity(activityId, registrationData = {}) {
+export async function register_activity(activityId) {
   try {
     const token = sessionStorage.getItem("token");
 
     const response = await axios.post(
       `${API_URL}/activities/${activityId}/register`,
-      registrationData,
+      {}, 
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -273,7 +273,6 @@ export async function get_activity_details_of_student(activityId, studentId) {
         },
       }
     );
-
 
     return {
       success: true,

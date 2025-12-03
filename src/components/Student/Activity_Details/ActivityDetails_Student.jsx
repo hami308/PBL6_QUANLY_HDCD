@@ -6,8 +6,16 @@ import "./ActivityDetails_Student.css";
 
 import Evaluate_Activity from "../Evaluate_Activity/Evaluate_Activity";
 
-function Activity_Details({ activity_details, onCancelRegister }) {
+function Activity_Details({ activity_details = {}, onCancelRegister }) {
   const [showEvaluatePopup, setShowEvaluatePopup] = useState(false);
+
+  // Lấy dữ liệu activity và student với giá trị mặc định
+  const activity = activity_details.activity || {};
+  const student = activity_details.student || {};
+  const registration = student.registration || {};
+  const attendance = student.attendance || {};
+  const orgUnit = activity.org_unit_id || {};
+  const field = activity.field_id || {};
 
   // Format thời gian
   const formatDateTime = (date) =>
@@ -16,10 +24,9 @@ function Activity_Details({ activity_details, onCancelRegister }) {
   const formatDate = (date) =>
     date ? dayjs(date).format("DD/MM/YYYY") : "Không rõ";
 
-  // Trạng thái của sinh viên trong hoạt động
-  const studentStatus = activity_details.student.registrationStatus;
-  const processedTime = activity_details.student.registration.approved_at;
-  const attendanceTime = activity_details.student.attendance.scanned_at;
+  const studentStatus = student.registrationStatus || "unknown";
+  const processedTime = registration.approved_at;
+  const attendanceTime = attendance.scanned_at;
 
   // ======== FORMAT TRẠNG THÁI HIỂN THỊ ========
   const renderStatus = () => {
@@ -39,47 +46,44 @@ function Activity_Details({ activity_details, onCancelRegister }) {
 
   return (
     <div className="activity-card-details">
-
       {/* Tên hoạt động */}
       <div className="activity--details">
-        <h1 className="activity-title-details">{activity_details.activity.title}</h1>
+        <h1 className="activity-title-details">{activity.title || "Không rõ tên"}</h1>
       </div>
 
       {/* Đơn vị tổ chức */}
       <div className="activity-team-details">
-        {activity_details.activity.org_unit_id?.name || "Không có đơn vị tổ chức"}
+        {orgUnit.name || "Không có đơn vị tổ chức"}
       </div>
 
       {/* Ảnh */}
       <img
-        src={activity_details.activity.activity_image || Activity_pic}
-        alt={activity_details.activity.title}
+        src={activity.activity_image || Activity_pic}
+        alt={activity.title || "Ảnh hoạt động"}
         className="activity-image-details"
       />
 
       <div className="activity-content-details">
-
         <div className="field">
           <strong>Mô tả:</strong>
-          <p>{activity_details.activity.description}</p>
+          <p>{activity.description || "Không có mô tả"}</p>
         </div>
 
         <div className="field">
           <strong>Thời gian tổ chức:</strong>
           <span>
-            {formatDateTime(activity_details.activity.start_time)} –{" "}
-            {formatDateTime(activity_details.activity.end_time)}
+            {formatDateTime(activity.start_time)} – {formatDateTime(activity.end_time)}
           </span>
         </div>
 
         <div className="field">
           <strong>Lĩnh vực:</strong>
-          <span>{activity_details.activity.field_id.name || "Không rõ"}</span>
+          <span>{field.name || "Không rõ"}</span>
         </div>
 
         <div className="field">
           <strong>Địa điểm:</strong>
-          <span>{activity_details.activity.location || "Không rõ"}</span>
+          <span>{activity.location || "Không rõ"}</span>
         </div>
 
         <div className="field">
@@ -89,9 +93,7 @@ function Activity_Details({ activity_details, onCancelRegister }) {
 
         <div className="field">
           <strong>Thời gian đăng ký:</strong>
-          <span>
-            {formatDate(activity_details.student.registration.registered_at)}
-          </span>
+          <span>{formatDate(registration.registered_at)}</span>
         </div>
 
         {(studentStatus === "approved" || studentStatus === "rejected") && (
@@ -109,7 +111,7 @@ function Activity_Details({ activity_details, onCancelRegister }) {
         )}
       </div>
 
-      {/* ======== NÚT HỦY ĐĂNG KÝ ======== */}
+      {/* Nút hủy đăng ký */}
       {!attendanceTime && studentStatus === "pending" && (
         <div className="activity-action">
           <button className="cancel-register-btn" onClick={onCancelRegister}>
@@ -118,28 +120,23 @@ function Activity_Details({ activity_details, onCancelRegister }) {
         </div>
       )}
 
-      {/* ======== NÚT ĐÁNH GIÁ (KHI ĐÃ THAM GIA) ======== */}
+      {/* Nút đánh giá (khi đã tham gia) */}
       {attendanceTime && (
         <div className="activity-action">
-          <button
-            className="evaluate-btn"
-            onClick={() => setShowEvaluatePopup(true)}
-          >
-             Đánh giá hoạt động
+          <button className="evaluate-btn" onClick={() => setShowEvaluatePopup(true)}>
+            Đánh giá hoạt động
           </button>
         </div>
       )}
 
-      {/* ======== POPUP ĐÁNH GIÁ ======== */}
+      {/* Popup đánh giá */}
       {showEvaluatePopup && (
-        <Evaluate_Activity 
+        <Evaluate_Activity
           onClose={() => setShowEvaluatePopup(false)}
-          activityId={activity_details.activity._id} 
-          title={activity_details.activity.title}
+          activityId={activity._id}
+          title={activity.title}
         />
       )}
-
-
     </div>
   );
 }

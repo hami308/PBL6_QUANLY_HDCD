@@ -182,7 +182,8 @@ export default function Propose_Activity({ iscreate }) {
         capacity: Number(form.volunteers),
         points: Number(form.maxpoint),
         org_unit_id: orgUnitId,
-        requirements: requirements, // MẢNG đúng chuẩn BE yêu cầu
+        requirements: requirements, 
+        requires_approval: true,
       };
 
       const res = iscreate
