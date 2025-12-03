@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Activity_org_component.css";
-import List_Student_Page from "../../../Pages/List_Student_Page/List_Student_Page";
 
 function Activity_Org_Component({ activity }) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -16,7 +17,6 @@ function Activity_Org_Component({ activity }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Chuyển đổi ISO sang định dạng dễ đọc
   const formatDateTime = (isoString) => {
     const options = {
       year: "numeric",
@@ -66,30 +66,26 @@ function Activity_Org_Component({ activity }) {
 
         {showMenu && (
           <ul className="activity-org-component-menu">
-            <li>
-              <a 
-                href={`/activity-details/${activity._id}?from=manage-activity-org`} 
-                className="activity-org-menu-link"
-              >
-                Xem chi tiết
-              </a>
+            <li onClick={() => navigate(`/activity-details/${activity._id}?from=manage-activity-org`)}>
+              Xem chi tiết
             </li>
-           {activity.status !== "hủy hoạt động" && <li>Hủy hoạt động</li>}
-           <li>
-            <a 
-                href={`list-student-registered/${activity._id}`} 
-                className="activity-org-menu-link"
-              >
-                Xem danh sách sinh viên
-              </a>
-           </li>
-           <li>
-            Xác nhận điểm
-           </li>
+
+            {activity.status !== "hủy hoạt động" && (
+              <li onClick={() => alert("Chức năng hủy hoạt động")}>Hủy hoạt động</li>
+            )}
+
+            <li onClick={() => navigate(`/list-student-registered/${activity._id}`)}>
+              Xem danh sách sinh viên
+            </li>
+
+            <li onClick={() => navigate(`/list-student-attendance/${activity._id}`)}>
+              Xác nhận điểm
+            </li>
           </ul>
         )}
       </div>
     </div>
   );
 }
+
 export default Activity_Org_Component;

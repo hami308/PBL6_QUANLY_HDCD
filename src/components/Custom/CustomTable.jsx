@@ -1,7 +1,11 @@
-// CustomTable.jsx
 import React from "react";
 import "./CustomTable.css";
+
 function CustomTable({ columns, data, renderActions }) {
+  // Kiểm tra xem có hàng nào renderActions khác null không
+  const hasActions =
+    renderActions && data.some((row) => renderActions(row) !== null);
+
   return (
     <div className="custom-table-wrapper">
       <table className="custom-table">
@@ -12,9 +16,7 @@ function CustomTable({ columns, data, renderActions }) {
                 {col}
               </th>
             ))}
-            {renderActions && (
-              <th className="custom-table__header">Thao tác</th>
-            )}
+            {hasActions && <th className="custom-table__header">Thao tác</th>}
           </tr>
         </thead>
         <tbody className="custom-table__body">
@@ -25,7 +27,7 @@ function CustomTable({ columns, data, renderActions }) {
                   {row[col.toLowerCase().replace(/\s/g, "_")]}
                 </td>
               ))}
-              {renderActions && (
+              {hasActions && (
                 <td className="custom-table__cell custom-table__actions">
                   {renderActions(row)}
                 </td>
@@ -37,4 +39,5 @@ function CustomTable({ columns, data, renderActions }) {
     </div>
   );
 }
+
 export default CustomTable;
