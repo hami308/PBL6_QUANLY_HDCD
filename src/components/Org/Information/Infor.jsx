@@ -1,51 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Infor.css";
+import { getStaffInfo } from "../../../services/Staff_Service";
+import { get_org_unit_by_id } from "../../../services/Org_Service";
 
-export default function Infor({
-  organization = {
-    name: "Câu lạc bộ Công nghệ Trẻ",
-    founded: "20/10/2015",
-    description:
-      "Một tổ chức trẻ trung, năng động, với sứ mệnh lan tỏa đam mê công nghệ đến cộng đồng sinh viên.",
-    achievements: [
-      "Top 3 Cuộc thi Sáng tạo Trẻ 2020",
-      "Tổ chức 50+ workshop trong 3 năm gần nhất",
-      "Hợp tác cùng Google Developer Group Việt Nam - 2024",
-    ],
-    members: [
-      {
-        name: "Nguyễn Văn A",
-        age: 45,
-        phone: "0123 456 789",
-        email: "nguyenvana@example.com",
-        position: "Chủ nhiệm",
-        avatar: "https://via.placeholder.com/120",
-      },
-      {
-        name: "Trần Thị B",
-        age: 38,
-        phone: "0987 654 321",
-        email: "tranthib@example.com",
-        position: "Phó Chủ nhiệm",
-        avatar: "https://via.placeholder.com/120",
-      },
-      {
-        name: "Lê Văn C",
-        age: 40,
-        phone: "0901 112 233",
-        email: "levanc@example.com",
-        position: "Thủ quỹ",
-        avatar: "https://via.placeholder.com/120",
-      },
-    ],
-  },
-}) {
+export default function Infor() {
+  const [organization, setOrganization] = useState(null);
+  useEffect(() => {
+    const user=JSON.parse(sessionStorage.getItem("user"));
+    async function fetchData() {
+      const staffRes = await getStaffInfo(user.id);
+      const orgUnitId = staffRes.org_unit_id._id;
+      if (!orgUnitId) return;
+
+      // 2. Lấy thông tin tổ chức
+      const orgRes = await get_org_unit_by_id(orgUnitId);
+      console.log("orgRes", orgRes);
+      if (orgRes.success) {
+        setOrganization(orgRes.data);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (!organization) return <p>Đang tải dữ liệu...</p>;
+
   return (
     <main className="infor-page">
       <section className="hero">
         <div className="hero-inner">
           <h1 className="org-name">{organization.name}</h1>
-          <p className="org-founded">Thành lập: {organization.founded}</p>
+          <p className="org-founded">Thành lập: {organization.founded_date}</p>
           <p className="org-description">{organization.description}</p>
         </div>
       </section>
@@ -53,7 +38,7 @@ export default function Infor({
       <section className="achievements">
         <h2 className="section-title">Thành tựu</h2>
         <ul className="achieve-list">
-          {organization.achievements.map((a, i) => (
+          {organization.achievements?.map((a, i) => (
             <li key={i} className="achieve-item">
               <span className="dot" />
               <span>{a}</span>
@@ -63,18 +48,17 @@ export default function Infor({
       </section>
 
       <section className="members">
-        <h2 className="section-title">Ban chủ nhiệm</h2>
+        <h2 className="section-title">Thành viên</h2>
         <div className="member-grid">
-          {organization.members.map((member, idx) => (
+          {organization.staff.map((member, idx) => (
             <article className="member-card" key={idx}>
               <img
-                src={member.avatar}
-                alt={member.name}
+                src={member.staff_image}
+                alt={member.full_name}
                 className="member-avatar"
               />
               <div className="member-info">
-                <h3>{member.name}</h3>
-                <p>Tuổi: {member.age}</p>
+                <h3>{member.full_name}</h3>
                 <p>SĐT: {member.phone}</p>
                 <p>Email: {member.email}</p>
                 <p>Chức vụ: {member.position}</p>
