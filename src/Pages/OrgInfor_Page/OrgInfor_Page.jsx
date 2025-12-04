@@ -1,13 +1,13 @@
 import Header from "../../components/Header/Header";
 import Infor from "../../components/Org/Information/Infor";
 import Footer from "../../components/Footer/Footer";
-import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
+import Menu_org from "../../components/Menu/Menu_org";
 
 const OrgInfor_Page = () => {
   return (
     <>
       <Header />
-      <Menu_Admin />
+      <Menu_org />
       <Infor />
       <Footer />
     </>

@@ -23,6 +23,7 @@ export async function get_all_activities() {
 export async function get_details_activity_by_id(id) {
   try {
     const response = await axios.get(`${API_URL}/activities/${id}`);
+    console.log("response",response);
     return {
       success: true,
       data: response.data,
