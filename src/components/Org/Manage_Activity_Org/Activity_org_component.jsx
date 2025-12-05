@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Activity_org_component.css";
 import Post_Activity from "../Post_Activity/Post_Activity";
+import { cancel_activity } from "../../../services/Activity_Services";
+import CancelActivityPopup from "../../Popup/CancelActivityPopup";
+
 
 function Activity_Org_Component({ activity }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -34,12 +37,26 @@ function Activity_Org_Component({ activity }) {
   };
 
   const date = `${formatDateTime(activity.start_time)} - ${formatDateTime(activity.end_time)}`;
+  const handleCancelActivity = async (reason) => {
+    try {
+      const res = await cancel_activity(activity._id, { reason });
 
+      if (res.success) {
+        alert("Hủy hoạt động thành công!");
+        window.location.reload();
+      } else {
+        alert("Hủy thất bại!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Lỗi khi hủy hoạt động!");
+    }
+  };
   return (
     <>
       <div
         className="activity-org-component-card"
-        style={{ zIndex: showMenu ? 1001 : 1 }}
+        style={{ zIndex: showMenu ? 999 : 1 }}
       >
         <div className="activity-org-component-left">
           <img
@@ -109,20 +126,18 @@ function Activity_Org_Component({ activity }) {
       )}
 
       {/* Popup hủy */}
+      {showPostPopup && (
+        <Post_Activity
+          onClose={() => setShowPostPopup(false)}
+          activity={activity}
+        />
+      )}
+
       {showCancelPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h3>Bạn có chắc muốn hủy hoạt động?</h3>
-
-            <button className="confirm-btn">
-              Xác nhận hủy
-            </button>
-
-            <button className="cancel-btn" onClick={() => setShowCancelPopup(false)}>
-              Đóng
-            </button>
-          </div>
-        </div>
+        <CancelActivityPopup
+          onClose={() => setShowCancelPopup(false)}
+          onConfirm={handleCancelActivity}
+        />
       )}
     </>
   );
