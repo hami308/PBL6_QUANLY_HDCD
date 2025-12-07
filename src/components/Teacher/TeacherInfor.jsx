@@ -144,9 +144,9 @@ function TeacherInfo({ idstaff }) {
   return (
     <div className="teacher-info-background">
       <div className="teacher-info-container">
-        <a onClick={() => window.history.back()}>
+        {/* <a onClick={() => window.history.back()}>
           <span className="material-symbols-outlined">arrow_back</span>
-        </a>
+        </a> */}
         <h2 className="title">Thông tin cán bộ / giảng viên</h2>
 
         {/* Hiển thị chức vụ và đơn vị nổi bật */}

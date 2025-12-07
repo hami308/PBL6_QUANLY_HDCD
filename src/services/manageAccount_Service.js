@@ -27,10 +27,79 @@ export const getStudents = async () => {
 export const getTeachers = async () => {
   try {
     const res = await axios.get(`${API_BASE}/staff-profiles`, getAuthHeader());
-    console.log("Response data:", res.data);
-    return res.data ? res.data : [];
+
+    return res.data;
   } catch (err) {
     console.error("Lỗi khi lấy danh sách giảng viên:", err);
+    throw err;
+  }
+};
+const BASE_URL = "https://pbl6-backend.vercel.app/api/student-profiles";
+
+const getToken = () => sessionStorage.getItem("token");
+
+export const filterStudents = async (filters = {}) => {
+  try {
+    const query = new URLSearchParams({
+      student_number: filters.student_number || "",
+      faculty_id: filters.faculty_id || "",
+      class_id: filters.class_id || "",
+    });
+
+    const url = `${BASE_URL}?${query.toString()}`;
+    console.log("Filter URL:", url);
+
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    const json = await res.json();
+
+    // 🟢 LẤY ĐÚNG TRƯỜNG data
+    if (json.success) {
+      console.log("Filtered Students:", json.data);
+      return json.data;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Lỗi lọc sinh viên:", err);
+    throw err;
+  }
+};
+const STAFF_URL = "https://pbl6-backend.vercel.app/api/staff-profiles";
+
+export const filterTeachers = async (filters = {}) => {
+  try {
+    const query = new URLSearchParams({
+      staff_number: filters.staff_number || "",
+      org_unit_id: filters.org_unit_id || "",
+    });
+
+    const url = `${STAFF_URL}?${query.toString()}`;
+    console.log("Filter Teacher URL:", url);
+
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    const json = await res.json();
+
+    // Trả về đúng list giảng viên
+    if (json.success) {
+      console.log("Filtered Teachers:", json.data);
+      return json.data;
+    } else {
+      return [];
+    }
+  } catch (err) {
+    console.error("Lỗi lọc giảng viên:", err);
     throw err;
   }
 };

@@ -93,7 +93,9 @@
 .btn-reset:hover {
   background-color: #1f8c39;
 }
-
+.Filter_Admin-content .react-datepicker-wrapper {
+  width: 200px;
+}
 /* Responsive cho màn hình nhỏ */
 @media (max-width: 600px) {
   .Filter_Admin-content {
@@ -103,6 +105,10 @@
 
   .filter-input,
   .Filter_Admin-select {
+    width: 100%;
+    max-width: 300px;
+  }
+  .Filter_Admin-content .react-datepicker-wrapper {
     width: 100%;
     max-width: 300px;
   }
