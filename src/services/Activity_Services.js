@@ -23,6 +23,7 @@ export async function get_all_activities() {
 export async function get_details_activity_by_id(id) {
   try {
     const response = await axios.get(`${API_URL}/activities/${id}`);
+    console.log("response",response);
     return {
       success: true,
       data: response.data,
@@ -230,13 +231,13 @@ export async function filter_activities_by_student(studentId,filters) {
   }
 }
 
-export async function register_activity(activityId, registrationData = {}) {
+export async function register_activity(activityId) {
   try {
     const token = sessionStorage.getItem("token");
 
     const response = await axios.post(
       `${API_URL}/activities/${activityId}/register`,
-      registrationData,
+      {}, 
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -273,7 +274,6 @@ export async function get_activity_details_of_student(activityId, studentId) {
         },
       }
     );
-
 
     return {
       success: true,
@@ -436,6 +436,36 @@ export async function reject_activity(activityId, reason) {
       message:
         error.response?.data?.message ||
         "Không thể từ chối hoạt động, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function get_students_stats_by_activity(activityId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.get(
+      `${API_URL}/attendances/activity/${activityId}/students-stats`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response attendance",response);
+    return {
+      success: true,
+      data: response.data, 
+      message: response.data.message || "Lấy thống kê sinh viên tham gia thành công.",
+    };
+  } catch (error) {
+    console.error(`Get student stats for activity ${activityId} error:`, error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy thống kê sinh viên tham gia, vui lòng thử lại sau.",
     };
   }
 }

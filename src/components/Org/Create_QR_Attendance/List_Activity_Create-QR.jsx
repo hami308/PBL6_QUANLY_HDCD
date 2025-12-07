@@ -34,11 +34,7 @@ function List_Activity_Create_QR() {
         //  4. Gọi API lấy danh sách hoạt động theo tổ chức và trạng thái
         const actRes = await get_activities_by_orgunit_and_status(orgUnitId, "đang tổ chức");
         if (actRes.success && Array.isArray(actRes.data)) {
-          const withImages = actRes.data.map((item) => ({
-            ...item,
-            image: item.image || Activity_pic,
-          }));
-          setActivities(withImages);
+          setActivities(actRes.data);
         } else {
           throw new Error(actRes.message || "Không thể tải danh sách hoạt động.");
         }
@@ -53,6 +49,7 @@ function List_Activity_Create_QR() {
     fetchData();
   }, []);
 
+
   //  Phân trang
   const totalPages = Math.ceil(activities.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -65,7 +62,6 @@ function List_Activity_Create_QR() {
   //  Hiển thị
   if (loading) return <p style={{ textAlign: "center" }}>Đang tải dữ liệu...</p>;
   if (error) return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
-
   return (
     <div className="list-activity-org-component-container">
       {currentActivities.length > 0 ? (

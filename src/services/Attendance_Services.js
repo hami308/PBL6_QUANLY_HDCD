@@ -81,3 +81,65 @@ export async function get_attendance_detail(studentId, activityId) {
     };
   }
 }
+
+export async function generate_qr(qrData) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.post(
+      `${API_URL}/attendances/generate-qr`,
+      qrData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Generate QR response:", response.data);
+    return {
+      success: true,
+      data: response.data,
+    };
+
+  } catch (error) {
+    console.error("Generate QR error:", error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể tạo QR điểm danh, vui lòng thử lại sau.",
+    };
+  }
+}
+
+export async function update_attendance(attendanceId, updateData) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const response = await axios.put(
+      `${API_URL}/attendances/${attendanceId}`,
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error(`Update attendance ${attendanceId} error:`, error);
+
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể cập nhật điểm danh, vui lòng thử lại sau.",
+    };
+  }
+}

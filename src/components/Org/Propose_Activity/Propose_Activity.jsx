@@ -12,6 +12,7 @@ import {
   propose_activity,
 } from "../../../services/Activity_Services";
 import CustomSelect from "../../Custom/CustomSelect";
+// import { id } from "date-fns/locale";
 
 export default function Propose_Activity({ iscreate }) {
   const [form, setForm] = useState({
@@ -128,11 +129,11 @@ export default function Propose_Activity({ iscreate }) {
   };
 
   // ====================== BUILD REQUIREMENTS ======================
-  const extractYear = (label) => {
-    if (!label || typeof label !== "string") return null;
-    const match = label.match(/\d{4}/);
-    return match ? match[0] : null;
-  };
+  // const extractYear = (label) => {
+  //   if (!label || typeof label !== "string") return null;
+  //   const match = label.match(/\d{4}/);
+  //   return match ? match[0] : null;
+  // };
 
   const buildRequirements = () => {
     let req = [];
@@ -141,8 +142,8 @@ export default function Propose_Activity({ iscreate }) {
     if (!form.faculty.some((f) => f.value === "all")) {
       req.push(
         ...form.faculty.map((f) => ({
-          type: "falcuty",
-          name: f.label,
+          type: "faculty",
+          id: f.value,
         }))
       );
     }
@@ -152,11 +153,11 @@ export default function Propose_Activity({ iscreate }) {
       req.push(
         ...form.course.map((c) => ({
           type: "cohort",
-          year: extractYear(c.label),
+          id: c.value,
         }))
       );
     }
-
+    console.log("Built requirements:", req);
     return req;
   };
 
@@ -171,7 +172,7 @@ export default function Propose_Activity({ iscreate }) {
 
     try {
       const requirements = buildRequirements();
-
+      
       const payload = {
         title: form.name,
         description: form.description,
@@ -182,7 +183,8 @@ export default function Propose_Activity({ iscreate }) {
         capacity: Number(form.volunteers),
         points: Number(form.maxpoint),
         org_unit_id: orgUnitId,
-        requirements: requirements, // MẢNG đúng chuẩn BE yêu cầu
+        requirements: requirements, 
+        requires_approval: true,
       };
 
       const res = iscreate

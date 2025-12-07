@@ -18,6 +18,7 @@ const CancelActivityPopup = ({ onClose, onConfirm }) => {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="popup-overlay">
