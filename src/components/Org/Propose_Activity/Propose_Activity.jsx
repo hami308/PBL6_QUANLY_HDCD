@@ -186,7 +186,7 @@ export default function Propose_Activity({ iscreate }) {
         requirements: requirements, 
         requires_approval: true,
       };
-
+      console.log("Payload:", payload);
       const res = iscreate
         ? await create_activity(payload)
         : await propose_activity(payload);
