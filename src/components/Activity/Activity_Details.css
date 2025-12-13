@@ -309,9 +309,14 @@ select.field-select {
 }
 
 .button-cancel-activity:hover {
-  background-color: #e57373;
+  background-color: #eb120b;
 }
-
+body.dark-mode .button-cancel-activity {
+  background-color: #7a0e0e;
+}
+body.dark-mode .button-cancel-activity:hover {
+  background-color: #bc0e09;
+}
 /* --- DARK MODE --- */
 body.dark-mode .activity-card-details {
   background-color: #4b4b4b;
@@ -387,6 +392,12 @@ body.dark-mode .activity-tag-select__control--is-disabled {
   background-color: transparent;
   border: none;
   color: #e0e0e0;
+}
+body.dark-mode .button-update-infor-activity {
+  background-color: #388e3c;
+}
+body.dark-mode .button-update-infor-activity:hover {
+  background-color: #37803a;
 }
 
 /* --- RESPONSIVE DESIGN --- */

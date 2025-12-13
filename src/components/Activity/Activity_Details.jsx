@@ -194,7 +194,12 @@ function Activity_Details({ activity_details }) {
       </div>
 
       <img
-        src={activity_details.activity_image || Activity_pic}
+        src={
+          activity_details.activity_image &&
+          activity_details.activity_image.trim() !== ""
+            ? activity_details.activity_image
+            : Activity_pic
+        }
         alt={activity_details.title}
         className="activity-image-details"
       />
@@ -302,7 +307,7 @@ function Activity_Details({ activity_details }) {
       {canEdit  && (
         <div className="manage-infot-activity">
           <button className="button-update-infor-activity" onClick={handleUpdateActivity}>Cập nhật</button>
-          <button onClick={() => setShowCancelPopup(true)}>Hủy hoạt động</button>
+          <button className="button-cancel-activity" onClick={() => setShowCancelPopup(true)}>Hủy hoạt động</button>
 
           {showCancelPopup && (
             <CancelActivityPopup onClose={() => setShowCancelPopup(false)} onConfirm={handleConfirmCancel} />
