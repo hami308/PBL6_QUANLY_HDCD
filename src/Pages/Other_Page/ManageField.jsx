@@ -3,7 +3,7 @@ import {
   get_all_fields,
   create_field,
   update_field,
-  delete_field,
+  // delete_field,
 } from "../../services/Field_Service";
 
 import Header from "../../components/Header/Header";
@@ -30,7 +30,7 @@ const ManageField = () => {
       const res = await get_all_fields();
       setFields(res.data || []);
     } catch (err) {
-      alert(err.message || "Lỗi tải danh sách ngành học");
+      alert(err.message || "Lỗi tải danh sách lĩnh vực");
     }
     setLoading(false);
   };
@@ -51,7 +51,7 @@ const ManageField = () => {
     const res = await create_field({ name: form.name });
     if (!res.success) return alert(res.message);
 
-    alert("Tạo ngành học thành công!");
+    alert("Tạo lĩnh vực thành công!");
     setShowModal(false);
     loadFields();
   };
@@ -60,20 +60,20 @@ const ManageField = () => {
     const res = await update_field(editItem._id, { name: form.name });
     if (!res.success) return alert(res.message);
 
-    alert("Cập nhật ngành học thành công!");
+    alert("Cập nhật lĩnh vực thành công!");
     setShowModal(false);
     loadFields();
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc muốn xóa ngành học này?")) return;
+  // const handleDelete = async (id) => {
+  //   if (!window.confirm("Bạn có chắc muốn xóa lĩnh vực này?")) return;
 
-    const res = await delete_field(id);
-    if (!res.success) return alert(res.message);
+  //   const res = await delete_field(id);
+  //   if (!res.success) return alert(res.message);
 
-    alert("Xóa ngành học thành công!");
-    loadFields();
-  };
+  //   alert("Xóa lĩnh vực thành công!");
+  //   loadFields();
+  // };
 
   return (
     <div>
@@ -81,10 +81,10 @@ const ManageField = () => {
       <Menu_Admin />
 
       <div className="faculty-container">
-        <h2>Danh sách ngành học</h2>
+        <h2>Danh sách lĩnh vực</h2>
 
         <button className="btn-primary" onClick={openCreateModal}>
-          + Thêm ngành học
+          + Thêm lĩnh vực
         </button>
 
         {loading ? (
@@ -93,7 +93,7 @@ const ManageField = () => {
           <table className="faculty-table">
             <thead>
               <tr>
-                <th>Tên ngành học</th>
+                <th>Tên lĩnh vực</th>
                 <th>Hành động</th>
               </tr>
             </thead>
@@ -111,12 +111,12 @@ const ManageField = () => {
                       Sửa
                     </button>
 
-                    <button
+                    {/* <button
                       className="btn-delete"
                       onClick={() => handleDelete(f._id)}
                     >
                       Xóa
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -129,10 +129,10 @@ const ManageField = () => {
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
-            <h3>{editItem ? "Cập nhật ngành học" : "Thêm ngành học mới"}</h3>
+            <h3>{editItem ? "Cập nhật lĩnh vực" : "Thêm lĩnh vực mới"}</h3>
 
             <input
-              placeholder="Nhập tên ngành học..."
+              placeholder="Nhập tên lĩnh vực..."
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
             />

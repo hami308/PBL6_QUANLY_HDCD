@@ -5,7 +5,7 @@ import {
   getClassesByFaculty,
   createClass,
   updateClass,
-  deleteClass,
+  // deleteClass,
 } from "../../services/Class_Service";
 
 import { get_all_cohort } from "../../services/Cohort_Services";
@@ -114,22 +114,22 @@ const ManageClass = () => {
     }
   };
 
-  // Xóa lớp
-  const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc muốn xóa lớp này?")) return;
+  // // Xóa lớp
+  // const handleDelete = async (id) => {
+  //   if (!window.confirm("Bạn có chắc muốn xóa lớp này?")) return;
 
-    try {
-      const res = await deleteClass(id);
-      if (!res.success) {
-        alert(res.message);
-        return;
-      }
-      alert("Đã xóa lớp!");
-      loadClasses();
-    } catch (err) {
-      alert(err.message || "Lỗi không xác định");
-    }
-  };
+  //   try {
+  //     const res = await deleteClass(id);
+  //     if (!res.success) {
+  //       alert(res.message);
+  //       return;
+  //     }
+  //     alert("Đã xóa lớp!");
+  //     loadClasses();
+  //   } catch (err) {
+  //     alert(err.message || "Lỗi không xác định");
+  //   }
+  // };
 
   return (
     <div>
@@ -169,12 +169,12 @@ const ManageClass = () => {
                       Sửa
                     </button>
 
-                    <button
+                    {/* <button
                       className="btn-delete"
                       onClick={() => handleDelete(c._id)}
                     >
                       Xóa
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}

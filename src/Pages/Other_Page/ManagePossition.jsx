@@ -28,7 +28,7 @@ const ManagePosition = () => {
   const loadPositions = async () => {
     try {
       const res = await get_all_position();
-      console.log("kiểm tra ", res);
+      console.log("kiểm tra ", res.data);
       setPositions(res.data || []);
     } catch (err) {
       alert(err.message || "Lỗi tải danh sách chức vụ");
@@ -100,9 +100,9 @@ const ManagePosition = () => {
             </thead>
 
             <tbody>
-              {positions.map((p) => (
-                <tr key={p._id}>
-                  <td>{p.name}</td>
+              {positions.map((p, index) => (
+                <tr key={index}>
+                  <td>{p}</td>
 
                   <td>
                     <button

@@ -1,16 +1,29 @@
-import axios from "axios";
-const activiti_dashboard = async () => {
+const BASE_URL =
+  "https://pbl6-backend.vercel.app/api/statistics/activity-dashboard";
+
+// Lấy token dùng chung
+const getToken = () => sessionStorage.getItem("token");
+export const filter_activity_dashboard = async (filters = {}) => {
   try {
-    const url =
-      "https://pbl6-backend.vercel.app/api/statistics/activity-dashboard";
-    const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${url}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const query = new URLSearchParams({
+      year: filters.year || "",
+      field_id: filters.field_id || "",
+      org_unit_id: filters.org_unit_id || "",
+      status: filters.status || "",
     });
-    return response.data;
+    console.log("id to chuc", filters.org_unit_id);
+    const url = `${BASE_URL}?${query.toString()}`;
+    console.log("Filter URL:", url);
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error("Lỗi khi lấy thông tin hoạt động :", error);
+    console.error("Lỗi lọc thống kê hoạt động:", error);
     throw error;
   }
 };
-export { activiti_dashboard };

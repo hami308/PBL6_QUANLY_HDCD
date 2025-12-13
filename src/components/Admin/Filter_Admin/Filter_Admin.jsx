@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Filter_Admin.css";
 import { FaFilter } from "react-icons/fa";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import { getClass } from "../../../services/Class_Service";
+import { getClassesByFaculty } from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
+import DatePicker from "react-datepicker";
 
 const Filter_Admin = ({ activeTab, onFilterApply }) => {
   // === STUDENT & TEACHER FILTERS ===
@@ -15,7 +16,7 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
 
   const [teacherId, setTeacherId] = useState("");
   const [unit, setUnit] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
+  // const [sortOrder, setSortOrder] = useState("");
 
   // === SCORE FILTERS ===
   const [studentCode, setStudentCode] = useState("");
@@ -23,7 +24,7 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
 
   // === ACTIVITY FILTERS ===
   const [activityYear, setActivityYear] = useState("");
-  const [activityField, setActivityField] = useState("");
+
   const [organization, setOrganization] = useState("");
   const [activityStatus, setActivityStatus] = useState("");
 
@@ -48,7 +49,7 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
   useEffect(() => {
     const fetchClasses = async () => {
       if (idfaculty) {
-        const res = await getClass(idfaculty);
+        const res = await getClassesByFaculty(idfaculty);
         if (res.data) {
           setClassList(res.data);
           setSelectedClass(""); // reset lớp khi đổi khoa
@@ -69,21 +70,53 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
       const response = await get_all_org();
       if (response.data) {
         setOrgList(response.data);
+        // console.log("Fetched organizations:", response.data);
       } else {
         console.error("Failed to fetch organizations:", response.message);
       }
     };
     fetchOrg();
   }, []);
+  useEffect(() => {
+    handleReset();
+  }, [activeTab]);
 
   // === BUTTON ACTIONS ===
   const handleApply = () => {
-    const filters = {
-      studentCode,
-      idfaculty,
-      selectedClass,
-      academicYear,
-    };
+    let filters = {};
+
+    if (activeTab === "student") {
+      filters = {
+        student_number: studentId || "",
+        faculty_id: idfaculty || "",
+        class_id: selectedClass || "",
+      };
+    }
+    if (activeTab === "teacher") {
+      filters = {
+        staff_number: teacherId || "",
+        org_unit_id: unit || "",
+      };
+    }
+
+    if (activeTab === "Score") {
+      filters = {
+        studentCode,
+        idfaculty,
+        selectedClass,
+        academicYear: academicYear ? academicYear.getFullYear() : "",
+      };
+    }
+
+    if (activeTab === "Activity") {
+      filters = {
+        year: activityYear ? activityYear.getFullYear() : "",
+        field_id: "",
+        org_unit_id: organization || "",
+        status: activityStatus || "",
+      };
+      console.log("check:", filters.org_unit_id);
+    }
 
     if (onFilterApply) onFilterApply(filters);
   };
@@ -95,11 +128,11 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
     setClassList([]);
     setTeacherId("");
     setUnit("");
-    setSortOrder("");
+    // setSortOrder("");
     setStudentCode("");
     setAcademicYear("");
     setActivityYear("");
-    setActivityField("");
+
     setOrganization("");
     setActivityStatus("");
   };
@@ -180,7 +213,7 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
               ))}
             </select>
 
-            <select
+            {/* <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
               className="Filter_Admin-select"
@@ -188,13 +221,21 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
               <option value="">Sắp xếp</option>
               <option value="asc">A → Z</option>
               <option value="desc">Z → A</option>
-            </select>
+            </select> */}
           </>
         )}
 
         {/* ===== SCORE TAB ===== */}
         {activeTab === "Score" && (
           <>
+            <DatePicker
+              selected={academicYear}
+              onChange={(date) => setAcademicYear(date)}
+              showYearPicker
+              dateFormat="yyyy"
+              placeholderText="Chọn năm"
+              className="Filter_Admin-select"
+            />
             <input
               type="text"
               placeholder="Mã sinh viên"
@@ -232,43 +273,20 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
                 <option disabled>Trống</option>
               )}
             </select>
-
-            <select
-              value={academicYear}
-              onChange={(e) => setAcademicYear(e.target.value)}
-              className="Filter_Admin-select"
-            >
-              <option value="">Năm học</option>
-              <option value="2023-2024">2023-2024</option>
-              <option value="2024-2025">2024-2025</option>
-              <option value="2025-2026">2025-2026</option>
-            </select>
           </>
         )}
 
         {/* ===== ACTIVITY TAB ===== */}
         {activeTab === "Activity" && (
           <>
-            <select
-              value={activityYear}
-              onChange={(e) => setActivityYear(e.target.value)}
+            <DatePicker
+              selected={activityYear}
+              onChange={(date) => setActivityYear(date)}
+              showYearPicker
+              dateFormat="yyyy"
+              placeholderText="Chọn năm"
               className="Filter_Admin-select"
-            >
-              <option value="">Năm học</option>
-              <option value="2023-2024">2023-2024</option>
-              <option value="2024-2025">2024-2025</option>
-            </select>
-
-            <select
-              value={activityField}
-              onChange={(e) => setActivityField(e.target.value)}
-              className="Filter_Admin-select"
-            >
-              <option value="">Lĩnh vực</option>
-              <option value="volunteer">Tình nguyện</option>
-              <option value="academic">Giáo dục</option>
-              <option value="sports">Thể thao</option>
-            </select>
+            />
 
             <select
               value={organization}
@@ -308,5 +326,4 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
     </div>
   );
 };
-
 export default Filter_Admin;

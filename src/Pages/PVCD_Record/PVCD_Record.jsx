@@ -115,12 +115,10 @@ function PVCD_Record() {
 
   // Khi click phản hồi → kiểm tra feedback cũ
   const handleFeedbackClick = async (activity) => {
-    
-
     const detail = await get_attendance_detail(studentId, activity.id);
     setSelectedActivity({
       ...activity,
-      data:  detail.data.data || "",
+      data: detail.data.data || "",
     });
     setShowPopup(true);
   };
@@ -174,7 +172,9 @@ function PVCD_Record() {
       )}
 
       <div className="activity-joined-container">
-        <h3 className="activity-joined-title">Danh sách hoạt động đã tham gia</h3>
+        <h3 className="activity-joined-title">
+          Danh sách hoạt động đã tham gia
+        </h3>
 
         {loadingActivities ? (
           <p>Đang tải dữ liệu...</p>

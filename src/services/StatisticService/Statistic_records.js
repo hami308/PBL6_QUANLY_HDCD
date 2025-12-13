@@ -1,39 +1,28 @@
-import axios from "axios";
+const BASE_URL = "https://pbl6-backend.vercel.app/api/statistics/grades";
 
-const API_BASE_URL = "https://pbl6-backend.vercel.app/api/pvcd-records";
-export const getAllRecord = async () => {
-  try {
-    const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${API_BASE_URL}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    // console.log("ket qua ", response);
-    return response.data;
-  } catch (error) {
-    console.error("Lỗi khi lấy thông tin hoạt động :", error);
-    if (error.response) {
-      console.error(" Response data:", error.response.data);
-      console.error(" Status:", error.response.status);
-      console.error("Headers:", error.response.headers);
-    } else if (error.request) {
-      console.error("Không nhận được phản hồi từ server:", error.request);
-    } else {
-      console.error("Lỗi khi tạo request:", error.message);
-    }
+// Lấy token từ sessionStorage
+const getToken = () => sessionStorage.getItem("token");
 
-    throw error;
-  }
-};
-export const score_dashboard = async () => {
+export const filter_grades = async (filters = {}) => {
   try {
-    const url = "https://pbl6-backend.vercel.app/api/statistics/grades";
-    const token = sessionStorage.getItem("token");
-    const response = await axios.get(`${url}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    const query = new URLSearchParams({
+      student_number: filters.studentCode || "",
+      faculty_id: filters.idfaculty || "",
+      class_id: filters.selectedClass || "",
+      year: filters.academicYear || "",
     });
-    return response.data;
+
+    const url = `${BASE_URL}?${query.toString()}`;
+    console.log("Filter Score URL:", url);
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    });
+
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error("Lỗi khi lấy thông tin hoạt động :", error);
+    console.error("Lỗi lọc điểm:", error);
     throw error;
   }
 };
