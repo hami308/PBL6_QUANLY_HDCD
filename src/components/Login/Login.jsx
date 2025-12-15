@@ -25,14 +25,14 @@ function Login({ onClose }) {
         if (result.user.roles[0].role === "student") {
           navigate("/home-student", { replace: true });
         } else if (result.user.roles[0].role === "admin") {
-          navigate("/home-admin", { replace: true });
-        } else if (result.user.roles[0].role==="staff"){
-          navigate("/home-staff", {replace: true})
+          navigate("/dashboard", { replace: true });
+        } else if (result.user.roles[0].role === "staff") {
+          navigate("/home-staff", { replace: true });
         } else {
           navigate("/", { replace: true });
         }
       } else {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng."); 
+        setError("Tên đăng nhập hoặc mật khẩu không đúng.");
       }
     } catch (err) {
       console.error("Lỗi đăng nhập:", err);

@@ -1,0 +1,397 @@
+/* =========================
+DASHBOARD – MINIMAL & CLEAN
+Ít màu – ít icon – dễ nhìn
+========================= */
+
+:root {
+  --bg-page: #f6f7f9;
+  --bg-card: #ffffff;
+  --primary: #2c3e50;
+  --secondary: #3498db;
+  --success: #2ecc71;
+  --text-main: #2d3436;
+  --text-muted: #7f8c8d;
+  --border-light: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+/* =========================
+LAYOUT CHÍNH
+========================= */
+.dashboard-container {
+  padding: 24px 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* =========================
+HEADER
+========================= */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.dashboard-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.year-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.year-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.year-datepicker {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+}
+
+.current-year {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* =========================
+SUMMARY CARD
+========================= */
+.summary-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  margin-bottom: 32px;
+}
+
+.summary-content h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.summary-value {
+  font-size: 36px;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.summary-note {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.summary-stats {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value-small {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.stat-label-small {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background-color: var(--border-light);
+}
+
+/* =========================
+GRID BIỂU ĐỒ
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.chart-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.chart-card.full-width {
+  grid-column: span 2;
+}
+
+.chart-header {
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chart-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.chart-content {
+  width: 100%;
+  height: 100%;
+}
+
+.no-data-chart {
+  padding: 40px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* =========================
+STATS GRID PHÍA DƯỚI
+========================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.stat-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.stat-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.stat-name {
+  color: var(--text-muted);
+}
+
+.stat-number {
+  font-weight: 600;
+}
+
+.stat-summary p {
+  font-size: 14px;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* =========================
+TOOLTIP
+========================= */
+.custom-tooltip {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.tooltip-label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* =========================
+LOADING / ERROR
+========================= */
+.loading-container {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  padding: 40px;
+  text-align: center;
+  color: #e74c3c;
+}
+
+.no-data {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* =========================
+RESPONSIVE – MULTI DEVICES
+========================= */
+
+/* -------- Laptop nhỏ / Tablet ngang -------- */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    padding: 20px 24px;
+  }
+
+  .dashboard-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card.full-width {
+    grid-column: span 1;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .summary-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .summary-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* -------- Tablet dọc -------- */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 13px;
+  }
+
+  .summary-value {
+    font-size: 30px;
+  }
+
+  .stat-value-small {
+    font-size: 18px;
+  }
+
+  .chart-card {
+    padding: 16px;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .year-datepicker {
+    width: 100%;
+  }
+}
+
+/* -------- Mobile -------- */
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 20px;
+  }
+
+  .summary-card {
+    padding: 16px;
+  }
+
+  .summary-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .stat-row {
+    font-size: 13px;
+  }
+
+  .chart-title {
+    font-size: 15px;
+  }
+
+  .chart-subtitle {
+    font-size: 12px;
+  }
+
+  .no-data-chart {
+    padding: 24px;
+  }
+
+  .loading-box {
+    width: 90%;
+    text-align: center;
+  }
+}

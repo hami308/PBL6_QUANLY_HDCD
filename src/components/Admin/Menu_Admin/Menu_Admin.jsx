@@ -78,7 +78,7 @@ const Menu_Admin = () => {
   return (
     <div className="top-bar">
       <nav className="header-right">
-        <a href="/home-admin">Trang chủ</a>
+        <a href="/dashboard">Dashboard</a>
         <a href="/create-account">Tạo tài khoản</a>
         {/* <a href="/delete-account">Xóa tài khoản</a> */}
 
@@ -197,7 +197,7 @@ const Menu_Admin = () => {
           <a href="/manage-position">Quản lý chức vụ</a>
           <a href="/manage-field">Quản lý lĩnh vực</a>
           <a href="/manage-cohort">Quản lý khóa</a>
-          <a href="/manage-org">Quản lý tổ chức</a>
+          <a href="/manage-organization">Quản lý tổ chức</a>
         </div>
       )}
 
