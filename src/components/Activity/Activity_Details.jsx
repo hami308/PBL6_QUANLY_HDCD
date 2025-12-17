@@ -26,8 +26,14 @@ function Activity_Details({ activity_details }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isStaff = user && user.roles && user.roles[0].role === "staff";
   const isCanceled = activity_details.status === "hủy hoạt động";
-  const canEdit = isStaff  && !isCanceled && isInManagePage;
-  const [showCancelPopup, setShowCancelPopup] = useState(false);
+  const isFinished = activity_details.status === "đã tổ chức";
+
+  const canEdit =
+    isStaff &&
+    isInManagePage &&
+    !isCanceled &&
+    !isFinished;
+    const [showCancelPopup, setShowCancelPopup] = useState(false);
 
   const handleConfirmCancel = async (reason) => {
     try {
@@ -164,10 +170,10 @@ function Activity_Details({ activity_details }) {
       field: field_activity,
       requirements: [
         ...courseValuesState.map(c => ({ type: "cohort", year: c.value })),
-        ...facultyValuesState.map(f => ({ type: "falcuty", name: f.value })),
+        ...facultyValuesState.map(f => ({ type: "faculty", name: f.value })),
       ],
     };
-
+    console.log(activityData);
     try {
       const res = await update_activity(activity_details._id, activityData);
       if (res.success) alert(res.message);

@@ -6,7 +6,7 @@ const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
-      id: 1,
+      id: Date.now(),
       type: "bot",
       content:
         "Xin chào! 👋 Tôi là trợ lý ảo của bạn. Bạn có thể hỏi tôi bất cứ điều gì về hoạt động, PVCD, lớp học… hoặc tải ảnh lên!",
@@ -23,46 +23,52 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+
   const fileInputRef = useRef(null);
   const messagesEndRef = useRef(null);
 
   // Auto scroll
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, loading]);
 
   // ------------------- SEND MESSAGE -------------------
-  const sendMessage = async (text = null) => {
+  const sendMessage = async (text = "") => {
     const messageText = text || input.trim();
     if (!messageText && !selectedFile) return;
 
     setLoading(true);
+    setInput("");
 
     // User message
     const userMessage = {
-      id: messages.length + 1,
+      id: Date.now(),
       type: "user",
-      content: selectedFile ? `📸 Ảnh: ${selectedFile.name}` : messageText,
+      content: selectedFile
+        ? `📸 Ảnh: ${selectedFile.name}`
+        : messageText,
       timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput("");
 
-    let data;
+    let response;
 
     try {
       if (selectedFile) {
-        data = await analyzeImage(selectedFile);
+        response = await analyzeImage(selectedFile);
       } else {
-        data = await askAnything(messageText);
+        response = await askAnything(messageText);
       }
     } catch (error) {
-      data = { success: false, message: "Lỗi không xác định" };
       console.error("Send Message Error:", error);
+      response = {
+        success: false,
+        message: "Không thể kết nối đến máy chủ.",
+      };
     }
 
-    // Reset ảnh
+    // Reset file
     if (selectedFile) {
       setSelectedFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -70,50 +76,64 @@ const ChatBot = () => {
 
     // Bot message
     const botMessage = {
-      id: messages.length + 2,
+      id: Date.now() + 1,
       type: "bot",
       content:
-        data?.data?.response ||
-        data?.data?.extracted_text ||
-        data?.message ||
+        response?.data?.answer ||               // ✅ đúng API
+        response?.data?.extracted_text ||
+        response?.message ||
+        response?.error ||
         "Không thể xử lý yêu cầu.",
       timestamp: new Date(),
-      suggested_questions: data?.data?.suggested_questions || [],
+      suggested_questions:
+        response?.data?.suggested_questions || [],
     };
 
     setMessages((prev) => [...prev, botMessage]);
     setLoading(false);
   };
 
-  const handleSuggested = (q) => sendMessage(q);
+  const handleSuggested = (question) => {
+    sendMessage(question);
+  };
 
   return (
     <div className="chatbot-container">
-      <button className="chatbot-toggle" onClick={() => setIsOpen(!isOpen)}>
+      <button
+        className="chatbot-toggle"
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         {isOpen ? "✕" : "💬"}
       </button>
 
       {isOpen && (
         <div className="chatbot-window">
+          {/* Header */}
           <div className="chatbot-header">
             <h3>Trợ Lý Ảo</h3>
-            <button className="close-btn" onClick={() => setIsOpen(false)}>
+            <button
+              className="close-btn"
+              onClick={() => setIsOpen(false)}
+            >
               ✕
             </button>
           </div>
 
+          {/* Messages */}
           <div className="chatbot-messages">
             {messages.map((msg) => (
               <div key={msg.id} className={`message ${msg.type}`}>
                 <div className="message-content">
-                  <p dangerouslySetInnerHTML={{ __html: msg.content }}></p>
+                  <p>{msg.content}</p>
 
                   {msg.suggested_questions?.length > 0 && (
                     <div className="suggested-questions">
-                      <p className="suggestion-label">💡 Câu hỏi gợi ý:</p>
-                      {msg.suggested_questions.map((q, i) => (
+                      <p className="suggestion-label">
+                        💡 Câu hỏi gợi ý:
+                      </p>
+                      {msg.suggested_questions.map((q, index) => (
                         <button
-                          key={i}
+                          key={index}
                           className="suggestion-btn"
                           onClick={() => handleSuggested(q)}
                         >
@@ -154,7 +174,8 @@ const ChatBot = () => {
                 <button
                   onClick={() => {
                     setSelectedFile(null);
-                    if (fileInputRef.current) fileInputRef.current.value = "";
+                    if (fileInputRef.current)
+                      fileInputRef.current.value = "";
                   }}
                 >
                   ✕
@@ -166,10 +187,13 @@ const ChatBot = () => {
               <input
                 type="file"
                 ref={fileInputRef}
-                onChange={(e) => setSelectedFile(e.target.files[0])}
                 accept="image/*"
                 style={{ display: "none" }}
+                onChange={(e) =>
+                  setSelectedFile(e.target.files?.[0] || null)
+                }
               />
+
               <button
                 className="file-btn"
                 onClick={() => fileInputRef.current?.click()}
@@ -180,7 +204,9 @@ const ChatBot = () => {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") sendMessage();
+                }}
                 placeholder="Nhập câu hỏi..."
               />
 

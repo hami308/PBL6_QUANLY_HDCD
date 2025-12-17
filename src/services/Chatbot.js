@@ -16,7 +16,6 @@ export async function askAnything(question) {
         },
       }
     );
-
     return response.data;
   } catch (error) {
     console.error("Ask Anything API Error:", error);
