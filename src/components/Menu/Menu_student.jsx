@@ -94,7 +94,6 @@ function Menu_student() {
     <div className="top-bar">
       <nav className="header-right">
         <a href="/home-student">Trang chủ</a>
-        <a href="/attendance">Điểm danh</a>
         <a href="/manage-activities-student">Quản lý hoạt động</a>
 
         <div
