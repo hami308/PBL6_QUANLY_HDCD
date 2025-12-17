@@ -88,10 +88,10 @@ function Activity_Details({ activity_details }) {
         ]);
 
         if (facRes.success) {
-          setFacultyOptions(facRes.data.map((f) => ({ value: f.name, label: f.name })));
+          setFacultyOptions(facRes.data.map((f) => ({ value: f._id, label: f.name })));
         }
         if (cohRes.success) {
-          setCourseOptions(cohRes.data.map((c) => ({ value: c.year, label: `Khóa ${c.year}` })));
+          setCourseOptions(cohRes.data.map((c) => ({ value: c._id, label: `Khóa ${c.year}` })));
         }
         if (fieldRes.success) {
           setFieldOptions(fieldRes.data);
@@ -106,11 +106,11 @@ function Activity_Details({ activity_details }) {
 
   const courseValues = (activity_details.requirements || []).filter(
     (r) => r.type === "cohort"
-  ).map((r) => ({ value: r.year, label: `Khóa ${r.year}` }));
+  ).map((r) => ({ value: r.id, label: `Khóa ${r.year}` }));
 
   const facultyValues = (activity_details.requirements || []).filter(
     (r) => r.type === "faculty" || r.type === "falcuty"
-  ).map((r) => ({ value: r.name, label: r.name }));
+  ).map((r) => ({ value: r.id, label: r.name }));
 
   const [courseValuesState, setCourseValuesState] = useState(
     courseValues.length ? courseValues : [{ value: "all", label: "Tất cả" }]
@@ -169,11 +169,22 @@ function Activity_Details({ activity_details }) {
       location: location,
       field: field_activity,
       requirements: [
-        ...courseValuesState.map(c => ({ type: "cohort", year: c.value })),
-        ...facultyValuesState.map(f => ({ type: "faculty", name: f.value })),
+        ...courseValuesState
+          .filter(c => c.value !== "all")
+          .map(c => ({
+            type: "cohort",
+            id: c.value,
+          })),
+
+        ...facultyValuesState
+          .filter(f => f.value !== "all")
+          .map(f => ({
+            type: "faculty",
+            id: f.value,
+          })),
       ],
+
     };
-    console.log(activityData);
     try {
       const res = await update_activity(activity_details._id, activityData);
       if (res.success) alert(res.message);
