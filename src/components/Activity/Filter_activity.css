@@ -159,12 +159,12 @@ button.apply:hover {
 }
 
 button.reset {
-  background: #43a047;
-  color: #fff;
+  background: #ccc;
+  color: black;
 }
 
 button.reset:hover {
-  background: #2e7d32;
+  background: #666;
 }
 
 /* --- Icon tìm kiếm --- */

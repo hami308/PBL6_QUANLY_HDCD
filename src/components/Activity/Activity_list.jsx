@@ -55,7 +55,13 @@ function Activity_list({ filters = {} }) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentActivities = activities.slice(startIndex, startIndex + itemsPerPage);
 
-  if (loading) return <p className="loading">Đang tải dữ liệu...</p>;
+ if (loading)
+  return (
+    <div className="loading-container">
+      <div className="spinner"></div>
+    </div>
+  );
+
   if (error) return <p className="error">{error}</p>;
   if (activities.length === 0) return <p>Không có hoạt động nào.</p>;
 

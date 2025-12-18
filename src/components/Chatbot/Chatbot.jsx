@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./ChatBot.css";
+import "./Chatbot.css";
 import { askAnything, analyzeImage } from "../../services/Chatbot";
 
 const ChatBot = () => {

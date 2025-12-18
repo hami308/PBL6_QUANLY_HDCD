@@ -1,20 +1,18 @@
 import "./ActivityDetails_Page.css";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_guest from "../../components/Menu/Menu_guest.jsx";
 import Menu_org from "../../components/Menu/Menu_org.jsx";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Header from "../../components/Header/Header.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
-
 import ActivityList from "../../components/Activity/Activity_list.jsx";
 import Activity_Details from "../../components/Activity/Activity_Details.jsx";
 import See_List_Evaluate_Activity from "../../components/See_List_Evaluate_Activity/See_List_Evaluate_Activity.jsx";
-
 import { get_details_activity_by_id } from "../../services/Activity_Services.js";
 import { get_feedback_by_activity } from "../../services/Feedback_Services.js";
+import ScrollToTopOnMount from "../../components/ScrollToTopButton/ScrollToTopButton.jsx";
 
 function Activity_details() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -77,7 +75,9 @@ function Activity_details() {
       <div className="activity-detail-page">
         <Header />
         {renderMenu()}
-        <p className="loading">Đang tải dữ liệu hoạt động...</p>
+        <div className="loading-container">
+          <div className="spinner"></div>
+        </div>
         <Footer />
       </div>
     );
@@ -120,8 +120,8 @@ function Activity_details() {
           </div>
         </>
       )}
-
       <Footer />
+      <ScrollToTopOnMount />
     </div>
   );
 }

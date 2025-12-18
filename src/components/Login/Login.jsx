@@ -84,12 +84,12 @@ function Login({ onClose }) {
         <div className="modal-login-content">
           <span className="material-symbols-outlined">passkey</span>
 
-          <form className="login-form" onSubmit={handleLogin}>
+          <form className="login-form" onSubmit={handleLogin} autoComplete="off">
             <div className="form-login-group">
               <label>Vai trò:</label>
               <select value={role} onChange={(e) => setRole(e.target.value)}>
                 <option value="student">Sinh viên</option>
-                <option value="staff">Nhân viên</option>
+                <option value="staff">Staff</option>
                 <option value="admin">Quản trị viên</option>
               </select>
             </div>
@@ -100,6 +100,7 @@ function Login({ onClose }) {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                 autoComplete="off"
               />
             </div>
 
@@ -109,6 +110,7 @@ function Login({ onClose }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                 autoComplete="new-password"
               />
             </div>
 
