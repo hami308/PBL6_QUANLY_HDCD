@@ -116,7 +116,7 @@ body.dark-mode .filter-item .react-select__option--is-selected {
   border: 0.1vw solid #ccc;
 }
 
-body.dark-mode .search-box {
+body.dark-mode .search-box-activity {
   background: #3e4446;
   color: white;
   border-color: #666;
