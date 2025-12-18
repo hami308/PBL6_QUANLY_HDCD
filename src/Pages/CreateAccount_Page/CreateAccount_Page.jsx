@@ -6,8 +6,8 @@ import Footer from "../../components/Footer/Footer";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import { uploadBulkUsers } from "../../services/UserBulkService";
 import "./CreateAccount_Page.css";
+
 function CreateAccount_Page() {
-  const [role, setRole] = React.useState("student");
   const handleUpload = async (file) => {
     try {
       const res = await uploadBulkUsers(file);
@@ -21,6 +21,10 @@ function CreateAccount_Page() {
     }
   };
 
+  const handleDownloadTemplate = () => {
+    window.open("/templates/templates.xlsx", "_blank");
+  };
+
   return (
     <div className="createAccountPage">
       <Header />
@@ -29,23 +33,23 @@ function CreateAccount_Page() {
       <div className="form1_container">
         <CreateAccount />
       </div>
+
       <div className="thanhngang">
         <p>Tạo nhiều tài khoản sinh viên</p>
       </div>
-      <div className="role-select">
-        <label htmlFor="role">Chọn vai trò:</label>
-        <select
-          id="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
+
+      {/* 🔽 NÚT TẢI TEMPLATE Ở PAGE */}
+      <div className="template-download">
+        <button
+          className="download-template-btn"
+          onClick={handleDownloadTemplate}
         >
-          <option value="student">Sinh viên</option>
-          <option value="teacher">Giảng viên, cán bộ</option>
-        </select>
+          📥 Tải template Excel
+        </button>
       </div>
+
       <div className="form2_container">
         <FileUpload
-          title="Hướng dẫn:"
           guideLines={[
             "File Excel phải có cột: Mã số sinh viên, Tên sinh viên, Lớp, Khoa",
             "Dòng đầu tiên là tiêu đề cột",

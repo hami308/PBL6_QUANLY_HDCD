@@ -160,11 +160,9 @@ function TeacherInfo({ idstaff }) {
           <div className="teacher-photo">
             <img src={teacher_pic} alt="Teacher" className="photo-box" />
           </div>
-
           {/* Cột thông tin */}
           <div className="teacher-details">
-            <h3 className="teacher-name">{teacherInfo?.name}</h3>
-
+            <h3 className="teacher-name">{teacherInfo?.full_name}</h3>
             <div className="info-row">
               <label>Mã giảng viên</label>
               <input

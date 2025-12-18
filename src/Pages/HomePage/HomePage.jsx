@@ -8,9 +8,9 @@ import dut_home_pic from "../../assets/images/anhnen.jpg";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin.jsx";
 import Menu_org from "../../components/Menu/Menu_org.jsx";
-import {status_activity} from "../../data/status.js";
+import { status_activity } from "../../data/status.js";
 import { useState } from "react"; // Thêm import
-
+import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton.jsx";
 function HomePage() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [filters, setFilters] = useState({}); // State để lưu filters
@@ -22,11 +22,11 @@ function HomePage() {
 
   return (
     <>
-    <Header />
-    {!user && <Menu_guest />}
-    {user?.roles?.[0]?.role === "student" && <Menu_student />}
-    {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
-    {user?.roles?.[0]?.role === "staff" && <Menu_org />}
+      <Header />
+      {!user && <Menu_guest />}
+      {user?.roles?.[0]?.role === "student" && <Menu_student />}
+      {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+      {user?.roles?.[0]?.role === "staff" && <Menu_org />}
       <div className="home-main">
         <div className="home-image-container">
           <img src={dut_home_pic} alt="DUT Home" className="home-image" />
@@ -39,6 +39,7 @@ function HomePage() {
         </div>
       </div>
       <Footer />
+      <ScrollToTopButton />
     </>
   );
 }

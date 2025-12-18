@@ -53,5 +53,21 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-@media (max-width: 480px) {
+.template-download {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 20px;
+}
+
+.download-template-btn {
+  padding: 8px 14px;
+  background: #f5f7fa;
+  border: 1px dashed #3498db;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.download-template-btn:hover {
+  background: #ecf3ff;
 }
