@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "./Infor.css";
-import { getStaffInfo } from "../../../services/Staff_Service";
 import { get_org_unit_by_id } from "../../../services/Org_Service";
 
 export default function Infor() {
   const [organization, setOrganization] = useState(null);
-  useEffect(() => {
-    const user=JSON.parse(sessionStorage.getItem("user"));
-    async function fetchData() {
-      const staffRes = await getStaffInfo(user.id);
-      const orgUnitId = staffRes.org_unit_id._id;
-      if (!orgUnitId) return;
 
-      // 2. Lấy thông tin tổ chức
-      const orgRes = await get_org_unit_by_id(orgUnitId);
-      console.log("orgRes", orgRes);
-      if (orgRes.success) {
-        setOrganization(orgRes.data);
+  // 👉 format ngày dd/mm/yyyy
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("vi-VN");
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // ✅ LẤY orgUnitId TỪ sessionStorage
+        const orgUnitId = sessionStorage.getItem("orgUnitId");
+        console.log("orgUnitId",orgUnitId);
+        if (!orgUnitId) return;
+
+        const orgRes = await get_org_unit_by_id(orgUnitId);
+        if (orgRes?.success) {
+          setOrganization(orgRes.data);
+        }
+      } catch (error) {
+        console.error("❌ Lỗi khi lấy thông tin tổ chức:", error);
       }
     }
 
@@ -30,7 +39,11 @@ export default function Infor() {
       <section className="hero">
         <div className="hero-inner">
           <h1 className="org-name">{organization.name}</h1>
-          <p className="org-founded">Thành lập: {organization.founded_date}</p>
+
+          <p className="org-founded">
+            Thành lập: {formatDate(organization.founded_date)}
+          </p>
+
           <p className="org-description">{organization.description}</p>
         </div>
       </section>
@@ -50,13 +63,16 @@ export default function Infor() {
       <section className="members">
         <h2 className="section-title">Thành viên</h2>
         <div className="member-grid">
-          {organization.staff.map((member, idx) => (
+          {organization.staff?.map((member, idx) => (
             <article className="member-card" key={idx}>
-              <img
-                src={member.staff_image}
-                alt={member.full_name}
-                className="member-avatar"
-              />
+              {member.staff_image && (
+                <img
+                  src={member.staff_image}
+                  alt={member.full_name}
+                  className="member-avatar"
+                />
+              )}
+
               <div className="member-info">
                 <h3>{member.full_name}</h3>
                 <p>SĐT: {member.phone}</p>

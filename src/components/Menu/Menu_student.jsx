@@ -2,23 +2,27 @@ import "./top_bar.css";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getStudentInfo } from "../../services/Student/StudentInfor_Services";
+import { logout } from "../../services/Login_Service/Login_Service"; 
 
 function Menu_student() {
   const navigate = useNavigate();
   const [openProfile, setOpenProfile] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+
   const btnRef = useRef(null);
   const closeTimeoutRef = useRef(null);
 
-  //  Gọi API lấy thông tin sinh viên
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  // ================== FETCH STUDENT INFO ==================
   useEffect(() => {
+    if (!user) return;
+
     const fetchStudentInfo = async () => {
       try {
-        const user = JSON.parse(sessionStorage.getItem("user"));
-        const data = await getStudentInfo(user.id); // gọi API
-        if (data) {
-          const info = data;
-          sessionStorage.setItem("student_id", info._id);
+        const data = await getStudentInfo(user.id);
+        if (data?._id) {
+          sessionStorage.setItem("student_id", data._id);
         }
       } catch (error) {
         console.error("❌ Lỗi khi lấy thông tin sinh viên:", error);
@@ -26,39 +30,41 @@ function Menu_student() {
     };
 
     fetchStudentInfo();
-  }, []);
+  }, [user]);
 
+  // ================== LOGOUT ==================
   const handleLogout = () => {
-    sessionStorage.removeItem("user");
-    navigate("/");
+    logout(); 
+    navigate("/", { replace: true });
   };
 
-  //  Tính vị trí dropdown theo nút "Cá nhân"
+  // ================== DROPDOWN POSITION ==================
   const updateDropdownPos = () => {
-    if (btnRef.current) {
-      const rect = btnRef.current.getBoundingClientRect();
-      setDropdownPos({
-        top: rect.bottom + 2,
-        left: rect.left + rect.width / 2,
-      });
-    }
+    if (!btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    setDropdownPos({
+      top: rect.bottom + 2,
+      left: rect.left + rect.width / 2,
+    });
   };
 
-  //  Cập nhật vị trí khi mở menu hoặc resize
+  // update position when open / resize / scroll
   useEffect(() => {
-    if (openProfile) updateDropdownPos();
-    const handleResizeScroll = () => {
-      if (openProfile) updateDropdownPos();
-    };
+    if (!openProfile) return;
+
+    updateDropdownPos();
+    const handleResizeScroll = () => updateDropdownPos();
+
     window.addEventListener("resize", handleResizeScroll);
     window.addEventListener("scroll", handleResizeScroll);
+
     return () => {
       window.removeEventListener("resize", handleResizeScroll);
       window.removeEventListener("scroll", handleResizeScroll);
     };
   }, [openProfile]);
 
-  //  Tự đóng khi click ra ngoài
+  // close when click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -69,10 +75,12 @@ function Menu_student() {
         setOpenProfile(false);
       }
     };
+
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  // ================== DEVICE CHECK ==================
   const isTouchDevice = () =>
     "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
@@ -86,10 +94,14 @@ function Menu_student() {
 
   const handleMouseLeave = () => {
     if (!isTouchDevice()) {
-      closeTimeoutRef.current = setTimeout(() => setOpenProfile(false), 250);
+      closeTimeoutRef.current = setTimeout(
+        () => setOpenProfile(false),
+        250
+      );
     }
   };
-  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  // ================== JSX ==================
   return (
     <div className="top-bar">
       <nav className="header-right">
@@ -118,12 +130,13 @@ function Menu_student() {
         <a href="/receive-notification" className="icon-link">
           <span className="material-symbols-outlined">notifications</span>
         </a>
+
         <button onClick={handleLogout} className="logout-btn">
           Thoát
         </button>
       </nav>
 
-      {/* --- Dropdown cá nhân --- */}
+      {/* ================== DROPDOWN ================== */}
       {openProfile && (
         <div
           className="dropdown-menu"
@@ -143,7 +156,6 @@ function Menu_student() {
           }}
         >
           {user && <a href={`/student-infor/${user.id}`}>Thông tin cá nhân</a>}
-
           <a href="/pvcd-record">Kết quả phục vụ cộng đồng</a>
           <a
             href="/submit-evidence"
@@ -154,7 +166,6 @@ function Menu_student() {
             Nộp minh chứng ngoài trường
           </a>
           <a href="/change-password">Đổi mật khẩu</a>
-         
         </div>
       )}
     </div>

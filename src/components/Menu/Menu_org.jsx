@@ -202,7 +202,16 @@ export default function TopMenu() {
             >
               {user?.id ? (
                 <>
-                  <a href={`/staff-infor/${user.id}`}>Thông tin cá nhân</a>
+                 <a
+                    href={
+                      user.roles?.some((r) => r.role === "student")
+                        ? `/student-infor/${user.id}`
+                        : `/staff-infor/${user.id}`
+                    }
+                  >
+                    Thông tin cá nhân
+                  </a>
+
                   <a href="/change-password">Đổi mật khẩu</a>
                 </>
               ) : (

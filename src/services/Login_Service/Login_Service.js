@@ -12,7 +12,7 @@ export async function login(username, password) {
     });
 
     const data = response.data;
-
+    console.log(response);
     if (data.success) {
       // Lưu thông tin user và token vào sessionStorage
       sessionStorage.setItem("user", JSON.stringify(data.user));
@@ -39,4 +39,6 @@ export async function login(username, password) {
 
 export function logout() {
   sessionStorage.removeItem("user");
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("role");
 }

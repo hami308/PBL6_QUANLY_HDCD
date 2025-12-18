@@ -5,13 +5,13 @@ import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import ChangePassword from "../../components/Student/ChangePassword/ChangePassword";
 import Footer from "../../components/Footer/Footer";
 function ChangePassword_Page() {
-     const user = JSON.parse(sessionStorage.getItem("user"));
+     const role = sessionStorage.getItem("role");
     return(
         <>
             <Header />
-             {user?.roles?.[0]?.role === "student" && <Menu_student />}
-             {user?.roles?.[0]?.role === "staff" && <Menu_org />}
-             {user?.roles?.[0]?.role === "admin" && <Menu_Admin />}
+             {role === "student" && <Menu_student />}
+             {role === "staff" && <Menu_org />}
+             {role === "admin" && <Menu_Admin />}
             <ChangePassword />
             <Footer />
         </>

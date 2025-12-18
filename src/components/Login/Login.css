@@ -1,27 +1,26 @@
 .modal-login-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.4); /* nền mờ */
-  z-index: 9999; /* đảm bảo nổi trên tất cả */
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
 }
 
+/* ===== MODAL ===== */
 .modal-login {
   background: #fff;
   padding: 20px 30px;
   border-radius: 8px;
   width: 500px;
   position: relative;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
-  z-index: 10000; 
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
 }
 
+/* ===== CLOSE BUTTON ===== */
 .close-btn {
   position: absolute;
   top: 10px;
@@ -33,34 +32,37 @@
   color: red;
 }
 
+/* ===== TITLE ===== */
 .modal-login-title {
-    color: black;
+  color: black;
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* ===== CONTENT ===== */
 .modal-login-content {
   display: flex;
   align-items: flex-start;
   gap: 20px;
 }
 
-.modal-login-content .material-symbols-outlined{
-  margin-top:15px;
+.modal-login-content .material-symbols-outlined {
+  margin-top: 15px;
   font-size: 100px;
   width: 120px;
-  height: auto;
   color: #598dda;
 }
 
+/* ===== FORM ===== */
 .login-form {
   flex: 1;
-   display: flex;
+  display: flex;
   flex-direction: column;
 }
 
+/* ===== FORM GROUP ===== */
 .form-login-group {
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 .form-login-group label {
@@ -69,18 +71,18 @@
   font-weight: 500;
 }
 
-.form-login-group input {
+/* INPUT + SELECT */
+.form-login-group input,
+.form-login-group select {
   width: 100%;
-  padding: 6px;
+  padding: 7px 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 14px;
 }
-body.dark-mode .form-login-group input{
-  background-color: #3e4446;
-  color:white;
-}
+
+/* ===== BUTTON ===== */
 .login-btn {
-  display: flex;
   align-self: flex-end;
   background: #2e3ecf;
   color: white;
@@ -95,50 +97,67 @@ body.dark-mode .form-login-group input{
 .login-btn:hover {
   background: #1f2ba0;
 }
+
+/* ===== ERROR ===== */
 .error-msg {
-  color: #DD4F4F; /* đỏ nổi bật */
+  color: #dd4f4f;
   font-size: 14px;
   margin-bottom: 10px;
   font-weight: 500;
 }
+
+/* ================= DARK MODE ================= */
 body.dark-mode .modal-login {
   background-color: #4b4b4b;
   color: white;
 }
+
 body.dark-mode .modal-login-title {
   color: white;
 }
-@media(max-width:600px){
 
-  .modal-login{
-    width: 80%;
+body.dark-mode .form-login-group input,
+body.dark-mode .form-login-group select {
+  background-color: #3e4446;
+  color: white;
+  border-color: #666;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  .modal-login {
+    width: 85%;
   }
-  .login-icon{
-    width:100px;
-    margin-top: 20px;
+
+  .modal-login-content {
+    gap: 15px;
   }
-  .login-btn{
-    margin: 0 0px;
+
+  .login-btn {
+    font-size: 14px;
   }
 }
-@media(max-width:480px){
-  .modal-login{
-    width: 70%;
-    margin-left: -20px;
+
+@media (max-width: 480px) {
+  .modal-login {
+    width: 75%;
   }
-  .modal-login-content .material-symbols-outlined{
-    width:60px;
+
+  .modal-login-content .material-symbols-outlined {
+    width: 60px;
     margin-top: 30px;
     font-size: 70px;
   }
-  .login-btn{
-    margin: 0 0px;
-    font-size: 12px;
-  }
-  .modal-login-title{
+
+  .modal-login-title {
     font-size: 17px;
   }
-  .form-login-group label{
+
+  .form-login-group label {
+    font-size: 12px;
+  }
+
+  .login-btn {
     font-size: 12px;
   }
 }

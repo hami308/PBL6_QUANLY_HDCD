@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Menu_student from "../../components/Menu/Menu_student";
+import Menu_org from "../../components/Menu/Menu_org";
 import Pagination from "../../components/Pagination/Pagination"; 
 import "./Receive_Notification.css";
 import { get_notifications, read_all_notifications } from "../../services/Notifications_Services";
@@ -11,6 +12,7 @@ const ICONS = {
 };
 
 const Receive_Notification = () => {
+  const role = sessionStorage.getItem("role");
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,7 +83,8 @@ const Receive_Notification = () => {
   return (
     <div className="notification-page">
       <Header />
-      <Menu_student />
+      {role === "student" && <Menu_student />}
+      {role === "staff" && <Menu_org />}
 
       <main className="notification-container">
         {/* Header thông báo */}

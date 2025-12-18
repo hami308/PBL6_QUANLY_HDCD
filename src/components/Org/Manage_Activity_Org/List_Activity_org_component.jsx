@@ -3,7 +3,6 @@ import Activity_org_component from "./Activity_org_component";
 import Pagination from "../../Pagination/Pagination";
 import Activity_pic from "../../../assets/images/activity.jpg";
 import { filter_activities } from "../../../services/Activity_Services";
-import { getStaffInfo } from "../../../services/Staff_Service";
 
 function List_Activity_org_component({ filters = {} }) {
   const [activities, setActivities] = useState([]);
@@ -19,13 +18,9 @@ function List_Activity_org_component({ filters = {} }) {
       try {
         const user = JSON.parse(sessionStorage.getItem("user"));
         if (!user) throw new Error("Vui lòng đăng nhập.");
+        const storedOrgUnitId = sessionStorage.getItem("orgUnitId");
 
-        const staff = await getStaffInfo(user.id);
-        if (!staff?.org_unit_id?._id) {
-          throw new Error("Staff không thuộc tổ chức nào.");
-        }
-
-        setOrgUnitId(staff.org_unit_id._id);
+        setOrgUnitId(storedOrgUnitId);
       } catch (err) {
         setError(err.message);
       }
