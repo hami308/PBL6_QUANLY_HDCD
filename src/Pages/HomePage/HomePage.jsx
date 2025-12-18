@@ -46,8 +46,10 @@ function HomePage() {
       </div>
 
       <Footer />
+      <ScrollToTopButton />
     </>
   );
 }
 
 export default HomePage;
+

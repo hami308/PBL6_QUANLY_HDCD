@@ -30,7 +30,9 @@ import ManageClass from "./Pages/Other_Page/ManageClass.jsx";
 import ManageCohort from "./Pages/Other_Page/ManageCohort.jsx";
 import ManageField from "./Pages/Other_Page/ManageField.jsx";
 import ManagePosition from "./Pages/Other_Page/ManagePossition.jsx";
-import Chatbot from  "../src/components/Chatbot/Chatbot.jsx"
+import Chatbot from "../src/components/Chatbot/Chatbot.jsx";
+import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+import ManageOrganization from "./Pages/Other_Page/ManageOrg.jsx";
 function App() {
   return (
     <LoginProvider>
@@ -105,6 +107,7 @@ function App() {
           path="/manage-activity-org"
           element={<Manage_Activity_Org_Page />}
         />
+        <Route path="/manage-organization" element={<ManageOrganization />} />
         <Route path="/permission" element={<PermissionPage />} />
         <Route
           path="/receive-notification"
@@ -120,13 +123,12 @@ function App() {
         />
         <Route
           path="/activity-approved"
-          element={
-            <Approve_Activity_Proposed_Page />
-          }
+          element={<Approve_Activity_Proposed_Page />}
         />
         <Route path="/org-infor" element={<OrgInfor_Page />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
-            <Chatbot />
+      <Chatbot />
     </LoginProvider>
   );
 }

@@ -45,13 +45,11 @@ function TeacherInfo({ idstaff }) {
     let msg = "";
 
     if (name === "email") {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-        msg = "Email không hợp lệ";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) msg = "Email không hợp lệ";
     }
 
     if (name === "phone") {
-      if (!/^0\d{9}$/.test(value))
-        msg = "SĐT phải có 10 số và bắt đầu bằng 0";
+      if (!/^0\d{9}$/.test(value)) msg = "SĐT phải có 10 số và bắt đầu bằng 0";
     }
 
     setErrors((prev) => ({ ...prev, [name]: msg }));
@@ -60,9 +58,7 @@ function TeacherInfo({ idstaff }) {
 
   const validateAllFields = () => {
     const fields = ["email", "phone", "contact_address", "position"];
-    return fields.every(
-      (f) => teacherInfo?.[f] && !errors[f]
-    );
+    return fields.every((f) => teacherInfo?.[f] && !errors[f]);
   };
 
   /* ================= HANDLERS ================= */
@@ -113,8 +109,8 @@ function TeacherInfo({ idstaff }) {
 
     try {
       const res = await updateStaffInfo(teacherInfo);
-      console.log(res.status)
-      res?.status===200
+      console.log(res.status);
+      res?.status === 200
         ? alert("Cập nhật thông tin thành công!")
         : alert("Cập nhật thông tin thất bại!");
     } catch (err) {
@@ -154,11 +150,7 @@ function TeacherInfo({ idstaff }) {
             />
             <label htmlFor="teacher-upload" className="photo-upload-label">
               <img
-                src={
-                  previewImage ||
-                  teacherInfo.staff_image ||
-                  defaultAvatar
-                }
+                src={previewImage || teacherInfo.staff_image || defaultAvatar}
                 alt="avatar"
                 className="photo-box"
               />

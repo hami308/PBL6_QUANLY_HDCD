@@ -1,0 +1,52 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 100px; /* ⬆️ nhích lên trên */
+  right: 35px;
+  z-index: 999;
+
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  /* 
+  background: linear-gradient(135deg, #a81b5c, #34495e); */
+  color: #fff;
+  border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 40px;
+  cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  animation: scrollFadeIn 0.4s ease forwards;
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+/* Hover */
+.scroll-to-top:hover {
+  transform: translateY(-6px) scale(1.1);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* Active */
+.scroll-to-top:active {
+  transform: scale(0.95);
+}
+
+/* Animation */
+@keyframes scrollFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 0.95;
+    transform: translateY(0) scale(1);
+  }
+}

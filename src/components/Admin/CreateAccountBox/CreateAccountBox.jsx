@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./CreateAccountBox.css";
 import { useNavigate } from "react-router-dom";
 import { get_all_faculties } from "../../../services/Faculty_Service";
-import {getClass} from "../../../services/Class_Service";
+import { getClassesByFaculty } from "../../../services/Class_Service";
 import { get_all_org } from "../../../services/Org_Service";
 import {
   createAccount_Student,
@@ -47,7 +47,7 @@ const CreateAccount = () => {
   useEffect(() => {
     const fetchClasses = async () => {
       if (faculty) {
-        const response = await getClass(faculty);
+        const response = await getClassesByFaculty(faculty);
         if (response.data) {
           setListClass(response.data); // ✅ danh sách lớp
         } else {
