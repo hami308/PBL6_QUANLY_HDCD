@@ -19,7 +19,6 @@ function Login({ onClose }) {
     setError("Vui lòng nhập đầy đủ thông tin.");
     return;
   }
-
   try {
     const result = await login(username, password, role);
 
