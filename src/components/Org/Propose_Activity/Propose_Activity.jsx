@@ -6,7 +6,6 @@ import "./Propose_Activity.css";
 import { get_all_fields } from "../../../services/Field_Service";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 import { get_all_cohort } from "../../../services/Cohort_Services";
-import { getStaffInfo } from "../../../services/Staff_Service";
 import {
   create_activity,
   propose_activity,
@@ -42,9 +41,8 @@ export default function Propose_Activity({ iscreate }) {
       try {
         const user = JSON.parse(sessionStorage.getItem("user"));
         if (!user) throw new Error("Không tìm thấy thông tin người dùng.");
-
-        const staff = await getStaffInfo(user.id);
-        if (staff?.org_unit_id) setOrgUnitId(staff.org_unit_id);
+        const storedOrgUnitId = sessionStorage.getItem("orgUnitId");
+        if (storedOrgUnitId) setOrgUnitId(storedOrgUnitId);
 
         // Faculty list
         const facRes = await get_all_faculties();

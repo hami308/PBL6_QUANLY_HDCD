@@ -16,6 +16,7 @@ registerLocale("vi", vi);
 
 function StudentInfo() {
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const role = sessionStorage.getItem("role");
 
   const [studentInfo, setStudentInfo] = useState(null);
   const [errors, setErrors] = useState({});
@@ -252,43 +253,48 @@ function StudentInfo() {
               </div>
             </div>
 
-            {/* STAFF */}
-            {user?.roles?.[0]?.role === "staff" && (
+           {/* STAFF hoặc ADMIN */}
+            {role === "staff" && (
               <>
                 <div className="info-row">
                   <label>Thuộc đơn vị</label>
-                  <select
-                    name="unit"
-                    value={studentInfo.unit || ""}
-                    onChange={handleChange}
-                    className="infor-select"
-                  >
-                    {org.map((item) => (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
+                  {user?.roles?.some(r => r.role === "admin") ? (
+                    <select
+                      name="unit"
+                      value={studentInfo.unit || ""}
+                      onChange={handleChange}
+                      className="infor-select"
+                    >
+                      {org.map((item) => (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input value={studentInfo.unit || ""} readOnly />
+                  )}
                 </div>
 
                 <div className="info-row">
                   <label>Chức vụ</label>
-                  <input
-                    name="position"
-                    value={studentInfo.position || ""}
-                    onChange={handleChange}
-                  />
+                  {user?.roles?.some(r => r.role === "admin") ? (
+                    <input
+                      name="position"
+                      value={studentInfo.position || ""}
+                      onChange={handleChange}
+                    />
+                  ) : (
+                    <input value={studentInfo.position || ""} readOnly />
+                  )}
                 </div>
               </>
             )}
 
-            {/* ACTION */}
-            {user?.roles?.[0]?.role === "student" && (
               <button className="save-btn" onClick={handleSave}>
                 Lưu thông tin
               </button>
-            )}
-
+            
             {user?.roles?.[0]?.role === "admin" && (
               <button
                 className="save-btn delete-btn"

@@ -3,7 +3,6 @@ import Create_QR_Attendance from "./Create_QR_Attendance";
 import Pagination from "../../Pagination/Pagination";
 import Activity_pic from "../../../assets/images/activity.jpg";
 import { get_activities_by_orgunit_and_status } from "../../../services/Activity_Services";
-import { getStaffInfo } from "../../../services/Staff_Service";
 
 function List_Activity_Create_QR() {
   const [activities, setActivities] = useState([]);
@@ -22,14 +21,9 @@ function List_Activity_Create_QR() {
         //  1. Lấy user từ sessionStorage
         const user = JSON.parse(sessionStorage.getItem("user"));
         if (!user) throw new Error("Không tìm thấy thông tin người dùng. Vui lòng đăng nhập.");
-
-        //  2. Gọi API lấy thông tin staff
-        const staff = await getStaffInfo(user.id);
-        if (!staff) throw new Error("Không thể lấy thông tin staff của người dùng này.");
-
+        
         //  3. Lấy org_unit_id từ staff
-        const orgUnitId = staff.org_unit_id;
-        if (!orgUnitId) throw new Error("Staff không thuộc tổ chức nào.");
+        const orgUnitId = sessionStorage.getItem("orgUnitId");
 
         //  4. Gọi API lấy danh sách hoạt động theo tổ chức và trạng thái
         const actRes = await get_activities_by_orgunit_and_status(orgUnitId, "đang tổ chức");
