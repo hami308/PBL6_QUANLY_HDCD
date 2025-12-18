@@ -105,7 +105,7 @@ body.dark-mode .filter-item .react-select__option--is-selected {
 }
 
 /* --- Ô tìm kiếm --- */
-.search-box {
+.search-box-activity {
   display: flex;
   align-items: center;
   background: #fff;
@@ -122,13 +122,13 @@ body.dark-mode .search-box {
   border-color: #666;
 }
 
-.search-box .icon {
+.search-box-activity .icon {
   margin-right: 0.5vw;
   font-size: 2vh;
   flex-shrink: 0;
 }
 
-.search-box input {
+.search-box-activity input {
   border: none;
   outline: none;
   padding: 0.8vh 0.5vw;

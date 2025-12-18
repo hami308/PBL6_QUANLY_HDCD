@@ -189,7 +189,7 @@ function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
         onChange={setSelectedOrg}
       />
 
-      <div className="search-box filter-item">
+      <div className="search-box-activity filter-item">
         <span className="icon"><span className="material-symbols-outlined">search</span></span>
         <input 
           type="text" 
