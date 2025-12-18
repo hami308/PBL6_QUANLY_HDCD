@@ -179,14 +179,14 @@ export default function Propose_Activity({ iscreate }) {
         start_time: form.startTime.toISOString(),
         end_time: form.endTime.toISOString(),
         location: form.location,
-        field: form.field,
+        field_id: form.field,
         capacity: Number(form.volunteers),
         points: Number(form.maxpoint),
         org_unit_id: orgUnitId,
         requirements: requirements, 
         requires_approval: true,
       };
-
+      console.log("Payload:", payload);
       const res = iscreate
         ? await create_activity(payload)
         : await propose_activity(payload);

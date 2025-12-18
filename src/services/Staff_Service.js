@@ -36,7 +36,7 @@ export const updateStaffInfo = async (staffData) => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
     console.error("Lỗi khi cập nhật thông tin sinh viên:", error);
     return null;

@@ -26,8 +26,14 @@ function Activity_Details({ activity_details }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const isStaff = user && user.roles && user.roles[0].role === "staff";
   const isCanceled = activity_details.status === "hủy hoạt động";
-  const canEdit = isStaff  && !isCanceled && isInManagePage;
-  const [showCancelPopup, setShowCancelPopup] = useState(false);
+  const isFinished = activity_details.status === "đã tổ chức";
+
+  const canEdit =
+    isStaff &&
+    isInManagePage &&
+    !isCanceled &&
+    !isFinished;
+    const [showCancelPopup, setShowCancelPopup] = useState(false);
 
   const handleConfirmCancel = async (reason) => {
     try {
@@ -82,10 +88,10 @@ function Activity_Details({ activity_details }) {
         ]);
 
         if (facRes.success) {
-          setFacultyOptions(facRes.data.map((f) => ({ value: f.name, label: f.name })));
+          setFacultyOptions(facRes.data.map((f) => ({ value: f._id, label: f.name })));
         }
         if (cohRes.success) {
-          setCourseOptions(cohRes.data.map((c) => ({ value: c.year, label: `Khóa ${c.year}` })));
+          setCourseOptions(cohRes.data.map((c) => ({ value: c._id, label: `Khóa ${c.year}` })));
         }
         if (fieldRes.success) {
           setFieldOptions(fieldRes.data);
@@ -100,11 +106,11 @@ function Activity_Details({ activity_details }) {
 
   const courseValues = (activity_details.requirements || []).filter(
     (r) => r.type === "cohort"
-  ).map((r) => ({ value: r.year, label: `Khóa ${r.year}` }));
+  ).map((r) => ({ value: r.id, label: `Khóa ${r.year}` }));
 
   const facultyValues = (activity_details.requirements || []).filter(
     (r) => r.type === "faculty" || r.type === "falcuty"
-  ).map((r) => ({ value: r.name, label: r.name }));
+  ).map((r) => ({ value: r.id, label: r.name }));
 
   const [courseValuesState, setCourseValuesState] = useState(
     courseValues.length ? courseValues : [{ value: "all", label: "Tất cả" }]
@@ -163,11 +169,22 @@ function Activity_Details({ activity_details }) {
       location: location,
       field: field_activity,
       requirements: [
-        ...courseValuesState.map(c => ({ type: "cohort", year: c.value })),
-        ...facultyValuesState.map(f => ({ type: "falcuty", name: f.value })),
-      ],
-    };
+        ...courseValuesState
+          .filter(c => c.value !== "all")
+          .map(c => ({
+            type: "cohort",
+            id: c.value,
+          })),
 
+        ...facultyValuesState
+          .filter(f => f.value !== "all")
+          .map(f => ({
+            type: "faculty",
+            id: f.value,
+          })),
+      ],
+
+    };
     try {
       const res = await update_activity(activity_details._id, activityData);
       if (res.success) alert(res.message);
@@ -194,7 +211,12 @@ function Activity_Details({ activity_details }) {
       </div>
 
       <img
-        src={activity_details.activity_image || Activity_pic}
+        src={
+          activity_details.activity_image &&
+          activity_details.activity_image.trim() !== ""
+            ? activity_details.activity_image
+            : Activity_pic
+        }
         alt={activity_details.title}
         className="activity-image-details"
       />
@@ -302,7 +324,7 @@ function Activity_Details({ activity_details }) {
       {canEdit  && (
         <div className="manage-infot-activity">
           <button className="button-update-infor-activity" onClick={handleUpdateActivity}>Cập nhật</button>
-          <button onClick={() => setShowCancelPopup(true)}>Hủy hoạt động</button>
+          <button className="button-cancel-activity" onClick={() => setShowCancelPopup(true)}>Hủy hoạt động</button>
 
           {showCancelPopup && (
             <CancelActivityPopup onClose={() => setShowCancelPopup(false)} onConfirm={handleConfirmCancel} />

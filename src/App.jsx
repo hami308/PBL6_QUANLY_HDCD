@@ -30,6 +30,7 @@ import ManageClass from "./Pages/Other_Page/ManageClass.jsx";
 import ManageCohort from "./Pages/Other_Page/ManageCohort.jsx";
 import ManageField from "./Pages/Other_Page/ManageField.jsx";
 import ManagePosition from "./Pages/Other_Page/ManagePossition.jsx";
+import Chatbot from "../src/components/Chatbot/Chatbot.jsx";
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 import ManageOrganization from "./Pages/Other_Page/ManageOrg.jsx";
 function App() {
@@ -127,6 +128,7 @@ function App() {
         <Route path="/org-infor" element={<OrgInfor_Page />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <Chatbot />
     </LoginProvider>
   );
 }

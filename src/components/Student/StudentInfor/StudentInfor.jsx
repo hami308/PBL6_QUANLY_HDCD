@@ -11,105 +11,64 @@ import {
   deleteStudentProfile,
 } from "../../../services/Student/StudentInfor_Services.js";
 import { org } from "../../../data/org.js";
-import { get_all_faculties } from "../../../services/Faculty_Service";
-import { getClass } from "../../../services/Class_Service";
-import { useNavigate } from "react-router-dom";
 
 registerLocale("vi", vi);
 
-function StudentInfo({ idstudent }) {
+function StudentInfo() {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
   const [studentInfo, setStudentInfo] = useState(null);
   const [errors, setErrors] = useState({});
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const [facultyList, setFacultyList] = useState([]);
-  const [idfaculty, setIdFaculty] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
 
-  const [classList, setClassList] = useState([]); // ✅ danh sách lớp
-  const [selectedClass, setSelectedClass] = useState(""); // ✅ lớp được chọn
-
-  const navigate = useNavigate();
-  // Lấy thông tin sinh viên
+  /* ===================== FETCH DATA ===================== */
   useEffect(() => {
     const fetchStudentInfo = async () => {
       try {
-        const data = await getStudentInfo(idstudent);
+        const data = await getStudentInfo(user.id);
         setStudentInfo(data);
-        setIdFaculty(data.class_id.falcuty_id._id);
-        setSelectedClass(data.class_id._id);
-        console.log("dữ liệu sinh viên ", data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchStudentInfo();
-  }, [idstudent]);
 
-  // --- Fetch faculty list ---
-  useEffect(() => {
-    const fetchFaculties = async () => {
-      const response = await get_all_faculties();
-      console.log("dữ liệu khoa ", response);
-      if (response.data) {
-        setFacultyList(response.data);
-      } else {
-        console.error("Failed to fetch faculties:", response.message);
-      }
-    };
-    fetchFaculties();
-  }, []);
+    if (user?.id) fetchStudentInfo();
+  }, [user?.id]);
 
-  // --- Fetch classes theo khoa ---
-  useEffect(() => {
-    const fetchClasses = async () => {
-      if (idfaculty) {
-        const res = await getClass(idfaculty);
-        console.log("dữ liệu lớp ", res);
-        if (res.data) {
-          setClassList(res.data);
-        } else {
-          console.error("Failed to fetch classes:", res.message);
-        }
-      } else {
-        setClassList([]);
-        setSelectedClass("");
-      }
-    };
-    fetchClasses();
-  }, [idfaculty]);
-
+  /* ===================== VALIDATION ===================== */
   const validateField = (name, value) => {
     let errorMsg = "";
 
     if (name === "email") {
-      if (!value.trim()) {
-        errorMsg = "Email không được để trống.";
-      } else {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) errorMsg = "Email không hợp lệ.";
-      }
+      if (!value.trim()) errorMsg = "Email không được để trống.";
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+        errorMsg = "Email không hợp lệ.";
     }
 
     if (name === "phone") {
-      if (!value.trim()) {
-        errorMsg = "Số điện thoại không được để trống.";
-      } else if (/\s/.test(value)) {
+      if (!value.trim()) errorMsg = "Số điện thoại không được để trống.";
+      else if (/\s/.test(value))
         errorMsg = "Số điện thoại không được chứa khoảng trắng.";
-      } else {
-        const phoneRegex = /^0\d{9}$/;
-        if (!phoneRegex.test(value)) {
-          errorMsg = "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0.";
-        }
-      }
+      else if (!/^0\d{9}$/.test(value))
+        errorMsg = "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0.";
     }
 
-    if (name === "contact_address") {
-      if (!value.trim()) errorMsg = "Địa chỉ không được để trống.";
+    if (name === "contact_address" && !value.trim()) {
+      errorMsg = "Địa chỉ không được để trống.";
     }
 
     setErrors((prev) => ({ ...prev, [name]: errorMsg }));
     return errorMsg === "";
   };
 
+  const validateAllFields = () => {
+    const fields = ["email", "phone", "contact_address"];
+    return fields.every((field) =>
+      validateField(field, studentInfo[field] || "")
+    );
+  };
+
+  /* ===================== HANDLERS ===================== */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStudentInfo((prev) => ({ ...prev, [name]: value }));
@@ -119,6 +78,46 @@ function StudentInfo({ idstudent }) {
     setStudentInfo((prev) => ({ ...prev, date_of_birth: date }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Ảnh không được vượt quá 2MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+      setStudentInfo((prev) => ({
+        ...prev,
+        student_image: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSave = async () => {
+    try {
+      if (!validateAllFields()) {
+        alert("Vui lòng kiểm tra và nhập đầy đủ thông tin!");
+        return;
+      }
+
+      const res = await updateStudentInfo(studentInfo);
+      if (res.success) {
+        alert("Cập nhật thông tin thành công!");
+      } else {
+        alert("Cập nhật thông tin thất bại!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Có lỗi xảy ra!");
+    }
+  };
+
+  /* ===================== DATE PICKER ===================== */
   const ReadOnlyInput = forwardRef(({ value, onClick }, ref) => (
     <input
       ref={ref}
@@ -129,84 +128,42 @@ function StudentInfo({ idstudent }) {
     />
   ));
 
-  // Hàm kiểm tra tất cả các trường trước khi lưu
-  const validateAllFields = () => {
-    const fieldsToCheck = ["email", "phone", "contact_address"];
-    let isValid = true;
-    fieldsToCheck.forEach((field) => {
-      const value = studentInfo[field] || "";
-      const valid = validateField(field, value);
-      if (!valid) isValid = false;
-    });
-    return isValid;
-  };
-
-  //  Lưu thông tin sinh viên
-  const handleSave = async () => {
-    try {
-      const isValid = validateAllFields();
-
-      // Nếu có lỗi hoặc trường trống thì không cho lưu
-      if (!isValid) {
-        alert("Vui lòng kiểm tra và nhập đầy đủ thông tin trước khi lưu!");
-        return;
-      }
-
-      const status = await updateStudentInfo(studentInfo);
-      console.log("Thông tin sinh viên đem đi cập nhật ", studentInfo);
-      if (status.success) {
-        alert("Cập nhật thông tin thành công!");
-      } else {
-        alert("Cập nhật thông tin thất bại!");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Lỗi khi cập nhật thông tin. Vui lòng thử lại!");
-    }
-  };
-
   if (!studentInfo) return <p>Đang tải thông tin sinh viên...</p>;
 
+  /* ===================== UI ===================== */
   return (
     <div className="student-info-background">
       <div className="student-info-container">
         <h2 className="title">Thông tin sinh viên</h2>
+
         <div className="student-info-content">
-          {/* Cột ảnh */}
+          {/* ===== ẢNH ===== */}
           <div className="student-photo">
+            <input
+              type="file"
+              id="photo-upload"
+              hidden
+              accept="image/*"
+              onChange={handleImageChange}
+            />
             <label htmlFor="photo-upload" className="photo-upload-label">
               <img
-                src={studentInfo.photo || student_pic}
+                src={previewImage || studentInfo.student_image || student_pic}
                 alt="Student"
                 className="photo-box"
               />
+              <p className="change-photo-text">Thay ảnh</p>
             </label>
           </div>
 
-          {/* Cột thông tin */}
+          {/* ===== THÔNG TIN ===== */}
           <div className="student-details">
             <h3 className="student-name">{studentInfo.full_name}</h3>
-            {user?.roles?.[0]?.role === "admin" ? (
-              <div className="info-row">
-                <label>MSSV</label>
-                <input
-                  type="text"
-                  name="student_number"
-                  value={studentInfo.student_number}
-                  onChange={handleChange}
-                />
-              </div>
-            ) : (
-              <div className="info-row">
-                <label>MSSV</label>
-                <input
-                  type="text"
-                  name="studentNumber"
-                  value={studentInfo.student_number}
-                  readOnly
-                />
-              </div>
-            )}
+
+            <div className="info-row">
+              <label>MSSV</label>
+              <input value={studentInfo.student_number} readOnly />
+            </div>
 
             <div className="info-row">
               <label>Ngày sinh</label>
@@ -234,123 +191,60 @@ function StudentInfo({ idstudent }) {
                 <option value="female">Nữ</option>
               </select>
             </div>
-            {user?.roles?.[0]?.role === "admin" ? (
-              <div className="info-row">
-                <label>Khoa</label>
-                <select
-                  value={idfaculty}
-                  onChange={(e) => {
-                    setIdFaculty(e.target.value); // cập nhật khoa để fetch lớp
-                    setStudentInfo((prev) => ({
-                      ...prev,
-                      class_id: {
-                        ...prev.class_id,
-                        falcuty_id: { _id: e.target.value },
-                      },
-                    }));
-                  }}
-                  className="infor-select"
-                >
-                  <option value="">Khoa</option>
-                  {facultyList.map((fac) => (
-                    <option key={fac._id} value={fac._id}>
-                      {fac.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            ) : (
-              <div className="info-row">
-                <label>Khoa</label>
-                <input
-                  type="text"
-                  value={studentInfo.falcuty_name || ""}
-                  readOnly
-                />
-              </div>
-            )}
-            {user?.roles?.[0]?.role === "admin" ? (
-              <div className="info-row">
-                <label>Lớp</label>
-                <select
-                  value={selectedClass}
-                  onChange={(e) => {
-                    setSelectedClass(e.target.value);
-                    setStudentInfo((prev) => ({
-                      ...prev,
-                      class_id: { ...prev.class_id, _id: e.target.value },
-                    }));
-                  }}
-                  className="infor-select"
-                >
-                  <option value="">Lớp</option>
-                  {classList.length > 0 ? (
-                    classList.map((cls) => (
-                      <option key={cls._id} value={cls._id}>
-                        {cls.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option disabled>Trống</option>
-                  )}
-                </select>
-              </div>
-            ) : (
-              <div className="info-row">
-                <label>Lớp</label>
-                <input
-                  type="text"
-                  value={studentInfo.class_id?.name || ""}
-                  readOnly
-                />
-              </div>
-            )}
 
-            {/* Email */}
+            <div className="info-row">
+              <label>Lớp</label>
+              <input value={studentInfo.class_id?.name || ""} readOnly />
+            </div>
+
+            <div className="info-row">
+              <label>Khoa</label>
+              <input value={studentInfo.falcuty_name || ""} readOnly />
+            </div>
+
+            {/* EMAIL */}
             <div className="info-row">
               <label>Email</label>
               <div className="input-column">
                 <input
-                  type="email"
                   name="email"
                   value={studentInfo.email || ""}
                   onChange={handleChange}
                   onBlur={(e) => validateField("email", e.target.value)}
-                  required
                 />
-                {errors.email && <p className="error-text">{errors.email}</p>}
+                {errors.email && (
+                  <p className="error-text">{errors.email}</p>
+                )}
               </div>
             </div>
 
-            {/* Số điện thoại */}
+            {/* PHONE */}
             <div className="info-row">
               <label>Số điện thoại</label>
               <div className="input-column">
                 <input
-                  type="text"
                   name="phone"
                   value={studentInfo.phone || ""}
                   onChange={handleChange}
                   onBlur={(e) => validateField("phone", e.target.value)}
-                  required
                 />
-                {errors.phone && <p className="error-text">{errors.phone}</p>}
+                {errors.phone && (
+                  <p className="error-text">{errors.phone}</p>
+                )}
               </div>
             </div>
 
-            {/* Địa chỉ */}
+            {/* ADDRESS */}
             <div className="info-row">
               <label>Địa chỉ</label>
               <div className="input-column">
                 <input
-                  type="text"
                   name="contact_address"
                   value={studentInfo.contact_address || ""}
                   onChange={handleChange}
                   onBlur={(e) =>
                     validateField("contact_address", e.target.value)
                   }
-                  required
                 />
                 {errors.contact_address && (
                   <p className="error-text">{errors.contact_address}</p>
@@ -358,7 +252,7 @@ function StudentInfo({ idstudent }) {
               </div>
             </div>
 
-            {/* Nếu là staff */}
+            {/* STAFF */}
             {user?.roles?.[0]?.role === "staff" && (
               <>
                 <div className="info-row">
@@ -380,7 +274,6 @@ function StudentInfo({ idstudent }) {
                 <div className="info-row">
                   <label>Chức vụ</label>
                   <input
-                    type="text"
                     name="position"
                     value={studentInfo.position || ""}
                     onChange={handleChange}
@@ -388,44 +281,31 @@ function StudentInfo({ idstudent }) {
                 </div>
               </>
             )}
-            <div className="action-buttons">
-              {/* Nếu là student */}
-              {(user?.roles?.[0]?.role === "student" ||
-                user?.roles?.[0]?.role === "admin") && (
-                <button className="save-student-infor-btn" onClick={handleSave}>
-                  Lưu thông tin
-                </button>
-              )}
 
-              {/* Nếu là admin */}
-              {user?.roles?.[0]?.role === "admin" && (
-                <button
-                  className="delete-btn-student"
-                  onClick={async () => {
-                    const confirmDelete = window.confirm(
-                      "Bạn có chắc chắn muốn xóa tài khoản này không?"
-                    );
-                    if (confirmDelete) {
-                      try {
-                        const res = await deleteStudentProfile(
-                          studentInfo.user_id._id
-                        );
-                        if (res.success) {
-                          alert("Đã xóa tài khoản sinh viên!");
-                          navigate("/useraccount-management");
-                        } else {
-                          alert(res.message || "Không thể xóa tài khoản!");
-                        }
-                      } catch {
-                        alert("Không thể xóa tài khoản!");
-                      }
+            {/* ACTION */}
+            {user?.roles?.[0]?.role === "student" && (
+              <button className="save-btn" onClick={handleSave}>
+                Lưu thông tin
+              </button>
+            )}
+
+            {user?.roles?.[0]?.role === "admin" && (
+              <button
+                className="save-btn delete-btn"
+                onClick={async () => {
+                  if (window.confirm("Bạn chắc chắn muốn xóa tài khoản?")) {
+                    try {
+                      await deleteStudentProfile(studentInfo.id);
+                      alert("Đã xóa tài khoản!");
+                    } catch {
+                      alert("Không thể xóa tài khoản!");
                     }
-                  }}
-                >
-                  Xóa tài khoản
-                </button>
-              )}
-            </div>
+                  }
+                }}
+              >
+                Xóa tài khoản
+              </button>
+            )}
           </div>
         </div>
       </div>

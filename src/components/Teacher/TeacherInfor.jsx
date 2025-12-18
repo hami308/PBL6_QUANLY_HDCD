@@ -1,134 +1,125 @@
 import "./TeacherInfor.css";
-import teacher_pic from "../../assets/images/teacher_pic.jpg";
-import DatePicker from "react-datepicker";
-import { registerLocale } from "react-datepicker";
-import vi from "date-fns/locale/vi";
+import defaultAvatar from "../../assets/images/teacher_pic.jpg";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import vi from "date-fns/locale/vi";
 import { useEffect, useState, forwardRef } from "react";
+
 import { get_all_org } from "../../services/Org_Service";
 import { getStaffInfo, updateStaffInfo } from "../../services/Staff_Service";
 import { get_all_position } from "../../services/Position_Service";
+
 registerLocale("vi", vi);
 
 function TeacherInfo({ idstaff }) {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+
+  /* ================= STATE ================= */
   const [teacherInfo, setTeacherInfo] = useState(null);
-  const [errors, setErrors] = useState({ email: "", phone: "" });
+  const [errors, setErrors] = useState({});
+  const [previewImage, setPreviewImage] = useState(null);
 
   const [orgList, setOrgList] = useState([]);
   const [positionList, setPositionList] = useState([]);
-  useEffect(() => {
-    const fetchOrg = async () => {
-      const response = await get_all_org();
-      console.log("Org response:", response);
-      if (response.data) {
-        setOrgList(response.data);
-      } else {
-        console.error("Failed to fetch faculties:", response.message);
-        return [];
-      }
-    };
-    fetchOrg();
-  }, []);
 
-  //Lấy chức vụ
+  /* ================= FETCH DATA ================= */
   useEffect(() => {
-    const fetchPositions = async () => {
-      const result = await get_all_position();
-      console.log(result);
-      if (result.success) {
-        setPositionList(result.data);
-      } else {
-        console.error("Lỗi lấy chức vụ:", result.message);
-      }
-    };
-
-    fetchPositions();
+    get_all_org().then((res) => res?.data && setOrgList(res.data));
+    get_all_position().then((res) => res?.success && setPositionList(res.data));
   }, []);
 
   useEffect(() => {
-    const fetchStaffInfo = async () => {
+    const fetchStaff = async () => {
       try {
-        const reponse = await getStaffInfo(idstaff);
-        console.log("Thông tin cán bộ ", reponse);
-        setTeacherInfo(reponse);
-      } catch (error) {
-        console.error(error);
+        const data = await getStaffInfo(idstaff);
+        setTeacherInfo(data);
+      } catch (err) {
+        console.error(err);
       }
     };
-    fetchStaffInfo();
+    if (idstaff) fetchStaff();
   }, [idstaff]);
 
+  /* ================= VALIDATION ================= */
   const validateField = (name, value) => {
-    let errorMsg = "";
+    let msg = "";
+
     if (name === "email") {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(value)) errorMsg = "Email không hợp lệ.";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) msg = "Email không hợp lệ";
     }
+
     if (name === "phone") {
-      const phoneRegex = /^0\d{9}$/;
-      if (!phoneRegex.test(value))
-        errorMsg = "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng 0";
+      if (!/^0\d{9}$/.test(value)) msg = "SĐT phải có 10 số và bắt đầu bằng 0";
     }
-    setErrors((prev) => ({ ...prev, [name]: errorMsg }));
-  };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "org_unit_id") {
-      const selectedOrg = orgList.find((org) => org._id === value);
-      setTeacherInfo((prev) => ({
-        ...prev,
-        org_unit_id: selectedOrg
-          ? { _id: selectedOrg._id, name: selectedOrg.name }
-          : null,
-      }));
-    } else {
-      setTeacherInfo((prev) => ({ ...prev, [name]: value }));
-    }
-  };
-
-  const handleDateChange = (date) => {
-    setTeacherInfo((prev) => ({ ...prev, dateOfBirth: date }));
+    setErrors((prev) => ({ ...prev, [name]: msg }));
+    return msg === "";
   };
 
   const validateAllFields = () => {
-    let isValid = true;
-    const requiredFields = ["email", "phone", "contact_address", "position"];
-
-    requiredFields.forEach((field) => {
-      if (!teacherInfo?.[field] || teacherInfo[field].trim() === "") {
-        isValid = false;
-      }
-    });
-
-    // kiểm tra lỗi validation email/phone
-    if (errors.email || errors.phone) {
-      isValid = false;
-    }
-
-    return isValid;
+    const fields = ["email", "phone", "contact_address", "position"];
+    return fields.every((f) => teacherInfo?.[f] && !errors[f]);
   };
 
+  /* ================= HANDLERS ================= */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setTeacherInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleOrgChange = (e) => {
+    const org = orgList.find((o) => o._id === e.target.value);
+    setTeacherInfo((prev) => ({
+      ...prev,
+      org_unit_id: org ? { _id: org._id, name: org.name } : null,
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setTeacherInfo((prev) => ({ ...prev, date_of_birth: date }));
+  };
+
+  /* ===== IMAGE (GIỐNG STUDENT) ===== */
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Ảnh không được vượt quá 2MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+      setTeacherInfo((prev) => ({
+        ...prev,
+        staff_image: reader.result, // base64 / URL
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  /* ================= SAVE ================= */
   const handleSave = async () => {
-    try {
-      const isValid = validateAllFields();
+    if (!validateAllFields()) {
+      alert("Vui lòng kiểm tra và nhập đầy đủ thông tin!");
+      return;
+    }
 
-      if (!isValid) {
-        alert("Vui lòng kiểm tra và nhập đầy đủ thông tin trước khi lưu!");
-        return;
-      }
-      const status = await updateStaffInfo(teacherInfo);
-      if (status) {
-        alert("Cập nhật thông tin thành công!");
-      } else {
-        alert("Cập nhật thông tin thất bại!");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Lỗi khi cập nhật thông tin. Vui lòng thử lại!");
+    try {
+      const res = await updateStaffInfo(teacherInfo);
+      console.log(res.status);
+      res?.status === 200
+        ? alert("Cập nhật thông tin thành công!")
+        : alert("Cập nhật thông tin thất bại!");
+    } catch (err) {
+      console.error(err);
+      alert("Có lỗi xảy ra!");
     }
   };
 
+  /* ================= DATE INPUT ================= */
   const ReadOnlyInput = forwardRef(({ value, onClick }, ref) => (
     <input
       ref={ref}
@@ -139,51 +130,50 @@ function TeacherInfo({ idstaff }) {
     />
   ));
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  if (!teacherInfo) return <p>Đang tải thông tin cán bộ...</p>;
 
+  /* ================= JSX ================= */
   return (
     <div className="teacher-info-background">
       <div className="teacher-info-container">
-        {/* <a onClick={() => window.history.back()}>
-          <span className="material-symbols-outlined">arrow_back</span>
-        </a> */}
         <h2 className="title">Thông tin cán bộ / giảng viên</h2>
 
-        {/* Hiển thị chức vụ và đơn vị nổi bật */}
-        <div className="teacher-highlight">
-          <p className="teacher-position">{teacherInfo?.position || ""}</p>
-          <p className="teacher-unit">{teacherInfo?.org_unit_id?.name || ""}</p>
-        </div>
-
         <div className="teacher-info-content">
-          {/* Cột ảnh */}
+          {/* ===== AVATAR ===== */}
           <div className="teacher-photo">
-            <img src={teacher_pic} alt="Teacher" className="photo-box" />
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              id="teacher-upload"
+              onChange={handleImageChange}
+            />
+            <label htmlFor="teacher-upload" className="photo-upload-label">
+              <img
+                src={previewImage || teacherInfo.staff_image || defaultAvatar}
+                alt="avatar"
+                className="photo-box"
+              />
+              <p className="change-photo-text">Thay ảnh</p>
+            </label>
           </div>
-          {/* Cột thông tin */}
+
+          {/* ===== INFO ===== */}
           <div className="teacher-details">
-            <h3 className="teacher-name">{teacherInfo?.full_name}</h3>
+            <h3 className="teacher-name">{teacherInfo.full_name}</h3>
+
             <div className="info-row">
               <label>Mã giảng viên</label>
-              <input
-                type="text"
-                name="id"
-                value={teacherInfo?.staff_number || " "}
-                readOnly
-              />
+              <input value={teacherInfo.staff_number} readOnly />
             </div>
 
             <div className="info-row">
               <label>Ngày sinh</label>
               <DatePicker
-                selected={teacherInfo?.date_of_birth}
+                selected={teacherInfo.date_of_birth}
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
                 locale="vi"
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode="select"
-                className="infor-date-picker"
                 customInput={<ReadOnlyInput />}
               />
             </div>
@@ -192,7 +182,7 @@ function TeacherInfo({ idstaff }) {
               <label>Giới tính</label>
               <select
                 name="gender"
-                value={teacherInfo?.gender}
+                value={teacherInfo.gender}
                 onChange={handleChange}
                 className="infor-select"
               >
@@ -203,126 +193,78 @@ function TeacherInfo({ idstaff }) {
 
             <div className="info-row">
               <label>Email</label>
-              <div className="input-column">
-                <input
-                  type="email"
-                  name="email"
-                  value={teacherInfo?.email || " "}
-                  onChange={handleChange}
-                  onBlur={(e) => validateField("email", e.target.value)}
-                />
-                {errors.email && <p className="error-text">{errors.email}</p>}
-              </div>
+              <input
+                name="email"
+                value={teacherInfo.email || ""}
+                onChange={handleChange}
+                onBlur={(e) => validateField("email", e.target.value)}
+              />
+              {errors.email && <p className="error-text">{errors.email}</p>}
             </div>
 
             <div className="info-row">
-              <label>Số điện thoại</label>
-              <div className="input-column">
-                <input
-                  type="text"
-                  name="phone"
-                  value={teacherInfo?.phone || " "}
-                  onChange={handleChange}
-                  onBlur={(e) => validateField("phone", e.target.value)}
-                />
-                {errors.phone && <p className="error-text">{errors.phone}</p>}
-              </div>
+              <label>SĐT</label>
+              <input
+                name="phone"
+                value={teacherInfo.phone || ""}
+                onChange={handleChange}
+                onBlur={(e) => validateField("phone", e.target.value)}
+              />
+              {errors.phone && <p className="error-text">{errors.phone}</p>}
             </div>
 
             <div className="info-row">
               <label>Địa chỉ</label>
               <input
-                type="text"
                 name="contact_address"
-                value={teacherInfo?.contact_address || " "}
+                value={teacherInfo.contact_address || ""}
                 onChange={handleChange}
               />
             </div>
-            {user?.roles?.[0]?.role == "admin" ? (
-              <div className="info-row">
-                <label>Thuộc đơn vị</label>
-                <select
-                  name="org_unit_id"
-                  value={teacherInfo?.org_unit_id?._id || ""}
-                  onChange={handleChange}
-                  className="infor-select"
-                >
-                  {orgList.length > 0 ? (
-                    orgList.map((org) => (
-                      <option key={org._id} value={org._id}>
-                        {org.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" disabled>
-                      Loading
-                    </option>
-                  )}
-                </select>
-              </div>
-            ) : (
-              <div className="info-row">
-                <label>Thuộc đơn vị</label>
-                <input
-                  type="text"
-                  name="unit"
-                  value={teacherInfo?.org_unit_id?.name || ""}
-                  readOnly
-                />
-              </div>
-            )}
 
-            {user?.roles?.[0]?.role == "admin" ? (
-              <div className="info-row">
-                <label>Chức vụ</label>
+            <div className="info-row">
+              <label>Đơn vị</label>
+              {user?.roles?.[0]?.role === "admin" ? (
                 <select
-                  name="position"
-                  value={teacherInfo?.position || " "}
-                  onChange={handleChange}
+                  value={teacherInfo.org_unit_id?._id || ""}
+                  onChange={handleOrgChange}
                   className="infor-select"
                 >
-                  <option value="" disabled>
-                    -- Chọn chức vụ --
-                  </option>
-                  {positionList.map((pos) => (
-                    <option key={pos} value={pos}>
-                      {pos}
+                  {orgList.map((o) => (
+                    <option key={o._id} value={o._id}>
+                      {o.name}
                     </option>
                   ))}
                 </select>
-              </div>
-            ) : (
-              <div className="info-row">
-                <label>Chức vụ</label>
-                <input
-                  type="text"
+              ) : (
+                <input value={teacherInfo.org_unit_id?.name || ""} readOnly />
+              )}
+            </div>
+
+            <div className="info-row">
+              <label>Chức vụ</label>
+              {user?.roles?.[0]?.role === "admin" ? (
+                <select
                   name="position"
-                  value={teacherInfo?.position || " "}
-                  readOnly
-                />
-              </div>
-            )}
+                  value={teacherInfo.position || ""}
+                  onChange={handleChange}
+                  className="infor-select"
+                >
+                  {positionList.map((p) => (
+                    <option key={p} value={p}>
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input value={teacherInfo.position || ""} readOnly />
+              )}
+            </div>
 
             {(user?.roles?.[0]?.role === "staff" ||
               user?.roles?.[0]?.role === "admin") && (
               <button className="save-btn" onClick={handleSave}>
                 Lưu thông tin
-              </button>
-            )}
-
-            {user?.roles?.[0]?.role === "admin" && (
-              <button
-                className="delete-btn"
-                onClick={() => {
-                  const confirmDelete = window.confirm(
-                    "Bạn có chắc chắn muốn xóa tài khoản này không?"
-                  );
-                  if (confirmDelete) {
-                    // Gọi hàm xóa tài khoản ở đây
-                  }
-                }}
-              >
-                Xóa tài khoản
               </button>
             )}
           </div>
