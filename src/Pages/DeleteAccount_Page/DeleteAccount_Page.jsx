@@ -1,6 +1,6 @@
 import React from "react";
 import DeleteAccount from "../../components/Admin/DeleteAccountBox/DeleteAccountBox";
-import FileUpload from "../../components/Admin/FileUpload/FileUpload";
+import FileUpload from "../CreateAccount_Page/Components/FileUpload";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";

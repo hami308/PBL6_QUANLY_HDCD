@@ -1,19 +1,17 @@
-
 import axios from "axios";
-const API_URL = "https://pbl6-backend.vercel.app/api"; 
+const API_URL = "https://pbl6-backend.vercel.app/api";
 
 export async function get_all_permission() {
   try {
     const token = sessionStorage.getItem("token");
-     const response = await axios.get(`${API_URL}/permissions`, {
-        headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.get(`${API_URL}/permissions`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
     console.log(response);
     return {
       success: true,
       data: response.data,
     };
-    
   } catch (error) {
     console.error(`Get permission error:`, error);
     return {
@@ -28,15 +26,14 @@ export async function get_all_permission() {
 export async function get_all_actions() {
   try {
     const token = sessionStorage.getItem("token");
-     const response = await axios.get(`${API_URL}/permissions/actions`, {
-        headers: { Authorization: `Bearer ${token}` },
+    const response = await axios.get(`${API_URL}/permissions/actions`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
     console.log(response);
     return {
       success: true,
       data: response.data,
     };
-    
   } catch (error) {
     console.error(`Get permission error:`, error);
     return {
@@ -71,6 +68,32 @@ export async function get_user_permissions(userId) {
       message:
         error.response?.data?.message ||
         "Không thể lấy được danh sách quyền của người dùng.",
+    };
+  }
+}
+export async function get_role_permissions(roleId) {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.get(
+      `${API_URL}/permissions/roles/${roleId}/permissions`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    console.log("Role permissions:", response.data);
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error("Get role permissions error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy được danh sách quyền của vai trò.",
     };
   }
 }

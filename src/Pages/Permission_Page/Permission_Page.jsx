@@ -1,41 +1,70 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import Footer from "../../components/Footer/Footer";
 import ActionGroup from "../../components/Admin/Permisson/ActionGroup";
+import { get_role_permissions } from "../../services/Permission_Service";
 import "./Permission_Page.css";
 
 const PermissionPage = () => {
+  // ===== USER SEARCH =====
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState(null);
-  const [selectedRole, setSelectedRole] = useState("");
+
+  // ===== ROLE & PERMISSION =====
+  const [selectedRole, setSelectedRole] = useState("student");
+  const [permissions, setPermissions] = useState([]);
+
+  // ===== ADD ROLE =====
   const [showAddRole, setShowAddRole] = useState(false);
 
-  // mock quyền
-  const permissions = {
-    student: ["Xem hoạt động", "Đăng ký hoạt động"],
-    staff: ["Duyệt minh chứng", "Quản lý hoạt động"],
-  };
+  // =====================================
+  // 1️⃣ LOAD PERMISSION THEO ROLE (KHI VÀO TRANG + KHI ĐỔI ROLE)
+  // =====================================
+  useEffect(() => {
+    if (!selectedRole) return;
 
-  // giả lập API tìm user
+    const fetchPermissions = async () => {
+      const res = await get_role_permissions(selectedRole);
+      if (res.success) {
+        setPermissions(res.data);
+      } else {
+        alert(res.message);
+      }
+    };
+
+    fetchPermissions();
+  }, [selectedRole]);
+
+  // =====================================
+  // 2️⃣ SEARCH USER (MOCK – SAU NÀY ĐỔI API)
+  // =====================================
   const handleSearchUser = () => {
-    if (!username) return alert("Nhập username");
+    if (!username.trim()) {
+      alert("Vui lòng nhập username");
+      return;
+    }
 
-    // MOCK DATA
+    // 🔥 MOCK DATA (thay bằng API get user sau)
     const mockUser = {
       username,
-      roles: ["student"], // ban đầu chỉ là student
+      roles: ["student"], // user ban đầu chỉ là student
     };
 
     setUserData(mockUser);
     setSelectedRole(mockUser.roles[0]);
   };
 
+  // =====================================
+  // 3️⃣ THÊM ROLE STAFF CHO USER
+  // =====================================
   const handleAddStaffRole = () => {
-    setUserData({
-      ...userData,
-      roles: [...userData.roles, "staff"],
-    });
+    setUserData((prev) => ({
+      ...prev,
+      roles: [...prev.roles, "staff"],
+    }));
+
+    setSelectedRole("staff");
     setShowAddRole(false);
   };
 
@@ -44,7 +73,7 @@ const PermissionPage = () => {
       <Header />
       <Menu_Admin />
 
-      {/* ==== SEARCH USER ==== */}
+      {/* ================= SEARCH USER ================= */}
       <div className="search-box">
         <input
           placeholder="Nhập username"
@@ -54,7 +83,7 @@ const PermissionPage = () => {
         <button onClick={handleSearchUser}>✔</button>
       </div>
 
-      {/* ==== USER INFO ==== */}
+      {/* ================= USER INFO ================= */}
       {userData && (
         <>
           <div className="user-info">
@@ -62,20 +91,21 @@ const PermissionPage = () => {
               User: <b>{userData.username}</b>
             </p>
 
+            {/* ===== ROLE SELECT ===== */}
             <div className="role-radio">
-              {userData.roles.map((r) => (
-                <label key={r}>
+              {userData.roles.map((role) => (
+                <label key={role}>
                   <input
                     type="radio"
-                    checked={selectedRole === r}
-                    onChange={() => setSelectedRole(r)}
+                    checked={selectedRole === role}
+                    onChange={() => setSelectedRole(role)}
                   />
-                  {r}
+                  {role}
                 </label>
               ))}
             </div>
 
-            {/* chỉ student mới có */}
+            {/* ===== ADD ROLE BUTTON ===== */}
             {userData.roles.includes("student") &&
               !userData.roles.includes("staff") && (
                 <button
@@ -87,7 +117,7 @@ const PermissionPage = () => {
               )}
           </div>
 
-          {/* ==== ADD STAFF ROLE ==== */}
+          {/* ================= ADD ROLE FORM ================= */}
           {showAddRole && (
             <div className="add-role-form">
               <select>
@@ -106,11 +136,11 @@ const PermissionPage = () => {
             </div>
           )}
 
-          {/* ==== PERMISSIONS ==== */}
+          {/* ================= PERMISSIONS ================= */}
           <div className="Action_group">
             <ActionGroup
               title={`Quyền của role ${selectedRole}`}
-              actions={permissions[selectedRole]}
+              actions={permissions}
             />
           </div>
         </>

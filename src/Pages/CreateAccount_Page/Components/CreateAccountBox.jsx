@@ -49,7 +49,7 @@ const CreateAccount = () => {
       if (faculty) {
         const response = await getClassesByFaculty(faculty);
         if (response.data) {
-          setListClass(response.data); // ✅ danh sách lớp
+          setListClass(response.data);
         } else {
           console.error("Failed to fetch classes:", response.message);
         }
@@ -132,21 +132,13 @@ const CreateAccount = () => {
         // );
 
         if (response.success) {
-          const per = window.confirm(
-            "Tạo tài khoản sinh viên thành công! Bạn có muốn phân quyền không?"
-          );
-          if (per) {
-            navigate("/permission", { state: { username, role } });
-          } else {
-            setUsername("");
-            setPassword("");
-            setRole("");
-            setFullName("");
-            setClassId("");
-            setFaculty("");
-            setWorkUnit("");
-            setPosition("");
-          }
+          alert("Tạo tài khoản thành công !");
+          setUsername("");
+          setPassword("");
+          setRole("");
+          setFullName("");
+          setClassId("");
+          setFaculty("");
         } else {
           setMessage(response.message);
         }
@@ -219,10 +211,10 @@ const CreateAccount = () => {
       </div>
 
       {/* Password */}
-      <div className="form-group">
+      {/* <div className="form-group">
         <label>Mật khẩu</label>
         <input type="password" value={password} disabled />
-      </div>
+      </div> */}
 
       {/* Role */}
       <div className="form-group">
@@ -233,7 +225,6 @@ const CreateAccount = () => {
           </option>
           <option value="student">Sinh viên</option>
           <option value="staff">Tổ chức</option>
-          <option value="admin">Admin</option>
         </select>
       </div>
 
