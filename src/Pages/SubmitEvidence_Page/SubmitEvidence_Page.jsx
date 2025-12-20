@@ -105,6 +105,9 @@ function SubmitEvidence_Page() {
       <h3 className="cross-bar">Danh sách các minh chứng đã nộp</h3>
 
       {/* --- Bộ lọc & sắp xếp --- */}
+      {loading ? (
+        <></>
+      ):
       <div className="filter-sort-container">
         <select
           name="status"
@@ -127,10 +130,12 @@ function SubmitEvidence_Page() {
           <option value="asc">Cũ nhất</option>
         </select>
       </div>
-
+}
       {/* --- Bảng minh chứng --- */}
       {loading ? (
-        <p style={{ textAlign: "center" }}>Đang tải danh sách minh chứng...</p>
+            <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
       ) : error ? (
         <p className="error-message">{error}</p>
       ) : (

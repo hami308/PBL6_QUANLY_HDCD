@@ -128,7 +128,7 @@ body.dark-mode .activity-card-details{
   color: #3730a3;
   font-weight: 600;
 }
-
+body.dark-mode .field strong { color: white; }
 .field-content {
   display: flex;
   align-items: center;
@@ -175,7 +175,7 @@ select.field-select {
 .button-update-infor-activity,
 .button-cancel-activity {
   padding: 8px 18px;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -184,12 +184,12 @@ select.field-select {
 }
 
 .button-update-infor-activity {
-  background: #22c55e;
+  background: #2C1966;
   color: #fff;
 }
 
 .button-update-infor-activity:hover {
-  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.35);
+  box-shadow: 0 6px 14px rgba(34, 34, 197, 0.35);
 }
 
 .button-cancel-activity {

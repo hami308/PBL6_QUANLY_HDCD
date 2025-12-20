@@ -273,7 +273,6 @@ export async function get_activity_details_of_student(activityId, studentId) {
         },
       }
     );
-
     return {
       success: true,
       data: response.data,

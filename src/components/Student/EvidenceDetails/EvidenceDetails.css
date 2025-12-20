@@ -172,3 +172,86 @@
 .material-symbols-outlined {
   font-size: 20px;
 }
+
+/* ================= DARK MODE ================= */
+body.dark-mode .evidence-details-background {
+  background-color: #121212;
+}
+
+/* Container */
+body.dark-mode .evidence-details-container {
+  background-color: #1e1e1e;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  color: #eaeaea;
+}
+
+/* Title */
+body.dark-mode .evidence-details-title h3 {
+  color: #ffffff;
+}
+
+/* Labels */
+body.dark-mode .evidence-details-label {
+  color: #bbbbbb;
+}
+
+/* Input */
+body.dark-mode .evidence-details-input,
+body.dark-mode .evidence-details-input-disabled {
+  background: #2a2a2a;
+  color: #ffffff;
+  border: 1px solid #444;
+}
+
+/* Waiting status input */
+body.dark-mode .evidence-details-input.waiting {
+  background: #3a2f14;
+  color: #e0b84c;
+  border: none;
+}
+
+/* Disabled input */
+body.dark-mode .evidence-details-input-disabled {
+  background: #242424;
+  color: #aaa;
+  border: none;
+}
+
+/* Status badge */
+body.dark-mode .evidence-details-status {
+  background: #3a2f14;
+  color: #e0b84c;
+}
+
+/* Buttons */
+body.dark-mode .evidence-details-approve-btn,
+body.dark-mode .evidence-details-update-btn {
+  background: #5b3fd3;
+  border: none;
+  color: #fff;
+}
+
+body.dark-mode .evidence-details-approve-btn:hover,
+body.dark-mode .evidence-details-update-btn:hover {
+  background: #7b61ff;
+}
+
+/* Link */
+body.dark-mode .evidence-details-link {
+  background: #262626;
+  color: #66aaff;
+}
+
+body.dark-mode .evidence-details-link:hover {
+  background: #1e2f44;
+  color: #99c2ff;
+}
+
+/* Back button */
+body.dark-mode .evidence-back-btn {
+  color: #b4a7ff;
+}
+
+body.dark-mode .evidence-back-btn:hover {
+  color: #d1c9ff;
+}

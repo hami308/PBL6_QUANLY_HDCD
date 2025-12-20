@@ -183,3 +183,81 @@
     font-size: 24px;
   }
 }
+/* ===== OVERLAY ===== */
+body.dark-mode .evaluate-container {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* ===== CARD ===== */
+body.dark-mode .evaluate-card {
+  background: #2b2b2b;
+  color: #e5e7eb;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== TITLES ===== */
+body.dark-mode .evaluate-title {
+  color: #f9fafb;
+}
+
+body.dark-mode .evaluate-subtitle {
+  color: #c7d2fe;
+}
+
+body.dark-mode .evaluate-subtitle .material-symbols-outlined {
+  color: #a5b4fc;
+}
+
+/* ===== RATING ===== */
+body.dark-mode .rating-label {
+  color: #e5e7eb;
+}
+
+body.dark-mode .star .material-symbols-outlined {
+  color: #4b5563; /* sao chưa chọn */
+}
+
+body.dark-mode .star.active .material-symbols-outlined,
+body.dark-mode .star:hover .material-symbols-outlined {
+  color: #facc15; /* vàng dịu */
+}
+
+/* ===== COMMENT ===== */
+body.dark-mode .comment-label {
+  color: #e5e7eb;
+}
+
+body.dark-mode .comment-input {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark-mode .comment-input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .comment-input:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.3);
+}
+
+/* ===== BUTTONS ===== */
+body.dark-mode .cancel-evaluate-btn {
+  background: transparent;
+  color: #a5b4fc;
+  border-color: #818cf8;
+}
+
+body.dark-mode .cancel-evaluate-btn:hover {
+  background: rgba(129, 140, 248, 0.15);
+  color: #e0e7ff;
+}
+
+body.dark-mode .submit-evaluate-btn {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+}
+
+body.dark-mode .submit-evaluate-btn:hover {
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+}

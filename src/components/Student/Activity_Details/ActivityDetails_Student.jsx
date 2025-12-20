@@ -25,9 +25,7 @@ function Activity_Details({ activity_details = {}, onCancelRegister }) {
     date ? dayjs(date).format("DD/MM/YYYY") : "Không rõ";
 
   const studentStatus = student.registrationStatus || "unknown";
-  const processedTime = registration.approved_at;
   const attendanceTime = attendance.scanned_at;
-
   // ======== FORMAT TRẠNG THÁI HIỂN THỊ ========
   const renderStatus = () => {
     if (attendanceTime) return "Đã tham gia";
@@ -96,18 +94,18 @@ function Activity_Details({ activity_details = {}, onCancelRegister }) {
           <span>{formatDate(registration.registered_at)}</span>
         </div>
 
-        {(studentStatus === "approved" || studentStatus === "rejected") && (
-          <div className="field">
-            <strong>Thời gian xử lý:</strong>
-            <span>{formatDateTime(processedTime)}</span>
-          </div>
-        )}
-
         {attendanceTime && (
+          <>
+            <div className="field">
+              <strong>Số lần điểm danh:</strong>
+              <span>{activity_details.student.attendance.scan_order}</span>
+            </div>
           <div className="field">
-            <strong>Thời gian điểm danh:</strong>
+            <strong>Thời gian điểm danh gần nhất:</strong>
             <span>{formatDateTime(attendanceTime)}</span>
           </div>
+          </>
+          
         )}
       </div>
 

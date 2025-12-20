@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
+import { useLocation } from "react-router-dom";
 import "./Filter_activity.css";
+
 import { get_all_fields } from "../../services/Field_Service.js";
 import { get_all_faculties } from "../../services/Faculty_Service.js";
 import { get_all_org } from "../../services/Org_Service.js";
 
-function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
+function FilterBar({ status = [], onFilter }) {
+  const location = useLocation();
+
+  /* ================== ROUTE CHECK ================== */
+  const isManageActivityOrg = location.pathname.includes("manage-activity-org");
+
+  /* ================== DATA STATE ================== */
   const [fields, setFields] = useState([]);
   const [organizations, setOrganizations] = useState([]);
   const [renderKey, setRenderKey] = useState(0);
-  
-  // State cho các bộ lọc
+
+  /* ================== FILTER STATE ================== */
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [selectedField, setSelectedField] = useState(null);
   const [selectedOrg, setSelectedOrg] = useState(null);
   const [searchText, setSearchText] = useState("");
 
+  /* ================== FETCH FIELD ================== */
   useEffect(() => {
     async function fetchFields() {
       const result = await get_all_fields();
@@ -23,66 +32,86 @@ function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
     }
     fetchFields();
   }, []);
+
+  /* ================== FETCH ORGANIZATION + FACULTY ================== */
   useEffect(() => {
     async function fetchOrganizations() {
       const [facultiesRes, orgRes] = await Promise.all([
         get_all_faculties(),
         get_all_org(),
       ]);
-      if (facultiesRes.success || orgRes.success) {
-        const faculties = facultiesRes.success ? facultiesRes.data : [];
-        const orgs = orgRes.success ? orgRes.data : [];
-        const combined = [
-          ...faculties.map((item) => ({ ...item, type: "faculty" })),
-          ...orgs.map((item) => ({ ...item, type: "organization" })),
-        ];
-        setOrganizations(combined);
-      }
+
+      const faculties = facultiesRes.success ? facultiesRes.data : [];
+      const orgs = orgRes.success ? orgRes.data : [];
+
+      const combined = [
+        ...faculties.map((item) => ({ ...item, type: "faculty" })),
+        ...orgs.map((item) => ({ ...item, type: "organization" })),
+      ];
+
+      setOrganizations(combined);
     }
     fetchOrganizations();
   }, []);
- // Observe class changes on body (toggle dark-mode) để setRenderKey gây re-render Select
+
+  /* ================== RESET ORG WHEN HIDDEN ================== */
   useEffect(() => {
-    if (typeof MutationObserver === "undefined" || typeof document === "undefined") return;
-    const obs = new MutationObserver((mutations) => {
+    if (isManageActivityOrg) {
+      setSelectedOrg(null);
+    }
+  }, [isManageActivityOrg]);
+
+  /* ================== DARK MODE OBSERVER ================== */
+  useEffect(() => {
+    if (!document || typeof MutationObserver === "undefined") return;
+
+    const observer = new MutationObserver((mutations) => {
       for (const m of mutations) {
         if (m.attributeName === "class") {
-          // tăng key để re-render Select và áp dụng styles mới
           setRenderKey((k) => k + 1);
           break;
         }
       }
     });
-    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
-    return () => obs.disconnect();
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
   }, []);
-  // Hàm xử lý khi nhấn nút Áp dụng bộ lọc
+
+  /* ================== APPLY FILTER ================== */
   const handleApplyFilter = () => {
     const filters = {
       status: selectedStatus?.value !== "all" ? selectedStatus?.value : null,
       field_id: selectedField?.value !== "all" ? selectedField?.value : null,
-      org_unit_id: selectedOrg?.value !== "all" ? selectedOrg?.value : null,
+      org_unit_id:
+        !isManageActivityOrg && selectedOrg?.value !== "all"
+          ? selectedOrg?.value
+          : null,
       title: searchText || null,
     };
-    
-    // Gọi hàm onFilter từ props và truyền filters
+
     onFilter(filters);
   };
 
-  // Hàm xử lý khi nhấn nút Đặt lại
+  /* ================== RESET FILTER ================== */
   const handleReset = () => {
     setSelectedStatus(null);
     setSelectedField(null);
     setSelectedOrg(null);
     setSearchText("");
-    // Gọi onFilter với filters rỗng để lấy tất cả hoạt động
     onFilter({});
   };
 
-  // Gắng đọc trạng thái dark mode hiện tại
-  const isDarkMode = typeof document !== "undefined" && document.body.classList.contains("dark-mode");
+  /* ================== DARK MODE ================== */
+  const isDarkMode =
+    typeof document !== "undefined" &&
+    document.body.classList.contains("dark-mode");
 
-  // styles dùng trực tiếp cho react-select (bao gồm menuPortal)
+  /* ================== SELECT STYLE ================== */
   const customSelectStyles = {
     control: (base, state) => ({
       ...base,
@@ -92,8 +121,14 @@ function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
       fontSize: "2vh",
       backgroundColor: isDarkMode ? "#3e4446" : "#fff",
       color: isDarkMode ? "#fff" : "#000",
-      borderColor: state.isFocused ? "#2979ff" : isDarkMode ? "#666" : "#ccc",
-      boxShadow: state.isFocused ? "0 0 0 2px rgba(41, 121, 255, 0.3)" : "none",
+      borderColor: state.isFocused
+        ? "#2979ff"
+        : isDarkMode
+        ? "#666"
+        : "#ccc",
+      boxShadow: state.isFocused
+        ? "0 0 0 2px rgba(41,121,255,0.3)"
+        : "none",
     }),
     valueContainer: (base) => ({
       ...base,
@@ -115,16 +150,13 @@ function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
       ...base,
       maxHeight: "200px",
       overflowY: "auto",
-      paddingRight: "4px",
     }),
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected
         ? "#2979ff"
         : state.isFocused
-        ? isDarkMode
-          ? "#3e4446"
-          : "#3e4446"
+        ? "#3e4446"
         : "transparent",
       color: state.isSelected ? "#fff" : isDarkMode ? "#fff" : "#000",
       cursor: "pointer",
@@ -133,75 +165,92 @@ function FilterBar({ status = [], onFilter }) { // Thêm prop onFilter
       ...base,
       color: isDarkMode ? "#fff" : "#000",
     }),
-    // menuPortal styles: ảnh hưởng wrapper gắn vào document.body
     menuPortal: (base) => ({
       ...base,
       zIndex: 9999,
-      backgroundColor: isDarkMode ? "#3e4446" : "#fff",
-      color: isDarkMode ? "#fff" : "#000",
     }),
   };
 
+  /* ================== RENDER ================== */
   return (
     <div className="filter-bar">
+      {/* STATUS */}
       <Select
         key={`status-${renderKey}`}
         className="filter-item"
-        classNamePrefix="react-select"
         placeholder="Tình trạng"
         styles={customSelectStyles}
-        menuPortalTarget={typeof document !== "undefined" ? document.body : null}
+        menuPortalTarget={document.body}
         options={[
           { value: "all", label: "Tất cả" },
-          ...status.map((item) => ({ value: item.label, label: item.name })),
+          ...status.map((item) => ({
+            value: item.label,
+            label: item.name,
+          })),
         ]}
         value={selectedStatus}
         onChange={setSelectedStatus}
       />
 
+      {/* FIELD */}
       <Select
         key={`field-${renderKey}`}
         className="filter-item"
-        classNamePrefix="react-select"
         placeholder="Lĩnh vực"
         styles={customSelectStyles}
-        menuPortalTarget={typeof document !== "undefined" ? document.body : null}
+        menuPortalTarget={document.body}
         options={[
           { value: "all", label: "Tất cả" },
-          ...fields.map((item) => ({ value: item._id, label: item.name })),
+          ...fields.map((item) => ({
+            value: item._id,
+            label: item.name,
+          })),
         ]}
         value={selectedField}
         onChange={setSelectedField}
       />
 
-      <Select
-        key={`org-${renderKey}`}
-        className="filter-item"
-        classNamePrefix="react-select"
-        placeholder="Tổ chức/Khoa"
-        styles={customSelectStyles}
-        menuPortalTarget={typeof document !== "undefined" ? document.body : null}
-        options={[
-          { value: "all", label: "Tất cả" },
-          ...organizations.map((item) => ({ value: item._id, label: item.name })),
-        ]}
-        value={selectedOrg}
-        onChange={setSelectedOrg}
-      />
+      {/* ORGANIZATION (HIDDEN ON manage-activity-org) */}
+      {!isManageActivityOrg && (
+        <Select
+          key={`org-${renderKey}`}
+          className="filter-item"
+          placeholder="Tổ chức/Khoa"
+          styles={customSelectStyles}
+          menuPortalTarget={document.body}
+          options={[
+            { value: "all", label: "Tất cả" },
+            ...organizations.map((item) => ({
+              value: item._id,
+              label: item.name,
+            })),
+          ]}
+          value={selectedOrg}
+          onChange={setSelectedOrg}
+        />
+      )}
 
+      {/* SEARCH */}
       <div className="search-box-activity filter-item">
-        <span className="icon"><span className="material-symbols-outlined">search</span></span>
-        <input 
-          type="text" 
-          placeholder="Nhập tên hoạt động" 
+        <span className="icon">
+          <span className="material-symbols-outlined">search</span>
+        </span>
+        <input
+          type="text"
+          placeholder="Nhập tên hoạt động"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
 
+      {/* BUTTON */}
       <div className="button-group">
-        <button className="apply" onClick={handleApplyFilter}>Áp dụng bộ lọc</button>
-        <button className="reset" onClick={handleReset}>Đặt lại</button>
+        <button className="apply" onClick={handleApplyFilter}>
+          Áp dụng bộ lọc
+        </button>
+        <button className="reset" onClick={handleReset}>
+          Đặt lại
+        </button>
       </div>
     </div>
   );
