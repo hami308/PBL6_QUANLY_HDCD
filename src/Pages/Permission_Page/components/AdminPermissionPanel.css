@@ -39,7 +39,7 @@
   border-color: #3498db;
 }
 
-.btn-primary {
+.btn-primary1 {
   padding: 12px 25px;
   background: #3498db;
   color: white;
@@ -51,11 +51,11 @@
   transition: background 0.3s;
 }
 
-.btn-primary:hover:not(:disabled) {
+.btn-primary1:hover:not(:disabled) {
   background: #2980b9;
 }
 
-.btn-primary:disabled {
+.btn-primary1:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
