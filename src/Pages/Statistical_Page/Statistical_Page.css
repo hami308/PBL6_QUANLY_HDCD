@@ -7,6 +7,7 @@
 }
 
 .tabs-content {
+  flex: 1;
   padding: 20px 50px;
 }
 
@@ -102,4 +103,62 @@
     margin-right: 35px;
     font-size: 15px;
   }
+}
+/* =========================
+DARK MODE – STATISTICAL PAGE
+========================= */
+
+body.dark-mode .statistical-page {
+  background-color: #4b4b4b; /* nền chính */
+  color: #e5e7eb;
+}
+
+/* Nội dung tab */
+body.dark-mode .tabs-content {
+  color: #e5e7eb;
+}
+
+/* --- Xuất file --- */
+body.dark-mode .export-btn {
+  background-color: #15803d;
+  color: #ecfdf5;
+}
+
+body.dark-mode .export-btn:hover {
+  background-color: #166534;
+}
+
+/* Dropdown export */
+body.dark-mode .export-dropdown {
+  background: #1f2933;
+  border: 1px solid #374151;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .export-option {
+  color: #e5e7eb;
+}
+
+body.dark-mode .export-option:hover {
+  background-color: #334155;
+}
+
+/* --- Thẻ thông tin --- */
+body.dark-mode .info-cards-container {
+  color: #e5e7eb;
+}
+
+/* --- Tiêu đề --- */
+body.dark-mode .tab-title {
+  color: #f1f5f9;
+}
+
+/* --- Loading --- */
+body.dark-mode .loading-wrapper {
+  color: #cbd5f5;
+}
+
+body.dark-mode .spinner {
+  border: 4px solid #334155;
+  border-top: 4px solid #60a5fa;
 }

@@ -5,6 +5,21 @@
   flex-direction: column;
   overflow: visible;
 }
+.permissionPage {
+  min-height: 100vh; /* chiều cao tối thiểu full màn hình */
+  width: 100%;
+  display: flex; /* kích hoạt flex */
+  flex-direction: column; /* header → content → footer */
+}
+
+/* Nội dung chính sẽ giãn ra */
+.page-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  flex: 1; /* ⭐ quan trọng: đẩy footer xuống */
+}
 
 .page-container {
   max-width: 1400px;
@@ -14,7 +29,7 @@
   flex: 1;
 }
 
-/* Loading State */
+/* Loading State
 .loading-container {
   text-align: center;
   padding: 100px 20px;
@@ -22,7 +37,7 @@
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   margin-top: 50px;
-}
+} */
 
 .loading-container .spinner {
   border: 4px solid #f3f3f3;
@@ -86,4 +101,231 @@
   font-style: italic;
   color: #999;
   font-size: 14px;
+}
+/* =================================
+GLOBAL DARK MODE
+================================= */
+body.dark-mode {
+  background-color: #4b4b4b;
+  color: #e5e7eb;
+}
+
+/* =================================
+LAYOUT PAGE
+================================= */
+body.dark-mode .permissionPage,
+body.dark-mode .admin-permission-page {
+  background-color: #4b4b4b;
+  color: #e5e7eb;
+}
+
+body.dark-mode .page-container {
+  color: #e5e7eb;
+}
+
+/* =================================
+CARD / CONTAINER (FORM STYLE)
+================================= */
+body.dark-mode .permission-container,
+body.dark-mode .update-container,
+body.dark-mode .modal-content,
+body.dark-mode .role-section,
+body.dark-mode .resource-group,
+body.dark-mode .summary-card,
+body.dark-mode .chart-card,
+body.dark-mode .stat-card {
+  background: #2a2f36;
+  color: #e5e7eb;
+  border: 1px solid #3a3f46;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* =================================
+HEADER / TITLE
+================================= */
+body.dark-mode .panel-header h1,
+body.dark-mode .user-header h2,
+body.dark-mode .role-header h3,
+body.dark-mode .update-title,
+body.dark-mode .modal-content h3 {
+  color: #f3f4f6;
+}
+
+/* =================================
+SEARCH / INPUT / SELECT
+================================= */
+body.dark-mode .search-input,
+body.dark-mode .filter-input,
+body.dark-mode .form-select,
+body.dark-mode .update-input {
+  background-color: #1f2933;
+  border-color: #3a3f46;
+  color: #e5e7eb;
+}
+
+body.dark-mode .search-input::placeholder,
+body.dark-mode .filter-input::placeholder,
+body.dark-mode .update-input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .search-input:focus,
+body.dark-mode .filter-input:focus,
+body.dark-mode .form-select:focus,
+body.dark-mode .update-input:focus {
+  border-color: #60a5fa;
+  outline: none;
+}
+
+/* =================================
+FILTER / ROLE HEADER
+================================= */
+body.dark-mode .filter-section,
+body.dark-mode .role-header,
+body.dark-mode .resource-header {
+  background: #1f2933;
+  border-color: #374151;
+}
+
+body.dark-mode .resource-header.expanded {
+  background: #223041;
+}
+
+/* =================================
+PERMISSION ITEM
+================================= */
+body.dark-mode .permission-item {
+  background: #1f2933;
+  border-color: #374151;
+}
+
+body.dark-mode .permission-item.granted {
+  background: #0f2a44;
+  border-color: #2563eb;
+}
+
+body.dark-mode .permission-item.denied {
+  background: #3a1f1f;
+  border-color: #dc2626;
+}
+
+body.dark-mode .permission-item.disabled {
+  background: #374151;
+  border-color: #4b5563;
+  opacity: 0.6;
+}
+
+body.dark-mode .permission-name {
+  color: #f3f4f6;
+}
+
+body.dark-mode .permission-code {
+  color: #9ca3af;
+}
+
+/* =================================
+BADGES
+================================= */
+body.dark-mode .badge-role {
+  background: #1e3a8a;
+  color: #bfdbfe;
+}
+
+body.dark-mode .badge-grant {
+  background: #064e3b;
+  color: #a7f3d0;
+}
+
+body.dark-mode .badge-revoke {
+  background: #7f1d1d;
+  color: #fecaca;
+}
+
+body.dark-mode .badge-unsaved {
+  background: #78350f;
+  color: #fde68a;
+}
+
+body.dark-mode .badge-disabled {
+  background: #374151;
+  color: #e5e7eb;
+  border: 1px solid #6b7280;
+}
+
+/* =================================
+BUTTON
+================================= */
+body.dark-mode .btn-primary1 {
+  background: #2563eb;
+}
+
+body.dark-mode .btn-primary1:hover {
+  background: #1d4ed8;
+}
+
+body.dark-mode .btn-success {
+  background: #16a34a;
+}
+
+body.dark-mode .btn-success:hover {
+  background: #15803d;
+}
+
+body.dark-mode .btn-cancel {
+  background: #6b7280;
+}
+
+body.dark-mode .btn-cancel:hover {
+  background: #4b5563;
+}
+
+body.dark-mode .update-btn {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+body.dark-mode .update-btn:hover {
+  background: #1d4ed8;
+}
+
+/* =================================
+ALERT
+================================= */
+body.dark-mode .alert-error {
+  background: #3a1f1f;
+  color: #fecaca;
+  border-left-color: #dc2626;
+}
+
+body.dark-mode .alert-success {
+  background: #064e3b;
+  color: #a7f3d0;
+  border-left-color: #22c55e;
+}
+
+/* =================================
+SAVE SECTION (STICKY)
+================================= */
+body.dark-mode .save-section {
+  background: #1f2933;
+  border-top: 3px solid #f59e0b;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .changes-info {
+  background: #78350f;
+  border-color: #f59e0b;
+  color: #fde68a;
+}
+
+/* =================================
+TOOLTIP
+================================= */
+body.dark-mode .tooltip-text {
+  background: #111827;
+  color: #f9fafb;
+}
+
+body.dark-mode .tooltip-text::after {
+  border-color: #111827 transparent transparent transparent;
 }

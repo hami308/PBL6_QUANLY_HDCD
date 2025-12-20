@@ -3,33 +3,45 @@ import Filter_Admin from "../../components/Admin/Filter_Admin/Filter_Admin";
 import MenuAdmin from "../../components/Admin/Menu_Admin/Menu_Admin";
 import Footer from "../../components/Footer/Footer";
 import CustomTable from "../../components/Custom/CustomTable";
+
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "./UserAccount_Management.css";
+
 import {
   getStudents,
   getTeachers,
   filterStudents,
   filterTeachers,
 } from "../../services/manageAccount_Service";
-
 import { deleteAccount } from "../../services/AcccountService/DeleteAccountService";
+
 function UserAccount_Management() {
+  const navigate = useNavigate();
+
+  /* ================= STATE ================= */
   const [activeTab, setActiveTab] = useState("student");
+
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
+
   const [loading, setLoading] = useState(false);
+
+  // Cờ kiểm soát đã load hay chưa
+  const [hasLoadedStudents, setHasLoadedStudents] = useState(false);
+  const [hasLoadedTeachers, setHasLoadedTeachers] = useState(false);
 
   const [selectedIds, setSelectedIds] = useState([]);
   const [isAllSelected, setIsAllSelected] = useState(false);
 
-  const navigate = useNavigate();
-  // Lấy danh sách sinh viên
+  /* ================= FETCH DATA ================= */
   const fetchStudents = useCallback(async () => {
     setLoading(true);
     try {
       const data = await getStudents();
-      setStudents(data);
+      setStudents(data || []);
+      setHasLoadedStudents(true);
     } catch (err) {
       console.error(err);
     } finally {
@@ -37,12 +49,12 @@ function UserAccount_Management() {
     }
   }, []);
 
-  // Lấy danh sách giảng viên
   const fetchTeachers = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await getTeachers();
-      setTeachers(data.data);
+      const res = await getTeachers();
+      setTeachers(res?.data || []);
+      setHasLoadedTeachers(true);
     } catch (err) {
       console.error(err);
     } finally {
@@ -50,14 +62,21 @@ function UserAccount_Management() {
     }
   }, []);
 
-  // Gọi API mỗi khi đổi tab
+  /* ================= LOAD WHEN CHANGE TAB ================= */
   useEffect(() => {
-    if (activeTab === "student" && students.length === 0) {
+    setSelectedIds([]);
+    setIsAllSelected(false);
+
+    if (activeTab === "student" && !hasLoadedStudents) {
       fetchStudents();
-    } else if (activeTab === "teacher" && teachers.length === 0) {
+    }
+
+    if (activeTab === "teacher" && !hasLoadedTeachers) {
       fetchTeachers();
     }
-  }, [activeTab]);
+  }, [activeTab, hasLoadedStudents, hasLoadedTeachers]);
+
+  /* ================= DELETE ================= */
   const handleDeleteSelected = async () => {
     if (selectedIds.length === 0) {
       alert("Vui lòng chọn ít nhất một tài khoản để xóa!");
@@ -76,53 +95,54 @@ function UserAccount_Management() {
       if (result.success) successCount++;
     }
 
-    setLoading(false);
     setSelectedIds([]);
+    setIsAllSelected(false);
 
-    // Reload lại dữ liệu
     if (activeTab === "student") await fetchStudents();
     else await fetchTeachers();
-    if (successCount === selectedIds.length) {
+
+    setLoading(false);
+
+    if (successCount === selectedIds.length)
       alert("Xóa thành công tất cả tài khoản đã chọn.");
-    }
-    if (successCount === 0) {
-      alert("Không thể xóa tài khoản đã chọn.");
-    }
-    if (successCount > 0 && successCount < selectedIds.length) {
-      alert(
-        `Đã xóa ${successCount}/${selectedIds.length} tài khoản thành công.`
-      );
-    }
+    else if (successCount === 0) alert("Không thể xóa tài khoản đã chọn.");
+    else alert(`Đã xóa ${successCount}/${selectedIds.length} tài khoản.`);
   };
+
+  /* ================= FILTER ================= */
   const handleFilterStudents = useCallback(async (filters) => {
     setLoading(true);
     try {
       const data = await filterStudents(filters);
-      setStudents(data); // backend trả danh sách
+      setStudents(data || []);
+      setHasLoadedStudents(true);
     } catch (err) {
-      console.error("Lỗi filter:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-  const handleTeacherFilter = useCallback(async (filters) => {
-    setLoading(true);
-    try {
-      const data = await filterTeachers(filters);
-      setTeachers(data); // backend trả danh sách
-    } catch (err) {
-      console.error("Lỗi filter:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }, []);
 
+  const handleFilterTeachers = useCallback(async (filters) => {
+    setLoading(true);
+    try {
+      const data = await filterTeachers(filters);
+      setTeachers(data || []);
+      setHasLoadedTeachers(true);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  /* ================= JSX ================= */
   return (
     <div className="user-account-management">
       <Header />
       <MenuAdmin />
 
-      {/* Tabs */}
+      {/* ===== TABS ===== */}
       <div className="management-tabs">
         <button
           className={activeTab === "student" ? "tab_active" : "tab"}
@@ -137,185 +157,160 @@ function UserAccount_Management() {
           Tài khoản cán bộ, giảng viên
         </button>
       </div>
+
       <Filter_Admin
         activeTab={activeTab}
         onFilterApply={
-          activeTab === "teacher" ? handleTeacherFilter : handleFilterStudents
+          activeTab === "teacher" ? handleFilterTeachers : handleFilterStudents
         }
       />
 
-      {/* Nội dung từng tab */}
       <div className="tabs-content">
-        <div className="delete-section">
-          <div className="action-buttons">
-            <button
-              className="select-all-btn"
-              onClick={() => {
-                const currentList =
-                  activeTab === "student" ? students : teachers;
-                if (isAllSelected) {
-                  // Bỏ chọn tất cả
-                  setSelectedIds([]);
-                  setIsAllSelected(false);
-                } else {
-                  // Chọn tất cả
-                  const allIds = currentList
-                    .map((item) => item.user_id?._id)
-                    .filter(Boolean);
-                  setSelectedIds(allIds);
-                  setIsAllSelected(true);
-                }
-              }}
-            >
-              {isAllSelected ? "Bỏ chọn tất cả" : "Chọn tất cả"}
-            </button>
+        {/* ===== ACTION ===== */}
+        <div className="action-buttons">
+          <button
+            className="select-all-btn"
+            onClick={() => {
+              const list = activeTab === "student" ? students : teachers;
 
-            <button
-              className="delete-selected-btn"
-              onClick={handleDeleteSelected}
-              disabled={selectedIds.length === 0}
-            >
-              🗑 Xóa
-            </button>
-          </div>
+              if (isAllSelected) {
+                setSelectedIds([]);
+                setIsAllSelected(false);
+              } else {
+                setSelectedIds(list.map((i) => i.user_id?._id).filter(Boolean));
+                setIsAllSelected(true);
+              }
+            }}
+          >
+            {isAllSelected ? "Bỏ chọn tất cả" : "Chọn tất cả"}
+          </button>
+
+          <button
+            className="delete-selected-btn"
+            disabled={selectedIds.length === 0}
+            onClick={handleDeleteSelected}
+          >
+            🗑 Xóa
+          </button>
         </div>
 
-        {/* Nếu đang loading thì hiển thị loading */}
-        {loading ? (
+        {/* ===== LOADING ===== */}
+        {loading && (
           <div className="loading-container">
             <div className="spinner"></div>
           </div>
-        ) : (
+        )}
+
+        {/* ===== STUDENT TAB ===== */}
+        {!loading && activeTab === "student" && (
           <>
-            {activeTab === "student" && (
-              <>
-                <div className="tab-title">Danh sách sinh viên</div>
+            <div className="tab-title">Danh sách sinh viên</div>
 
-                {/* Nếu không có dữ liệu sau filter */}
-                {students.length === 0 ? (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "20px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    Không có dữ liệu
-                  </div>
-                ) : (
-                  <div className="table_1">
-                    <CustomTable
-                      columns={[
-                        "Mã sinh viên",
-                        "Họ tên",
-                        "Lớp",
-                        "Khoa",
-                        "Chọn",
-                        "Thao tác",
-                      ]}
-                      data={students.map((item) => ({
-                        mã_sinh_viên: item.student_number,
-                        họ_tên: item.full_name,
-                        lớp: item.class_id?.name || "-",
-                        khoa: item.falcuty_name || "-",
-                        chọn: (
-                          <input
-                            type="checkbox"
-                            checked={selectedIds.includes(item.user_id?._id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedIds((prev) => [
-                                  ...prev,
-                                  item.user_id?._id,
-                                ]);
-                              } else {
-                                setSelectedIds((prev) =>
-                                  prev.filter((id) => id !== item.user_id?._id)
-                                );
-                              }
-                            }}
-                          />
-                        ),
-                        thao_tác: (
-                          <button
-                            className="xct"
-                            onClick={() =>
-                              navigate(`/student-infor/${item.user_id?._id}`)
-                            }
-                          >
-                            Xem chi tiết
-                          </button>
-                        ),
-                      }))}
-                    />
-                  </div>
-                )}
-              </>
+            {!hasLoadedStudents ? (
+              <div className="loading-container">
+                <div className="spinner"></div>
+              </div>
+            ) : students.length === 0 ? (
+              <div className="empty-text">Không có dữ liệu</div>
+            ) : (
+              <div className="table_1">
+                <CustomTable
+                  columns={[
+                    "Mã sinh viên",
+                    "Họ tên",
+                    "Lớp",
+                    "Khoa",
+                    "Chọn",
+                    "Thao tác",
+                  ]}
+                  data={students.map((item) => ({
+                    mã_sinh_viên: item.student_number,
+                    họ_tên: item.full_name,
+                    lớp: item.class_id?.name || "-",
+                    khoa: item.falcuty_name || "-",
+                    chọn: (
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(item.user_id?._id)}
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setSelectedIds((p) => [...p, item.user_id?._id])
+                            : setSelectedIds((p) =>
+                                p.filter((id) => id !== item.user_id?._id)
+                              )
+                        }
+                      />
+                    ),
+                    thao_tác: (
+                      <button
+                        className="xct"
+                        onClick={() =>
+                          navigate(`/student-infor/${item.user_id?._id}`)
+                        }
+                      >
+                        Xem chi tiết
+                      </button>
+                    ),
+                  }))}
+                />
+              </div>
             )}
+          </>
+        )}
 
-            {activeTab === "teacher" && (
-              <>
-                <div className="tab-title">Danh sách cán bộ, giảng viên</div>
+        {/* ===== TEACHER TAB ===== */}
+        {!loading && activeTab === "teacher" && (
+          <>
+            <div className="tab-title">Danh sách cán bộ, giảng viên</div>
 
-                {teachers.length === 0 ? (
-                  <div
-                    style={{
-                      textAlign: "center",
-                      padding: "20px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    Không có dữ liệu
-                  </div>
-                ) : (
-                  <div className="table_1">
-                    <CustomTable
-                      columns={[
-                        "Mã giảng viên",
-                        "Họ tên",
-                        "Đơn vị",
-                        "Chức vụ",
-                        "Chọn",
-                        "Thao tác",
-                      ]}
-                      data={teachers.map((item) => ({
-                        mã_giảng_viên: item.staff_number,
-                        họ_tên: item.full_name,
-                        đơn_vị: item.org_unit_id?.name,
-                        chức_vụ: item.position,
-                        chọn: (
-                          <input
-                            type="checkbox"
-                            checked={selectedIds.includes(item.user_id?._id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedIds((prev) => [
-                                  ...prev,
-                                  item.user_id?._id,
-                                ]);
-                              } else {
-                                setSelectedIds((prev) =>
-                                  prev.filter((id) => id !== item.user_id?._id)
-                                );
-                              }
-                            }}
-                          />
-                        ),
-                        thao_tác: (
-                          <button
-                            className="xct"
-                            onClick={() =>
-                              navigate(`/staff-infor/${item.user_id?._id}`)
-                            }
-                          >
-                            Xem chi tiết
-                          </button>
-                        ),
-                      }))}
-                    />
-                  </div>
-                )}
-              </>
+            {!hasLoadedTeachers ? (
+              <div className="loading-container">
+                <div className="spinner"></div>
+              </div>
+            ) : teachers.length === 0 ? (
+              <div className="empty-text">Không có dữ liệu</div>
+            ) : (
+              <div className="table_1">
+                <CustomTable
+                  columns={[
+                    "Mã giảng viên",
+                    "Họ tên",
+                    "Đơn vị",
+                    "Chức vụ",
+                    "Chọn",
+                    "Thao tác",
+                  ]}
+                  data={teachers.map((item) => ({
+                    mã_giảng_viên: item.staff_number,
+                    họ_tên: item.full_name,
+                    đơn_vị: item.org_unit_id?.name || "-",
+                    chức_vụ: item.position || "-",
+                    chọn: (
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(item.user_id?._id)}
+                        onChange={(e) =>
+                          e.target.checked
+                            ? setSelectedIds((p) => [...p, item.user_id?._id])
+                            : setSelectedIds((p) =>
+                                p.filter((id) => id !== item.user_id?._id)
+                              )
+                        }
+                      />
+                    ),
+                    thao_tác: (
+                      <button
+                        className="xct"
+                        onClick={() =>
+                          navigate(`/staff-infor/${item.user_id?._id}`)
+                        }
+                      >
+                        Xem chi tiết
+                      </button>
+                    ),
+                  }))}
+                />
+              </div>
             )}
           </>
         )}

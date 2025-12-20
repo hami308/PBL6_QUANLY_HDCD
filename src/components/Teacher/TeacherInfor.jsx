@@ -16,28 +16,37 @@ function TeacherInfo({ idstaff }) {
 
   /* ================= STATE ================= */
   const [teacherInfo, setTeacherInfo] = useState(null);
-  const [errors, setErrors] = useState({});
-  const [previewImage, setPreviewImage] = useState(null);
-
   const [orgList, setOrgList] = useState([]);
   const [positionList, setPositionList] = useState([]);
+  const [errors, setErrors] = useState({});
+  const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   /* ================= FETCH DATA ================= */
   useEffect(() => {
-    get_all_org().then((res) => res?.data && setOrgList(res.data));
-    get_all_position().then((res) => res?.success && setPositionList(res.data));
-  }, []);
+    if (!idstaff) return;
 
-  useEffect(() => {
-    const fetchStaff = async () => {
+    const fetchAllData = async () => {
       try {
-        const data = await getStaffInfo(idstaff);
-        setTeacherInfo(data);
+        setLoading(true);
+
+        const [staffRes, orgRes, posRes] = await Promise.all([
+          getStaffInfo(idstaff),
+          get_all_org(),
+          get_all_position(),
+        ]);
+
+        setTeacherInfo(staffRes);
+        setOrgList(orgRes?.data || []);
+        setPositionList(posRes?.data || []);
       } catch (err) {
-        console.error(err);
+        console.error("Lỗi load dữ liệu giảng viên:", err);
+      } finally {
+        setLoading(false);
       }
     };
-    if (idstaff) fetchStaff();
+
+    fetchAllData();
   }, [idstaff]);
 
   /* ================= VALIDATION ================= */
@@ -45,11 +54,15 @@ function TeacherInfo({ idstaff }) {
     let msg = "";
 
     if (name === "email") {
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) msg = "Email không hợp lệ";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        msg = "Email không hợp lệ";
+      }
     }
 
     if (name === "phone") {
-      if (!/^0\d{9}$/.test(value)) msg = "SĐT phải có 10 số và bắt đầu bằng 0";
+      if (!/^0\d{9}$/.test(value)) {
+        msg = "SĐT phải có 10 số và bắt đầu bằng 0";
+      }
     }
 
     setErrors((prev) => ({ ...prev, [name]: msg }));
@@ -79,7 +92,7 @@ function TeacherInfo({ idstaff }) {
     setTeacherInfo((prev) => ({ ...prev, date_of_birth: date }));
   };
 
-  /* ===== IMAGE (GIỐNG STUDENT) ===== */
+  /* ================= IMAGE ================= */
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -94,7 +107,7 @@ function TeacherInfo({ idstaff }) {
       setPreviewImage(reader.result);
       setTeacherInfo((prev) => ({
         ...prev,
-        staff_image: reader.result, // base64 / URL
+        staff_image: reader.result,
       }));
     };
     reader.readAsDataURL(file);
@@ -109,7 +122,6 @@ function TeacherInfo({ idstaff }) {
 
     try {
       const res = await updateStaffInfo(teacherInfo);
-      console.log(res.status);
       res?.status === 200
         ? alert("Cập nhật thông tin thành công!")
         : alert("Cập nhật thông tin thất bại!");
@@ -130,7 +142,21 @@ function TeacherInfo({ idstaff }) {
     />
   ));
 
-  if (!teacherInfo) return <p>Đang tải thông tin cán bộ...</p>;
+  /* ================= LOADING UI ================= */
+  if (loading) {
+    return (
+      <div className="teacher-info-background">
+        <div className="teacher-info-container">
+          <div className="spinner"></div>
+          <p style={{ textAlign: "center", fontStyle: "italic" }}>
+            Đang tải thông tin giảng viên...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!teacherInfo) return null;
 
   /* ================= JSX ================= */
   return (
@@ -139,7 +165,7 @@ function TeacherInfo({ idstaff }) {
         <h2 className="title">Thông tin cán bộ / giảng viên</h2>
 
         <div className="teacher-info-content">
-          {/* ===== AVATAR ===== */}
+          {/* AVATAR */}
           <div className="teacher-photo">
             <input
               type="file"
@@ -158,7 +184,7 @@ function TeacherInfo({ idstaff }) {
             </label>
           </div>
 
-          {/* ===== INFO ===== */}
+          {/* INFO */}
           <div className="teacher-details">
             <h3 className="teacher-name">{teacherInfo.full_name}</h3>
 

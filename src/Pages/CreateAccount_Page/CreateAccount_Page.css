@@ -71,3 +71,66 @@
 .download-template-btn:hover {
   background: #ecf3ff;
 }
+/* =========================
+DARK MODE – CREATE ACCOUNT
+========================= */
+
+body.dark-mode .createAccountPage {
+  background-color: #4b4b4b; /* nền tổng */
+}
+
+/* Form 2 container */
+body.dark-mode .createAccountPage .form2_container {
+  background: #4b4b4b;
+}
+
+/* Form 1 (ảnh nền) – giảm chói */
+body.dark-mode .createAccountPage .form1_container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* Thanh ngang */
+body.dark-mode .createAccountPage .thanhngang {
+  background: #211d1d;
+  color: #e5e7eb;
+}
+
+/* Role select container */
+body.dark-mode .createAccountPage .role-select {
+  background: #4b4b4b;
+}
+
+/* Label */
+body.dark-mode .createAccountPage .role-select label {
+  color: #e5e7eb;
+}
+
+/* Select box */
+body.dark-mode .createAccountPage .role-select select {
+  background: #4b4b4b;
+  color: #e5e7eb;
+  border: 1px solid #3a3f45;
+}
+
+body.dark-mode .createAccountPage .role-select select:focus {
+  outline: none;
+  border-color: #60a5fa;
+}
+
+/* Template download */
+body.dark-mode .template-download {
+  background: #4b4b4b;
+}
+
+/* Button tải template */
+body.dark-mode .download-template-btn {
+  background: #4b4b4b;
+  border: 1px dashed #60a5fa;
+  color: #c7d2fe;
+}
+
+body.dark-mode .download-template-btn:hover {
+  background: #4b4b4b;
+}

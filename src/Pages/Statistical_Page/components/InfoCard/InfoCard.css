@@ -58,3 +58,37 @@
     font-size: 12px;
   }
 }
+/* =========================
+DARK MODE – INFO CARD
+========================= */
+
+body.dark-mode .info-card {
+  background: #2a2f36; /* nền card */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+  border: 1px solid #334155;
+}
+
+body.dark-mode .info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+}
+
+/* Icon */
+body.dark-mode .info-card-icon {
+  color: #60a5fa;
+}
+
+/* Giá trị */
+body.dark-mode .info-card-value {
+  color: #f8fafc;
+}
+
+/* Tiêu đề */
+body.dark-mode .info-card-title {
+  color: #e5e7eb;
+}
+
+/* Phụ đề */
+body.dark-mode .info-card-subtitle {
+  color: #94a3b8;
+}

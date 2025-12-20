@@ -1,7 +1,7 @@
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
-
+import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopButton";
 import AdminPermissionPanel from "./components/AdminPermissionPanel";
 import "./Permission_Page.css";
 
@@ -20,6 +20,7 @@ const PermissionPage = () => {
       </div>
 
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };

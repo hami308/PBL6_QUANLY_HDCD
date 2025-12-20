@@ -246,7 +246,7 @@ TOOLTIP
 /* =========================
 LOADING / ERROR
 ========================= */
-.loading-container {
+.loading-container1 {
   min-height: 60vh;
   display: flex;
   flex-direction: column;
