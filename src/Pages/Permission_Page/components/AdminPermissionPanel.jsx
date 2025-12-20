@@ -463,7 +463,7 @@ const AdminPermissionPanel = () => {
     <div className="admin-permission-panel">
       {/* Header */}
       <div className="panel-header">
-        <h1>Quản lý Quyền Người dùng</h1>
+        <h1>Quản lý quyền người dùng</h1>
       </div>
 
       {/* Search User */}
@@ -476,7 +476,7 @@ const AdminPermissionPanel = () => {
             onChange={(e) => setUsername(e.target.value)}
             className="search-input"
           />
-          <button type="submit" disabled={loading} className="btn-primary">
+          <button type="submit" disabled={loading} className="btn-primary1">
             {loading ? "Đang tìm..." : "Tìm kiếm"}
           </button>
         </form>

@@ -53,24 +53,24 @@ function Login({ onClose }) {
 
     onClose?.();
 
-    switch (role) {
-      case "student":
-        navigate("/home-student", { replace: true });
-        break;
-      case "staff":
-        navigate("/manage-activity-org", { replace: true });
-        break;
-      case "admin":
-        navigate("/home-admin", { replace: true });
-        break;
-      default:
-        navigate("/", { replace: true });
+      switch (role) {
+        case "student":
+          navigate("/home-student", { replace: true });
+          break;
+        case "staff":
+          navigate("/manage-activity-org", { replace: true });
+          break;
+        case "admin":
+          navigate("/dashboard", { replace: true });
+          break;
+        default:
+          navigate("/", { replace: true });
+      }
+    } catch (err) {
+      console.error("Lỗi đăng nhập:", err);
+      setError("Có lỗi xảy ra khi kết nối tới server.");
     }
-  } catch (err) {
-    console.error("Lỗi đăng nhập:", err);
-    setError("Có lỗi xảy ra khi kết nối tới server.");
-  }
-};
+  };
 
   return (
     <div className="modal-login-overlay">
@@ -84,7 +84,11 @@ function Login({ onClose }) {
         <div className="modal-login-content">
           <span className="material-symbols-outlined">passkey</span>
 
-          <form className="login-form" onSubmit={handleLogin} autoComplete="off">
+          <form
+            className="login-form"
+            onSubmit={handleLogin}
+            autoComplete="off"
+          >
             <div className="form-login-group">
               <label>Vai trò:</label>
               <select value={role} onChange={(e) => setRole(e.target.value)}>
@@ -100,7 +104,7 @@ function Login({ onClose }) {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                 autoComplete="off"
+                autoComplete="off"
               />
             </div>
 
@@ -110,7 +114,7 @@ function Login({ onClose }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                 autoComplete="new-password"
+                autoComplete="new-password"
               />
             </div>
 
