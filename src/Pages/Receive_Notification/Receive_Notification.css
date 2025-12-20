@@ -115,3 +115,79 @@
     font-size: 13px;
   }
 }
+
+/* ================= DARK MODE ================= */
+body.dark-mode .notification-page {
+  background: #4b4b4b;
+}
+
+/* Container */
+body.dark-mode .notification-container {
+  color: #e5e7eb;
+}
+
+/* Header */
+body.dark-mode .notification-header-section {
+  background: #1f2933;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .notification-header-section p {
+  color: #fb7185;
+}
+
+/* List container */
+body.dark-mode .notification-list-container {
+  background: #1f2933;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* Header text */
+body.dark-mode .notification-list-header {
+  color: #e5e7eb;
+}
+
+/* Item */
+body.dark-mode .notification-item {
+  background: #2b3440;
+}
+
+body.dark-mode .notification-item:hover {
+  background: #374151;
+}
+
+/* Unread */
+body.dark-mode .notification-item.unread {
+  background: #1f2933;
+  border-left: 4px solid #60a5fa;
+}
+
+/* Icon */
+body.dark-mode .notification-item-icon {
+  color: #93c5fd;
+}
+
+/* Title */
+body.dark-mode .notification-item-content h4 {
+  color: #f9fafb;
+}
+
+/* Preview */
+body.dark-mode .notification-preview {
+  color: #d1d5db;
+}
+
+/* Date */
+body.dark-mode .notification-date {
+  color: #9ca3af;
+}
+
+/* Empty state */
+body.dark-mode .empty-state {
+  background: #1f2933;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .empty-icon {
+  color: #93c5fd;
+}

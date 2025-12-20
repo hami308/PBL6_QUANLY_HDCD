@@ -8,6 +8,7 @@ import Activity_details from "../../components/Student/Activity_Details/Activity
 
 import { get_activity_details_of_student } from "../../services/Activity_Services";
 import { cancel_registration } from "../../services/Registration_Services.js";
+import "./ActivityDetails_Student_page.css";
 
 const ActivityDetails_Student = () => {
   const { id } = useParams();
@@ -62,30 +63,30 @@ const ActivityDetails_Student = () => {
 
   if (loading)
     return (
-      <>
+      <div className="activity-details-student">
         <Header />
         <Menu_student />
-        <p style={{ textAlign: "center", marginTop: "40px" }}>
-          Đang tải dữ liệu...
-        </p>
+        <div className="loading-container">
+          <div className="spinner"></div>
+        </div>;
         <Footer />
-      </>
+      </div>
     );
 
   if (!activity)
     return (
-      <>
+      <div className="activity-details-student">
         <Header />
         <Menu_student />
         <p style={{ textAlign: "center", marginTop: "40px" }}>
           Không tìm thấy hoạt động.
         </p>
         <Footer />
-      </>
+      </div>
     );
 
   return (
-    <>
+    <div className="activity-details-student">
       <Header />
       <Menu_student />
 
@@ -95,7 +96,7 @@ const ActivityDetails_Student = () => {
       />
 
       <Footer />
-    </>
+    </div>
   );
 };
 

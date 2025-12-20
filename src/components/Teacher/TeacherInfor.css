@@ -65,6 +65,7 @@
   flex: 1;
   display: flex;
   justify-content: center;
+  margin: auto 0 ;
 }
 
 .teacher-photo .photo-box {
@@ -111,6 +112,7 @@
   background-color: #f2f2f2;
   border-radius: 5px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .info-row .react-datepicker-wrapper {
@@ -153,6 +155,8 @@ input[readonly],
   cursor: pointer;
   border-radius: 5px;
   transition: 0.2s;
+  display: flex;
+  margin: 0 auto;
 }
 
 .save-btn:hover {
@@ -334,4 +338,147 @@ input[readonly],
     padding: 4px 8px;
     margin-top: 6px;
   }
+}
+.change-photo-text{
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .photo-upload-label {
+    position: relative;
+  }
+
+  /* Ẩn chữ mặc định */
+  .change-photo-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+  }
+
+  /* Overlay nền tối */
+  .photo-upload-label::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 10px;
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+
+  /* Hover effect */
+  .photo-upload-label:hover::after {
+    opacity: 1;
+  }
+
+  .photo-upload-label:hover .change-photo-text {
+    opacity: 1;
+  }
+}
+
+/* ================== DARK MODE ================== */
+body.dark-mode .teacher-info-background {
+  background-color: #4b4b4b;
+}
+
+/* Container */
+body.dark-mode .teacher-info-container {
+  background-color: #3e4446;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+body.dark-mode .teacher-info-container .title {
+  color: #cfc6ff;
+}
+
+/* Highlight */
+body.dark-mode .teacher-highlight .teacher-position {
+  color: #cfc6ff;
+}
+
+body.dark-mode .teacher-highlight .teacher-unit {
+  color: #b0b0c3;
+}
+
+/* Teacher name */
+body.dark-mode .teacher-name {
+  color: #cfc6ff;
+}
+
+/* Labels */
+body.dark-mode .info-row label {
+  color: #e0e0e0;
+}
+
+/* Inputs / Select / DatePicker */
+body.dark-mode .info-row input,
+body.dark-mode .infor-select,
+body.dark-mode .infor-date-picker {
+  background-color: #1f2937;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  width: 100%;
+}
+
+/* Readonly */
+body.dark-mode input[readonly],
+body.dark-mode .infor-date-picker[readonly] {
+  background-color: #1f2937;
+  color: #cfcfcf;
+  width: 100%;
+}
+
+/* Error text */
+body.dark-mode .error-text {
+  color: #ff6b6b;
+}
+
+/* Avatar */
+body.dark-mode .photo-box {
+  border-color: #8b7dff;
+}
+
+/* Change photo text (mobile) */
+body.dark-mode .change-photo-text {
+  color: #cfc6ff;
+}
+
+/* Overlay hover (web) */
+@media (min-width: 768px) {
+  body.dark-mode .photo-upload-label::after {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  body.dark-mode .change-photo-text {
+    color: #ffffff;
+  }
+}
+
+/* Save button */
+body.dark-mode .save-btn {
+  background-color: #6c5ce7;
+}
+
+body.dark-mode .save-btn:hover {
+  background-color: #8579ff;
+}
+
+/* Delete button */
+body.dark-mode .delete-btn {
+  background-color: #ff5c5c;
+}
+
+body.dark-mode .delete-btn:hover {
+  background-color: #ff7777;
 }

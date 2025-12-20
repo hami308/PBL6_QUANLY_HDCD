@@ -7,6 +7,7 @@ import {
 
 import Header from "../../components/Header/Header";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
+import Menu_org from "../../components/Menu/Menu_org";
 import Footer from "../../components/Footer/Footer";
 
 import "./ManageFaculty.css";
@@ -81,7 +82,7 @@ const ManageFaculty = () => {
   return (
     <div>
       <Header />
-      <Menu_Admin />
+      {role === "admin" ? <Menu_Admin /> : <Menu_org />}
 
       <div className="faculty-container">
         <h2>Danh sách các khoa</h2>

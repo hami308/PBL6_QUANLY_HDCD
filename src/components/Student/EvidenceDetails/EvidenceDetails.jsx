@@ -40,7 +40,9 @@ function EvidenceDetail() {
     fetchDetail();
   }, [id]);
 
-  if (loading) return <p style={{ textAlign: "center" }}>Đang tải dữ liệu...</p>;
+  if (loading) return       <div className="loading-container">
+        <div className="spinner"></div>
+      </div>;
   if (!evidenceInfo)
     return (
       <p style={{ textAlign: "center", color: "red" }}>

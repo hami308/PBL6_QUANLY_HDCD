@@ -115,3 +115,60 @@
   color: #666;
   font-size: 0.9rem;
 }
+
+
+/* ================== DARK MODE ================== */
+body.dark-mode .infor-page {
+  background: #4b4b4b;
+  color: #e5e7eb;
+}
+
+body.dark-mode .org-name {
+  color: #93c5fd;
+}
+
+body.dark-mode .org-founded,
+body.dark-mode .org-description {
+  color: #cbd5f5;
+}
+
+body.dark-mode .section-title {
+  color: #bfdbfe;
+}
+
+body.dark-mode .achieve-item {
+  background: #1e293b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .dot {
+  background: #60a5fa;
+}
+
+/* ----- Member cards (dark) ----- */
+body.dark-mode .member-card {
+  background: #1e293b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .member-card:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .member-avatar {
+  border-color: #60a5fa;
+}
+
+body.dark-mode .member-info h3 {
+  color: #93c5fd;
+}
+
+body.dark-mode .member-info p {
+  color: #e5e7eb;
+}
+
+/* ----- Footer (dark) ----- */
+body.dark-mode .infor-footer {
+  border-top: 1px solid #334155;
+  color: #94a3b8;
+}

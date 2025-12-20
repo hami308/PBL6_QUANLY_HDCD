@@ -1,46 +1,39 @@
 import "./Approved_Evidence_Page.css";
+import { useEffect, useState } from "react";
+
 import Header from "../../components/Header/Header.jsx";
 import Menu_org from "../../components/Menu/Menu_org";
 import Footer from "../../components/Footer/Footer";
 import Filter_Evidence from "../../components/Student/Approved_Evidence/Filter_Evidence.jsx";
 import CustomTable from "../../components/Custom/CustomTable.jsx";
 
-import { useEffect, useState } from "react";
 import {
-  get_evidences_by_class,
-  get_evidences_by_faculty,
   get_all_evidences,
+  get_evidences_by_faculty,
+  get_evidences_by_class,
 } from "../../services/Evidence_Service";
-import { getStaffInfo } from "../../services/Staff_Service.js";
 
 function Approved_Evidence_Page() {
   const [evidences, setEvidences] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [total, setTotal] = useState(0);
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
-
   // ============================
-  // TẢI DỮ LIỆU TỪ API
+  // LOAD DATA
   // ============================
-  const loadEvidences = async ({ facultyId, classId }) => {
+  const loadEvidences = async ({ facultyId = "all", classId = "all" }) => {
     try {
       setLoading(true);
       setError("");
 
       let res;
 
-      // ==== TRƯỜNG HỢP 1: tất cả khoa + tất cả lớp ====
       if (facultyId === "all" && classId === "all") {
         res = await get_all_evidences();
-      }
-      // ==== TRƯỜNG HỢP 2: chỉ chọn khoa ====
-      else if (facultyId && (classId === "all" || !classId)) {
+      } else if (facultyId !== "all" && classId === "all") {
         res = await get_evidences_by_faculty(facultyId);
-      }
-      // ==== TRƯỜNG HỢP 3: chọn lớp cụ thể ====
-      else if (classId && classId !== "all") {
+      } else if (classId !== "all") {
         res = await get_evidences_by_class(classId);
       } else {
         setEvidences([]);
@@ -48,17 +41,17 @@ function Approved_Evidence_Page() {
         return;
       }
 
-      const evidencesData = Array.isArray(res.data)
+      const data = Array.isArray(res?.data)
         ? res.data
-        : Array.isArray(res.data?.data)
+        : Array.isArray(res?.data?.data)
         ? res.data.data
         : [];
 
-      setEvidences(evidencesData);
-      setTotal(evidencesData.length);
+      setEvidences(data);
+      setTotal(data.length);
     } catch (err) {
       console.error(err);
-      setError("Không thể tải dữ liệu.");
+      setError("Không thể tải dữ liệu minh chứng.");
       setEvidences([]);
       setTotal(0);
     } finally {
@@ -67,32 +60,17 @@ function Approved_Evidence_Page() {
   };
 
   // ============================
-  // TẢI DỮ LIỆU BAN ĐẦU
+  // INITIAL LOAD: ALL EVIDENCES
   // ============================
   useEffect(() => {
-    const initLoad = async () => {
-      try {
-        const staff = await getStaffInfo(user.id);
-
-        const facultyId = staff?.faculty?._id || "all";
-        const classes = staff?.faculty?.classes || [];
-
-        if (classes.length > 0) {
-          loadEvidences({ facultyId, classId: classes[0]._id });
-        } else {
-          loadEvidences({ facultyId, classId: "all" });
-        }
-      } catch (err) {
-        console.error(err);
-        setError("Không thể tải dữ liệu ban đầu.");
-      }
-    };
-
-    initLoad();
+    loadEvidences({ facultyId: "all", classId: "all" });
   }, []);
 
+  // ============================
+  // RENDER
+  // ============================
   return (
-    <>
+    <div className="approved-evidence-page">
       <Header />
       <Menu_org />
 
@@ -100,9 +78,9 @@ function Approved_Evidence_Page() {
 
       <Filter_Evidence
         total={total}
-        onFilterChange={({ facultyId, classId }) => {
-          loadEvidences({ facultyId, classId });
-        }}
+        onFilterChange={({ facultyId, classId }) =>
+          loadEvidences({ facultyId, classId })
+        }
       />
 
       <div className="approved-evidence-customtable">
@@ -116,14 +94,11 @@ function Approved_Evidence_Page() {
           <CustomTable
             columns={["Tên hoạt động", "Người nộp", "Ngày nộp", "Trạng thái"]}
             data={evidences.map((item) => {
-              const statusText =
-                item.status === "pending"
-                  ? "Chờ duyệt"
-                  : item.status === "approved"
-                  ? "Đã duyệt"
-                  : item.status === "rejected"
-                  ? "Từ chối"
-                  : "Không xác định";
+              const statusMap = {
+                pending: "Chờ duyệt",
+                approved: "Đã duyệt",
+                rejected: "Từ chối",
+              };
 
               return {
                 _id: item._id,
@@ -132,7 +107,7 @@ function Approved_Evidence_Page() {
                 ngày_nộp: item.submitted_at
                   ? new Date(item.submitted_at).toLocaleDateString("vi-VN")
                   : "Không rõ",
-                trạng_thái: statusText,
+                trạng_thái: statusMap[item.status] || "Không xác định",
               };
             })}
             renderActions={(item) => (
@@ -150,7 +125,7 @@ function Approved_Evidence_Page() {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 

@@ -47,6 +47,7 @@ function List_Activity_org_component({ filters = {} }) {
         setError("");
 
         const res = await filter_activities(memoizedFilters);
+        console.log("Filtered Activities Response:", res);
         if (!res.success) throw new Error(res.message);
 
         const data = res.data.data || res.data;
@@ -80,7 +81,9 @@ function List_Activity_org_component({ filters = {} }) {
   );
 
 
-  if (loading) return <p style={{ textAlign: "center" }}>Đang tải dữ liệu...</p>;
+  if (loading) return       <div className="loading-container">
+        <div className="spinner"></div>
+      </div>;
   if (error) return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
 
   return (

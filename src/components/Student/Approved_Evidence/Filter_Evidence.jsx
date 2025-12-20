@@ -6,8 +6,8 @@ import { getClass, getClassesByFaculty } from "../../../services/Class_Service";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 
 export default function Filter_Evidence({ total, onFilterChange }) {
-  const user = JSON.parse(sessionStorage.getItem("user"));
-  const isFaculty = user?.roles?.[0]?.role === "staff";
+  const role=sessionStorage.getItem("role");
+  const isFaculty = role === "staff";
 
   const [faculties, setFaculties] = useState([]);
   const [classes, setClasses] = useState([]);

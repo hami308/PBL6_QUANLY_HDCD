@@ -5,7 +5,13 @@
     min-height:500px;
     z-index: 1;
 }
+body.dark-mode .manage-activity-org-page{
+    background-color: #4b4b4b;
+    color: white;
+}
 .manage-activity-org-page .filter-bar{
     max-width: 80%;
     margin-top: -60px;
+    display: flex;
+    justify-content: center;
 }

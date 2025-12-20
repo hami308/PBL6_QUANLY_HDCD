@@ -16,3 +16,6 @@
     min-height: 400px;
   }
 }
+body.dark-mode .approved-evidence-page{
+  background-color: #4b4b4b;
+}

@@ -46,13 +46,73 @@ body.dark-mode .activity {
 }
 
 .activity-title {
-  color: black;
-  text-align: center;
   margin: 0;
-  font-size: 1.8vh; 
+  font-size: 1.8vh;
   font-weight: bold;
-  line-height: 1.3;
+  text-align: center;
+  color: #000;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
+
+/* ===== TOOLTIP ===== */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* popup */
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+
+  transform: translateX(-50%);
+
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #fff;
+
+  padding: 0.8vh 1vw;
+  border-radius: 0.4vh;
+
+  font-size: 1.5vh;
+min-width: 160px;    /* tối thiểu */
+  max-width: 320px;    /* tối đa */
+  width: max-content;  /* giãn theo nội dung */
+  white-space: normal;
+
+  text-align: center;
+  z-index: 999;
+
+  transition: opacity 0.25s ease;
+}
+
+/* mũi tên */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
+}
+
+/* hover */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
 body.dark-mode .activity-title {
   color: white;
 }
@@ -60,6 +120,8 @@ body.dark-mode .activity-title {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+
+  
 }
 
 .activity-info {

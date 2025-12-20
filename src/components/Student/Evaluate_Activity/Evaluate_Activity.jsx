@@ -74,9 +74,9 @@ function Evaluate_Activity({ onClose, activityId, title }) {
   if (isLoadingPopup) {
     return (
       <div className="evaluate-container">
-        <div className="evaluate-card">
-          <h3>Đang tải dữ liệu đánh giá...</h3>
-        </div>
+        <div className="loading-container">
+      <div className="spinner"></div>
+    </div>
       </div>
     );
   }

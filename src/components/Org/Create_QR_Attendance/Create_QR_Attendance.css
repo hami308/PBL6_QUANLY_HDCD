@@ -321,3 +321,115 @@
     flex-direction: column;
   }
 }
+/* ===========================
+   DARK MODE - CREATE QR
+=========================== */
+
+/* ----- Card ----- */
+body.dark-mode .create-qr-card {
+  background: #0f172a;
+  border-color: #334155;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .create-qr-title {
+  color: #e5e7eb;
+}
+
+body.dark-mode .create-qr-info {
+  color: #cbd5f5;
+}
+
+/* Club tag */
+body.dark-mode .create-qr-club {
+  background-color: #064e3b;
+  color: #6ee7b7;
+}
+
+/* ----- QR button (right) ----- */
+body.dark-mode .create-qr-right:hover {
+  background: #1e293b;
+}
+
+body.dark-mode .create-qr-right .material-symbols-outlined {
+  color: #e5e7eb;
+}
+
+body.dark-mode .create-qr-qr-text {
+  color: #e5e7eb;
+}
+
+/* ===========================
+   DARK MODE - POPUP OVERLAY
+=========================== */
+body.dark-mode .qr-popup-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ===========================
+   DARK MODE - POPUP CONTAINER
+=========================== */
+body.dark-mode .qr-popup-container {
+  background: #020617;
+  color: #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+}
+
+body.dark-mode .qr-popup-title {
+  color: #f1f5f9;
+}
+
+/* ===========================
+   DARK MODE - TIME POPUP
+=========================== */
+body.dark-mode .time-popup-label {
+  color: #cbd5f5;
+}
+
+body.dark-mode .qr-time-input {
+  background: #0f172a;
+  color: #e5e7eb;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .qr-time-input:focus {
+  border-color: #60a5fa;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+}
+
+/* Buttons */
+body.dark-mode .time-popup-confirm {
+  background: #3b82f6;
+}
+
+body.dark-mode .time-popup-confirm:hover {
+  background: #2563eb;
+}
+
+body.dark-mode .time-popup-cancel {
+  background: #1e293b;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+body.dark-mode .time-popup-cancel:hover {
+  background: #334155;
+}
+
+/* ===========================
+   DARK MODE - QR DISPLAY
+=========================== */
+body.dark-mode .qr-popup-image {
+  background: #020617;
+  border-color: #334155;
+}
+
+/* Close button */
+body.dark-mode .qr-popup-close {
+  background: #3b82f6;
+}
+
+body.dark-mode .qr-popup-close:hover {
+  background: #2563eb;
+}

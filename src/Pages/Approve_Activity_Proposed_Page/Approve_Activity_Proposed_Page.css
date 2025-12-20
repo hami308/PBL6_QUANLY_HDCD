@@ -115,3 +115,9 @@
   }
 
 }
+body.dark-mode .approve-activity-proposed-page{
+    background-color: #4b4b4b;
+}
+body.dark-mode .filter-section{
+    background-color: #4b4b4b;
+}
