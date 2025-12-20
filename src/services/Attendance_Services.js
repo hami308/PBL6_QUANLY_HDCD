@@ -61,7 +61,6 @@ export async function get_attendance_detail(studentId, activityId) {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    console.log("Attendance detail response:", response.data);
     return {
       success: true,
       data: response.data,

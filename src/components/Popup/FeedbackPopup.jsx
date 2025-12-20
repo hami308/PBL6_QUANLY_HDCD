@@ -4,7 +4,6 @@ import "./FeedbackPopup.css";
 
 const FeedbackPopup = ({ activity, score, data, onClose, onSubmit }) => {
   const [feedback, setFeedback] = useState("");
-
   // Lấy dữ liệu feedback khi popup mở
   useEffect(() => {
     if (data?.feedback) {

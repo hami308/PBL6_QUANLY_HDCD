@@ -2,7 +2,6 @@ import "./List_Year_Record.css";
 import Year_Record from "./Year_Record.jsx";
 
 function List_Year_Record({ data }) {
-    console.log("List_Year_Record data:", data);
     if (!data || data.length === 0)
         return <p className="no-data">Không có dữ liệu năm</p>;
 

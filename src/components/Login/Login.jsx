@@ -11,43 +11,47 @@ function Login({ onClose }) {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    if (!role || !username || !password) {
-      setError("Vui lòng nhập đầy đủ thông tin.");
+  if (!role || !username || !password) {
+    setError("Vui lòng nhập đầy đủ thông tin.");
+    return;
+  }
+  try {
+    const result = await login(username, password, role);
+
+    if (!result?.success) {
+      setError("Tên đăng nhập hoặc mật khẩu không đúng.");
       return;
     }
-    try {
-      const result = await login(username, password, role);
 
-      if (!result?.success) {
-        setError("Tên đăng nhập hoặc mật khẩu không đúng.");
-        return;
+    const userRoles = result.user?.roles || [];
+
+    // 👉 kiểm tra quyền
+    const matchedRole = userRoles.find((r) => r.role === role);
+
+    if (!matchedRole) {
+      setError("Tài khoản của bạn không có quyền truy cập với vai trò này.");
+      return;
+    }
+
+    // ✅ LƯU ROLE ĐANG ĐĂNG NHẬP
+    sessionStorage.setItem("role", role);
+
+    // ✅ NẾU LÀ STAFF → LƯU THÊM DỮ LIỆU
+    if (role === "staff") {
+      if (matchedRole.orgUnit?.id) {
+        sessionStorage.setItem(
+          "orgUnitId",
+          matchedRole.orgUnit.id
+        );
       }
+     
+    }
 
-      const userRoles = result.user?.roles || [];
-
-      // 👉 kiểm tra quyền
-      const matchedRole = userRoles.find((r) => r.role === role);
-
-      if (!matchedRole) {
-        setError("Tài khoản của bạn không có quyền truy cập với vai trò này.");
-        return;
-      }
-
-      // ✅ LƯU ROLE ĐANG ĐĂNG NHẬP
-      sessionStorage.setItem("role", role);
-
-      // ✅ NẾU LÀ STAFF → LƯU THÊM DỮ LIỆU
-      if (role === "staff") {
-        if (matchedRole.orgUnit?.id) {
-          sessionStorage.setItem("orgUnitId", matchedRole.orgUnit.id);
-        }
-      }
-
-      onClose?.();
+    onClose?.();
 
       switch (role) {
         case "student":
