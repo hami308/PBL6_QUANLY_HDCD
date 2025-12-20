@@ -3,11 +3,14 @@ import * as XLSX from "xlsx";
 import "./FileUpload.css";
 import { uploadBulkUsers } from "../../../services/UserBulkService";
 
-const EXPECTED_HEADERS = ["Mã sinh viên", "Họ và tên", "Khoa", "Lớp"];
+const EXPECTED_HEADERS = ["mã sinh viên", "họ và tên", "khoa", "lớp"];
 
 const FileUploadBox = ({ guideLines, buttonText }) => {
   const fileRef = useRef(null);
   const [students, setStudents] = useState([]);
+  const [result, setResult] = useState(null);
+
+  const normalize = (value) => String(value || "").trim();
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -15,62 +18,86 @@ const FileUploadBox = ({ guideLines, buttonText }) => {
 
     const reader = new FileReader();
 
-    reader.onload = (evt) => {
-      const data = evt.target.result;
-      const workbook = XLSX.read(data, { type: "binary" });
-      const sheet = workbook.Sheets[workbook.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+    reader.onload = (event) => {
+      try {
+        const workbook = XLSX.read(event.target.result, { type: "array" });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
 
-      if (!rows || rows.length === 0) {
-        alert("File Excel trống");
-        setStudents([]);
-        return;
-      }
+        // Convert sheet to JSON (object-based, dễ map)
+        const data = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
-      const headers = rows[0]?.map((h) => String(h).trim());
+        if (data.length === 0) {
+          alert("File Excel không có dữ liệu");
+          setStudents([]);
+          return;
+        }
 
-      const isValidTemplate =
-        headers.length >= EXPECTED_HEADERS.length &&
-        EXPECTED_HEADERS.every(
-          (expected, index) => headers[index] === expected
+        // Lấy header thực tế
+        const actualHeaders = Object.keys(data[0]).map((h) =>
+          h.toLowerCase().trim()
         );
 
-      if (!isValidTemplate) {
-        alert(
-          `File Excel không đúng template.\n` +
-            `Header phải là:\n` +
-            EXPECTED_HEADERS.join(" | ")
+        // Check template (không phụ thuộc thứ tự)
+        const isValidTemplate = EXPECTED_HEADERS.every((expected) =>
+          actualHeaders.some((h) => h.includes(expected))
         );
-        setStudents([]);
-        e.target.value = "";
-        return;
-      }
 
-      const parsedStudents = rows
-        .slice(1)
-        .map((row) => ({
-          studentCode: row[0],
-          fullName: row[1],
-          className: row[2],
-          faculty: row[3],
-        }))
-        .filter((s) => s.studentCode);
+        if (!isValidTemplate) {
+          alert(
+            "File Excel không đúng template.\n" +
+              "Cần các cột: Mã sinh viên | Họ và tên | Khoa | Lớp"
+          );
+          setStudents([]);
+          e.target.value = "";
+          return;
+        }
 
-      if (parsedStudents.length === 0) {
-        alert("Không có dữ liệu sinh viên hợp lệ");
+        // Parse sinh viên (linh hoạt tên cột)
+        const parsedStudents = data
+          .map((row) => {
+            let studentCode = "";
+            let fullName = "";
+            let faculty = "";
+            let className = "";
+
+            Object.keys(row).forEach((key) => {
+              const lowerKey = key.toLowerCase();
+
+              if (lowerKey.includes("mã")) studentCode = row[key];
+              if (lowerKey.includes("tên")) fullName = row[key];
+              if (lowerKey.includes("khoa")) faculty = row[key];
+              if (lowerKey.includes("lớp")) className = row[key];
+            });
+
+            return {
+              studentCode: normalize(studentCode),
+              fullName: normalize(fullName),
+              faculty: normalize(faculty),
+              className: normalize(className),
+            };
+          })
+          .filter((s) => s.studentCode || s.fullName);
+
+        if (parsedStudents.length === 0) {
+          alert("Không tìm thấy dữ liệu sinh viên hợp lệ");
+          setStudents([]);
+          return;
+        }
+
+        console.log("✅ Parsed students:", parsedStudents);
+        setStudents(parsedStudents);
+      } catch (err) {
+        alert("Lỗi khi đọc file Excel: " + err.message);
         setStudents([]);
-        return;
       }
-      console.log(" Dữ liệu đã parse:", parsedStudents);
-      setStudents(parsedStudents);
     };
 
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
   };
 
   const handleSubmit = async () => {
     if (!students || students.length === 0) {
-      alert("Vui lòng chọn file Excel đúng template trước");
+      alert("Vui lòng chọn file Excel hợp lệ trước");
       return;
     }
 
@@ -79,12 +106,11 @@ const FileUploadBox = ({ guideLines, buttonText }) => {
 
       const res = await uploadBulkUsers(students);
 
-      let msg = `Tạo thành công: ${res.success?.length || 0} tài khoản\n`;
-      msg += `Thất bại: ${res.failed?.length || 0} dòng`;
+      console.log("⬅️ Kết quả import:", res);
 
-      alert(msg);
+      setResult(res); // ✅ LƯU KẾT QUẢ ĐỂ HIỂN THỊ
     } catch (err) {
-      alert(err.message || "Có lỗi xảy ra khi tạo tài khoản");
+      alert(err.message || "Có lỗi xảy ra khi import sinh viên");
     }
   };
 
@@ -100,6 +126,9 @@ const FileUploadBox = ({ guideLines, buttonText }) => {
             ref={fileRef}
             type="file"
             accept=".xlsx, .xls"
+            onClick={(e) => {
+              e.target.value = null;
+            }}
             onChange={handleFileChange}
           />
         </div>
@@ -115,10 +144,89 @@ const FileUploadBox = ({ guideLines, buttonText }) => {
       </div>
 
       <div className="action-btn">
-        <button onClick={handleSubmit} disabled={students.length === 0}>
+        <button
+          onClick={handleSubmit}
+          disabled={students.length === 0}
+          style={{
+            backgroundColor: students.length === 0 ? "gray" : "#20217f",
+            cursor: students.length === 0 ? "not-allowed" : "pointer",
+          }}
+        >
           {buttonText}
         </button>
       </div>
+      {result && result.data && (
+        <div className="import-result">
+          <h3>📊 Kết quả import</h3>
+
+          {/* SUMMARY */}
+          {result.data.summary && (
+            <div className="summary">
+              <p>
+                📌 Tổng: <b>{result.data.summary.total}</b>
+              </p>
+              <p>
+                ✅ Thành công: <b>{result.data.summary.successful}</b>
+              </p>
+              <p>
+                ❌ Thất bại: <b>{result.data.summary.failed}</b>
+              </p>
+            </div>
+          )}
+
+          {/* SUCCESSFUL */}
+          {result.data.successful && result.data.successful.length > 0 && (
+            <>
+              <h4>✅ Danh sách thành công</h4>
+              <table className="result-table success">
+                <thead>
+                  <tr>
+                    <th>Mã SV</th>
+                    <th>Họ và tên</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.data.successful.map((s, i) => (
+                    <tr key={i}>
+                      <td>{s.studentCode}</td>
+                      <td>{s.fullName}</td>
+                      <td>{s.username}</td>
+                      <td>{s.password}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+
+          {/* FAILED */}
+          {result.data.failed && result.data.failed.length > 0 && (
+            <>
+              <h4>❌ Danh sách thất bại</h4>
+              <table className="result-table fail">
+                <thead>
+                  <tr>
+                    <th>Mã SV</th>
+                    <th>Họ và tên</th>
+                    <th>Lý do</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.data.failed.map((f, i) => (
+                    <tr key={i}>
+                      <td>{f.studentCode}</td>
+                      <td>{f.fullName}</td>
+                      <td>{f.reason}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -28,7 +28,7 @@ LAYOUT CHÍNH
 ========================= */
 .dashboard-container {
   padding: 24px 32px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -394,4 +394,119 @@ RESPONSIVE – MULTI DEVICES
     width: 90%;
     text-align: center;
   }
+}
+/* =========================
+DARK MODE – DASHBOARD (TEXT FIXED)
+Tone: Dark slate / Clean / Readable
+========================= */
+
+body.dark-mode .dashboard-container {
+  background-color: #4b4b4b;
+  color: #e5e7eb; /* text mặc định */
+}
+
+/* =========================
+CARD / CONTAINER
+========================= */
+body.dark-mode .summary-card,
+body.dark-mode .chart-card,
+body.dark-mode .stat-card {
+  background: #2a2f36;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================
+TEXT LEVEL 1 – TITLE
+========================= */
+body.dark-mode .dashboard-title,
+body.dark-mode .chart-title,
+body.dark-mode .stat-title,
+body.dark-mode .summary-content h3 {
+  color: #f9fafb; /* trắng nhẹ */
+}
+
+/* =========================
+TEXT LEVEL 2 – NUMBERS / KPI
+========================= */
+body.dark-mode .summary-value,
+body.dark-mode .stat-value-small,
+body.dark-mode .stat-number {
+  color: #f3f4f6;
+}
+
+/* =========================
+TEXT LEVEL 3 – LABEL / DESCRIPTION
+========================= */
+body.dark-mode .dashboard-subtitle,
+body.dark-mode .chart-subtitle,
+body.dark-mode .summary-note,
+body.dark-mode .stat-name,
+body.dark-mode .stat-label-small,
+body.dark-mode .year-label,
+body.dark-mode .current-year,
+body.dark-mode .stat-summary p {
+  color: #9ca3af;
+}
+
+/* =========================
+DATE PICKER
+========================= */
+body.dark-mode .year-datepicker {
+  background: #1f2933;
+  border: 1px solid #3a3f45;
+  color: #e5e7eb;
+}
+
+/* =========================
+DIVIDER / BORDER
+========================= */
+body.dark-mode .stat-divider {
+  background-color: #3a3f45;
+}
+
+/* =========================
+RECHARTS – AXIS / GRID / LEGEND
+========================= */
+body.dark-mode .recharts-cartesian-grid-horizontal line,
+body.dark-mode .recharts-cartesian-grid-vertical line {
+  stroke: #3a3f45;
+}
+
+body.dark-mode .recharts-text {
+  fill: #9ca3af;
+}
+
+body.dark-mode .recharts-legend-item-text {
+  color: #d1d5db !important;
+}
+
+/* =========================
+TOOLTIP
+========================= */
+body.dark-mode .custom-tooltip {
+  background: #111827;
+  border: 1px solid #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .tooltip-label {
+  color: #f9fafb;
+}
+
+/* =========================
+NO DATA / LOADING / ERROR
+========================= */
+body.dark-mode .loading-container,
+body.dark-mode .no-data,
+body.dark-mode .no-data-chart {
+  color: #9ca3af;
+}
+
+body.dark-mode .spinner {
+  border-color: #3a3f45;
+  border-top-color: #60a5fa;
+}
+
+body.dark-mode .error-message {
+  color: #f87171;
 }

@@ -99,6 +99,43 @@
   font-size: clamp(18px, 3vw, 32px);
   margin-top: clamp(5px, 1vw, 15px);
 }
+.import-result {
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.summary p {
+  margin: 4px 0;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.result-table.success th {
+  background: #e8f5e9;
+}
+
+.result-table.fail th {
+  background: #fdecea;
+}
+
+.result-table.fail td {
+  color: #c62828;
+}
+
 @media (max-width: 363px) {
   .action-btn {
     display: flex;
@@ -108,4 +145,87 @@
   .action-btn button {
     width: clamp(180px, 25vw, 350px); /* Nút chỉ còn 50% */
   }
+}
+/* =========================
+DARK MODE – FILE UPLOAD
+========================= */
+
+body.dark-mode .file-upload-container {
+  color: #e5e7eb; /* chữ mặc định */
+}
+
+body.dark-mode .file-upload-container .upload-box {
+  background: #2a2f36; /* nền khung upload */
+  border: 1px dashed #3a3f45;
+  color: #e5e7eb; /* chữ sáng */
+}
+
+body.dark-mode .file-upload-container .choose-file-btn {
+  background-color: #1f2933; /* nền button sáng trên dark */
+  color: #60a5fa; /* chữ xanh sáng */
+  border: 1px solid #3a3f45;
+}
+
+body.dark-mode .file-upload-container .choose-file-btn:hover {
+  background-color: #111827;
+}
+
+body.dark-mode .file-upload-container .note {
+  color: #f87171; /* đỏ nổi bật trên nền tối */
+}
+
+body.dark-mode .file-upload-container .guide-box {
+  background-color: #2a2f36; /* nền khung hướng dẫn */
+  border: 1px solid #3a3f45;
+  color: #e5e7eb;
+}
+
+body.dark-mode .file-upload-container .guide-title {
+  color: #f87171; /* đỏ nổi bật */
+}
+
+body.dark-mode .file-upload-container .guide-box ul {
+  color: #d1d5db; /* chữ hướng dẫn sáng */
+}
+
+body.dark-mode .action-btn button {
+  background-color: #2e61ff; /* nút action màu xanh sáng */
+  color: #fff;
+}
+
+body.dark-mode .action-btn button:hover {
+  background-color: #1d4ed8;
+}
+
+body.dark-mode .file-upload-container .material-symbols-outlined,
+body.dark-mode .upload-icon {
+  color: #60a5fa; /* icon sáng */
+}
+
+body.dark-mode .import-result {
+  background: #1f2933; /* nền kết quả import */
+  border: 1px solid #3a3f45;
+  color: #e5e7eb;
+}
+
+body.dark-mode .result-table {
+  border-color: #3a3f45;
+  color: #e5e7eb;
+}
+
+body.dark-mode .result-table th,
+body.dark-mode .result-table td {
+  border: 1px solid #3a3f45;
+}
+
+body.dark-mode .result-table.success th {
+  background: #1e3a27; /* nền tối nhưng khác để nhận biết success */
+}
+
+body.dark-mode .result-table.fail th {
+  background: #4c1f1f; /* nền tối cho fail */
+}
+
+body.dark-mode .result-table.fail td {
+  color: #f87171;
 }

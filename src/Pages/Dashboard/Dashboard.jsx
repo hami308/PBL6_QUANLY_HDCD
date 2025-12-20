@@ -35,6 +35,7 @@ const Dashboard = () => {
       try {
         const data = await getDashboardData(selectedYear);
         setDashboardData(data);
+        console.log("Dashboard data:", data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
         setError("Không thể tải dữ liệu. Vui lòng thử lại sau.");

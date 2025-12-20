@@ -107,3 +107,56 @@
 
 @media (max-width: 780px) {
 }
+/* =========================
+DARK MODE – CREATE ACCOUNT FORM
+========================= */
+
+body.dark-mode .create-account-form {
+  background: #2a2f36; /* nền form giống card dashboard */
+  border: 1px solid #3a3f45;
+  color: #e5e7eb; /* text chính */
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .create-account-form .form-title {
+  color: #f9fafb; /* tiêu đề trắng nhẹ */
+}
+
+body.dark-mode .create-account-form .form-group label {
+  color: #d1d5db; /* label sáng */
+}
+
+body.dark-mode .create-account-form .form-group input,
+body.dark-mode .create-account-form .form-group select {
+  background: #1f2933; /* giống datepicker dashboard */
+  border: 1px solid #3a3f45;
+  color: #e5e7eb; /* chữ trắng */
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .create-account-form .form-group input:focus,
+body.dark-mode .create-account-form .form-group select:focus {
+  border-color: #60a5fa; /* highlight primary */
+  box-shadow: 0 0 4px rgba(96, 165, 250, 0.4);
+}
+
+body.dark-mode .create-account-form .submit-btn button {
+  background: #2e61ff; /* button màu xanh sáng */
+  color: #fff; /* chữ trắng */
+}
+
+body.dark-mode .create-account-form .submit-btn button:hover {
+  background: #1d4ed8; /* hover tối hơn */
+}
+
+body.dark-mode .create-account-form .error {
+  color: #f87171; /* lỗi đỏ nổi bật */
+}
+
+body.dark-mode .create-account-form .note {
+  color: #9ca3af; /* ghi chú sáng */
+}
+
+body.dark-mode .create-account-form .note ul {
+  color: #d1d5db;
+}

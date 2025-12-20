@@ -3,7 +3,6 @@ import {
   get_all_faculties,
   create_faculty,
   update_faculty,
-  delete_faculty,
 } from "../../services/Faculty_Service";
 
 import Header from "../../components/Header/Header";
@@ -79,18 +78,6 @@ const ManageFaculty = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc muốn xóa khoa này?")) return;
-
-    try {
-      await delete_faculty(id);
-      alert("Xóa thành công!");
-      loadFaculties();
-    } catch (err) {
-      alert("Lỗi khi xóa khoa :", err.message || "Lỗi không xác định");
-    }
-  };
-
   return (
     <div>
       <Header />
@@ -128,12 +115,7 @@ const ManageFaculty = () => {
                     >
                       Sửa
                     </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(f._id)}
-                    >
-                      Xóa
-                    </button>
+
                     <button
                       className="btn-xem"
                       onClick={() =>

@@ -1,5 +1,6 @@
 // Menu_Admin.jsx
 import React, { useState, useRef, useEffect } from "react";
+import { logout } from "../../../services/Login_Service/Login_Service";
 import "./Menu_Admin.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -11,7 +12,7 @@ const Menu_Admin = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    sessionStorage.removeItem("user");
+    logout();
     navigate("/");
   };
 
