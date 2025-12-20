@@ -58,7 +58,7 @@ function Login({ onClose }) {
         navigate("/home-student", { replace: true });
         break;
       case "staff":
-        navigate("/home-staff", { replace: true });
+        navigate("/manage-activity-org", { replace: true });
         break;
       case "admin":
         navigate("/home-admin", { replace: true });

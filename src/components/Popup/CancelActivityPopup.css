@@ -71,3 +71,55 @@
 .popup-textarea:disabled {
   background-color: #f5f5f5;
 }
+
+/* ================= DARK MODE POPUP ================= */
+
+body.dark-mode .popup-overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+body.dark-mode .popup-overlay .popup-container {
+  background-color: #4b4b4b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== Textarea ===== */
+body.dark-mode .popup-overlay .popup-textarea {
+  background-color: #2a2a2a;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+body.dark-mode .popup-overlay .popup-textarea::placeholder {
+  color: #aaa;
+}
+
+body.dark-mode .popup-overlay .popup-textarea:disabled {
+  background-color: #222;
+  color: #777;
+}
+
+/* ===== Buttons ===== */
+body.dark-mode .popup-overlay .cancel-btn {
+  background: #444;
+  color: #f1f1f1;
+}
+
+body.dark-mode .popup-overlay .cancel-btn:hover {
+  background: #555;
+}
+
+body.dark-mode .popup-overlay .confirm-btn {
+  background: #d32f2f;
+  color: #fff;
+}
+
+body.dark-mode .popup-overlay .confirm-btn:hover {
+  background: #b71c1c;
+}
+
+/* ===== Disabled button ===== */
+body.dark-mode .popup-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -13,18 +13,17 @@ import {
   get_attendance_detail,
   submit_feedback,
 } from "../../services/Attendance_Services.js";
-
 import { get_pvcd_by_idstudent } from "../../services/PVCD_Service.js";
 
 import "./PVCD_Record.css";
 
 function PVCD_Record() {
   const studentId = sessionStorage.getItem("student_id");
-  const goal_record = 15;
+  const GOAL_RECORD = 15;
 
+  /* ================== STATE ================== */
   const [activities, setActivities] = useState([]);
   const [yearRecords, setYearRecords] = useState([]);
-
   const [summary, setSummary] = useState({
     totalScore: 0,
     totalActivity: 0,
@@ -37,13 +36,14 @@ function PVCD_Record() {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
 
-  const formatDate = (iso) => {
-    if (!iso) return "";
-    return new Date(iso).toLocaleDateString("vi-VN");
-  };
+  /* ================== UTILS ================== */
+  const formatDate = (iso) =>
+    iso ? new Date(iso).toLocaleDateString("vi-VN") : "";
 
-  // ===== LOAD ALL DATA (1 LOADING) =====
+  /* ================== FETCH DATA ================== */
   useEffect(() => {
+    if (!studentId) return;
+
     const fetchAllData = async () => {
       try {
         setIsLoading(true);
@@ -53,88 +53,95 @@ function PVCD_Record() {
           get_pvcd_by_idstudent(studentId),
         ]);
 
-        // ===== ACTIVITIES =====
+        /* ===== ACTIVITIES ===== */
         const rawActivities = activityRes?.data?.data || [];
         const formattedActivities = rawActivities.map((item) => ({
           id: item._id,
           title: item.title || "Không rõ",
-          points: item.points,
+          points: item.points || 0,
           start_time: item.start_time,
           end_time: item.end_time,
           attendance_id: item.attendance_id,
         }));
 
         setActivities(formattedActivities);
-        setSummary((prev) => ({
-          ...prev,
-          totalActivity: formattedActivities.length,
-        }));
 
-        // ===== YEAR RECORD =====
+        /* ===== YEAR RECORD ===== */
         const rawYears = yearRes?.data || [];
-        const formattedYears = rawYears.map((item) => ({
+
+        const sortedYears = [...rawYears].sort(
+          (a, b) => a.year - b.year
+        );
+
+        const formattedYears = sortedYears.map((item) => ({
           record: item.total_point,
-          start_year: new Date(item.start_year).getFullYear(),
-          end_year: new Date(item.end_year).getFullYear(),
+          start_year: item.year,
+          end_year: item.year + 1,
         }));
 
         setYearRecords(formattedYears);
 
-        const totalScore = formattedYears.reduce(
-          (sum, r) => sum + r.record,
-          0
-        );
-
-        setSummary((prev) => ({
-          ...prev,
-          totalScore,
-        }));
-      } catch (err) {
-        console.error("Err:", err);
+        /* ===== SUMMARY ===== */
+        setSummary({
+          totalActivity: formattedActivities.length,
+          totalScore: formattedYears.reduce(
+            (sum, y) => sum + y.record,
+            0
+          ),
+        });
+      } catch (error) {
+        console.error(error);
         setErrorActivities("Lỗi khi tải danh sách hoạt động");
-        setErrorYear("Không thể tải dữ liệu năm");
+        setErrorYear("Không thể tải dữ liệu theo năm");
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (studentId) fetchAllData();
+    fetchAllData();
   }, [studentId]);
 
-  // ===== FEEDBACK =====
+  /* ================== FEEDBACK ================== */
   const handleFeedbackClick = async (activity) => {
     try {
-      const detail = await get_attendance_detail(studentId, activity.id);
+      const res = await get_attendance_detail(
+        studentId,
+        activity.id
+      );
+
       setSelectedActivity({
         ...activity,
-        data: detail?.data?.data || "",
+        data: res?.data?.data || "",
       });
+
       setShowPopup(true);
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
       alert("Không thể tải chi tiết phản hồi");
     }
   };
 
-  const handleSubmitFeedback = async (data) => {
+  const handleSubmitFeedback = async (formData) => {
     try {
-      const res = await submit_feedback(selectedActivity.attendance_id, {
-        feedback: data.feedback,
-      });
+      const res = await submit_feedback(
+        selectedActivity.attendance_id,
+        { feedback: formData.feedback }
+      );
 
       if (res?.success) {
         alert("Gửi phản hồi thành công!");
       } else {
         alert(res?.message || "Gửi phản hồi thất bại!");
       }
-    } catch (err) {
-      console.error(err);
-      alert("Lỗi hệ thống, thử lại sau");
+    } catch (error) {
+      console.error(error);
+      alert("Lỗi hệ thống, vui lòng thử lại");
     } finally {
       setShowPopup(false);
     }
   };
 
+  /* ================== RENDER ================== */
   return (
     <div className="pvcd-rercord-container">
       <Header />
@@ -146,7 +153,7 @@ function PVCD_Record() {
         <p>Điểm phục vụ cộng đồng</p>
       </div>
 
-      {/* ===== SINGLE LOADING ===== */}
+      {/* ===== LOADING ===== */}
       {isLoading ? (
         <div className="loading-container">
           <div className="spinner"></div>
@@ -162,7 +169,7 @@ function PVCD_Record() {
           </div>
 
           <p className="goal-record">
-            Mỗi năm tối thiểu {goal_record} điểm
+            Mỗi năm tối thiểu {GOAL_RECORD} điểm
           </p>
 
           {/* ===== YEAR RECORD ===== */}
@@ -198,13 +205,15 @@ function PVCD_Record() {
                   điểm: item.points,
                 }))}
                 renderActions={(row) => {
-                  const origin = activities.find(
+                  const activity = activities.find(
                     (a) => a.id === row.id
                   );
                   return (
                     <button
                       className="px-2 py-1 border rounded"
-                      onClick={() => handleFeedbackClick(origin)}
+                      onClick={() =>
+                        handleFeedbackClick(activity)
+                      }
                     >
                       Phản hồi
                     </button>
@@ -216,7 +225,7 @@ function PVCD_Record() {
         </>
       )}
 
-      {/* ===== FEEDBACK POPUP ===== */}
+      {/* ===== POPUP ===== */}
       {showPopup && selectedActivity && (
         <FeedbackPopup
           activity={selectedActivity.title}

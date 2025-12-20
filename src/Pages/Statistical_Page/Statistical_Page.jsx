@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Header from "../../components/Header/Header";
 import Menu_Admin from "../../components/Admin/Menu_Admin/Menu_Admin";
+import Menu_org from "../../components/Menu/Menu_org";
 import Filter_Admin from "../../components/Admin/Filter_Admin/Filter_Admin";
 import InfoCard from "../../components/Admin/InfoCard/InfoCard";
 import CustomTable from "../../components/Custom/CustomTable";
@@ -222,11 +223,11 @@ function Statistical_Page({ activeTab }) {
       />
     );
   };
-
+  const role=sessionStorage.getItem("role");
   return (
     <div className="statistical-page">
       <Header />
-      <Menu_Admin />
+      {role === "admin" ? <Menu_Admin /> : <Menu_org />}
 
       <Filter_Admin
         activeTab={activeTab}

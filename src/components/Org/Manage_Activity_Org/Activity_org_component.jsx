@@ -4,6 +4,7 @@ import "./Activity_org_component.css";
 import Post_Activity from "../Post_Activity/Post_Activity";
 import { cancel_activity } from "../../../services/Activity_Services";
 import CancelActivityPopup from "../../Popup/CancelActivityPopup";
+import Activity_pic from "../../../assets/images/activity.jpg";
 
 
 function Activity_Org_Component({ activity }) {
@@ -52,6 +53,7 @@ function Activity_Org_Component({ activity }) {
       alert("Lỗi khi hủy hoạt động!");
     }
   };
+  const imageSrc = activity.activity_image || Activity_pic;
   return (
     <>
       <div
@@ -60,7 +62,7 @@ function Activity_Org_Component({ activity }) {
       >
         <div className="activity-org-component-left">
           <img
-            src={activity.activity_image}
+            src={imageSrc}
             alt={activity.name}
             className="activity-org-component-image"
           />

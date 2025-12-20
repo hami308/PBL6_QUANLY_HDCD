@@ -10,3 +10,9 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }
+body.dark-mode .list-activity-create-qr-container{
+    background-color: #4b4b4b;
+}
+body.dark-mode .create-qr-page{
+    background-color: #4b4b4b;
+}

@@ -5,18 +5,18 @@ import { get_user_permissions } from "../../services/Permission_Service";
 
 // --- MENU CỐ ĐỊNH ---
 const DEFAULT_MENU = [
-  { label: "Trang chủ", href: "/home-student", requiredPer: null },
+  {
+    label: "Quản lý hoạt động",
+    href: "/manage-activity-org",
+    requiredPer: ["activity:read", "activity:update", "activity_eligibility", "post"],
+  },
   { label: "Thông tin tổ chức", href: "/org-infor", requiredPer: "org_unit" },
   {
     label: "Đề xuất hoạt động",
     href: "/propose-activity",
     requiredPer: ["activity:propose", "activity:create", "activity_eligibility:create"],
   },
-  {
-    label: "Quản lý hoạt động",
-    href: "/manage-activity-org",
-    requiredPer: ["activity:read", "activity:update", "activity_eligibility", "post"],
-  },
+  
   { label: "Tạo mã điểm danh", href: "/create-qr-attendance", requiredPer: "attendance:scan" },
 ];
 
@@ -25,7 +25,7 @@ const OTHER_LABELS = [
   { code: "evidence:approve", label: "Duyệt minh chứng" },
   { code: "activity:approve", label: "Duyệt hoạt động" },
   { code: "pvcd_record:read", label: "Xem thống kê điểm PVCD" },
-  { code: "class:read", label: "Xem danh sách lớp" },
+  { code: "faculty:read", label: "Quản lý khoa" },
 ];
 
 export default function TopMenu() {
@@ -254,8 +254,8 @@ export default function TopMenu() {
                   let href = "#";
                   if (p.code === "evidence:approve") href = "/approved-evidence";
                   else if (p.code === "activity:approve") href = "/activity-approved";
-                  // else if (p.code === "pvcd_record:read") href = "/pvcd-statistics";
-                  else if (p.code === "class:read") href = "/class-list";
+                  else if (p.code === "pvcd_record:read") href = "statistical/Score";
+                  else if (p.code === "faculty:read") href = "/manage-faculty";
 
                   return (
                     <a key={p.code} href={href}>

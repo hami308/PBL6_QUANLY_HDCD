@@ -6,7 +6,7 @@ import "./Create_QR_Page.css";
 import Footer from "../../components/Footer/Footer";
 function Create_QR_Page() {
   return (
-    <>
+    <div className="create-qr-page">
       <Header />
       <Menu_org />
       <div className="background-create-qr"></div>
@@ -18,7 +18,7 @@ function Create_QR_Page() {
       </div>
 
       <Footer/>
-    </>
+    </div>
   );
 }
 export default Create_QR_Page;

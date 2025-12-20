@@ -249,3 +249,113 @@
     font-size: 12px;
   }
 }
+/* ================== DARK MODE ================== */
+body.dark-mode .propose-activity-container {
+  background-image: linear-gradient(
+      rgba(15, 23, 42, 0.85),
+      rgba(15, 23, 42, 0.85)
+    ),
+    url("../../../assets/images/anhnen.jpg");
+}
+
+/* ----- Form ----- */
+body.dark-mode .propose-activity-form {
+  background-color: #4b4b4b;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .form-title {
+  color: #e5e7eb;
+}
+
+/* ----- Labels ----- */
+body.dark-mode .form-propose-activity label {
+  color: #cbd5f5;
+}
+
+/* ----- Inputs / Textarea / Select ----- */
+body.dark-mode .form-propose-activity input,
+body.dark-mode .form-propose-activity textarea,
+body.dark-mode .custom-date-picker-propose-activity,
+body.dark-mode .select-basic {
+  background-color: #2a2a3d ;
+  color: #e5e7eb;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .form-propose-activity input::placeholder,
+body.dark-mode .form-propose-activity textarea::placeholder {
+  color: #94a3b8;
+}
+
+body.dark-mode .form-propose-activity input:focus,
+body.dark-mode .form-propose-activity textarea:focus,
+body.dark-mode .custom-date-picker-propose-activity:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+}
+
+/* ----- React Datepicker input ----- */
+body.dark-mode
+  .form-propose-activity
+  .react-datepicker__input-container
+  input {
+  background-color: #2a2a3d ;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+/* ----- React Select (Tag select) ----- */
+body.dark-mode .propose-activity-tag-select__control {
+  background-color: #2a2a3d ;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+body.dark-mode
+  .propose-activity-tag-select__control--is-focused {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+}
+
+body.dark-mode .propose-activity-tag-select__multi-value {
+  background-color: #1e293b;
+}
+
+body.dark-mode
+  .propose-activity-tag-select__multi-value__label {
+  color: #e5e7eb;
+}
+
+body.dark-mode
+  .propose-activity-tag-select__multi-value__remove {
+  color: #f87171;
+}
+
+body.dark-mode
+  .propose-activity-tag-select__multi-value__remove:hover {
+  background-color: #7f1d1d;
+  color: #fff;
+}
+
+body.dark-mode .propose-activity-tag-select__placeholder {
+  color: #94a3b8;
+}
+
+body.dark-mode .propose-activity-tag-select__dropdown-indicator {
+  color: #cbd5f5;
+}
+
+/* ----- Submit button ----- */
+body.dark-mode .submit-propose-activity-btn {
+  background-color: #2C1966;
+}
+
+body.dark-mode .submit-propose-activity-btn:hover {
+  background-color: #2C1966;
+}
+
+/* ----- Error message ----- */
+body.dark-mode .error-message-propose {
+  color: #f87171;
+}

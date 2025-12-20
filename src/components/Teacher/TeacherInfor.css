@@ -112,6 +112,7 @@
   background-color: #f2f2f2;
   border-radius: 5px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .info-row .react-datepicker-wrapper {
@@ -427,6 +428,7 @@ body.dark-mode .infor-date-picker {
   background-color: #1f2937;
   color: #f0f0f0;
   border: 1px solid #444;
+  width: 100%;
 }
 
 /* Readonly */
@@ -434,6 +436,7 @@ body.dark-mode input[readonly],
 body.dark-mode .infor-date-picker[readonly] {
   background-color: #1f2937;
   color: #cfcfcf;
+  width: 100%;
 }
 
 /* Error text */

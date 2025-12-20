@@ -229,20 +229,72 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
       </>
     );
   };
+// Lấy theme từ localStorage
+const isDarkMode = localStorage.getItem("theme") === "dark";
 
-  const customStyles = {
-    control: (p) => ({
-      ...p,
-      borderRadius: "8px",
-      fontSize: "14px",
-      width: "180px",
-      height: "40px",
-    }),
-    menu: (provided) => ({
-    ...provided,
-    zIndex: 9999, 
+const customStyles = {
+  control: (base, state) => ({
+    ...base,
+    borderRadius: "8px",
+    fontSize: "14px",
+    width: "180px",
+    height: "40px",
+    minHeight: "40px",
+
+    backgroundColor: isDarkMode ? "#2a2a2a" : "#ffffff",
+    borderColor: state.isFocused
+      ? isDarkMode
+        ? "#64b5f6"
+        : "#1976d2"
+      : isDarkMode
+      ? "#444"
+      : "#d1d5db",
+
+    boxShadow: state.isFocused
+      ? isDarkMode
+        ? "0 0 0 1px #64b5f6"
+        : "0 0 0 1px #1976d2"
+      : "none",
+
+    "&:hover": {
+      borderColor: isDarkMode ? "#64b5f6" : "#1976d2",
+    },
   }),
-  };
+
+  menu: (base) => ({
+    ...base,
+    zIndex: 9999,
+    backgroundColor: isDarkMode ? "#1e1e1e" : "#ffffff",
+    border: isDarkMode ? "1px solid #333" : "1px solid #ddd",
+  }),
+
+  option: (base, state) => ({
+    ...base,
+    cursor: "pointer",
+    backgroundColor: state.isSelected
+      ? isDarkMode
+        ? "#5c4bc4"
+        : "#2e2c72"
+      : state.isFocused
+      ? isDarkMode
+        ? "#333"
+        : "#f3f4f6"
+      : "transparent",
+
+    color: isDarkMode ? "#f1f1f1" : "#111",
+  }),
+
+  singleValue: (base) => ({
+    ...base,
+    color: isDarkMode ? "#f1f1f1" : "#111",
+  }),
+
+  placeholder: (base) => ({
+    ...base,
+    color: isDarkMode ? "#aaa" : "#6b7280",
+  }),
+};
+
 
   /* ------------------ RENDER ------------------ */
   return (
