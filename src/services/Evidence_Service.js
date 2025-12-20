@@ -197,3 +197,34 @@ export async function get_evidences_by_faculty(facultyId) {
     };
   }
 }
+
+export async function get_my_approved_evidences(studentId) {
+  try {
+    const token = sessionStorage.getItem("token");
+
+    if (!studentId) {
+      throw new Error("studentId is required");
+    }
+
+    const response = await axios.get(
+      `${API_URL}/evidences/approved/${studentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error("Get approved evidences error:", error);
+    return {
+      success: false,
+      message:
+        error.response?.data?.message ||
+        "Không thể lấy danh sách minh chứng đã duyệt.",
+    };
+  }
+}

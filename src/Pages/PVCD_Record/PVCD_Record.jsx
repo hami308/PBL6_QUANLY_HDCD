@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header.jsx";
 import Menu_student from "../../components/Menu/Menu_student.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
@@ -13,6 +13,7 @@ import {
   get_attendance_detail,
   submit_feedback,
 } from "../../services/Attendance_Services.js";
+import { get_my_approved_evidences } from "../../services/Evidence_Service.js";
 import { get_pvcd_by_idstudent } from "../../services/PVCD_Service.js";
 
 import "./PVCD_Record.css";
@@ -21,215 +22,202 @@ function PVCD_Record() {
   const studentId = sessionStorage.getItem("student_id");
   const GOAL_RECORD = 15;
 
-  /* ================== STATE ================== */
   const [activities, setActivities] = useState([]);
   const [yearRecords, setYearRecords] = useState([]);
-  const [summary, setSummary] = useState({
-    totalScore: 0,
-    totalActivity: 0,
-  });
-
+  const [summary, setSummary] = useState({ totalScore: 0, totalActivity: 0 });
   const [isLoading, setIsLoading] = useState(true);
-  const [errorActivities, setErrorActivities] = useState(null);
-  const [errorYear, setErrorYear] = useState(null);
+  const [error, setError] = useState(null);
 
   const [showPopup, setShowPopup] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
 
-  /* ================== UTILS ================== */
-  const formatDate = (iso) =>
-    iso ? new Date(iso).toLocaleDateString("vi-VN") : "";
+  const formatDate = (date) => (date ? new Date(date).toLocaleDateString("vi-VN") : "");
 
-  /* ================== FETCH DATA ================== */
   useEffect(() => {
     if (!studentId) return;
 
-    const fetchAllData = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
 
-        const [activityRes, yearRes] = await Promise.all([
+        const [attendanceRes, evidenceRes, yearRes] = await Promise.all([
           get_attendance_by_idstudent(studentId),
+          get_my_approved_evidences(studentId),
           get_pvcd_by_idstudent(studentId),
         ]);
 
-        /* ===== ACTIVITIES ===== */
-        const rawActivities = activityRes?.data?.data || [];
-        const formattedActivities = rawActivities.map((item) => ({
-          id: item._id,
-          title: item.title || "Không rõ",
-          points: item.points || 0,
-          start_time: item.start_time,
-          end_time: item.end_time,
-          attendance_id: item.attendance_id,
+        // --- Map evidence theo attendance_id ---
+        const rawEvidences = evidenceRes?.data?.data?.evidences || [];
+        const approvedEvidences = rawEvidences.filter((ev) => ev.status === "approved");
+        const evidenceMap = approvedEvidences.reduce((acc, ev) => {
+          const key = ev.attendance_id || "no_attendance";
+          if (!acc[key]) acc[key] = [];
+          acc[key].push({
+            id: `evidence-${ev._id}`,
+            title: ev.title || "Không rõ",
+            points: ev.faculty_point || 0,
+            start_time: ev.submitted_at,
+            end_time: ev.submitted_at,
+            type: "Evidence",
+            _id: ev._id,
+            attendance_id: ev.attendance_id,
+          });
+          return acc;
+        }, {});
+
+        // --- Format attendance activities ---
+        const rawAttendances = attendanceRes?.data?.data || [];
+        const formattedActivities = rawAttendances.map((at) => ({
+          id: at._id,
+          title: at.title || "Không rõ",
+          points: at.points || at.final_points || 0,
+          start_time: at.start_time,
+          end_time: at.end_time,
+          type: "Attendance",
+          evidences: evidenceMap[at._id] || [],
+          attendance_id: at._id,
         }));
+
+        // Nếu có evidence không gắn attendance
+        if (evidenceMap["no_attendance"]) {
+          formattedActivities.push(...evidenceMap["no_attendance"]);
+        }
 
         setActivities(formattedActivities);
 
-        /* ===== YEAR RECORD ===== */
-        const rawYears = yearRes?.data || [];
-
-        const sortedYears = [...rawYears].sort(
-          (a, b) => a.year - b.year
-        );
-
-        const formattedYears = sortedYears.map((item) => ({
-          record: item.total_point,
-          start_year: item.year,
-          end_year: item.year + 1,
-        }));
+        // --- Format year records ---
+        const formattedYears = (yearRes?.data || [])
+          .sort((a, b) => a.year - b.year)
+          .map((y) => ({
+            record: y.total_point,
+            start_year: y.year,
+            end_year: y.year + 1,
+          }));
 
         setYearRecords(formattedYears);
 
-        /* ===== SUMMARY ===== */
+        // --- Summary ---
         setSummary({
           totalActivity: formattedActivities.length,
-          totalScore: formattedYears.reduce(
-            (sum, y) => sum + y.record,
-            0
-          ),
+          totalScore: formattedYears.reduce((sum, y) => sum + y.record, 0),
         });
-      } catch (error) {
-        console.error(error);
-        setErrorActivities("Lỗi khi tải danh sách hoạt động");
-        setErrorYear("Không thể tải dữ liệu theo năm");
+      } catch (err) {
+        console.error(err);
+        setError("Không thể tải dữ liệu phục vụ cộng đồng");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchAllData();
+    fetchData();
   }, [studentId]);
 
-  /* ================== FEEDBACK ================== */
+  // --- Handle click feedback ---
   const handleFeedbackClick = async (activity) => {
     try {
-      const res = await get_attendance_detail(
-        studentId,
-        activity.id
-      );
-
+      const res = await get_attendance_detail(studentId, activity.id);
       setSelectedActivity({
-        ...activity,
-        data: res?.data?.data || "",
+        ...activity,               // giữ title, points, type
+        data: res?.data?.data || null, // chi tiết feedback
       });
-
       setShowPopup(true);
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       alert("Không thể tải chi tiết phản hồi");
     }
   };
 
+  // --- Handle submit feedback (giống bản chuẩn với attendance_id) ---
   const handleSubmitFeedback = async (formData) => {
     try {
       const res = await submit_feedback(
-        selectedActivity.attendance_id,
+        selectedActivity.data._id,
         { feedback: formData.feedback }
       );
-
       if (res?.success) {
         alert("Gửi phản hồi thành công!");
       } else {
         alert(res?.message || "Gửi phản hồi thất bại!");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       alert("Lỗi hệ thống, vui lòng thử lại");
     } finally {
       setShowPopup(false);
     }
   };
 
-  /* ================== RENDER ================== */
+  // --- Render action button ---
+  const renderActions = (row) => (
+    <button className="feedback-btn" onClick={() => handleFeedbackClick(row)}>
+      Phản hồi
+    </button>
+  );
+
+  // --- Prepare table data ---
+  const tableData = activities.flatMap((a) => [
+    {
+      id: a.id,
+      tên_hoạt_động: a.title,
+      ngày_bắt_đầu: formatDate(a.start_time),
+      ngày_kết_thúc: formatDate(a.end_time),
+      điểm: a.points,
+      loại: a.type,
+    },
+    ...(a.evidences || []).map((ev) => ({
+      id: ev.id,
+      tên_hoạt_động: `→ ${ev.title}`,
+      ngày_bắt_đầu: formatDate(ev.start_time),
+      ngày_kết_thúc: formatDate(ev.end_time),
+      điểm: ev.points,
+      loại: ev.type,
+      _id: ev._id,
+      attendance_id: ev.attendance_id,
+    })),
+  ]);
+
   return (
     <div className="pvcd-rercord-container">
       <Header />
       <Menu_student />
-
       <img className="dut-pic" src={dut_pic} alt="DUT" />
 
       <div className="cross-bar-pvcd-record">
         <p>Điểm phục vụ cộng đồng</p>
       </div>
 
-      {/* ===== LOADING ===== */}
       {isLoading ? (
         <div className="loading-container">
           <div className="spinner"></div>
         </div>
+      ) : error ? (
+        <p className="error-message">{error}</p>
       ) : (
         <>
-          {/* ===== SUMMARY ===== */}
           <div className="total-record">
-            <Total_Record
-              score={summary.totalScore}
-              num_activity={summary.totalActivity}
-            />
+            <Total_Record score={summary.totalScore} num_activity={summary.totalActivity} />
           </div>
 
-          <p className="goal-record">
-            Mỗi năm tối thiểu {GOAL_RECORD} điểm
-          </p>
+          <p className="goal-record">Mỗi năm tối thiểu {GOAL_RECORD} điểm</p>
 
-          {/* ===== YEAR RECORD ===== */}
-          {errorYear ? (
-            <p className="error-message">{errorYear}</p>
-          ) : (
-            <List_Year_Record data={yearRecords} />
-          )}
+          <List_Year_Record data={yearRecords} />
 
-          {/* ===== ACTIVITY LIST ===== */}
           <div className="activity-joined-container">
-            <h3 className="activity-joined-title">
-              Danh sách hoạt động đã tham gia
-            </h3>
+            <h3 className="activity-joined-title">Danh sách hoạt động & minh chứng</h3>
 
-            {errorActivities ? (
-              <p className="error-message">{errorActivities}</p>
-            ) : activities.length === 0 ? (
-              <p>Chưa tham gia hoạt động nào</p>
-            ) : (
-              <CustomTable
-                columns={[
-                  "Tên hoạt động",
-                  "Ngày bắt đầu",
-                  "Ngày kết thúc",
-                  "Điểm",
-                ]}
-                data={activities.map((item) => ({
-                  id: item.id,
-                  tên_hoạt_động: item.title,
-                  ngày_bắt_đầu: formatDate(item.start_time),
-                  ngày_kết_thúc: formatDate(item.end_time),
-                  điểm: item.points,
-                }))}
-                renderActions={(row) => {
-                  const activity = activities.find(
-                    (a) => a.id === row.id
-                  );
-                  return (
-                    <button
-                      className="px-2 py-1 border rounded"
-                      onClick={() =>
-                        handleFeedbackClick(activity)
-                      }
-                    >
-                      Phản hồi
-                    </button>
-                  );
-                }}
-              />
-            )}
+            <CustomTable
+              columns={["Tên hoạt động", "Ngày bắt đầu", "Ngày kết thúc", "Điểm"]}
+              data={tableData}
+              renderActions={renderActions}
+            />
           </div>
         </>
       )}
 
-      {/* ===== POPUP ===== */}
       {showPopup && selectedActivity && (
         <FeedbackPopup
-          activity={selectedActivity.title}
-          score={selectedActivity.points}
+          activity={selectedActivity.tên_hoạt_động}
+          score={selectedActivity.điểm}
           data={selectedActivity.data}
           onClose={() => setShowPopup(false)}
           onSubmit={handleSubmitFeedback}

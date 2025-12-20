@@ -78,7 +78,7 @@ const ManageFaculty = () => {
       alert("Lỗi cập nhật khoa!", error.message || "Lỗi không xác định");
     }
   };
-
+  const role = sessionStorage.getItem("role");
   return (
     <div>
       <Header />
