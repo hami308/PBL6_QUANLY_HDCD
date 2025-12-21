@@ -28,7 +28,9 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
   const { idactivity } = useParams();
 
   /* ------------------ STATE ------------------ */
-  const [activeTab, setActiveTab] = useState(initialActiveTab || "student-registered");
+  const [activeTab, setActiveTab] = useState(
+    initialActiveTab || "student-registered"
+  );
   const [faculty, setFaculty] = useState("");
   const [className, setClassName] = useState("");
   const [searchTermMSSV, setSearchTermMSSV] = useState("");
@@ -41,10 +43,11 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
 
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [selectedRegistrationId, setSelectedRegistrationId] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   /* ------------------ LOAD DATA ------------------ */
   useEffect(() => {
     async function fetchInit() {
+      setLoading(true); // bắt đầu loading
       try {
         const resFaculty = await get_all_faculties();
         const resClass = await getClass();
@@ -57,6 +60,8 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
         setStudentsAttended(resAttended?.data?.data || []);
       } catch (err) {
         console.error("Lỗi tải dữ liệu:", err);
+      } finally {
+        setLoading(false); // kết thúc loading
       }
     }
     fetchInit();
@@ -64,16 +69,23 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
 
   /* ------------------ FILTER FUNCTION ------------------ */
   const applyFilters = () => {
-    const studentsList = activeTab === "student-registered" ? studentsRegistered : studentsAttended;
+    const studentsList =
+      activeTab === "student-registered"
+        ? studentsRegistered
+        : studentsAttended;
 
     return (studentsList || []).filter((s) => {
       const mssv = s.student_id?.student_number || "";
       const fullname = s.student_id?.full_name || "";
 
-      const facultyMatch = !faculty || s.student_id?.falcuty_id?._id === faculty;
-      const classMatch = !className || s.student_id?.class_id?._id === className;
+      const facultyMatch =
+        !faculty || s.student_id?.falcuty_id?._id === faculty;
+      const classMatch =
+        !className || s.student_id?.class_id?._id === className;
       const mssvMatch = !searchTermMSSV || mssv.includes(searchTermMSSV);
-      const nameMatch = !searchTermName || fullname.toLowerCase().includes(searchTermName.toLowerCase());
+      const nameMatch =
+        !searchTermName ||
+        fullname.toLowerCase().includes(searchTermName.toLowerCase());
 
       return facultyMatch && classMatch && mssvMatch && nameMatch;
     });
@@ -146,7 +158,9 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
 
       if (hasError) {
         console.error("Lỗi chi tiết khi cập nhật điểm:", results);
-        alert("Có lỗi xảy ra khi cập nhật điểm. Kiểm tra console để biết chi tiết.");
+        alert(
+          "Có lỗi xảy ra khi cập nhật điểm. Kiểm tra console để biết chi tiết."
+        );
       } else {
         alert("Cập nhật điểm thành công!");
       }
@@ -174,14 +188,20 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "DanhSach");
-    const excelBuffer = XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+    const excelBuffer = XLSX.write(workbook, {
+      type: "array",
+      bookType: "xlsx",
+    });
 
     const fileName =
       activeTab === "student-registered"
         ? "Danh_sach_sinh_vien_dang_ky.xlsx"
         : "Danh_sach_sinh_vien_tham_gia.xlsx";
 
-    saveAs(new Blob([excelBuffer], { type: "application/octet-stream" }), fileName);
+    saveAs(
+      new Blob([excelBuffer], { type: "application/octet-stream" }),
+      fileName
+    );
   };
 
   /* ------------------ TABLE DATA ------------------ */
@@ -215,8 +235,9 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
   }));
 
   const renderActions = (row) => {
-    if( activeTab === "student-attendance") return null;
-    if (row.trạng_thái === "approved" || row.trạng_thái === "rejected") return null;
+    if (activeTab === "student-attendance") return null;
+    if (row.trạng_thái === "approved" || row.trạng_thái === "rejected")
+      return null;
 
     return (
       <>
@@ -229,72 +250,71 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
       </>
     );
   };
-// Lấy theme từ localStorage
-const isDarkMode = localStorage.getItem("theme") === "dark";
+  // Lấy theme từ localStorage
+  const isDarkMode = localStorage.getItem("theme") === "dark";
 
-const customStyles = {
-  control: (base, state) => ({
-    ...base,
-    borderRadius: "8px",
-    fontSize: "14px",
-    width: "180px",
-    height: "40px",
-    minHeight: "40px",
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderRadius: "8px",
+      fontSize: "14px",
+      width: "180px",
+      height: "40px",
+      minHeight: "40px",
 
-    backgroundColor: isDarkMode ? "#2a2a2a" : "#ffffff",
-    borderColor: state.isFocused
-      ? isDarkMode
-        ? "#64b5f6"
-        : "#1976d2"
-      : isDarkMode
-      ? "#444"
-      : "#d1d5db",
+      backgroundColor: isDarkMode ? "#2a2a2a" : "#ffffff",
+      borderColor: state.isFocused
+        ? isDarkMode
+          ? "#64b5f6"
+          : "#1976d2"
+        : isDarkMode
+        ? "#444"
+        : "#d1d5db",
 
-    boxShadow: state.isFocused
-      ? isDarkMode
-        ? "0 0 0 1px #64b5f6"
-        : "0 0 0 1px #1976d2"
-      : "none",
+      boxShadow: state.isFocused
+        ? isDarkMode
+          ? "0 0 0 1px #64b5f6"
+          : "0 0 0 1px #1976d2"
+        : "none",
 
-    "&:hover": {
-      borderColor: isDarkMode ? "#64b5f6" : "#1976d2",
-    },
-  }),
+      "&:hover": {
+        borderColor: isDarkMode ? "#64b5f6" : "#1976d2",
+      },
+    }),
 
-  menu: (base) => ({
-    ...base,
-    zIndex: 9999,
-    backgroundColor: isDarkMode ? "#1e1e1e" : "#ffffff",
-    border: isDarkMode ? "1px solid #333" : "1px solid #ddd",
-  }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      backgroundColor: isDarkMode ? "#1e1e1e" : "#ffffff",
+      border: isDarkMode ? "1px solid #333" : "1px solid #ddd",
+    }),
 
-  option: (base, state) => ({
-    ...base,
-    cursor: "pointer",
-    backgroundColor: state.isSelected
-      ? isDarkMode
-        ? "#5c4bc4"
-        : "#2e2c72"
-      : state.isFocused
-      ? isDarkMode
-        ? "#333"
-        : "#f3f4f6"
-      : "transparent",
+    option: (base, state) => ({
+      ...base,
+      cursor: "pointer",
+      backgroundColor: state.isSelected
+        ? isDarkMode
+          ? "#5c4bc4"
+          : "#2e2c72"
+        : state.isFocused
+        ? isDarkMode
+          ? "#333"
+          : "#f3f4f6"
+        : "transparent",
 
-    color: isDarkMode ? "#f1f1f1" : "#111",
-  }),
+      color: isDarkMode ? "#f1f1f1" : "#111",
+    }),
 
-  singleValue: (base) => ({
-    ...base,
-    color: isDarkMode ? "#f1f1f1" : "#111",
-  }),
+    singleValue: (base) => ({
+      ...base,
+      color: isDarkMode ? "#f1f1f1" : "#111",
+    }),
 
-  placeholder: (base) => ({
-    ...base,
-    color: isDarkMode ? "#aaa" : "#6b7280",
-  }),
-};
-
+    placeholder: (base) => ({
+      ...base,
+      color: isDarkMode ? "#aaa" : "#6b7280",
+    }),
+  };
 
   /* ------------------ RENDER ------------------ */
   return (
@@ -344,7 +364,9 @@ const customStyles = {
         />
         <Select
           options={faculties.map((f) => ({ value: f._id, label: f.name }))}
-          value={faculties.map((f) => ({ value: f._id, label: f.name })).find((f) => f.value === faculty)}
+          value={faculties
+            .map((f) => ({ value: f._id, label: f.name }))
+            .find((f) => f.value === faculty)}
           onChange={(opt) => {
             setFaculty(opt ? opt.value : "");
             setClassName("");
@@ -354,8 +376,14 @@ const customStyles = {
           isClearable
         />
         <Select
-          options={classes.map((c) => ({ value: c._id, label: c.name }))
-            .filter((opt) => !faculty || classes.find((c) => c._id === opt.value)?.falcuty_id?._id === faculty)}
+          options={classes
+            .map((c) => ({ value: c._id, label: c.name }))
+            .filter(
+              (opt) =>
+                !faculty ||
+                classes.find((c) => c._id === opt.value)?.falcuty_id?._id ===
+                  faculty
+            )}
           value={classes
             .map((c) => ({ value: c._id, label: c.name }))
             .find((c) => c.value === className)}
@@ -378,9 +406,10 @@ const customStyles = {
         )}
       </div>
 
-      {/* Table */}
       <div className="table-list-student-container">
-        {filteredStudents.length === 0 ? (
+        {loading ? (
+          <p className="loading-msg">Đang tải dữ liệu...</p>
+        ) : filteredStudents.length === 0 ? (
           <p className="no-student-msg">
             {activeTab === "student-registered"
               ? "Chưa có sinh viên nào đăng ký"
