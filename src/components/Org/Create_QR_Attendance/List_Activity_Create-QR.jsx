@@ -54,7 +54,9 @@ function List_Activity_Create_QR() {
   };
 
   //  Hiển thị
-  if (loading) return <p style={{ textAlign: "center" }}>Đang tải dữ liệu...</p>;
+  if (loading) return <div className="loading-container">
+        <div className="spinner"></div>
+      </div>;
   if (error) return <p style={{ color: "red", textAlign: "center" }}>{error}</p>;
   return (
     <div className="list-activity-org-component-container">

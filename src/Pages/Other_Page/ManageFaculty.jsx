@@ -22,7 +22,6 @@ const ManageFaculty = () => {
   const [form, setForm] = useState({
     name: "",
   });
-
   // Load danh sách khoa
   useEffect(() => {
     loadFaculties();

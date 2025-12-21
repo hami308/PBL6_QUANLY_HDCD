@@ -1,9 +1,9 @@
 import "./top_bar.css";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { get_user_permissions } from "../../services/Permission_Service";
 
-// --- MENU CỐ ĐỊNH ---
+// --- MENU MẶC ĐỊNH ---
 const DEFAULT_MENU = [
   {
     label: "Quản lý hoạt động",
@@ -16,11 +16,10 @@ const DEFAULT_MENU = [
     href: "/propose-activity",
     requiredPer: ["activity:propose", "activity:create", "activity_eligibility:create"],
   },
-  
   { label: "Tạo mã điểm danh", href: "/create-qr-attendance", requiredPer: "attendance:scan" },
 ];
 
-// --- CÁC QUYỀN ĐẶC BIỆT TRONG "KHÁC" ---
+// --- QUYỀN KHÁC ---
 const OTHER_LABELS = [
   { code: "evidence:approve", label: "Duyệt minh chứng" },
   { code: "activity:approve", label: "Duyệt hoạt động" },
@@ -41,7 +40,9 @@ export default function TopMenu() {
   const profileRef = useRef(null);
   const otherRef = useRef(null);
   const closeTimeoutRef = useRef(null);
+
   const navigate = useNavigate();
+  const location = useLocation(); // <--- để detect route change
 
   // Kiểm tra thiết bị cảm ứng
   useEffect(() => {
@@ -54,12 +55,12 @@ export default function TopMenu() {
     if (storedUser) setUser(storedUser);
   }, []);
 
-  // Lấy quyền người dùng và cập nhật menu
+  // Load permissions mỗi khi user hoặc route thay đổi
   useEffect(() => {
     const fetchPermissions = async () => {
-      try {
-        if (!user?.id) return;
+      if (!user?.id) return;
 
+      try {
         let userPerms = [];
         const cached = sessionStorage.getItem("user_permissions");
         if (cached) {
@@ -78,7 +79,7 @@ export default function TopMenu() {
           sessionStorage.setItem("user_permissions", JSON.stringify(userPerms));
         }
 
-        // Cập nhật menu chính theo quyền
+        // Update menu chính theo quyền
         const newMenu = DEFAULT_MENU.map((item) => {
           const req = Array.isArray(item.requiredPer) ? item.requiredPer : [item.requiredPer];
           if (req.includes("activity:create")) {
@@ -90,7 +91,7 @@ export default function TopMenu() {
         });
         setMenuData(newMenu);
 
-        // Lọc quyền cho dropdown "Khác"
+        // Lọc dropdown "Khác"
         const otherList = OTHER_LABELS.filter((item) =>
           userPerms.some((p) => p.code === item.code)
         );
@@ -101,7 +102,7 @@ export default function TopMenu() {
     };
 
     fetchPermissions();
-  }, [user]);
+  }, [user, location]); // <-- chạy lại khi route thay đổi
 
   // Cập nhật vị trí dropdown
   const updateProfilePos = () => {
@@ -117,7 +118,7 @@ export default function TopMenu() {
     }
   };
 
-  // Đóng dropdown khi click ra ngoài
+  // Đóng dropdown khi click ngoài
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!profileRef.current?.contains(e.target) && !otherRef.current?.contains(e.target)) {
@@ -171,7 +172,7 @@ export default function TopMenu() {
   return (
     <div className="top-bar">
       <nav className="header-right">
-        {/* Menu mặc định */}
+        {/* Menu chính */}
         {menuData.map((item, idx) => (
           <a key={idx} href={item.href}>
             {item.label}
@@ -202,7 +203,7 @@ export default function TopMenu() {
             >
               {user?.id ? (
                 <>
-                 <a
+                  <a
                     href={
                       user.roles?.some((r) => r.role === "student")
                         ? `/student-infor/${user.id}`
@@ -211,7 +212,6 @@ export default function TopMenu() {
                   >
                     Thông tin cá nhân
                   </a>
-
                   <a href="/change-password">Đổi mật khẩu</a>
                 </>
               ) : (
@@ -250,11 +250,10 @@ export default function TopMenu() {
                 }}
               >
                 {otherData.map((p) => {
-                  // Gán href tùy theo code
                   let href = "#";
                   if (p.code === "evidence:approve") href = "/approved-evidence";
                   else if (p.code === "activity:approve") href = "/activity-approved";
-                  else if (p.code === "pvcd_record:read") href = "statistical/Score";
+                  else if (p.code === "pvcd_record:read") href = "/statistical/Score";
                   else if (p.code === "faculty:read") href = "/manage-faculty";
 
                   return (
@@ -268,7 +267,7 @@ export default function TopMenu() {
           </div>
         )}
 
-        {/* Nút thoát */}
+        {/* Logout */}
         <button className="logout-btn" onClick={handleLogout}>
           Thoát
         </button>

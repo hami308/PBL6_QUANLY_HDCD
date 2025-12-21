@@ -147,6 +147,7 @@
   display: flex;
   gap: 12px;
   margin-top: auto;
+  margin: 0 auto;
 }
 
 .time-popup-confirm {
@@ -432,4 +433,91 @@ body.dark-mode .qr-popup-close {
 
 body.dark-mode .qr-popup-close:hover {
   background: #2563eb;
+}
+.qr-distance-config {
+  margin-top: 6px;
+}
+
+/* Input khoảng cách */
+.qr-time-input {
+  width: 140px;
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #111827;
+
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.qr-time-input::placeholder {
+  color: #9ca3af;
+}
+
+.qr-time-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ======================================================
+   LOCATION STATUS
+====================================================== */
+
+/* Thành công */
+.location-ok {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #047857;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Lỗi */
+.location-error {
+  margin-top: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #dc2626;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.qr-distance-label{
+  display: flex;
+  margin-bottom: 10px;
+  gap:10px
+}
+/* ======================================================
+   DARK MODE
+====================================================== */
+body.dark-mode .qr-time-input {
+  background: #0f172a;
+  color: #e5e7eb;
+  border-color: #334155;
+}
+
+body.dark-mode .qr-time-input::placeholder {
+  color: #94a3b8;
+}
+
+body.dark-mode .qr-time-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+}
+
+body.dark-mode .location-ok {
+  color: #6ee7b7;
+}
+
+body.dark-mode .location-error {
+  color: #f87171;
 }
