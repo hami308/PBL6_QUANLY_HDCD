@@ -85,11 +85,9 @@ export default function Propose_Activity({ iscreate }) {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleStartTimeChange = (date) =>
-    setForm({ ...form, startTime: date });
+  const handleStartTimeChange = (date) => setForm({ ...form, startTime: date });
 
-  const handleEndTimeChange = (date) =>
-    setForm({ ...form, endTime: date });
+  const handleEndTimeChange = (date) => setForm({ ...form, endTime: date });
 
   const handleFacultyChange = (selected) =>
     setForm({ ...form, faculty: selected });
@@ -118,8 +116,7 @@ export default function Propose_Activity({ iscreate }) {
     if (Number(form.volunteers) <= 0)
       return "Số lượng tình nguyện viên phải lớn hơn 0.";
 
-    if (Number(form.maxpoint) <= 0)
-      return "Điểm tối đa phải lớn hơn 0.";
+    if (Number(form.maxpoint) <= 0) return "Điểm tối đa phải lớn hơn 0.";
 
     if (!orgUnitId) return "Không xác định đơn vị tổ chức.";
 
@@ -170,7 +167,7 @@ export default function Propose_Activity({ iscreate }) {
 
     try {
       const requirements = buildRequirements();
-      
+
       const payload = {
         title: form.name,
         description: form.description,
@@ -181,7 +178,7 @@ export default function Propose_Activity({ iscreate }) {
         capacity: Number(form.volunteers),
         points: Number(form.maxpoint),
         org_unit_id: orgUnitId,
-        requirements: requirements, 
+        requirements: requirements,
         requires_approval: true,
       };
       console.log("Payload:", payload);
@@ -355,7 +352,9 @@ export default function Propose_Activity({ iscreate }) {
         <div className="form-actions">
           <button className="submit-propose-activity-btn" disabled={loading}>
             <span className="material-symbols-outlined">check</span>
-            <span style={{ marginLeft: 8 }}>
+            <span
+              style={{ marginLeft: 8, display: "flex", alignItems: "center" }}
+            >
               {loading
                 ? "Đang xử lý..."
                 : iscreate

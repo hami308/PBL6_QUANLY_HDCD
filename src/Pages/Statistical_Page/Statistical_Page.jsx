@@ -14,7 +14,7 @@ import ScrollToTopButton from "../../components/ScrollToTopButton/ScrollToTopBut
 import { get_all_activities } from "../../services/Activity_Services";
 import { filter_activity_dashboard } from "../../services/StatisticService/Statistic_activity";
 import { filter_grades } from "../../services/StatisticService/Statistic_records";
-
+import { useNavigate } from "react-router-dom";
 // =====================
 // Utility: Format datetime
 // =====================
@@ -33,7 +33,7 @@ const formatDateTime = (isoString) => {
 function Statistical_Page({ activeTab }) {
   const [students, setStudents] = useState([]);
   const [activities, setActivities] = useState([]);
-
+  const navigate = useNavigate();
   const [isFiltered, setIsFiltered] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false); // ⭐ QUAN TRỌNG
@@ -224,6 +224,7 @@ function Statistical_Page({ activeTab }) {
           "Đơn vị tổ chức",
           "Địa chỉ tổ chức",
           "Trạng thái",
+          "Thao tác",
         ]}
         data={activities.map((a) => ({
           tên_hoạt_động: a.title,
@@ -232,6 +233,14 @@ function Statistical_Page({ activeTab }) {
           đơn_vị_tổ_chức: a.org_unit_id?.name,
           địa_chỉ_tổ_chức: a.location,
           trạng_thái: a.status,
+          thao_tác: (
+            <button
+              className="xct"
+              onClick={() => navigate(`/activity-details/${a._id}`)}
+            >
+              Xem chi tiết
+            </button>
+          ),
         }))}
       />
     );

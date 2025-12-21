@@ -64,19 +64,57 @@ const Filter_Admin = ({ activeTab, onFilterApply }) => {
     fetchClasses();
   }, [idfaculty]);
 
-  // --- Fetch organizations ---
+  // // --- Fetch organizations ---
+  // useEffect(() => {
+  //   const fetchOrg = async () => {
+  //     const response = await get_all_org();
+  //     if (response.data) {
+  //       setOrgList(response.data);
+  //       // console.log("Fetched organizations:", response.data);
+  //     } else {
+  //       console.error("Failed to fetch organizations:", response.message);
+  //     }
+  //   };
+  //   fetchOrg();
+  // }, []);
   useEffect(() => {
-    const fetchOrg = async () => {
-      const response = await get_all_org();
-      if (response.data) {
-        setOrgList(response.data);
-        // console.log("Fetched organizations:", response.data);
-      } else {
-        console.error("Failed to fetch organizations:", response.message);
+    const fetchOrgCombined = async () => {
+      try {
+        const [facultyRes, orgRes] = await Promise.all([
+          get_all_faculties(),
+          get_all_org(),
+        ]);
+
+        let combined = [];
+
+        if (facultyRes.success && facultyRes.data) {
+          combined = facultyRes.data.map((f) => ({
+            _id: f._id,
+            name: f.name,
+            type: "faculty",
+          }));
+        }
+
+        if (orgRes.success && orgRes.data) {
+          combined = [
+            ...combined,
+            ...orgRes.data.map((o) => ({
+              _id: o._id,
+              name: o.name,
+              type: "org",
+            })),
+          ];
+        }
+
+        setOrgList(combined); // ✅ orgList gồm cả KHOA + TỔ CHỨC
+      } catch (err) {
+        console.error("Fetch combined org error:", err);
       }
     };
-    fetchOrg();
+
+    fetchOrgCombined();
   }, []);
+
   useEffect(() => {
     handleReset();
   }, [activeTab]);
