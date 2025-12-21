@@ -450,7 +450,6 @@ export async function get_students_stats_by_activity(activityId) {
         },
       }
     );
-    console.log("response attendance",response);
     return {
       success: true,
       data: response.data, 
