@@ -22,7 +22,6 @@ const ManageFaculty = () => {
   const [form, setForm] = useState({
     name: "",
   });
-  const role = sessionStorage.getItem("role");
   // Load danh sách khoa
   useEffect(() => {
     loadFaculties();
