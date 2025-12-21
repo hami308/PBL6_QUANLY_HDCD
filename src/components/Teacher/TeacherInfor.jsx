@@ -200,7 +200,7 @@ function TeacherInfo({ idstaff }) {
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
                 locale="vi"
-                customInput={<ReadOnlyInput />}
+                
               />
             </div>
 
