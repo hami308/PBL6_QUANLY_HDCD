@@ -85,12 +85,14 @@ const Receive_Notification = () => {
       <Header />
       {role === "student" && <Menu_student />}
       {role === "staff" && <Menu_org />}
-
+      
       <main className="notification-container">
         {/* Header thông báo */}
         <div className="notification-header-section">
           {loading ? (
-            <p>Đang tải thông báo...</p>
+            <div className="loading-container">
+              <div className="spinner"></div>
+            </div>
           ) : error ? (
             <p className="error-message">{error}</p>
           ) : unreadCount > 0 ? (
@@ -101,7 +103,6 @@ const Receive_Notification = () => {
         </div>
 
         {/* Loading và error state */}
-        {loading && <div className="loading">⏳ Đang tải...</div>}
         {error && <div className="error-state">{error}</div>}
 
         {/* Empty state */}

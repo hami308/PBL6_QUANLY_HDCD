@@ -32,8 +32,9 @@ export default function Infor() {
     fetchData();
   }, []);
 
-  if (!organization) return <p>Đang tải dữ liệu...</p>;
-
+  if (!organization) return  <div className="loading-container">
+        <div className="spinner"></div>
+      </div>;
   return (
     <main className="infor-page">
       <section className="hero">
