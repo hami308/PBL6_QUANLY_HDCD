@@ -15,7 +15,7 @@ import { get_feedback_by_activity } from "../../services/Feedback_Services.js";
 import ScrollToTopOnMount from "../../components/ScrollToTopButton/ScrollToTopButton.jsx";
 
 function Activity_details() {
-  const role= sessionStorage.getItem("role");
+  const role = sessionStorage.getItem("role");
   const user = JSON.parse(sessionStorage.getItem("user"));
   const ismodify = role === "staff";
 
@@ -102,12 +102,9 @@ function Activity_details() {
       <Header />
       {renderMenu()}
 
-      <Activity_Details
-        activity_details={activity.data}
-        ismodify={ismodify}
-      />
+      <Activity_Details activity_details={activity.data} ismodify={ismodify} />
 
-      {activity.data?.status === "đã tổ chức" && (
+      {activity.data?.status === "Đã tổ chức" && (
         <See_List_Evaluate_Activity reviews={feedback} />
       )}
 

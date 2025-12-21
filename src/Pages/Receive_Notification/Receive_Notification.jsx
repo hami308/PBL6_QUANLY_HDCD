@@ -3,9 +3,12 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Menu_student from "../../components/Menu/Menu_student";
 import Menu_org from "../../components/Menu/Menu_org";
-import Pagination from "../../components/Pagination/Pagination"; 
+import Pagination from "../../components/Pagination/Pagination";
 import "./Receive_Notification.css";
-import { get_notifications, read_all_notifications } from "../../services/Notifications_Services";
+import {
+  get_notifications,
+  read_all_notifications,
+} from "../../services/Notifications_Services";
 
 const ICONS = {
   default: "📢",
@@ -46,7 +49,7 @@ const Receive_Notification = () => {
             date: n.published_date,
             read: n.isRead,
           }));
-
+          console.log("Fetched notifications:", formatted);
           setNotifications(formatted);
           setUnreadCount(res.data.unread_count);
 
@@ -85,7 +88,7 @@ const Receive_Notification = () => {
       <Header />
       {role === "student" && <Menu_student />}
       {role === "staff" && <Menu_org />}
-      
+
       <main className="notification-container">
         {/* Header thông báo */}
         <div className="notification-header-section">
@@ -119,7 +122,9 @@ const Receive_Notification = () => {
           <section className="notification-list-container">
             <div className="notification-list-header">
               <span>Danh sách thông báo</span>
-              <span className="notification-count">{notifications.length} thông báo</span>
+              <span className="notification-count">
+                {notifications.length} thông báo
+              </span>
             </div>
 
             <div className="notification-list">
@@ -132,7 +137,9 @@ const Receive_Notification = () => {
                   <div className="notification-item-content">
                     <h4>{n.title}</h4>
                     <p className="notification-preview">{n.content}</p>
-                    <span className="notification-date">{renderDate(n.date)}</span>
+                    <span className="notification-date">
+                      {renderDate(n.date)}
+                    </span>
                   </div>
                 </div>
               ))}
