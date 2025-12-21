@@ -126,7 +126,7 @@ export async function update_attendance(attendanceId, updateData) {
         },
       }
     );
-
+    console.log("Update attendance response:", response.data);
     return {
       success: true,
       data: response.data,

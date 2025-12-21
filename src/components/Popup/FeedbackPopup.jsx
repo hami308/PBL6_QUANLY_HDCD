@@ -52,7 +52,7 @@ const FeedbackPopup = ({ activity, score, data, onClose, onSubmit }) => {
         {/* Nếu có data, hiển thị trạng thái và ngày phản hồi */}
         {data && (
           <>
-            {feedbackStatus && (
+            {/* {feedbackStatus && (
               <p>
                 <strong>Trạng thái phản hồi:</strong>{" "}
                 <span
@@ -68,7 +68,7 @@ const FeedbackPopup = ({ activity, score, data, onClose, onSubmit }) => {
                   {feedbackStatus}
                 </span>
               </p>
-            )}
+            )} */}
 
             {/* Ngày student gửi phản hồi */}
             {feedbackSubmittedTime && (

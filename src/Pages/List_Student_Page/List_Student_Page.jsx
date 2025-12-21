@@ -53,7 +53,7 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
         const resClass = await getClass();
         const resRegistered = await get_registered_students(idactivity);
         const resAttended = await get_students_stats_by_activity(idactivity);
-
+        console.log("res attended", resAttended);
         setFaculties(resFaculty.data || []);
         setClasses(resClass.data || []);
         setStudentsRegistered(resRegistered?.data?.data || []);
@@ -98,7 +98,7 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
     setStudentsAttended((prev) =>
       prev.map((s) =>
         s.student_id?._id === studentId
-          ? { ...s, total_points: Number(value) || 0 }
+          ? { ...s, points: Number(value) || 0 }
           : s
       )
     );
@@ -145,13 +145,18 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
     try {
       const updatePromises = studentsAttended
         .filter((student) => student.attendance_id)
-        .map((student) =>
-          update_attendance(student.attendance_id, {
-            points: Number(student.total_points) || 0,
-            status: student.status || "present",
-            note: "Điểm danh đã cập nhật",
-          })
-        );
+        .map((student) => {
+          const payload = {
+            points: Number(student.points) || 0,
+          };
+
+          console.log("📤 Gửi update attendance:", {
+            attendance_id: student.attendance_id,
+            payload,
+          });
+
+          return update_attendance(student.attendance_id, payload);
+        });
 
       const results = await Promise.all(updatePromises);
       const hasError = results.some((res) => !res || !res.success);
@@ -182,7 +187,7 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
           : s.student_id?.falcuty_id?.name,
       Lớp: s.student_id?.class_id?.name,
       Trạng_thái: s.status,
-      ...(activeTab === "student-attendance" && { Điểm: s.total_points || 0 }),
+      ...(activeTab === "student-attendance" && { Điểm: s.points || 0 }),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -226,7 +231,7 @@ function List_Student_Page({ activeTab: initialActiveTab }) {
       điểm: (
         <input
           type="number"
-          value={s.total_points ?? ""}
+          value={s.points ?? ""}
           onChange={(e) => handleScoreChange(s.student_id._id, e.target.value)}
           className="score-input"
         />
