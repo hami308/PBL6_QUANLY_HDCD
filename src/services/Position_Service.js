@@ -14,6 +14,7 @@ export async function get_all_position() {
         },
       }
     );
+    console.log("response", response.data);
     return response.data;
   } catch (error) {
     console.error("Get activities error:", error);
@@ -31,7 +32,6 @@ export async function create_position(payload) {
   try {
     const response = await axios.post(`${API_URL}/positions`, payload, {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     });

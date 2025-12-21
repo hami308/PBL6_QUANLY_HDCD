@@ -7,7 +7,6 @@ import "../../Teacher/TeacherInfor.css";
 import {
   getStudentInfo,
   updateStudentInfo,
-  deleteStudentProfile,
 } from "../../../services/Student/StudentInfor_Services.js";
 import { org } from "../../../data/org.js";
 import { get_all_faculties } from "../../../services/Faculty_Service";
@@ -16,7 +15,7 @@ import { useParams } from "react-router-dom";
 registerLocale("vi", vi);
 
 function StudentInfo() {
- const { id } = useParams();
+  const { id } = useParams();
   const role = sessionStorage.getItem("role");
   const isAdmin = role === "admin";
   const canView = role === "admin" || role === "staff";
@@ -344,15 +343,6 @@ function StudentInfo() {
             <button className="save-btn" onClick={handleSave}>
               Lưu thông tin
             </button>
-
-            {role === "admin" && (
-              <button
-                className="save-btn delete-btn"
-                onClick={() => deleteStudentProfile(id)}
-              >
-                Xóa tài khoản
-              </button>
-            )}
           </div>
         </div>
       </div>

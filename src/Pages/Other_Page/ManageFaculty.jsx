@@ -22,6 +22,9 @@ const ManageFaculty = () => {
   const [form, setForm] = useState({
     name: "",
   });
+
+  const role = sessionStorage.getItem("role");
+
   // Load danh sách khoa
   useEffect(() => {
     loadFaculties();
@@ -30,10 +33,9 @@ const ManageFaculty = () => {
   const loadFaculties = async () => {
     try {
       const data = await get_all_faculties();
-      // console.log(data);
-      setFaculties(data.data);
+      setFaculties(data.data || []);
     } catch (err) {
-      alert("Lỗi tải khoa!", err.message || "Lỗi không xác định");
+      alert("Lỗi tải khoa!", err.message);
     }
     setLoading(false);
   };
@@ -48,120 +50,171 @@ const ManageFaculty = () => {
   // Mở modal sửa
   const openEditModal = (faculty) => {
     setEditFaculty(faculty);
-    setForm({
-      name: faculty.name,
-    });
+    setForm({ name: faculty.name });
     setShowModal(true);
   };
 
   const handleCreateFaculty = async () => {
+    if (!form.name.trim()) {
+      alert("Vui lòng nhập tên khoa");
+      return;
+    }
+
     try {
       const response = await create_faculty(form);
-      if (response.success == true) {
-        // console.log("Create faculty response:", response);
-        alert("Đã thêm khoa " + response.data.name + " thành công!");
+      if (response.success === true) {
+        alert(`Đã thêm khoa ${response.data.name} thành công!`);
         setShowModal(false);
         loadFaculties();
       }
     } catch (error) {
-      alert("Lỗi tạo khoa!", error.message || "Lỗi không xác định");
+      alert("Lỗi tạo khoa!", error.message);
     }
   };
+
   const handleUpdateFaculty = async () => {
+    if (!form.name.trim()) {
+      alert("Vui lòng nhập tên khoa");
+      return;
+    }
+
     try {
-      await update_faculty(editFaculty._id, form);
-      alert("Cập nhật khoa thành công!");
-      setShowModal(false);
-      loadFaculties();
+      const response = await update_faculty(editFaculty._id, form);
+      if (response) {
+        alert("Cập nhật khoa thành công!");
+        setShowModal(false);
+        loadFaculties();
+      }
     } catch (error) {
-      alert("Lỗi cập nhật khoa!", error.message || "Lỗi không xác định");
+      alert("Lỗi cập nhật khoa!", error.message);
     }
   };
-  const role = sessionStorage.getItem("role");
+
   return (
-    <div>
+    <div className="manage-faculty">
       <Header />
       {role === "admin" ? <Menu_Admin /> : <Menu_org />}
 
-      <div className="faculty-container">
-        <h2>Danh sách các khoa</h2>
+      <div className="manage-faculty__container">
+        <div className="manage-faculty__header">
+          <h2 className="manage-faculty__title">Quản lý khoa</h2>
+        </div>
 
-        <button className="btn-primary" onClick={openCreateModal}>
-          + Thêm khoa
-        </button>
+        <div className="manage-faculty__toolbar">
+          <button className="manage-faculty__add-btn" onClick={openCreateModal}>
+            + Thêm khoa mới
+          </button>
+        </div>
 
         {loading ? (
-          <p>Đang tải...</p>
+          <div className="manage-faculty__loading">Đang tải...</div>
+        ) : faculties.length === 0 ? (
+          <div className="manage-faculty__empty">
+            <p>Chưa có khoa nào</p>
+            <button
+              className="manage-faculty__empty-btn"
+              onClick={openCreateModal}
+            >
+              Thêm khoa đầu tiên
+            </button>
+          </div>
         ) : (
-          <table className="faculty-table">
-            <thead>
-              <tr>
-                <th>Tên khoa</th>
-                {/* <th></th>
-                <th></th> */}
-                <th>Hành động</th>
-              </tr>
-            </thead>
-            <tbody>
-              {faculties.map((f) => (
-                <tr key={f._id}>
-                  <td>{f.name}</td>
-                  {/* <td>{f.code}</td>
-                  <td>{f.description}</td> */}
-                  <td>
-                    <button
-                      className="btn-edit"
-                      onClick={() => openEditModal(f)}
-                    >
-                      Sửa
-                    </button>
-
-                    <button
-                      className="btn-xem"
-                      onClick={() =>
-                        navigate(`/manage-class/${f._id}`, {
-                          state: { facultyName: f.name },
-                        })
-                      }
-                    >
-                      Xem danh sách lớp
-                    </button>
-                  </td>
+          <div className="manage-faculty__table-wrapper">
+            <table className="manage-faculty__table">
+              <thead className="manage-faculty__thead">
+                <tr>
+                  <th className="manage-faculty__th">STT</th>
+                  <th className="manage-faculty__th">Tên khoa</th>
+                  <th className="manage-faculty__th">Hành động</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="manage-faculty__tbody">
+                {faculties.map((faculty, index) => (
+                  <tr key={faculty._id} className="manage-faculty__row">
+                    <td className="manage-faculty__td">{index + 1}</td>
+                    <td className="manage-faculty__td">
+                      <div className="manage-faculty__name">{faculty.name}</div>
+                    </td>
+                    <td className="manage-faculty__td">
+                      <div className="manage-faculty__actions">
+                        <button
+                          className="manage-faculty__edit-btn"
+                          onClick={() => openEditModal(faculty)}
+                        >
+                          Sửa
+                        </button>
+                        <button
+                          className="manage-faculty__view-btn"
+                          onClick={() =>
+                            navigate(`/manage-class/${faculty._id}`, {
+                              state: { facultyName: faculty.name },
+                            })
+                          }
+                        >
+                          Xem lớp
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
-      {/* Modal thêm / sửa */}
+      {/* MODAL */}
       {showModal && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <h3>{editFaculty ? "Cập nhật khoa" : "Thêm khoa mới"}</h3>
-
-            <input
-              placeholder="Tên khoa"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-
-            <div className="modal-actions">
+        <div className="faculty-modal">
+          <div
+            className="faculty-modal__overlay"
+            onClick={() => setShowModal(false)}
+          ></div>
+          <div className="faculty-modal__content">
+            <div className="faculty-modal__header">
+              <h3 className="faculty-modal__title">
+                {editFaculty ? "Cập nhật khoa" : "Thêm khoa mới"}
+              </h3>
               <button
-                className="btn-primary"
-                onClick={
-                  editFaculty ? handleUpdateFaculty : handleCreateFaculty
-                }
-              >
-                Lưu
-              </button>
-
-              <button
-                className="btn-cancel"
+                className="faculty-modal__close"
                 onClick={() => setShowModal(false)}
               >
-                Hủy
+                ×
               </button>
+            </div>
+
+            <div className="faculty-modal__body">
+              <div className="faculty-form">
+                <div className="faculty-form__group">
+                  <label className="faculty-form__label">Tên khoa *</label>
+                  <input
+                    className="faculty-form__input"
+                    placeholder="Nhập tên khoa"
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="faculty-modal__footer">
+              <div className="faculty-modal__footer-actions">
+                <button
+                  className="faculty-modal__btn faculty-modal__btn--cancel"
+                  onClick={() => setShowModal(false)}
+                >
+                  Hủy
+                </button>
+                <button
+                  className="faculty-modal__btn faculty-modal__btn--save"
+                  onClick={
+                    editFaculty ? handleUpdateFaculty : handleCreateFaculty
+                  }
+                  disabled={!form.name.trim()}
+                >
+                  {editFaculty ? "Cập nhật" : "Lưu"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
