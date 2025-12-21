@@ -4,7 +4,7 @@ import activity_pic from "../../../assets/images/activity.jpg";
 
 import { generate_qr } from "../../../services/Attendance_Services";
 import { get_students_stats_by_activity } from "../../../services/Activity_Services";
-
+import CustomTable from "../../../components/Custom/CustomTable";
 export default function Create_QR_Attendance({ activity }) {
   /* ===================== STATE ===================== */
   const [loading, setLoading] = useState(false);
@@ -137,9 +137,8 @@ export default function Create_QR_Attendance({ activity }) {
 
       try {
         const res = await get_students_stats_by_activity(activity._id);
-
         if (res?.success) {
-          setStudents(res.data || []);
+          setStudents(res.data.data || []);
         } else {
           setStudentsError("Không tải được danh sách sinh viên.");
         }
@@ -153,7 +152,6 @@ export default function Create_QR_Attendance({ activity }) {
 
     fetchStudents();
   }, [showAttendancePopup, activity._id]);
-
   /* ===================== JSX ===================== */
   return (
     <>
@@ -271,7 +269,7 @@ export default function Create_QR_Attendance({ activity }) {
         </div>
       )}
 
-  {/* ================= POPUP STUDENTS ================= */}
+ {/* ================= POPUP STUDENTS ================= */}
 {showAttendancePopup && (
   <div className="qr-popup-overlay">
     <div className="qr-popup-container attendance-popup">
@@ -291,37 +289,34 @@ export default function Create_QR_Attendance({ activity }) {
 
       {/* Empty */}
       {!loadingStudents &&
+        !studentsError &&
         students.length === 0 && (
           <p className="attendance-empty">
             Chưa có sinh viên nào điểm danh hoạt động này.
           </p>
         )}
 
-      {/* List */}
+      {/* Table */}
       {!loadingStudents &&
         !studentsError &&
         students.length > 0 && (
-          <div className="attendance-list">
-            {students.map((st) => (
-              <div className="attendance-item" key={st.student_id}>
-                <span>
-                  {st.student_name}
-                  {st.student_code && (
-                    <em> ({st.student_code})</em>
-                  )}
-                </span>
-                <span
-                  className={`status ${
-                    st.status === "present" ? "ok" : "fail"
-                  }`}
-                >
-                  {st.status === "present"
-                    ? "✔ Có mặt"
-                    : "✖ Vắng"}
-                </span>
-              </div>
-            ))}
-          </div>
+          <CustomTable
+            columns={[
+              "MSSV",
+              "Họ tên",
+              "Số lần điểm danh",
+              
+              "Thời gian điểm danh",
+            ]}
+            data={students.map((st) => ({
+              mssv: st.student_id?.student_number || "",
+              họ_tên: st.student_id?.full_name || "",
+              số_lần_điểm_danh: st.total_qr_scanned +"/"+ st.total_qr_available,
+              thời_gian_điểm_danh: st.total_points
+                ? new Date(st.last_attended).toLocaleString("vi-VN")
+                : "—",
+            }))}
+          />
         )}
 
       <button onClick={() => setShowAttendancePopup(false)}>
@@ -330,7 +325,6 @@ export default function Create_QR_Attendance({ activity }) {
     </div>
   </div>
 )}
-
 
     </>
   );

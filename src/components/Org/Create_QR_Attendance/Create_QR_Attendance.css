@@ -161,73 +161,48 @@
   border-radius: 10px;
   margin-bottom: 20px;
 }
-
-/* ================= ATTENDANCE ================= */
+/* ================= ATTENDANCE POPUP TỐI ƯU ================= */
 .attendance-popup {
-  width: 420px;
-}
-
-.attendance-list {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.attendance-item {
+  /* Tăng chiều rộng để bảng không bị khít */
+  width: 95%;
+  max-width: 800px; 
+  max-height: 90vh; /* Không để popup vượt quá chiều cao màn hình */
   display: flex;
-  justify-content: space-between;
-  padding: 10px 6px;
-  border-bottom: 1px solid #e5e7eb;
+  flex-direction: column;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.status.ok {
-  color: #15803d;
+/* Container bọc ngoài bảng để hỗ trợ cuộn ngang nếu màn hình quá nhỏ */
+.qr-popup-container.attendance-popup {
+  overflow-x: auto; 
 }
 
-.status.fail {
-  color: #dc2626;
+/* Tùy chỉnh thanh cuộn cho đẹp */
+.attendance-popup::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-/* ================= DARK MODE ================= */
-body.dark-mode .create-qr-card {
-  background: #0f172a;
-  border-color: #334155;
+.attendance-popup::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
 }
 
-body.dark-mode .attendance-icon {
-  color: #93c5fd;
+/* Nút đóng ở dưới cùng */
+.attendance-popup button {
+  margin-top: 20px;
+  padding: 10px 30px;
+  align-self: center; /* Căn giữa nút */
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-body.dark-mode .attendance-icon:hover {
-  background: #1e293b;
-}
-
-body.dark-mode .qr-popup-container {
-  background: #020617;
-  color: #e5e7eb;
-}
-
-/* ================= ANIMATION ================= */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.92);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.attendance-empty {
-  margin: 20px 0;
-  font-size: 15px;
-  color: black;
-  text-align: center;
-  font-style: italic;
-}
-
-.attendance-loading {
-  margin: 20px 0;
-  font-size: 15px;
-  text-align: center;
+.attendance-popup button:hover {
+  background-color: #e0e0e0;
 }
