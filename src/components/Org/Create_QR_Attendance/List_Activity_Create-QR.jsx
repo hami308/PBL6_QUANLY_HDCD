@@ -26,7 +26,7 @@ function List_Activity_Create_QR() {
         const orgUnitId = sessionStorage.getItem("orgUnitId");
 
         //  4. Gọi API lấy danh sách hoạt động theo tổ chức và trạng thái
-        const actRes = await get_activities_by_orgunit_and_status(orgUnitId, "đang tổ chức");
+        const actRes = await get_activities_by_orgunit_and_status(orgUnitId, "Đang tổ chức");
         if (actRes.success && Array.isArray(actRes.data)) {
           setActivities(actRes.data);
         } else {

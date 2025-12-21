@@ -12,10 +12,11 @@ import {
 import { org } from "../../../data/org.js";
 import { get_all_faculties } from "../../../services/Faculty_Service";
 import { getClass } from "../../../services/Class_Service";
+import { useParams } from "react-router-dom";
 registerLocale("vi", vi);
 
 function StudentInfo() {
-  const user = JSON.parse(sessionStorage.getItem("user"));
+ const { id } = useParams();
   const role = sessionStorage.getItem("role");
   const isAdmin = role === "admin";
   const canView = role === "admin" || role === "staff";
@@ -29,9 +30,9 @@ function StudentInfo() {
   const [selectedClass, setSelectedClass] = useState("");
   /* ================= FETCH ================= */
   useEffect(() => {
-    if (!user?.id) return;
-    getStudentInfo(user.id).then(setStudentInfo).catch(console.error);
-  }, [user?.id]);
+    if (!id) return;
+    getStudentInfo(id).then(setStudentInfo).catch(console.error);
+  }, [id]);
   // --- Fetch faculty list ---
   useEffect(() => {
     const fetchFaculties = async () => {
@@ -193,7 +194,7 @@ function StudentInfo() {
                 <option value="female">Nữ</option>
               </select>
             </div>
-            {user?.roles?.[0]?.role === "admin" ? (
+            {role === "admin" ? (
               <div className="info-row">
                 <label>Khoa</label>
                 <select
@@ -228,7 +229,7 @@ function StudentInfo() {
                 />
               </div>
             )}
-            {user?.roles?.[0]?.role === "admin" ? (
+            {role === "admin" ? (
               <div className="info-row">
                 <label>Lớp</label>
                 <select
@@ -344,10 +345,10 @@ function StudentInfo() {
               Lưu thông tin
             </button>
 
-            {user?.roles?.[0]?.role === "admin" && (
+            {role === "admin" && (
               <button
                 className="save-btn delete-btn"
-                onClick={() => deleteStudentProfile(studentInfo.id)}
+                onClick={() => deleteStudentProfile(id)}
               >
                 Xóa tài khoản
               </button>

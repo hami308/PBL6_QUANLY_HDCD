@@ -38,7 +38,7 @@ function Approve_Activity_Proposed_Page() {
   const fetchActivities = async (orgId = "") => {
     try {
       const filters = {
-        status: "chờ duyệt",
+        status: "Chờ duyệt",
         field_id: null,
         title: null,
         org_unit_id: orgId === "all" ? null : orgId || null,

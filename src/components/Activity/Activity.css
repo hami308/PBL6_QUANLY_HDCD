@@ -83,7 +83,7 @@ body.dark-mode .activity {
   border-radius: 0.4vh;
 
   font-size: 1.5vh;
-min-width: 160px;    /* tối thiểu */
+  min-width: 160px;    /* tối thiểu */
   max-width: 320px;    /* tối đa */
   width: max-content;  /* giãn theo nội dung */
   white-space: normal;
@@ -188,6 +188,7 @@ body.dark-mode .activity-value {
   .activity {
     flex: 1 1 calc(50% - 20px);
     max-width: calc(40% - 20px);
+    min-width: 200px;
   }
 }
 @media (max-width:500px){

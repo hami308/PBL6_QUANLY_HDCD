@@ -6,9 +6,7 @@ import CustomTable from "../../components/Custom/CustomTable";
 
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./UserAccount_Management.css";
-
 import {
   getStudents,
   getTeachers,

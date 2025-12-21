@@ -245,3 +245,11 @@ body.dark-mode .spinner {
 body.dark-mode .table_1 {
   background: transparent;
 }
+
+.empty-text {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  text-align: center;
+  color: black;
+}
