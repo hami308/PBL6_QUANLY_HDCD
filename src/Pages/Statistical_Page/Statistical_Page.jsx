@@ -192,6 +192,7 @@ function Statistical_Page({ activeTab }) {
           "Lớp",
           "Năm học",
           "Điểm số",
+          "Thao tác",
         ]}
         data={students.map((s) => ({
           mã_sinh_viên: s.student.student_number,
@@ -200,6 +201,11 @@ function Statistical_Page({ activeTab }) {
           lớp: s.class.name,
           năm_học: s.year,
           điểm_số: s.total_point,
+          thao_tác: (
+            <button className="xct" onClick={() => navigate(`/activity-deta}`)}>
+              Xem chi tiết
+            </button>
+          ),
         }))}
       />
     );
