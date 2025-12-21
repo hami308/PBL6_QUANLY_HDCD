@@ -128,12 +128,6 @@ function Activity_Org_Component({ activity }) {
       )}
 
       {/* Popup hủy */}
-      {showPostPopup && (
-        <Post_Activity
-          onClose={() => setShowPostPopup(false)}
-          activity={activity}
-        />
-      )}
 
       {showCancelPopup && (
         <CancelActivityPopup

@@ -47,7 +47,6 @@ function List_Activity_org_component({ filters = {} }) {
         setError("");
 
         const res = await filter_activities(memoizedFilters);
-        console.log("Filtered Activities Response:", res);
         if (!res.success) throw new Error(res.message);
 
         const data = res.data.data || res.data;

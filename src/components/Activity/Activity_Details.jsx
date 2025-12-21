@@ -18,13 +18,13 @@ import { useLocation } from "react-router-dom";
 registerLocale("vi", vi);
 
 function Activity_Details({ activity_details }) {
-  
+  const role= sessionStorage.getItem("role");
   const loc = useLocation();
   const params = new URLSearchParams(loc.search);
   const fromPage = params.get("from")?.trim();
   const isInManagePage = fromPage === "manage-activity-org";
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const isStaff = user && user.roles && user.roles[0].role === "staff";
+  const isStaff = user && role === "staff";
   const isCanceled = activity_details.status === "hủy hoạt động";
   const isFinished = activity_details.status === "đã tổ chức";
 

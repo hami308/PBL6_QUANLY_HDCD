@@ -15,8 +15,9 @@ import { get_feedback_by_activity } from "../../services/Feedback_Services.js";
 import ScrollToTopOnMount from "../../components/ScrollToTopButton/ScrollToTopButton.jsx";
 
 function Activity_details() {
+  const role= sessionStorage.getItem("role");
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const ismodify = user?.role === "staff";
+  const ismodify = role === "staff";
 
   const { id } = useParams();
 
@@ -63,9 +64,9 @@ function Activity_details() {
   // ===== MENU RENDER =====
   const renderMenu = () => {
     if (!user) return <Menu_guest />;
-    if (user?.roles?.[0]?.role === "student") return <Menu_student />;
-    if (user?.roles?.[0]?.role === "admin") return <Menu_Admin />;
-    if (user?.roles?.[0]?.role === "staff") return <Menu_org />;
+    if (role === "student") return <Menu_student />;
+    if (role === "admin") return <Menu_Admin />;
+    if (role === "staff") return <Menu_org />;
     return null;
   };
 
