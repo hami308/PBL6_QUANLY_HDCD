@@ -142,3 +142,4 @@ export async function update_attendance(attendanceId, updateData) {
     };
   }
 }
+

@@ -1,7 +1,6 @@
-/* ===========================
-   CARD WRAPPER
-=========================== */
+/* ================= CARD ================= */
 .create-qr-card {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,13 +13,30 @@
   background: #ffffff;
   border: 2px solid #222;
   border-radius: 12px;
-
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* ===========================
-   LEFT SECTION
-=========================== */
+/* ================= ICON TOP RIGHT ================= */
+.attendance-icon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  font-size: 28px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  color: #1976d2;
+
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.attendance-icon:hover {
+  background: #e3f2fd;
+  transform: scale(1.1);
+}
+
+/* ================= LEFT ================= */
 .create-qr-left {
   display: flex;
   align-items: center;
@@ -34,7 +50,6 @@
   object-fit: cover;
 }
 
-/* TEXT */
 .create-qr-title {
   font-size: 22px;
   font-weight: 700;
@@ -43,13 +58,13 @@
 
 .create-qr-club {
   display: inline-block;
-  background-color: #d8f5e0;
+  background: #d8f5e0;
   color: #0a6847;
-  font-style: italic;
   padding: 4px 10px;
   margin: 5px 0;
   border-radius: 6px;
   font-size: 13px;
+  font-style: italic;
 }
 
 .create-qr-info {
@@ -57,58 +72,40 @@
   margin: 5px 0;
 }
 
-/* ===========================
-   RIGHT SECTION: Generate QR
-=========================== */
+/* ================= QR BUTTON ================= */
 .create-qr-right {
   text-align: center;
   cursor: pointer;
   padding: 6px 10px;
   border-radius: 10px;
-  transition: 0.2s ease;
-}
-
-.create-qr-right:hover {
-  background: #f3f3f3;
 }
 
 .create-qr-right .material-symbols-outlined {
   font-size: 55px;
-  color: #222;
 }
 
 .create-qr-qr-text {
-  margin: 4px 0 0;
   font-size: 18px;
   font-weight: 600;
 }
 
-/* ===========================
-   POPUP OVERLAY (QR + TIME)
-=========================== */
+/* ================= POPUP ================= */
 .qr-popup-overlay {
   position: fixed;
   inset: 0;
-
   background: rgba(0, 0, 0, 0.5);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 999;
 }
 
-/* ===========================
-   POPUP CONTAINER (CHUNG)
-=========================== */
 .qr-popup-container {
-  background: #ffffff;
+  background: #fff;
   width: 360px;
   padding: 22px;
   border-radius: 14px;
   text-align: center;
-
   animation: fadeIn 0.25s ease-out;
 }
 
@@ -118,112 +115,98 @@
   margin-bottom: 20px;
 }
 
-/* ===========================
-   TIME POPUP (POPUP CHỌN THỜI GIAN)
-=========================== */
+/* ================= TIME POPUP ================= */
 .time-popup {
-  min-height: 200px;
   display: flex;
   flex-direction: column;
 }
 
-.time-popup-label {
-  margin-bottom: 15px;
+.qr-time-input {
+  width: 140px;
+  padding: 10px;
+  margin: 0 auto 15px;
   font-size: 16px;
-  color: #333;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
 }
 
-.qr-time-input {
-  width: 80px;
-  padding: 10px;
-  font-size: 18px;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 0 auto 20px;
+.qr-distance-label {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.location-ok {
+  color: #047857;
+  font-size: 13.5px;
+}
+
+.location-error {
+  color: #dc2626;
+  font-size: 13.5px;
 }
 
 .time-popup-buttons {
   display: flex;
   gap: 12px;
-  margin-top: auto;
   margin: 0 auto;
 }
 
-.time-popup-confirm {
-  flex: 1;
-  background: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.time-popup-confirm:hover {
-  background: #1565c0;
-}
-
-.time-popup-cancel {
-  flex: 1;
-  background: #f5f5f5;
-  color: #333;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.time-popup-cancel:hover {
-  background: #e0e0e0;
-}
-
-/* ===========================
-   QR DISPLAY POPUP (POPUP HIỂN THỊ QR)
-=========================== */
-.qr-display-popup {
-  min-height: 350px;
-  display: flex;
-  flex-direction: column;
-}
-
-.qr-popup-image {
+/* ================= QR DISPLAY ================= */
+.qr-display-popup img {
   width: 100%;
-  height: auto;
-  padding: 10px;
-  border-radius: 10px;
-  object-fit: contain;
   background: #f8f8f8;
-  border: 1px solid #ddd;
+  border-radius: 10px;
   margin-bottom: 20px;
 }
 
-.qr-popup-close {
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background 0.2s;
-  margin-top: auto;
+/* ================= ATTENDANCE ================= */
+.attendance-popup {
+  width: 420px;
 }
 
-.qr-popup-close:hover {
-  background: #1565c0;
+.attendance-list {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-/* ===========================
-   ANIMATION
-=========================== */
+.attendance-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 6px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.status.ok {
+  color: #15803d;
+}
+
+.status.fail {
+  color: #dc2626;
+}
+
+/* ================= DARK MODE ================= */
+body.dark-mode .create-qr-card {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.dark-mode .attendance-icon {
+  color: #93c5fd;
+}
+
+body.dark-mode .attendance-icon:hover {
+  background: #1e293b;
+}
+
+body.dark-mode .qr-popup-container {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+/* ================= ANIMATION ================= */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -235,289 +218,16 @@
   }
 }
 
-/* ===========================
-   RESPONSIVE
-=========================== */
-@media (max-width: 768px) {
-  .create-qr-card {
-    width: 95%;
-    padding: 12px;
-  }
-
-  .create-qr-image {
-    width: 110px;
-    height: 85px;
-  }
-
-  .create-qr-title {
-    font-size: 20px;
-  }
-
-  .create-qr-info {
-    font-size: 14px;
-  }
-
-  .create-qr-club {
-    font-size: 12px;
-    padding: 3px 8px;
-  }
-
-  .create-qr-right .material-symbols-outlined {
-    font-size: 50px;
-  }
-
-  .create-qr-qr-text {
-    font-size: 16px;
-  }
-
-  .qr-popup-container {
-    width: 320px;
-    margin: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .create-qr-card {
-    padding: 10px;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .create-qr-left {
-    gap: 10px;
-  }
-
-  .create-qr-image {
-    width: 75px;
-    height: 65px;
-  }
-
-  .create-qr-title {
-    font-size: 16px;
-  }
-
-  .create-qr-club {
-    font-size: 11px;
-    padding: 2px 6px;
-  }
-
-  .create-qr-info {
-    font-size: 12.5px;
-  }
-
-  .create-qr-right .material-symbols-outlined {
-    font-size: 38px;
-  }
-
-  .create-qr-qr-text {
-    font-size: 14px;
-  }
-
-  .qr-popup-container {
-    width: 280px;
-    padding: 18px;
-  }
-
-  .time-popup-buttons {
-    flex-direction: column;
-  }
-}
-/* ===========================
-   DARK MODE - CREATE QR
-=========================== */
-
-/* ----- Card ----- */
-body.dark-mode .create-qr-card {
-  background: #0f172a;
-  border-color: #334155;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
-}
-
-body.dark-mode .create-qr-title {
-  color: #e5e7eb;
-}
-
-body.dark-mode .create-qr-info {
-  color: #cbd5f5;
-}
-
-/* Club tag */
-body.dark-mode .create-qr-club {
-  background-color: #064e3b;
-  color: #6ee7b7;
-}
-
-/* ----- QR button (right) ----- */
-body.dark-mode .create-qr-right:hover {
-  background: #1e293b;
-}
-
-body.dark-mode .create-qr-right .material-symbols-outlined {
-  color: #e5e7eb;
-}
-
-body.dark-mode .create-qr-qr-text {
-  color: #e5e7eb;
-}
-
-/* ===========================
-   DARK MODE - POPUP OVERLAY
-=========================== */
-body.dark-mode .qr-popup-overlay {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-/* ===========================
-   DARK MODE - POPUP CONTAINER
-=========================== */
-body.dark-mode .qr-popup-container {
-  background: #020617;
-  color: #e5e7eb;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
-}
-
-body.dark-mode .qr-popup-title {
-  color: #f1f5f9;
-}
-
-/* ===========================
-   DARK MODE - TIME POPUP
-=========================== */
-body.dark-mode .time-popup-label {
-  color: #cbd5f5;
-}
-
-body.dark-mode .qr-time-input {
-  background: #0f172a;
-  color: #e5e7eb;
-  border: 1px solid #334155;
-}
-
-body.dark-mode .qr-time-input:focus {
-  border-color: #60a5fa;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
-}
-
-/* Buttons */
-body.dark-mode .time-popup-confirm {
-  background: #3b82f6;
-}
-
-body.dark-mode .time-popup-confirm:hover {
-  background: #2563eb;
-}
-
-body.dark-mode .time-popup-cancel {
-  background: #1e293b;
-  color: #e5e7eb;
-  border-color: #334155;
-}
-
-body.dark-mode .time-popup-cancel:hover {
-  background: #334155;
-}
-
-/* ===========================
-   DARK MODE - QR DISPLAY
-=========================== */
-body.dark-mode .qr-popup-image {
-  background: #020617;
-  border-color: #334155;
-}
-
-/* Close button */
-body.dark-mode .qr-popup-close {
-  background: #3b82f6;
-}
-
-body.dark-mode .qr-popup-close:hover {
-  background: #2563eb;
-}
-.qr-distance-config {
-  margin-top: 6px;
-}
-
-/* Input khoảng cách */
-.qr-time-input {
-  width: 140px;
-  padding: 10px;
-  font-size: 16px;
+.attendance-empty {
+  margin: 20px 0;
+  font-size: 15px;
+  color: black;
   text-align: center;
-
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
-  color: #111827;
-
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  font-style: italic;
 }
 
-.qr-time-input::placeholder {
-  color: #9ca3af;
-}
-
-.qr-time-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-/* ======================================================
-   LOCATION STATUS
-====================================================== */
-
-/* Thành công */
-.location-ok {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #047857;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Lỗi */
-.location-error {
-  margin-top: 8px;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #dc2626;
-
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.qr-distance-label{
-  display: flex;
-  margin-bottom: 10px;
-  gap:10px
-}
-/* ======================================================
-   DARK MODE
-====================================================== */
-body.dark-mode .qr-time-input {
-  background: #0f172a;
-  color: #e5e7eb;
-  border-color: #334155;
-}
-
-body.dark-mode .qr-time-input::placeholder {
-  color: #94a3b8;
-}
-
-body.dark-mode .qr-time-input:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
-}
-
-body.dark-mode .location-ok {
-  color: #6ee7b7;
-}
-
-body.dark-mode .location-error {
-  color: #f87171;
+.attendance-loading {
+  margin: 20px 0;
+  font-size: 15px;
+  text-align: center;
 }
