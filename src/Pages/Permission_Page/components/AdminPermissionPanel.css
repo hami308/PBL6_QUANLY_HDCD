@@ -41,7 +41,7 @@
 
 .btn-primary1 {
   padding: 12px 25px;
-  background: #3498db;
+  background: #2e2c72;
   color: white;
   border: none;
   border-radius: 6px;
@@ -118,7 +118,7 @@
 }
 
 .user-header strong {
-  color: #3498db;
+  color: #2e2c72;
 }
 
 .roles-display {
@@ -261,7 +261,7 @@
 }
 
 /* Filter Section */
-.filter-section {
+.filter-section1 {
   margin-bottom: 20px;
   display: flex;
   gap: 15px;
@@ -648,7 +648,7 @@
     flex: 1;
   }
 
-  .filter-section {
+  .filter-section1 {
     flex-direction: column;
   }
 
@@ -670,4 +670,255 @@
   .permission-badges {
     width: 100%;
   }
+}
+/* =========================
+ADMIN PERMISSION – DARK MODE
+========================= */
+
+body.dark-mode .admin-permission-panel {
+  color: #e5e7eb;
+}
+
+/* ===== HEADER ===== */
+body.dark-mode .panel-header h1 {
+  color: #f3f4f6;
+}
+
+/* ===== SEARCH ===== */
+body.dark-mode .search-input {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.dark-mode .search-input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .search-input:focus {
+  border-color: #60a5fa;
+}
+
+/* ===== BUTTON ===== */
+body.dark-mode .btn-primary1 {
+  background: #4f46e5;
+}
+
+body.dark-mode .btn-primary1:hover:not(:disabled) {
+  background: #4338ca;
+}
+
+/* ===== ALERT ===== */
+body.dark-mode .alert-error {
+  background: #3b1f1f;
+  color: #fca5a5;
+  border-left-color: #ef4444;
+}
+
+body.dark-mode .alert-success {
+  background: #1f3b2d;
+  color: #86efac;
+  border-left-color: #22c55e;
+}
+
+/* ===== MAIN CONTAINER ===== */
+body.dark-mode .permission-container {
+  background: #2a2f36;
+  border: 1px solid #374151;
+  box-shadow: none;
+}
+
+/* ===== USER HEADER ===== */
+body.dark-mode .user-header {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .user-header h2 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .user-header strong {
+  color: #60a5fa;
+}
+
+/* ===== FILTER ===== */
+body.dark-mode .filter-section1 {
+  background: #1f2937;
+}
+
+body.dark-mode .filter-input {
+  background: #111827;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.dark-mode .filter-input:focus {
+  border-color: #60a5fa;
+}
+
+body.dark-mode .btn-expand,
+body.dark-mode .btn-collapse {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.dark-mode .btn-expand:hover,
+body.dark-mode .btn-collapse:hover {
+  background: #374151;
+}
+
+/* ===== ROLE SECTION ===== */
+body.dark-mode .role-section {
+  border-color: #374151;
+}
+
+body.dark-mode .role-header {
+  background: #1f2937;
+  border-left-color: #60a5fa;
+}
+
+body.dark-mode .role-header h3 {
+  color: #f3f4f6;
+}
+
+body.dark-mode .permission-count {
+  background: #111827;
+  color: #60a5fa;
+}
+
+/* ===== RESOURCE ===== */
+body.dark-mode .resource-group {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .resource-header {
+  background: #1f2937;
+}
+
+body.dark-mode .resource-header:hover {
+  background: #374151;
+}
+
+body.dark-mode .resource-header.expanded {
+  background: #1e3a8a;
+  border-bottom-color: #1d4ed8;
+}
+
+body.dark-mode .resource-title {
+  color: #f3f4f6;
+}
+
+body.dark-mode .resource-permissions {
+  background: #111827;
+}
+
+/* ===== PERMISSION ITEM ===== */
+body.dark-mode .permission-item {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .permission-item.granted {
+  background: #1e3a5f;
+  border-color: #3b82f6;
+}
+
+body.dark-mode .permission-item.denied {
+  background: #3b1f1f;
+  border-color: #ef4444;
+}
+
+body.dark-mode .permission-item.disabled {
+  background: #111827;
+  border-color: #374151;
+}
+
+body.dark-mode .permission-item:hover:not(.disabled) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== PERMISSION TEXT ===== */
+body.dark-mode .permission-name {
+  color: #f3f4f6;
+}
+
+body.dark-mode .permission-code {
+  color: #9ca3af;
+}
+
+/* ===== BADGES ===== */
+body.dark-mode .badge-role {
+  background: #1e3a8a;
+  color: #93c5fd;
+}
+
+body.dark-mode .badge-grant {
+  background: #14532d;
+  color: #86efac;
+}
+
+body.dark-mode .badge-revoke {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+body.dark-mode .badge-unsaved {
+  background: #78350f;
+  color: #fcd34d;
+}
+
+body.dark-mode .badge-disabled {
+  background: #374151;
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+/* ===== TOOLTIP ===== */
+body.dark-mode .tooltip-text {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark-mode .tooltip-text::after {
+  border-color: #111827 transparent transparent transparent;
+}
+
+/* ===== MODAL ===== */
+body.dark-mode .modal-content {
+  background: #2a2f36;
+  color: #e5e7eb;
+}
+
+body.dark-mode .modal-content h3,
+body.dark-mode .form-group label {
+  color: #f3f4f6;
+}
+
+body.dark-mode .form-select {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+body.dark-mode .form-select:focus {
+  border-color: #60a5fa;
+}
+
+/* ===== SAVE BAR ===== */
+body.dark-mode .save-section {
+  background: #1f2937;
+  border-top-color: #f59e0b;
+}
+
+body.dark-mode .changes-info {
+  background: #78350f;
+  color: #fde68a;
+  border-color: #f59e0b;
+}
+
+/* ===== EMPTY ===== */
+body.dark-mode .empty-state {
+  color: #9ca3af;
 }

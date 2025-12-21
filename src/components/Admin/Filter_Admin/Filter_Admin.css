@@ -124,3 +124,72 @@
     max-width: 220px;
   }
 }
+/* =========================
+DARK MODE – FILTER ADMIN
+========================= */
+
+body.dark-mode .Filter_Admin-container {
+  background: #4b4b4b; /* nền khối filter */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Header */
+body.dark-mode .Filter_Admin-header {
+  color: #e5e7eb;
+}
+
+body.dark-mode .Filter_Admin-icon {
+  color: #60a5fa;
+}
+
+body.dark-mode .Filter_Admin-title {
+  color: #e5e7eb;
+}
+
+/* Input & Select */
+body.dark-mode .filter-input,
+body.dark-mode .Filter_Admin-select {
+  background: #2a2f36;
+  color: #e5e7eb;
+  border: 1px solid #3a3f45;
+}
+
+body.dark-mode .filter-input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .filter-input:focus,
+body.dark-mode .Filter_Admin-select:focus {
+  background: #4b4b4b;
+  border-color: #60a5fa;
+  box-shadow: 0 0 6px rgba(96, 165, 250, 0.35);
+}
+
+/* DatePicker */
+body.dark-mode .Filter_Admin-content .react-datepicker-wrapper input {
+  background: #2a2f36;
+  color: #e5e7eb;
+  border: 1px solid #3a3f45;
+}
+
+/* Buttons */
+body.dark-mode .btn-apply {
+  background-color: #2e61ff;
+}
+
+body.dark-mode .btn-apply:hover {
+  background-color: #1d4ed8;
+}
+
+body.dark-mode .btn-reset {
+  background-color: #22c55e;
+}
+
+body.dark-mode .btn-reset:hover {
+  background-color: #16a34a;
+}
+
+/* Responsive – giữ nguyên */
+body.dark-mode .Filter_Admin-buttons {
+  color: #e5e7eb;
+}

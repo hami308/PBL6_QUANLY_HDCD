@@ -484,10 +484,10 @@ const AdminPermissionPanel = () => {
 
       {/* Search & Filter Permissions */}
       {matrix && !loading && (
-        <div className="filter-section">
+        <div className="filter-section1">
           <input
             type="text"
-            placeholder="🔍 Tìm kiếm quyền theo tên hoặc resource..."
+            placeholder="🔍 Tìm kiếm quyền"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="filter-input"
@@ -527,7 +527,7 @@ const AdminPermissionPanel = () => {
           <div className="user-header">
             <div>
               <h2>
-                User: <strong>{matrix.user.username}</strong>
+                <strong>{matrix.user.username}</strong>
               </h2>
               <div className="roles-display">
                 {matrix.roles &&
@@ -540,9 +540,7 @@ const AdminPermissionPanel = () => {
                         checked={selectedRole === role.role_name}
                         onChange={(e) => setSelectedRole(e.target.value)}
                       />
-                      <span style={{ color: getRoleColor(role.role_name) }}>
-                        {role.role_name}
-                      </span>
+                      <span>{role.role_name}</span>
                     </label>
                   ))}
               </div>
