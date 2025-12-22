@@ -72,14 +72,14 @@ export async function get_evidence_by_idstudent(idstudent) {
 export async function submit_evidence(evidenceData) {
   try {
     const token = sessionStorage.getItem("token");
-    // Gửi request tạo minh chứng mới
+
     const response = await axios.post(
       `${API_URL}/evidences`,
       evidenceData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          // ❌ KHÔNG set Content-Type
         },
       }
     );
@@ -94,10 +94,12 @@ export async function submit_evidence(evidenceData) {
       success: false,
       message:
         error.response?.data?.message ||
+        error.response?.data ||
         "Không thể nộp minh chứng, vui lòng thử lại sau.",
     };
   }
 }
+
 export async function update_evidence(id, updatedData) {
   try {
     const token = sessionStorage.getItem("token");
