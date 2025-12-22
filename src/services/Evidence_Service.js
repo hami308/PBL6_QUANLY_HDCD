@@ -83,7 +83,7 @@ export async function submit_evidence(evidenceData) {
         },
       }
     );
-
+    console.log("Create evidence response:", response);
     return {
       success: true,
       data: response.data,

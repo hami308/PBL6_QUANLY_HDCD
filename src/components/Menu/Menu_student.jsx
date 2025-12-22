@@ -24,6 +24,7 @@ function Menu_student() {
         if (data?._id) {
           sessionStorage.setItem("student_id", data._id);
         }
+        
       } catch (error) {
         console.error("❌ Lỗi khi lấy thông tin sinh viên:", error);
       }

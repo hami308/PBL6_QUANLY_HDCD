@@ -35,12 +35,9 @@ function SubmitEvidence({ onSubmitSuccess }) {
       setError("Điểm tự đánh giá không được nhỏ hơn 0.");
       return;
     }
-    const student_id=JSON.parse(sessionStorage.getItem("student_id"));
+    const student_id = sessionStorage.getItem("student_id");
     console.log(student_id);
-    if (student_id) {
-      setError("Không tìm thấy thông tin sinh viên. Vui lòng đăng nhập lại.");
-      return;
-    }
+
 
     setLoading(true);
 
